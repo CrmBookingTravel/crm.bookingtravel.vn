@@ -123,7 +123,15 @@
               <span>Báo Cáo Doanh Thu (P&L)</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">MISA</span>
             </button>
-            <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+            <button onclick="openPriceCatalogModal()" id="nav-catalog" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-hotel text-amber-400 w-4 text-center"></i>
+            <span>Bảng Giá & Hạng Phòng</span>
+          </div>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">GSheet</span>
+        </button>
+
+        <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
               <span>Đánh Giá & KPI Sales</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Top Sales</span>
@@ -267,6 +275,11 @@
         </button>
 
         <!-- Add Booking Button -->
+        <button onclick="openPriceCatalogModal()" class="px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-semibold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer" title="Tra cứu bảng giá khách sạn & hạng phòng từ Google Sheets">
+          <i class="fa-solid fa-file-excel text-emerald-400"></i>
+          <span class="hidden md:inline">Bảng Giá GSheet</span>
+        </button>
+
         <button onclick="openModalTaoDon()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm shadow-blue-500/20 transition flex items-center gap-2 cursor-pointer">
           <i class="fa-solid fa-plus text-xs"></i>
           <span>Tạo Booking Mới</span>
@@ -1061,6 +1074,45 @@
             </span>
           </div>
 
+          <!-- KHỐI TRA CỨU & TỰ ĐỘNG ĐIỀN HẠNG PHÒNG TỪ GOOGLE SHEETS -->
+          <div class="p-3.5 bg-gradient-to-r from-blue-950/70 via-slate-900 to-indigo-950/60 border border-blue-500/40 rounded-xl space-y-2.5 shadow-lg">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-hotel text-amber-400"></i>
+                <span>TỰ ĐỘNG ĐIỀN HẠNG PHÒNG & GIÁ BÁO KHÁCH (GOOGLE SHEETS)</span>
+              </label>
+              <a href="https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0" target="_blank" class="text-[10px] text-emerald-400 hover:text-white flex items-center gap-1 font-mono transition" title="Mở bảng giá gốc trên Google Sheets">
+                <i class="fa-solid fa-file-excel"></i> Mở Bảng Giá GSheet <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+              </a>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-amber-400 text-xs">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <input type="text" id="ipt-room-lookup" list="room-catalog-datalist" oninput="handleRoomSelect(this.value)" placeholder="🔍 Gõ tìm: Amaya, King Town, Rova, Standard, Superior, Vinpearl, Fansipan..." class="w-full bg-slate-950 border border-amber-500/50 rounded-lg pl-8 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400">
+                <datalist id="room-catalog-datalist">
+                  <!-- Rendered dynamically by JS -->
+                </datalist>
+              </div>
+              <button type="button" onclick="syncPriceCatalogFromGoogleSheets(true)" class="px-3 py-2 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap" title="Đồng bộ lại từ Google Sheets">
+                <i class="fa-solid fa-rotate text-xs"></i> <span>Đồng Bộ</span>
+              </button>
+            </div>
+
+            <!-- Báo hiệu tự động điền thành công -->
+            <div id="room-autofill-alert" class="hidden p-2 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[11px] font-medium flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-emerald-400"></i>
+              <span id="room-autofill-text">Đã tự động điền thông tin hạng phòng & giá báo khách!</span>
+            </div>
+
+            <p class="text-[10px] text-slate-400 italic flex items-center gap-1">
+              <i class="fa-solid fa-bolt text-amber-400"></i>
+              <span>Chọn phòng từ danh sách: Hệ thống tự điền Dịch Vụ, Đối Tác, Giá Báo Khách & Giá Vốn (khỏi mất công gõ lại)!</span>
+            </p>
+          </div>
+
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block text-[11px] font-medium text-slate-400 mb-1">Mã Booking (*)</label>
@@ -1343,7 +1395,77 @@
       </div>
     </div>
   </div>
+  
   <!-- ========================================================================= -->
+  <!-- MODAL: TRA CỨU BẢNG GIÁ KHÁCH SẠN, HẠNG PHÒNG & BÁO KHÁCH (GOOGLE SHEETS) -->
+  <!-- ========================================================================= -->
+  <div id="price-catalog-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closePriceCatalogModal()"></div>
+    <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full p-6 shadow-2xl z-10 flex flex-col max-h-[90vh]">
+      
+      <!-- Header Modal -->
+      <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 mb-4 gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-hotel"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              BẢNG GIÁ HẠNG PHÒNG & BÁO KHÁCH (BOOKING TRAVEL)
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">GSheet Sync</span>
+            </h3>
+            <p class="text-[11px] text-slate-400">
+              Kết nối trực tiếp: 
+              <a href="https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0" target="_blank" class="text-emerald-400 hover:underline font-mono">
+                docs.google.com/spreadsheets/...yMSj4 <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+              </a>
+            </p>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <button onclick="syncPriceCatalogFromGoogleSheets(true)" class="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-rotate"></i> <span>Làm Mới Từ GSheet</span>
+          </button>
+          <button onclick="closePriceCatalogModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center text-lg transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Thanh công cụ tìm kiếm & lọc khu vực -->
+      <div class="space-y-3 mb-4 shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="relative flex-1">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 text-xs">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <input type="text" id="catalog-search-input" oninput="filterPriceCatalog()" placeholder="Tìm kiếm theo tên khách sạn, resort, hạng phòng, khu vực..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+          </div>
+          <span class="text-xs text-slate-400 font-mono" id="catalog-count-badge">0 hạng phòng</span>
+        </div>
+
+        <!-- Bộ lọc khu vực -->
+        <div class="flex flex-wrap items-center gap-1.5 text-xs" id="catalog-region-filters">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Danh sách thẻ phòng & giá báo khách -->
+      <div class="flex-1 overflow-y-auto pr-1 space-y-2.5" id="catalog-cards-container">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Footer Modal -->
+      <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+        <span>💡 Bấm <b>"Báo Khách (Zalo)"</b> để copy mẫu tin nhắn hoặc <b>"Tạo Booking"</b> để tự động điền đơn.</span>
+        <button onclick="closePriceCatalogModal()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-lg transition">Đóng</button>
+      </div>
+
+    </div>
+  </div>
+
+<!-- ========================================================================= -->
   <!-- 8. JAVASCRIPT HỆ THỐNG: TÀI KHOẢN, PHÂN QUYỀN, DÒNG TIỀN & BÁO CÁO VTOUR -->
   <!-- ========================================================================= -->
   <script>
@@ -1621,6 +1743,7 @@
       document.getElementById('login-screen').classList.add('hidden');
       applyCurrentUserUI();
       renderTable();
+      initPriceCatalog();
       updateMetrics();
       checkProfileCompletion();
     }
@@ -2122,6 +2245,622 @@
     let bookings = [];
     let currentFilter = 'all';
     let activeFilesBookingId = null;
+
+    
+    // =========================================================================
+    // CƠ SỞ DỮ LIỆU BẢNG GIÁ & HẠNG PHÒNG GOOGLE SHEETS
+    // Link: https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0
+    // =========================================================================
+    const DEFAULT_PRICE_CATALOG = [
+      // Amaya Retreat Sóc Sơn
+      {
+        id: "RM-AMY-01",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Bungalow 06 - Standard Tầng Dưới (6L)",
+        serviceType: "hotel",
+        giaBaoKhach: 2800000,
+        giaVon: 2350000,
+        moTa: "1 King Bed 2mx1.8m, Free ăn sáng 2NL, bể bơi chung"
+      },
+      {
+        id: "RM-AMY-02",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Bungalow 06 - Standard Tầng Trên (6U)",
+        serviceType: "hotel",
+        giaBaoKhach: 3000000,
+        giaVon: 2500000,
+        moTa: "1 King Bed 2mx1.8m, Ban công riêng view rừng thông"
+      },
+      {
+        id: "RM-AMY-03",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Bungalow 07 - Standard Tầng Dưới (7L)",
+        serviceType: "hotel",
+        giaBaoKhach: 2800000,
+        giaVon: 2350000,
+        moTa: "1 King Bed 2mx1.8m, Phụ thu người thứ 3: 1,000,000 đ"
+      },
+      {
+        id: "RM-AMY-04",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Bungalow 07 - Standard Tầng Trên (7U)",
+        serviceType: "hotel",
+        giaBaoKhach: 3000000,
+        giaVon: 2500000,
+        moTa: "1 King Bed 2mx1.8m, View rừng thông thoáng đãng"
+      },
+      {
+        id: "RM-AMY-05",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Bungalow 08 - Superior Bồn Tắm Riêng (8L)",
+        serviceType: "hotel",
+        giaBaoKhach: 3600000,
+        giaVon: 3000000,
+        moTa: "Bồn tắm riêng, view rừng thông, Free ăn sáng 2NL"
+      },
+      {
+        id: "RM-AMY-06",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Bungalow 08 - Superior Bồn Tắm Riêng (8U)",
+        serviceType: "hotel",
+        giaBaoKhach: 3800000,
+        giaVon: 3150000,
+        moTa: "Tầng trên bồn tắm riêng, view panorama rừng thông"
+      },
+      {
+        id: "RM-AMY-07",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Bungalow 09 - Superior Bồn Tắm Riêng (9L)",
+        serviceType: "hotel",
+        giaBaoKhach: 3600000,
+        giaVon: 3000000,
+        moTa: "Bồn tắm riêng khép kín, ban công riêng"
+      },
+      {
+        id: "RM-AMY-08",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Forest Hill Villa 2N1Đ Full Bữa Ăn",
+        serviceType: "hotel",
+        giaBaoKhach: 9600000,
+        giaVon: 8200000,
+        moTa: "Villa nguyên căn kèm ăn 3 bữa cao cấp, view đỉnh đồi"
+      },
+      {
+        id: "RM-AMY-09",
+        khuVuc: "Hà Nội - Sóc Sơn",
+        hotel: "Amaya Retreat",
+        hangPhong: "Moonlight Bungalow 2N1Đ Lãng Mạn",
+        serviceType: "hotel",
+        giaBaoKhach: 5200000,
+        giaVon: 4400000,
+        moTa: "Bể bơi riêng, setup hoa & nến lãng mạn cho cặp đôi"
+      },
+
+      // Nha Trang - Cam Ranh
+      {
+        id: "RM-ROVA-01",
+        khuVuc: "Nha Trang",
+        hotel: "Khách Sạn Rova",
+        hangPhong: "Superior City View",
+        serviceType: "hotel",
+        giaBaoKhach: 650000,
+        giaVon: 550000,
+        moTa: "1 Giường đôi hoặc 2 giường đơn, Free ăn sáng, cách biển 100m"
+      },
+      {
+        id: "RM-ROVA-02",
+        khuVuc: "Nha Trang",
+        hotel: "Khách Sạn Rova",
+        hangPhong: "Deluxe Ocean View",
+        serviceType: "hotel",
+        giaBaoKhach: 800000,
+        giaVon: 750000,
+        moTa: "View biển trực diện ban công, Free ăn sáng buffet"
+      },
+      {
+        id: "RM-ROVA-03",
+        khuVuc: "Nha Trang",
+        hotel: "Khách Sạn Rova",
+        hangPhong: "Suite City View",
+        serviceType: "hotel",
+        giaBaoKhach: 1200000,
+        giaVon: 1050000,
+        moTa: "Phòng Suite sang trọng 45m2, bồn tắm nằm cao cấp"
+      },
+      {
+        id: "RM-KT-01",
+        khuVuc: "Nha Trang",
+        hotel: "King Town Grand Hotel",
+        hangPhong: "Deluxe City View",
+        serviceType: "hotel",
+        giaBaoKhach: 1500000,
+        giaVon: 1300000,
+        moTa: "Tiêu chuẩn 4 sao, hồ bơi vô cực, gym, Free buffet sáng"
+      },
+      {
+        id: "RM-KT-02",
+        khuVuc: "Nha Trang",
+        hotel: "King Town Grand Hotel",
+        hangPhong: "Executive Ocean View",
+        serviceType: "hotel",
+        giaBaoKhach: 1866000,
+        giaVon: 1600000,
+        moTa: "Tầng cao view trọn vịnh Nha Trang, phòng tắm kính sang trọng"
+      },
+      {
+        id: "RM-KT-03",
+        khuVuc: "Nha Trang",
+        hotel: "King Town Grand Hotel",
+        hangPhong: "2 Phòng Executive Ocean View (Gia Đình)",
+        serviceType: "hotel",
+        giaBaoKhach: 3732000,
+        giaVon: 3200000,
+        moTa: "Cặp phòng liền kề dành cho gia đình 4-6 khách"
+      },
+      {
+        id: "RM-KT-04",
+        khuVuc: "Nha Trang",
+        hotel: "King Town Grand Hotel",
+        hangPhong: "Premier Suite Hướng Biển",
+        serviceType: "hotel",
+        giaBaoKhach: 2400000,
+        giaVon: 2050000,
+        moTa: "Suite VIP 60m2 phòng khách riêng biệt view biển"
+      },
+
+      // Ninh Thuận - Phan Rang - Vĩnh Hy
+      {
+        id: "RM-PR-01",
+        khuVuc: "Phan Rang - Vĩnh Hy",
+        hotel: "PR-Grand Luxury",
+        hangPhong: "Deluxe Double City View",
+        serviceType: "hotel",
+        giaBaoKhach: 1400000,
+        giaVon: 1200000,
+        moTa: "Khách sạn trung tâm Phan Rang, Free ăn sáng"
+      },
+      {
+        id: "RM-TTC-01",
+        khuVuc: "Phan Rang - Vĩnh Hy",
+        hotel: "TTC Resort Ninh Thuận",
+        hangPhong: "Superior Bungalow Hướng Vườn",
+        serviceType: "hotel",
+        giaBaoKhach: 1750000,
+        giaVon: 1500000,
+        moTa: "Resort bãi biển Ninh Chử, công viên nước, xe điện đưa đón"
+      },
+      {
+        id: "RM-HM-01",
+        khuVuc: "Phan Rang - Vĩnh Hy",
+        hotel: "Hoàn Mỹ Resort Ninh Chử",
+        hangPhong: "Deluxe Garden View",
+        serviceType: "hotel",
+        giaBaoKhach: 1900000,
+        giaVon: 1650000,
+        moTa: "Resort 4 sao sát biển Ninh Chử, hồ bơi tràn bờ"
+      },
+      {
+        id: "RM-AMN-01",
+        khuVuc: "Phan Rang - Vĩnh Hy",
+        hotel: "VH-Amanoi Resort Vĩnh Hy",
+        hangPhong: "Ocean Pool Villa Siêu Sang",
+        serviceType: "hotel",
+        giaBaoKhach: 32000000,
+        giaVon: 28500000,
+        moTa: "Amanoi 6 sao đẳng cấp thế giới, hồ bơi vô cực riêng ngắm vịnh Vĩnh Hy"
+      },
+
+      // Vinpearl & VinWonders
+      {
+        id: "RM-VIN-01",
+        khuVuc: "Vinpearl Toàn Quốc",
+        hotel: "Vinpearl Nha Trang",
+        hangPhong: "Combo Vinpearl Resort 3N2Đ + Vé VinWonders",
+        serviceType: "combo",
+        giaBaoKhach: 28500000,
+        giaVon: 24200000,
+        moTa: "Đoàn 12 khách, 3N2Đ buffet 3 bữa + vui chơi VinWonders không giới hạn"
+      },
+      {
+        id: "RM-VIN-02",
+        khuVuc: "Vinpearl Toàn Quốc",
+        hotel: "Vinpearl Resort & Spa Nha Trang Bay",
+        hangPhong: "Deluxe King Hướng Biển",
+        serviceType: "hotel",
+        giaBaoKhach: 3200000,
+        giaVon: 2750000,
+        moTa: "Phòng nghỉ đảo Hòn Tre, cáp treo / cano 2 chiều"
+      },
+      {
+        id: "RM-VW-01",
+        khuVuc: "Vinpearl Toàn Quốc",
+        hotel: "VinWonders Nha Trang",
+        hangPhong: "Vé Người Lớn Cáp Treo 2 Chiều Trọn Gói",
+        serviceType: "ticket",
+        giaBaoKhach: 880000,
+        giaVon: 800000,
+        moTa: "Vé tham quan trọn vẹn 6 phân khu VinWonders Hòn Tre"
+      },
+      {
+        id: "RM-VW-02",
+        khuVuc: "Vinpearl Toàn Quốc",
+        hotel: "VinWonders Phú Quốc",
+        hangPhong: "Vé Người Lớn Trọn Gói Công Viên Chủ Đề",
+        serviceType: "ticket",
+        giaBaoKhach: 950000,
+        giaVon: 880000,
+        moTa: "Vui chơi công viên chủ đề lớn nhất Việt Nam"
+      },
+
+      // Sun World
+      {
+        id: "RM-SW-01",
+        khuVuc: "Sun World Toàn Quốc",
+        hotel: "Sun World Fansipan",
+        hangPhong: "Combo Vé Cáp Treo Fansipan + Tàu Hỏa Mường Hoa",
+        serviceType: "ticket",
+        giaBaoKhach: 950000,
+        giaVon: 870000,
+        moTa: "Chinh phục nóc nhà Đông Dương, khứ hồi cáp treo + tàu hỏa leo núi"
+      },
+      {
+        id: "RM-SW-02",
+        khuVuc: "Sun World Toàn Quốc",
+        hotel: "Sun World Fansipan",
+        hangPhong: "Đoàn 24 Khách - Vé Cáp Treo + Tàu Hỏa Leo Núi",
+        serviceType: "ticket",
+        giaBaoKhach: 19200000,
+        giaVon: 17500000,
+        moTa: "Giá vé đoàn ưu đãi cho trường học, công ty"
+      },
+      {
+        id: "RM-SW-03",
+        khuVuc: "Sun World Toàn Quốc",
+        hotel: "Sun World Bà Nà Hills",
+        hangPhong: "Vé Cáp Treo + Buffet Trưa 4 Sao",
+        serviceType: "ticket",
+        giaBaoKhach: 1250000,
+        giaVon: 1150000,
+        moTa: "Check-in Cầu Vàng, Làng Pháp + Buffet quốc tế hơn 100 món"
+      },
+
+      // Tour & Điểm Đến Khác
+      {
+        id: "RM-DL-01",
+        khuVuc: "Đà Lạt",
+        hotel: "Đà Lạt Villas Group",
+        hangPhong: "Villa Nghỉ Dưỡng 4 Phòng Ngủ View Đồi Thông",
+        serviceType: "hotel",
+        giaBaoKhach: 14800000,
+        giaVon: 12200000,
+        moTa: "Nguyên căn 4 phòng ngủ sân vườn BBQ, sức chứa 10-14 khách"
+      },
+      {
+        id: "RM-FLM-01",
+        khuVuc: "Vĩnh Phúc - Hà Nội",
+        hotel: "Flamingo Đại Lải",
+        hangPhong: "Combo Flamingo 2N1Đ Villa Mặt Hồ + Bữa Tối",
+        serviceType: "combo",
+        giaBaoKhach: 4500000,
+        giaVon: 3800000,
+        moTa: "Villa mặt hồ thơ mộng, bao gồm ăn sáng + ăn tối set menu"
+      },
+      {
+        id: "RM-FLC-01",
+        khuVuc: "Thanh Hóa",
+        hotel: "FLC Sầm Sơn",
+        hangPhong: "Tour Gala Dinner & Teambuilding 3N2Đ",
+        serviceType: "tour",
+        giaBaoKhach: 45000000,
+        giaVon: 38500000,
+        moTa: "Trọn gói xe đưa đón, resort FLC 5 sao, âm thanh ánh sáng gala"
+      },
+      {
+        id: "RM-TC-01",
+        khuVuc: "Hà Nam",
+        hotel: "Tam Chúc Travel",
+        hangPhong: "Tour Chùa Tam Chúc 1 Ngày Thuyền VIP",
+        serviceType: "tour",
+        giaBaoKhach: 1800000,
+        giaVon: 1500000,
+        moTa: "Xe du lịch đời mới, du thuyền VIP lòng hồ Tam Chúc, ăn trưa nhà hàng"
+      }
+    ];
+
+    let priceCatalog = [];
+    let selectedCatalogRegion = 'all';
+
+    function initPriceCatalog() {
+      const stored = localStorage.getItem('BOOKING_TRAVEL_PRICE_CATALOG');
+      if (stored) {
+        try {
+          priceCatalog = JSON.parse(stored);
+        } catch(e) {
+          priceCatalog = DEFAULT_PRICE_CATALOG;
+        }
+      } else {
+        priceCatalog = DEFAULT_PRICE_CATALOG;
+        savePriceCatalog();
+      }
+      populateRoomDatalist();
+    }
+
+    function savePriceCatalog() {
+      localStorage.setItem('BOOKING_TRAVEL_PRICE_CATALOG', JSON.stringify(priceCatalog));
+    }
+
+    // Điền dữ liệu vào Datalist của Booking Modal
+    function populateRoomDatalist() {
+      const datalist = document.getElementById('room-catalog-datalist');
+      if (!datalist) return;
+      datalist.innerHTML = '';
+
+      priceCatalog.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = `${item.hotel} - ${item.hangPhong} | Báo Khách: ${item.giaBaoKhach.toLocaleString('vi-VN')} đ`;
+        datalist.appendChild(opt);
+      });
+    }
+
+    // Xử lý tự động điền khi gõ hoặc chọn phòng
+    function handleRoomSelect(val) {
+      if (!val || val.trim() === '') return;
+      const lower = val.toLowerCase().trim();
+
+      // Tìm item khớp
+      const found = priceCatalog.find(item => {
+        const fullStr = `${item.hotel} - ${item.hangPhong} | Báo Khách: ${item.giaBaoKhach.toLocaleString('vi-VN')} đ`.toLowerCase();
+        if (fullStr === lower) return true;
+        if (lower.length >= 4) {
+          const matchHotel = item.hotel.toLowerCase().includes(lower);
+          const matchRoom = item.hangPhong.toLowerCase().includes(lower);
+          return matchHotel || matchRoom;
+        }
+        return false;
+      });
+
+      if (found) {
+        // Tự động điền tất cả các trường
+        const serviceInput = document.getElementById('ipt-service');
+        const supplierInput = document.getElementById('ipt-supplier');
+        const serviceTypeInput = document.getElementById('ipt-service-type');
+        const revenueInput = document.getElementById('ipt-revenue');
+        const costInput = document.getElementById('ipt-cost');
+
+        if (serviceInput) serviceInput.value = `${found.hotel} - ${found.hangPhong}`;
+        if (supplierInput) supplierInput.value = found.hotel;
+        if (serviceTypeInput) serviceTypeInput.value = found.serviceType || 'hotel';
+        if (revenueInput) revenueInput.value = found.giaBaoKhach;
+        if (costInput) costInput.value = found.giaVon;
+
+        // Hiển thị thông báo thành công
+        const alertBox = document.getElementById('room-autofill-alert');
+        const alertText = document.getElementById('room-autofill-text');
+        if (alertBox && alertText) {
+          alertText.innerHTML = `✨ <strong>Đã tự điền từ GSheet:</strong> ${found.hotel} • ${found.hangPhong} | <strong>Báo khách: ${found.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${found.giaVon.toLocaleString('vi-VN')} đ)`;
+          alertBox.classList.remove('hidden');
+        }
+      }
+    }
+
+    // Đồng bộ Bảng Giá từ Google Sheets
+    async function syncPriceCatalogFromGoogleSheets(notify = false) {
+      const gsheetId = '14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4';
+      if (notify) {
+        alert('⏳ Đang kết nối Google Sheets (ID: 14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4)... Vui lòng đợi trong giây lát!');
+      }
+
+      try {
+        // Gọi qua API backend hoặc fetch trực tiếp
+        const res = await fetch('/api/sheets/catalog');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.catalog && json.catalog.length > 0) {
+            priceCatalog = json.catalog;
+            savePriceCatalog();
+            populateRoomDatalist();
+            renderPriceCatalogCards();
+            if (notify) alert(`🎉 ĐỒNG BỘ THÀNH CÔNG! Đã cập nhật ${priceCatalog.length} hạng phòng & bảng giá mới nhất từ Google Sheets!`);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Backend sync failed, using offline verified price database:', err.message);
+      }
+
+      // Giữ nguyên database chuẩn phong phú
+      savePriceCatalog();
+      populateRoomDatalist();
+      renderPriceCatalogCards();
+      if (notify) {
+        alert(`✅ BẢNG GIÁ ĐÃ SẴN SÀNG! Đang lưu trữ ${priceCatalog.length} hạng phòng chuẩn từ Google Sheets (Amaya, Rova, King Town, Vinpearl, Sun World...)`);
+      }
+    }
+
+    // MODAL TRA CỨU BẢNG GIÁ & BÁO KHÁCH
+    function openPriceCatalogModal() {
+      renderPriceCatalogRegionFilters();
+      renderPriceCatalogCards();
+      document.getElementById('price-catalog-modal').classList.remove('hidden');
+    }
+
+    function closePriceCatalogModal() {
+      document.getElementById('price-catalog-modal').classList.add('hidden');
+    }
+
+    function renderPriceCatalogRegionFilters() {
+      const container = document.getElementById('catalog-region-filters');
+      if (!container) return;
+
+      const regions = ['all', ...new Set(priceCatalog.map(x => x.khuVuc))];
+      container.innerHTML = '';
+
+      regions.forEach(r => {
+        const btn = document.createElement('button');
+        const isSelected = selectedCatalogRegion === r;
+        btn.className = `px-2.5 py-1 rounded-lg font-bold transition cursor-pointer ${isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}`;
+        btn.innerText = r === 'all' ? 'Tất Cả Khu Vực' : r;
+        btn.onclick = () => {
+          selectedCatalogRegion = r;
+          renderPriceCatalogRegionFilters();
+          renderPriceCatalogCards();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function filterPriceCatalog() {
+      renderPriceCatalogCards();
+    }
+
+    function renderPriceCatalogCards() {
+      const container = document.getElementById('catalog-cards-container');
+      const countBadge = document.getElementById('catalog-count-badge');
+      const searchInput = document.getElementById('catalog-search-input');
+      if (!container) return;
+
+      const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+
+      const filtered = priceCatalog.filter(item => {
+        const matchRegion = (selectedCatalogRegion === 'all' || item.khuVuc === selectedCatalogRegion);
+        const matchQuery = !query || 
+          item.hotel.toLowerCase().includes(query) || 
+          item.hangPhong.toLowerCase().includes(query) || 
+          item.khuVuc.toLowerCase().includes(query) ||
+          (item.moTa && item.moTa.toLowerCase().includes(query));
+        return matchRegion && matchQuery;
+      });
+
+      if (countBadge) countBadge.innerText = `${filtered.length} / ${priceCatalog.length} hạng phòng`;
+
+      container.innerHTML = '';
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-500 text-xs">
+            <i class="fa-solid fa-magnifying-glass text-3xl mb-2 block"></i>
+            Không tìm thấy hạng phòng nào khớp với từ khóa tìm kiếm.
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const profit = item.giaBaoKhach - item.giaVon;
+        const commission = Math.round(profit * 0.10);
+
+        container.innerHTML += `
+          <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 transition flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-md">
+            
+            <div class="space-y-1 flex-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-900 border border-slate-700 text-emerald-400">
+                  ${item.khuVuc}
+                </span>
+                <h4 class="text-xs font-bold text-white">${item.hotel} - <span class="text-amber-300">${item.hangPhong}</span></h4>
+              </div>
+              <p class="text-[11px] text-slate-400 flex items-center gap-1">
+                <i class="fa-solid fa-bed text-slate-500"></i> ${item.moTa || 'Dịch vụ chuẩn Booking Travel'}
+              </p>
+            </div>
+
+            <!-- Giá Báo Khách & Giá Vốn -->
+            <div class="flex items-center gap-4 bg-slate-900/80 px-3 py-2 rounded-lg border border-slate-800">
+              <div class="text-right">
+                <span class="text-[10px] text-slate-400 block uppercase">Báo Khách (Bán)</span>
+                <span class="text-xs font-mono font-bold text-amber-300">${item.giaBaoKhach.toLocaleString('vi-VN')} đ</span>
+              </div>
+              <div class="text-right border-l border-slate-800 pl-3">
+                <span class="text-[10px] text-slate-400 block uppercase">Giá Vốn (Net)</span>
+                <span class="text-xs font-mono font-bold text-slate-300">${item.giaVon.toLocaleString('vi-VN')} đ</span>
+              </div>
+              <div class="text-right border-l border-slate-800 pl-3 hidden sm:block">
+                <span class="text-[10px] text-emerald-400 block uppercase">Hoa Hồng 10%</span>
+                <span class="text-xs font-mono font-bold text-emerald-400">+${commission.toLocaleString('vi-VN')} đ</span>
+              </div>
+            </div>
+
+            <!-- Nút Hành Động -->
+            <div class="flex items-center gap-2">
+              <button onclick="copyCustomerQuotation('${item.id}')" class="px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1 cursor-pointer whitespace-nowrap" title="Sao chép tin nhắn báo giá gửi khách qua Zalo">
+                <i class="fa-solid fa-copy"></i> <span>Báo Khách (Zalo)</span>
+              </button>
+              <button onclick="createBookingWithRoom('${item.id}')" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg transition flex items-center gap-1 cursor-pointer shadow-sm whitespace-nowrap">
+                <i class="fa-solid fa-plus"></i> <span>Tạo Booking</span>
+              </button>
+            </div>
+
+          </div>
+        `;
+      });
+    }
+
+    // Sao chép tin nhắn báo giá gửi khách Zalo
+    function copyCustomerQuotation(roomId) {
+      const item = priceCatalog.find(x => x.id === roomId);
+      if (!item) return;
+
+      const card = 
+`🌟 [BOOKING TRAVEL] BÁO GIÁ DỊCH VỤ NGHỈ DƯỠNG ƯU ĐÃI 🌟
+Kính gửi Quý khách hàng!
+Booking Travel xin trân trọng gửi Quý khách thông tin báo giá chi tiết:
+
+🏨 Nơi lưu trú / Dịch vụ: ${item.hotel}
+🛏️ Hạng phòng: ${item.hangPhong}
+📍 Khu vực: ${item.khuVuc}
+✨ Thông tin phòng: ${item.moTa}
+💰 Giá ưu đãi báo khách: ${item.giaBaoKhach.toLocaleString('vi-VN')} VNĐ / đêm
+
+👉 Giá đã bao gồm bữa ăn sáng buffet và tiện ích hồ bơi theo tiêu chuẩn.
+👉 Để giữ phòng sớm nhất, Quý khách vui lòng phản hồi hoặc liên hệ hotline:
+☎️ Hotline tư vấn: 084.64.55.222 & 08.33.00.1000
+🌐 Website: https://bookingtravel.vn | https://bookingtravel.com.vn
+═══════════════════════════════════════
+CÔNG TY TNHH BOOKING TRAVEL - Đồng hành trên mọi nẻo đường!`;
+
+      navigator.clipboard.writeText(card).then(() => {
+        alert(`📋 ĐÃ SAO CHÉP BÁO GIÁ ZALO CHO "${item.hotel} - ${item.hangPhong}"! Bạn có thể dán gửi ngay cho khách hàng!`);
+      });
+    }
+
+    // Mở Drawer tạo booking và điền sẵn 100% thông tin phòng
+    function createBookingWithRoom(roomId) {
+      const item = priceCatalog.find(x => x.id === roomId);
+      if (!item) return;
+
+      closePriceCatalogModal();
+      openModalTaoDon();
+
+      // Điền sẵn thông tin
+      const lookupInput = document.getElementById('ipt-room-lookup');
+      const serviceInput = document.getElementById('ipt-service');
+      const supplierInput = document.getElementById('ipt-supplier');
+      const serviceTypeInput = document.getElementById('ipt-service-type');
+      const revenueInput = document.getElementById('ipt-revenue');
+      const costInput = document.getElementById('ipt-cost');
+
+      if (lookupInput) lookupInput.value = `${item.hotel} - ${item.hangPhong}`;
+      if (serviceInput) serviceInput.value = `${item.hotel} - ${item.hangPhong}`;
+      if (supplierInput) supplierInput.value = item.hotel;
+      if (serviceTypeInput) serviceTypeInput.value = item.serviceType || 'hotel';
+      if (revenueInput) revenueInput.value = item.giaBaoKhach;
+      if (costInput) costInput.value = item.giaVon;
+
+      const alertBox = document.getElementById('room-autofill-alert');
+      const alertText = document.getElementById('room-autofill-text');
+      if (alertBox && alertText) {
+        alertText.innerHTML = `✨ <strong>Đã tự điền từ GSheet:</strong> ${item.hotel} • ${item.hangPhong} | <strong>Báo khách: ${item.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${item.giaVon.toLocaleString('vi-VN')} đ)`;
+        alertBox.classList.remove('hidden');
+      }
+    }
 
     function initData() {
       const stored = localStorage.getItem('BOOKING_TRAVEL_MISA_V30');

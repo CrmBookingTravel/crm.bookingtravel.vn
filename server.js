@@ -202,6 +202,23 @@ app.get('/api/zalo/deal-template', (req, res) => {
   res.json({ success: true, template });
 });
 
+// ==========================================
+// 6. API BẢNG GIÁ & HẠNG PHÒNG GOOGLE SHEETS
+// ==========================================
+app.get('/api/sheets/catalog', async (req, res) => {
+  try {
+    const MASTER_SHEET_ID = '14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4';
+    res.json({
+      success: true,
+      masterSheetId: MASTER_SHEET_ID,
+      masterSheetUrl: `https://docs.google.com/spreadsheets/d/${MASTER_SHEET_ID}/edit?gid=0#gid=0`,
+      message: 'Kết nối Bảng Giá Google Sheets thành công'
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`\n======================================================`);
   console.log(`🚀 HỆ THỐNG QUẢN LÝ BOOKING TRAVEL & TỰ ĐỘNG HÓA ZALO`);

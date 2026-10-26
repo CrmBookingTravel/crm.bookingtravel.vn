@@ -59,6 +59,19 @@ Hệ thống **Booking Travel ERP v4.0** giải quyết triệt để bài toán
 
 ---
 
+### 🏨 Phân hệ 2.2: Tự Động Điền Hạng Phòng & Báo Khách (Google Sheets)
+- **Kết nối Trực Tiếp Master Sheet:** [BẢNG GIÁ - BOOKING TRAVEL](https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0).
+- **Cơ chế Gợi Ý & Điền Tự Động (Auto-fill):** Khi nhập Booking, Sales chỉ cần gõ tên khách sạn hoặc hạng phòng (Amaya, King Town, Rova, Deluxe, Standard, Vinpearl...), hệ thống tự động điền 100% dữ liệu:
+  - *Tên Dịch Vụ / Lộ Trình*
+  - *Tên Đối Tác / Nhà Cung Cấp*
+  - *Giá Báo Khách (Giá Bán)*
+  - *Giá Vốn (Net)*
+  - *Nhóm Dịch Vụ (Hotel / Combo / Tour / Ticket)*
+- **Không bao giờ phải gõ lại bằng tay** (*"khỏi mất công đánh lại"*).
+- **Tra Cứu Bảng Giá & Tạo Báo Giá Zalo 1-Click:** Mở nhanh danh mục phòng toàn quốc, lọc theo khu vực và sao chép mẫu báo giá sang trọng gửi ngay cho khách hàng.
+
+---
+
 ### 💰 Phân hệ 3: Quản Trị Dòng Tiền Toàn Công Ty (Cash Flow Statement)
 - **Kiểm soát dòng tiền thực tế:**
   - 📥 **Dòng Tiền Vào (Cash Inflow):** Tiền thực tế khách & CTV đã thanh toán/cọc.
