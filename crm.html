@@ -630,17 +630,84 @@
       <!-- ===================================================================== -->
       <div id="view-kpi-sales" class="space-y-6 hidden">
         
-        <!-- Header Đánh Giá Sales -->
+        <!-- Header Đánh Giá Sales & Bộ Chuyển Đổi Chu Kỳ KPI -->
         <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
           <div>
             <h2 class="text-base font-extrabold text-white flex items-center gap-2">
-              <i class="fa-solid fa-trophy text-amber-400"></i> ĐÁNH GIÁ HIỆU SUẤT, THI ĐUA & KPI ĐỘI NGŨ SALES
+              <i class="fa-solid fa-trophy text-amber-400"></i> PHÂN CHIA KPI & THEO DÕI ĐỘI NGŨ SALES (NGÀY • TUẦN • THÁNG)
             </h2>
-            <p class="text-xs text-slate-400 mt-0.5">Đo lường Doanh số thực tế, Lợi nhuận gộp đóng góp, Tỷ lệ đạt KPI và Thưởng hoa hồng</p>
+            <p class="text-xs text-slate-400 mt-0.5">Theo dõi sát sao chỉ tiêu, phát hiện nhân viên chậm tiến độ để kịp thời động viên và nhắc nhở <strong>"CỐ LÊN!"</strong></p>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-slate-400">Chỉ tiêu tháng/Sales:</span>
-            <span class="px-2.5 py-1 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono font-bold text-amber-400">200,000,000 đ</span>
+          
+          <!-- Bộ chuyển đổi chu kỳ: Ngày, Tuần, Tháng, Tổng Hợp -->
+          <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+            <button onclick="setKpiPeriod('day')" id="btn-kpi-day" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 text-slate-400 hover:text-white cursor-pointer">
+              <i class="fa-solid fa-calendar-day text-amber-400"></i> Hôm Nay (Ngày)
+            </button>
+            <button onclick="setKpiPeriod('week')" id="btn-kpi-week" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 text-slate-400 hover:text-white cursor-pointer">
+              <i class="fa-solid fa-calendar-week text-blue-400"></i> Tuần Này
+            </button>
+            <button onclick="setKpiPeriod('month')" id="btn-kpi-month" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 cursor-pointer">
+              <i class="fa-solid fa-calendar-days text-emerald-400"></i> Tháng Này
+            </button>
+            <button onclick="setKpiPeriod('matrix')" id="btn-kpi-matrix" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 text-slate-400 hover:text-white cursor-pointer">
+              <i class="fa-solid fa-table-cells text-purple-400"></i> Tổng Hợp 3 Chu Kỳ
+            </button>
+          </div>
+        </div>
+
+        <!-- THANH CHỈ SỐ SỨC KHỎE KPI & NHẮC NHỞ TOÀN ĐỘI (MOTIVATION HEALTH BAR) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Card 1: Chỉ tiêu chu kỳ -->
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider" id="kpi-target-label">Chỉ Tiêu Toàn Đội (Tháng)</p>
+              <h3 class="text-lg font-extrabold text-white mt-1 font-mono num-tabular" id="kpi-target-total">2,000,000,000 đ</h3>
+              <p class="text-[10px] text-slate-500 mt-0.5" id="kpi-target-per-person">Chỉ tiêu mỗi sales: 200,000,000 đ</p>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+          </div>
+
+          <!-- Card 2: Doanh số thực tế -->
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Doanh Số Thực Đạt</p>
+              <h3 class="text-lg font-extrabold text-emerald-400 mt-1 font-mono num-tabular" id="kpi-actual-total">0 đ</h3>
+              <p class="text-[10px] text-emerald-300 mt-0.5" id="kpi-actual-percent">Tiến độ toàn đội: 0%</p>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
+              <i class="fa-solid fa-money-bill-trend-up"></i>
+            </div>
+          </div>
+
+          <!-- Card 3: Chiến binh về đích -->
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Về Đích / Vượt KPI 🏆</p>
+              <h3 class="text-lg font-extrabold text-amber-400 mt-1 font-mono" id="kpi-passed-count">0 / 10 Sales</h3>
+              <p class="text-[10px] text-slate-400 mt-0.5">Đã đạt từ 100% chỉ tiêu</p>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+          </div>
+
+          <!-- Card 4: Cần nhắc Cố Lên! -->
+          <div class="p-4 rounded-xl bg-rose-950/30 border border-rose-500/30 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-semibold text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> Cần Nhắc "CỐ LÊN!" ⚡
+              </p>
+              <h3 class="text-lg font-extrabold text-rose-400 mt-1 font-mono" id="kpi-needs-remind-count">10 / 10 Sales</h3>
+              <button onclick="openKpiBroadcastModal()" class="mt-1 text-[11px] font-bold text-rose-300 hover:text-white underline cursor-pointer flex items-center gap-1">
+                <i class="fa-solid fa-bullhorn"></i> Nhắc Zalo Hàng Loạt
+              </button>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 text-lg">
+              <i class="fa-solid fa-fire"></i>
+            </div>
           </div>
         </div>
 
@@ -651,27 +718,22 @@
 
         <!-- BẢNG ĐÁNH GIÁ CHI TIẾT TỪNG NHÂN SỰ SALES1 -> SALES10 -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
-          <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
+          <div class="px-5 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-900/90">
             <span class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <i class="fa-solid fa-users text-blue-400"></i> Bảng Đánh Giá KPI & Xếp Loại Toàn Diện (10 Sales)
+              <i class="fa-solid fa-users text-blue-400"></i> Bảng Đánh Giá KPI & Nhắc Nhở Nhân Sự (<span id="kpi-table-period-title">Tháng Này</span>)
             </span>
-            <span class="text-xs text-slate-400">Chính sách thưởng: <b class="text-emerald-400 font-mono">10% trên Lãi Gộp</b></span>
+            <div class="flex items-center gap-3">
+              <span class="text-xs text-slate-400">Thưởng: <b class="text-emerald-400 font-mono">10% trên Lãi Gộp</b></span>
+              <button onclick="openKpiBroadcastModal()" class="px-3 py-1 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/40 text-rose-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-paper-plane"></i> Gửi Tin Động Viên Toàn Đội
+              </button>
+            </div>
           </div>
 
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
-              <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
-                <tr>
-                  <th class="py-3 px-3.5">Hạng</th>
-                  <th class="py-3 px-3.5">Nhân Viên Sales</th>
-                  <th class="py-3 px-3.5 text-center">Số Booking</th>
-                  <th class="py-3 px-3.5 text-right">Doanh Số Đạt</th>
-                  <th class="py-3 px-3.5 text-right">Chỉ Tiêu (KPI)</th>
-                  <th class="py-3 px-3.5 text-center">Tiến Độ KPI</th>
-                  <th class="py-3 px-3.5 text-right">Lãi Gộp Mang Về</th>
-                  <th class="py-3 px-3.5 text-right">Hoa Hồng Dự Kiến</th>
-                  <th class="py-3 px-3.5 text-center">Xếp Loại</th>
-                </tr>
+              <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800" id="sales-kpi-thead">
+                <!-- Rendered dynamically -->
               </thead>
               <tbody id="sales-kpi-table-body" class="divide-y divide-slate-800/60 font-medium">
                 <!-- Rendered by JS -->
@@ -1173,6 +1235,114 @@
     </div>
   </div>
 
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: GỬI LỜI NHẮC & TIẾP LỬA SALES "CỐ LÊN!" -->
+  <!-- ========================================================================= -->
+  <div id="kpi-remind-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeKpiRemindModal()"></div>
+    <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl z-10 flex flex-col max-h-[90vh]">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center text-sm">
+            <i class="fa-solid fa-fire"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white">NHẮC NHỞ & TIẾP LỬA SALES: "CỐ LÊN!"</h3>
+            <p class="text-[11px] text-slate-400">Gửi lời động viên cá nhân hóa qua Zalo giúp Sales bứt phá mục tiêu</p>
+          </div>
+        </div>
+        <button onclick="closeKpiRemindModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Thẻ thông tin nhân viên được nhắc -->
+      <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 mb-3 space-y-2">
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="text-xs font-bold text-white" id="remind-modal-name">Nguyễn Thị Kiều</h4>
+            <p class="text-[11px] text-slate-400 font-mono" id="remind-modal-contact">sales1@bookingtravel.vn • 0901234001</p>
+          </div>
+          <!-- Tabs chọn kỳ nhắc nhở trong modal -->
+          <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-[11px]">
+            <button onclick="changeRemindModalPeriod('day')" id="remind-tab-day" class="px-2 py-0.5 rounded font-bold transition">Ngày</button>
+            <button onclick="changeRemindModalPeriod('week')" id="remind-tab-week" class="px-2 py-0.5 rounded font-bold transition">Tuần</button>
+            <button onclick="changeRemindModalPeriod('month')" id="remind-tab-month" class="px-2 py-0.5 rounded font-bold transition">Tháng</button>
+          </div>
+        </div>
+
+        <!-- 3 Chỉ số nhanh -->
+        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
+          <div class="bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">Chỉ tiêu</span>
+            <span class="text-xs font-mono font-bold text-white num-tabular" id="remind-stat-target">0 đ</span>
+          </div>
+          <div class="bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">Đã đạt</span>
+            <span class="text-xs font-mono font-bold text-emerald-400 num-tabular" id="remind-stat-revenue">0 đ</span>
+          </div>
+          <div class="bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">Còn thiếu</span>
+            <span class="text-xs font-mono font-bold text-rose-400 num-tabular" id="remind-stat-remaining">0 đ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vùng soạn thảo tin nhắn Zalo -->
+      <div class="space-y-1.5 flex-1">
+        <label class="text-xs font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-comment-dots text-blue-400"></i> Nội Dung Tin Nhắn Động Viên (Zalo):</span>
+          <span class="text-[10px] text-slate-500 font-normal">Có thể chỉnh sửa trước khi gửi</span>
+        </label>
+        <textarea id="remind-modal-message" rows="8" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-sans focus:outline-none focus:border-rose-500 leading-relaxed"></textarea>
+      </div>
+
+      <!-- Nút hành động -->
+      <div class="mt-4 pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
+        <button onclick="closeKpiRemindModal()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition">Đóng</button>
+        <div class="flex items-center gap-2">
+          <button onclick="openSalesZaloChat()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg shadow transition flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-up-right-from-square"></i> Mở Zalo Của Sales
+          </button>
+          <button onclick="copyKpiRemindMessage()" class="px-4 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-lg shadow transition flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-copy"></i> Sao Chép Tin Nhắn
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: GỬI LỜI NHẮC ĐỘNG VIÊN TOÀN ĐỘI SALES (ZALO BROADCAST) -->
+  <!-- ========================================================================= -->
+  <div id="kpi-broadcast-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeKpiBroadcastModal()"></div>
+    <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl z-10 flex flex-col max-h-[90vh]">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-sm">
+            <i class="fa-solid fa-bullhorn"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white">BẢN TIN TIẾP LỬA "CỐ LÊN" TOÀN ĐỘI SALES</h3>
+            <p class="text-[11px] text-slate-400">Gửi vào nhóm Zalo kinh doanh để khích lệ thi đua</p>
+          </div>
+        </div>
+        <button onclick="closeKpiBroadcastModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="space-y-1.5 flex-1">
+        <label class="text-xs font-bold text-slate-300">Nội Dung Bản Tin Nhóm Zalo:</label>
+        <textarea id="broadcast-modal-message" rows="10" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-sans focus:outline-none focus:border-amber-500 leading-relaxed"></textarea>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+        <button onclick="closeKpiBroadcastModal()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition">Đóng</button>
+        <button onclick="copyKpiBroadcastMessage()" class="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg shadow transition flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-copy"></i> Sao Chép Gửi Nhóm Zalo
+        </button>
+      </div>
+    </div>
+  </div>
   <!-- ========================================================================= -->
   <!-- 8. JAVASCRIPT HỆ THỐNG: TÀI KHOẢN, PHÂN QUYỀN, DÒNG TIỀN & BÁO CÁO VTOUR -->
   <!-- ========================================================================= -->
@@ -1882,6 +2052,50 @@
         files: []
       },
       {
+        id: "BK-2610-09",
+        maBooking: "BK-2610-09",
+        khachHang: "Chị Đặng Thùy Trang",
+        sdt: "0908776655",
+        saleEmail: "sales1@bookingtravel.vn",
+        serviceType: "combo",
+        dichVu: "Combo Flamingo Đại Lải 2N1Đ Villa Mặt Hồ + Bữa Tối",
+        doiTac: "Flamingo Đại Lải",
+        checkIn: "2026-10-27",
+        checkOut: "2026-10-28",
+        tourStatus: "da_xac_nhan",
+        giaBan: 4500000,
+        khachDaCoc: 4500000,
+        giaVon: 3800000,
+        daTraDoiTac: 3800000,
+        statusHdVao: "da_co",
+        soHdVao: "FLM-2610-88",
+        coXuatVat: false,
+        statusHdRa: "khong_xuat",
+        files: []
+      },
+      {
+        id: "BK-2610-10",
+        maBooking: "BK-2610-10",
+        khachHang: "Anh Hoàng Tuấn Minh",
+        sdt: "0915667788",
+        saleEmail: "sales6@bookingtravel.vn",
+        serviceType: "tour",
+        dichVu: "Tour Chùa Tam Chúc 1 Ngày Trọn Gói Thuyền VIP",
+        doiTac: "Tam Chúc Travel",
+        checkIn: "2026-10-27",
+        checkOut: "2026-10-27",
+        tourStatus: "da_coc",
+        giaBan: 1800000,
+        khachDaCoc: 1800000,
+        giaVon: 1500000,
+        daTraDoiTac: 1500000,
+        statusHdVao: "chua_lay",
+        soHdVao: "",
+        coXuatVat: false,
+        statusHdRa: "khong_xuat",
+        files: []
+      },
+      {
         id: "BK-2611-08",
         maBooking: "BK-2611-08",
         khachHang: "Chị Lê Bích Ngọc",
@@ -2412,15 +2626,79 @@
     // =========================================================================
     // RENDER VIEW 4: ĐÁNH GIÁ & XẾP HẠNG SALES (KPI CHUẨN VTOUR)
     // =========================================================================
+    let currentKpiPeriod = 'month'; // 'day' | 'week' | 'month' | 'matrix'
+    let activeRemindUser = null;
+    let activeRemindPeriod = 'month';
+
+    function setKpiPeriod(period) {
+      currentKpiPeriod = period;
+      
+      const btnDay = document.getElementById('btn-kpi-day');
+      const btnWeek = document.getElementById('btn-kpi-week');
+      const btnMonth = document.getElementById('btn-kpi-month');
+      const btnMatrix = document.getElementById('btn-kpi-matrix');
+
+      const allBtns = [btnDay, btnWeek, btnMonth, btnMatrix];
+      allBtns.forEach(b => {
+        if (!b) return;
+        b.className = 'px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 text-slate-400 hover:text-white cursor-pointer';
+      });
+
+      if (period === 'day' && btnDay) {
+        btnDay.className = 'px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 cursor-pointer';
+      } else if (period === 'week' && btnWeek) {
+        btnWeek.className = 'px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 bg-blue-500/20 text-blue-300 border border-blue-500/40 cursor-pointer';
+      } else if (period === 'month' && btnMonth) {
+        btnMonth.className = 'px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 cursor-pointer';
+      } else if (period === 'matrix' && btnMatrix) {
+        btnMatrix.className = 'px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 bg-purple-500/20 text-purple-300 border border-purple-500/40 cursor-pointer';
+      }
+
+      renderSalesKpiView();
+    }
+
+    function isBookingInPeriod(b, period) {
+      const dateStr = (b.createdAt || b.checkIn || '').substring(0, 10);
+      if (!dateStr) return false;
+      const refDate = new Date(); // 2026-10-27
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return false;
+      const bYear = parseInt(parts[0], 10);
+      const bMonth = parseInt(parts[1], 10) - 1;
+      const bDay = parseInt(parts[2], 10);
+      const bDate = new Date(bYear, bMonth, bDay);
+
+      if (period === 'day') {
+        return bYear === refDate.getFullYear() && bMonth === refDate.getMonth() && bDay === refDate.getDate();
+      } else if (period === 'week') {
+        const d = refDate.getDay();
+        const diffToMon = (d === 0 ? 6 : d - 1);
+        const mon = new Date(refDate);
+        mon.setDate(refDate.getDate() - diffToMon);
+        mon.setHours(0,0,0,0);
+        const sun = new Date(mon);
+        sun.setDate(mon.getDate() + 6);
+        sun.setHours(23,59,59,999);
+        return bDate >= mon && bDate <= sun;
+      } else if (period === 'month') {
+        return bYear === refDate.getFullYear() && bMonth === refDate.getMonth();
+      }
+      return true;
+    }
+
     function renderSalesKpiView() {
       const salesMap = {};
       systemUsers.filter(u => u.role === 'sale' || u.role === 'admin').forEach(u => {
         salesMap[u.email.toLowerCase()] = {
           user: u,
-          revenue: 0,
-          cost: 0,
-          profit: 0,
-          bookingsCount: 0
+          // Day stats
+          dayRevenue: 0, dayCost: 0, dayProfit: 0, dayCount: 0,
+          // Week stats
+          weekRevenue: 0, weekCost: 0, weekProfit: 0, weekCount: 0,
+          // Month stats
+          monthRevenue: 0, monthCost: 0, monthProfit: 0, monthCount: 0,
+          // All stats
+          totalRevenue: 0, totalCost: 0, totalProfit: 0, totalCount: 0
         };
       });
 
@@ -2429,113 +2707,521 @@
         if (salesMap[email]) {
           const r = parseFloat(b.giaBan) || 0;
           const c = parseFloat(b.giaVon) || 0;
-          salesMap[email].revenue += r;
-          salesMap[email].cost += c;
-          salesMap[email].profit += (r - c);
-          salesMap[email].bookingsCount++;
+          const p = r - c;
+
+          // All
+          salesMap[email].totalRevenue += r;
+          salesMap[email].totalCost += c;
+          salesMap[email].totalProfit += p;
+          salesMap[email].totalCount++;
+
+          // Day
+          if (isBookingInPeriod(b, 'day')) {
+            salesMap[email].dayRevenue += r;
+            salesMap[email].dayCost += c;
+            salesMap[email].dayProfit += p;
+            salesMap[email].dayCount++;
+          }
+
+          // Week
+          if (isBookingInPeriod(b, 'week')) {
+            salesMap[email].weekRevenue += r;
+            salesMap[email].weekCost += c;
+            salesMap[email].weekProfit += p;
+            salesMap[email].weekCount++;
+          }
+
+          // Month
+          if (isBookingInPeriod(b, 'month')) {
+            salesMap[email].monthRevenue += r;
+            salesMap[email].monthCost += c;
+            salesMap[email].monthProfit += p;
+            salesMap[email].monthCount++;
+          }
         }
       });
 
-      const salesList = Object.values(salesMap).sort((a, b) => b.revenue - a.revenue);
+      const allSalesList = Object.values(salesMap);
 
-      const podiumContainer = document.getElementById('sales-podium');
-      podiumContainer.innerHTML = '';
-
-      const medalConfig = [
-        { title: "QUÁN QUÂN DOANH SỐ", icon: "fa-crown", border: "border-amber-500/50 bg-amber-500/10", text: "text-amber-400", badge: "🥇 TOP 1" },
-        { title: "Á QUÂN KINH DOANH", icon: "fa-medal", border: "border-slate-400/50 bg-slate-400/10", text: "text-slate-300", badge: "🥈 TOP 2" },
-        { title: "HẠNG BA THI ĐUA", icon: "fa-award", border: "border-amber-700/50 bg-amber-700/10", text: "text-amber-600", badge: "🥉 TOP 3" }
-      ];
-
-      for (let i = 0; i < Math.min(3, salesList.length); i++) {
-        const s = salesList[i];
-        const cfg = medalConfig[i];
-        const target = s.user.target || 200000000;
-        const progress = Math.min(100, Math.round((s.revenue / target) * 100));
-        const commission = Math.round(s.profit * 0.10);
-
-        podiumContainer.innerHTML += `
-          <div class="rounded-2xl border ${cfg.border} p-5 relative overflow-hidden shadow-xl">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-slate-900 border ${cfg.text}">
-                ${cfg.badge}
-              </span>
-              <i class="fa-solid ${cfg.icon} text-xl ${cfg.text}"></i>
-            </div>
-            <h4 class="text-base font-extrabold text-white truncate">${s.user.name || s.user.email.split('@')[0]}</h4>
-            <p class="text-xs text-slate-400 font-mono">${s.user.email} • ${s.user.phone || 'Chưa có SĐT'}</p>
-            
-            <div class="mt-4 pt-3 border-t border-slate-800 space-y-1.5">
-              <div class="flex justify-between text-xs">
-                <span class="text-slate-400">Doanh số đạt:</span>
-                <span class="font-mono font-bold text-white">${s.revenue.toLocaleString('vi-VN')} đ</span>
-              </div>
-              <div class="flex justify-between text-xs">
-                <span class="text-slate-400">Lãi gộp cty thu:</span>
-                <span class="font-mono font-bold text-emerald-400">+${s.profit.toLocaleString('vi-VN')} đ</span>
-              </div>
-              <div class="flex justify-between text-xs">
-                <span class="text-slate-400">Hoa hồng dự kiến:</span>
-                <span class="font-mono font-bold text-amber-300">${commission.toLocaleString('vi-VN')} đ</span>
-              </div>
-              <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden mt-2 border border-slate-800">
-                <div class="bg-amber-400 h-full rounded-full" style="width: ${progress}%"></div>
-              </div>
-              <div class="text-right text-[10px] text-amber-300 font-mono">Đạt ${progress}% chỉ tiêu</div>
-            </div>
-          </div>
-        `;
+      // Sắp xếp theo chu kỳ đang chọn
+      let sortedList = [...allSalesList];
+      if (currentKpiPeriod === 'day') {
+        sortedList.sort((a, b) => b.dayRevenue - a.dayRevenue);
+      } else if (currentKpiPeriod === 'week') {
+        sortedList.sort((a, b) => b.weekRevenue - a.weekRevenue);
+      } else {
+        sortedList.sort((a, b) => b.monthRevenue - a.monthRevenue);
       }
 
-      const tbody = document.getElementById('sales-kpi-table-body');
-      tbody.innerHTML = '';
+      // 1. CẬP NHẬT THANH CHỈ SỐ SỨC KHỎE KPI & MOTIVATION HEALTH BAR
+      let periodLabel = 'Tháng Này';
+      let totalTarget = 0;
+      let totalActual = 0;
+      let passedCount = 0;
+      let needsRemindCount = 0;
 
-      salesList.forEach((s, idx) => {
-        const target = s.user.target || 200000000;
-        const progress = Math.round((s.revenue / target) * 100);
-        const commission = Math.round(s.profit * 0.10);
+      sortedList.forEach(s => {
+        const mTarget = s.user.target || 200000000;
+        let pTarget = mTarget;
+        let pRevenue = s.monthRevenue;
 
-        let rankBadge = '';
-        if (idx === 0) rankBadge = '<span class="font-bold text-amber-400">🥇 #1</span>';
-        else if (idx === 1) rankBadge = '<span class="font-bold text-slate-300">🥈 #2</span>';
-        else if (idx === 2) rankBadge = '<span class="font-bold text-amber-600">🥉 #3</span>';
-        else rankBadge = `<span class="font-mono text-slate-500 font-bold">#${idx + 1}</span>`;
-
-        let gradeBadge = '';
-        if (progress >= 100) {
-          gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Xuất Sắc</span>';
-        } else if (progress >= 50) {
-          gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">Tốt</span>';
-        } else if (progress > 0) {
-          gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">Đạt</span>';
-        } else {
-          gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400">Cần Nỗ Lực</span>';
+        if (currentKpiPeriod === 'day') {
+          pTarget = Math.round(mTarget / 26);
+          pRevenue = s.dayRevenue;
+          periodLabel = 'Hôm Nay (Ngày)';
+        } else if (currentKpiPeriod === 'week') {
+          pTarget = Math.round(mTarget / 4);
+          pRevenue = s.weekRevenue;
+          periodLabel = 'Tuần Này';
+        } else if (currentKpiPeriod === 'matrix') {
+          periodLabel = 'Tổng Hợp 3 Chu Kỳ';
         }
 
-        const dobLabel = s.user.dob ? ` • Sinh: ${formatDob(s.user.dob)}` : '';
+        totalTarget += pTarget;
+        totalActual += pRevenue;
 
-        tbody.innerHTML += `
-          <tr class="hover:bg-slate-800/30 transition">
-            <td class="py-3 px-3.5 text-center">${rankBadge}</td>
-            <td class="py-3 px-3.5">
-              <span class="font-bold text-white block text-xs">${s.user.name || '<span class="text-rose-400">Chưa điền họ tên</span>'}</span>
-              <span class="text-[10px] text-slate-500 font-mono">${s.user.email} • ${s.user.phone || 'Chưa SĐT'}${dobLabel}</span>
-            </td>
-            <td class="py-3 px-3.5 text-center font-mono font-bold text-white text-xs">${s.bookingsCount}</td>
-            <td class="py-3 px-3.5 text-right font-mono font-bold text-white text-xs num-tabular">${s.revenue.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-right font-mono text-slate-400 text-xs num-tabular">${target.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-center font-mono font-bold text-amber-400 text-xs">${progress}%</td>
-            <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">+${s.profit.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-right font-mono font-bold text-amber-300 text-xs num-tabular">${commission.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-center">${gradeBadge}</td>
-          </tr>
-        `;
+        const prog = pTarget > 0 ? (pRevenue / pTarget) * 100 : 0;
+        if (prog >= 100) {
+          passedCount++;
+        } else {
+          needsRemindCount++;
+        }
       });
+
+      const targetLabelEl = document.getElementById('kpi-target-label');
+      const targetTotalEl = document.getElementById('kpi-target-total');
+      const targetPerEl = document.getElementById('kpi-target-per-person');
+      const actualTotalEl = document.getElementById('kpi-actual-total');
+      const actualPercentEl = document.getElementById('kpi-actual-percent');
+      const passedCountEl = document.getElementById('kpi-passed-count');
+      const needsRemindCountEl = document.getElementById('kpi-needs-remind-count');
+      const tablePeriodTitle = document.getElementById('kpi-table-period-title');
+
+      if (targetLabelEl) targetLabelEl.innerText = `Chỉ Tiêu Toàn Đội (${periodLabel})`;
+      if (targetTotalEl) targetTotalEl.innerText = totalTarget.toLocaleString('vi-VN') + ' đ';
+      if (targetPerEl) {
+        const avgTarget = Math.round(totalTarget / Math.max(1, sortedList.length));
+        targetPerEl.innerText = `Chỉ tiêu mỗi sales: ${avgTarget.toLocaleString('vi-VN')} đ`;
+      }
+      if (actualTotalEl) actualTotalEl.innerText = totalActual.toLocaleString('vi-VN') + ' đ';
+      if (actualPercentEl) {
+        const teamProg = totalTarget > 0 ? Math.round((totalActual / totalTarget) * 100) : 0;
+        actualPercentEl.innerText = `Tiến độ toàn đội: ${teamProg}%`;
+      }
+      if (passedCountEl) passedCountEl.innerText = `${passedCount} / ${sortedList.length} Sales`;
+      if (needsRemindCountEl) needsRemindCountEl.innerText = `${needsRemindCount} / ${sortedList.length} Sales`;
+      if (tablePeriodTitle) tablePeriodTitle.innerText = periodLabel;
+
+      // 2. RENDER PODIUM LEADERBOARD
+      const podiumContainer = document.getElementById('sales-podium');
+      if (podiumContainer) {
+        podiumContainer.innerHTML = '';
+        const medalConfig = [
+          { title: "QUÁN QUÂN DOANH SỐ", icon: "fa-crown", border: "border-amber-500/50 bg-amber-500/10", text: "text-amber-400", badge: "🥇 TOP 1" },
+          { title: "Á QUÂN KINH DOANH", icon: "fa-medal", border: "border-slate-400/50 bg-slate-400/10", text: "text-slate-300", badge: "🥈 TOP 2" },
+          { title: "HẠNG BA THI ĐUA", icon: "fa-award", border: "border-amber-700/50 bg-amber-700/10", text: "text-amber-600", badge: "🥉 TOP 3" }
+        ];
+
+        for (let i = 0; i < Math.min(3, sortedList.length); i++) {
+          const s = sortedList[i];
+          const cfg = medalConfig[i];
+          const mTarget = s.user.target || 200000000;
+          let pTarget = mTarget;
+          let pRev = s.monthRevenue;
+          let pProfit = s.monthProfit;
+
+          if (currentKpiPeriod === 'day') {
+            pTarget = Math.round(mTarget / 26);
+            pRev = s.dayRevenue;
+            pProfit = s.dayProfit;
+          } else if (currentKpiPeriod === 'week') {
+            pTarget = Math.round(mTarget / 4);
+            pRev = s.weekRevenue;
+            pProfit = s.weekProfit;
+          }
+
+          const progress = Math.min(100, pTarget > 0 ? Math.round((pRev / pTarget) * 100) : 0);
+          const commission = Math.round(pProfit * 0.10);
+
+          podiumContainer.innerHTML += `
+            <div class="rounded-2xl border ${cfg.border} p-5 relative overflow-hidden shadow-xl">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-slate-900 border ${cfg.text}">
+                  ${cfg.badge}
+                </span>
+                <i class="fa-solid ${cfg.icon} text-xl ${cfg.text}"></i>
+              </div>
+              <h4 class="text-base font-extrabold text-white truncate">${s.user.name || s.user.email.split('@')[0]}</h4>
+              <p class="text-xs text-slate-400 font-mono">${s.user.email} • ${s.user.phone || 'Chưa SĐT'}</p>
+              
+              <div class="mt-4 pt-3 border-t border-slate-800 space-y-1.5">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400">Doanh số đạt:</span>
+                  <span class="font-mono font-bold text-white">${pRev.toLocaleString('vi-VN')} đ</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400">Lãi gộp đóng góp:</span>
+                  <span class="font-mono font-bold text-emerald-400">+${pProfit.toLocaleString('vi-VN')} đ</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-400">Hoa hồng dự kiến:</span>
+                  <span class="font-mono font-bold text-amber-300">${commission.toLocaleString('vi-VN')} đ</span>
+                </div>
+                <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden mt-2 border border-slate-800">
+                  <div class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width: ${progress}%"></div>
+                </div>
+                <div class="text-right text-[10px] text-amber-300 font-mono">Đạt ${progress}% chỉ tiêu (${periodLabel})</div>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // 3. RENDER TABLE (NORMAL OR MATRIX)
+      const thead = document.getElementById('sales-kpi-thead');
+      const tbody = document.getElementById('sales-kpi-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      if (currentKpiPeriod === 'matrix') {
+        // CHẾ ĐỘ TỔNG HỢP 3 CHU KỲ (NGÀY - TUẦN - THÁNG)
+        if (thead) {
+          thead.innerHTML = `
+            <tr>
+              <th class="py-3 px-3.5 text-center">Hạng</th>
+              <th class="py-3 px-3.5">Nhân Viên Sales</th>
+              <th class="py-3 px-3.5 text-right bg-amber-500/5 border-l border-amber-500/10">Hôm Nay (Ngày)</th>
+              <th class="py-3 px-3.5 text-center bg-amber-500/5">Tiến Độ Ngày</th>
+              <th class="py-3 px-3.5 text-right bg-blue-500/5 border-l border-blue-500/10">Tuần Này</th>
+              <th class="py-3 px-3.5 text-center bg-blue-500/5">Tiến Độ Tuần</th>
+              <th class="py-3 px-3.5 text-right bg-emerald-500/5 border-l border-emerald-500/10">Tháng Này</th>
+              <th class="py-3 px-3.5 text-center bg-emerald-500/5">Tiến Độ Tháng</th>
+              <th class="py-3 px-3.5 text-center">Đánh Giá & Lời Nhắc</th>
+              <th class="py-3 px-3.5 text-center">Hành Động</th>
+            </tr>
+          `;
+        }
+
+        sortedList.forEach((s, idx) => {
+          const mTarget = s.user.target || 200000000;
+          const dTarget = Math.round(mTarget / 26);
+          const wTarget = Math.round(mTarget / 4);
+
+          const dProg = dTarget > 0 ? Math.round((s.dayRevenue / dTarget) * 100) : 0;
+          const wProg = wTarget > 0 ? Math.round((s.weekRevenue / wTarget) * 100) : 0;
+          const mProg = mTarget > 0 ? Math.round((s.monthRevenue / mTarget) * 100) : 0;
+
+          let rankBadge = '';
+          if (idx === 0) rankBadge = '<span class="font-bold text-amber-400">🥇 #1</span>';
+          else if (idx === 1) rankBadge = '<span class="font-bold text-slate-300">🥈 #2</span>';
+          else if (idx === 2) rankBadge = '<span class="font-bold text-amber-600">🥉 #3</span>';
+          else rankBadge = `<span class="font-mono text-slate-500 font-bold">#${idx + 1}</span>`;
+
+          // Huy hiệu động viên tổng hợp
+          let remindBadge = '';
+          if (mProg >= 100 || wProg >= 100) {
+            remindBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🏆 Vượt KPI! 🎉</span>';
+          } else if (dProg >= 100) {
+            remindBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🏆 Đạt KPI Ngày</span>';
+          } else if (dProg >= 50 || wProg >= 50) {
+            remindBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🏃‍♂️ Đang Bám Đuổi</span>';
+          } else {
+            remindBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/25 text-rose-300 border border-rose-500/50 animate-pulse">⚡ CẦN CỐ LÊN!</span>';
+          }
+
+          tbody.innerHTML += `
+            <tr class="hover:bg-slate-800/30 transition">
+              <td class="py-3 px-3.5 text-center">${rankBadge}</td>
+              <td class="py-3 px-3.5">
+                <span class="font-bold text-white block text-xs">${s.user.name || '<span class="text-rose-400">Chưa điền họ tên</span>'}</span>
+                <span class="text-[10px] text-slate-500 font-mono">${s.user.email} • ${s.user.phone || 'Chưa SĐT'}</span>
+              </td>
+              <td class="py-3 px-3.5 text-right font-mono font-bold text-amber-300 text-xs bg-amber-500/5 border-l border-amber-500/10">${s.dayRevenue.toLocaleString('vi-VN')} đ</td>
+              <td class="py-3 px-3.5 text-center font-mono font-bold text-amber-400 text-xs bg-amber-500/5">${dProg}%</td>
+              <td class="py-3 px-3.5 text-right font-mono font-bold text-blue-300 text-xs bg-blue-500/5 border-l border-blue-500/10">${s.weekRevenue.toLocaleString('vi-VN')} đ</td>
+              <td class="py-3 px-3.5 text-center font-mono font-bold text-blue-400 text-xs bg-blue-500/5">${wProg}%</td>
+              <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-300 text-xs bg-emerald-500/5 border-l border-emerald-500/10">${s.monthRevenue.toLocaleString('vi-VN')} đ</td>
+              <td class="py-3 px-3.5 text-center font-mono font-bold text-emerald-400 text-xs bg-emerald-500/5">${mProg}%</td>
+              <td class="py-3 px-3.5 text-center">${remindBadge}</td>
+              <td class="py-3 px-3.5 text-center">
+                <button onclick="openKpiRemindModal('${s.user.email}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-blue-600/20 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white transition flex items-center gap-1 mx-auto shadow-sm cursor-pointer">
+                  <i class="fa-solid fa-paper-plane text-xs"></i> <span>Nhắc: Cố lên!</span>
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+
+      } else {
+        // CHẾ ĐỘ CHU KỲ ĐƠN (NGÀY / TUẦN / THÁNG)
+        if (thead) {
+          thead.innerHTML = `
+            <tr>
+              <th class="py-3 px-3.5 text-center">Hạng</th>
+              <th class="py-3 px-3.5">Nhân Viên Sales</th>
+              <th class="py-3 px-3.5 text-center">Số Booking</th>
+              <th class="py-3 px-3.5 text-right">Doanh Số Đạt</th>
+              <th class="py-3 px-3.5 text-right">Chỉ Tiêu (${periodLabel})</th>
+              <th class="py-3 px-3.5 text-center">Tiến Độ KPI</th>
+              <th class="py-3 px-3.5 text-right">Lãi Gộp Mang Về</th>
+              <th class="py-3 px-3.5 text-right">Hoa Hồng (10%)</th>
+              <th class="py-3 px-3.5 text-center">Đánh Giá Tiến Độ</th>
+              <th class="py-3 px-3.5 text-center">Tiếp Lửa</th>
+            </tr>
+          `;
+        }
+
+        sortedList.forEach((s, idx) => {
+          const mTarget = s.user.target || 200000000;
+          let pTarget = mTarget;
+          let pRev = s.monthRevenue;
+          let pCost = s.monthCost;
+          let pProfit = s.monthProfit;
+          let pCount = s.monthCount;
+
+          if (currentKpiPeriod === 'day') {
+            pTarget = Math.round(mTarget / 26);
+            pRev = s.dayRevenue;
+            pCost = s.dayCost;
+            pProfit = s.dayProfit;
+            pCount = s.dayCount;
+          } else if (currentKpiPeriod === 'week') {
+            pTarget = Math.round(mTarget / 4);
+            pRev = s.weekRevenue;
+            pCost = s.weekCost;
+            pProfit = s.weekProfit;
+            pCount = s.weekCount;
+          }
+
+          const progress = pTarget > 0 ? Math.round((pRev / pTarget) * 100) : 0;
+          const commission = Math.round(pProfit * 0.10);
+
+          let rankBadge = '';
+          if (idx === 0) rankBadge = '<span class="font-bold text-amber-400">🥇 #1</span>';
+          else if (idx === 1) rankBadge = '<span class="font-bold text-slate-300">🥈 #2</span>';
+          else if (idx === 2) rankBadge = '<span class="font-bold text-amber-600">🥉 #3</span>';
+          else rankBadge = `<span class="font-mono text-slate-500 font-bold">#${idx + 1}</span>`;
+
+          let gradeBadge = '';
+          if (progress >= 100) {
+            gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🏆 Vượt KPI! 🎉</span>';
+          } else if (progress >= 70) {
+            gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">🔥 Sắp Về Đích</span>';
+          } else if (progress >= 30) {
+            gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🏃‍♂️ Đang Bám Đuổi</span>';
+          } else {
+            gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/25 text-rose-300 border border-rose-500/50 animate-pulse">⚡ CẦN CỐ LÊN!</span>';
+          }
+
+          const dobLabel = s.user.dob ? ` • Sinh: ${formatDob(s.user.dob)}` : '';
+
+          tbody.innerHTML += `
+            <tr class="hover:bg-slate-800/30 transition">
+              <td class="py-3 px-3.5 text-center">${rankBadge}</td>
+              <td class="py-3 px-3.5">
+                <span class="font-bold text-white block text-xs">${s.user.name || '<span class="text-rose-400">Chưa điền họ tên</span>'}</span>
+                <span class="text-[10px] text-slate-500 font-mono">${s.user.email} • ${s.user.phone || 'Chưa SĐT'}${dobLabel}</span>
+              </td>
+              <td class="py-3 px-3.5 text-center font-mono font-bold text-white text-xs">${pCount}</td>
+              <td class="py-3 px-3.5 text-right font-mono font-bold text-white text-xs num-tabular">${pRev.toLocaleString('vi-VN')} đ</td>
+              <td class="py-3 px-3.5 text-right font-mono text-slate-400 text-xs num-tabular">${pTarget.toLocaleString('vi-VN')} đ</td>
+              <td class="py-3 px-3.5 text-center">
+                <div class="flex items-center justify-center gap-1.5">
+                  <span class="font-mono font-bold ${progress >= 100 ? 'text-emerald-400' : (progress >= 50 ? 'text-blue-400' : 'text-amber-400')} text-xs">${progress}%</span>
+                  <div class="w-12 bg-slate-950 h-1.5 rounded-full overflow-hidden border border-slate-800 hidden sm:block">
+                    <div class="${progress >= 100 ? 'bg-emerald-400' : (progress >= 50 ? 'bg-blue-400' : 'bg-rose-500')} h-full rounded-full" style="width: ${Math.min(100, progress)}%"></div>
+                  </div>
+                </div>
+              </td>
+              <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">+${pProfit.toLocaleString('vi-VN')} đ</td>
+              <td class="py-3 px-3.5 text-right font-mono font-bold text-amber-300 text-xs num-tabular">${commission.toLocaleString('vi-VN')} đ</td>
+              <td class="py-3 px-3.5 text-center">${gradeBadge}</td>
+              <td class="py-3 px-3.5 text-center">
+                <button onclick="openKpiRemindModal('${s.user.email}')" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-blue-600/20 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white transition flex items-center gap-1 mx-auto shadow-sm cursor-pointer">
+                  <i class="fa-solid fa-paper-plane text-xs"></i> <span>Nhắc: Cố lên!</span>
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+      }
     }
 
     // =========================================================================
-    // RENDER VIEW 5: ĐÁNH GIÁ NHÀ CUNG CẤP & ĐỐI TÁC (NCC)
+    // MODAL TIẾP LỬA: GỬI LỜI ĐỘNG VIÊN "CỐ LÊN!" CHO SALES
     // =========================================================================
+    function openKpiRemindModal(email, period) {
+      const u = systemUsers.find(x => x.email.toLowerCase() === email.toLowerCase());
+      if (!u) return;
+
+      activeRemindUser = u;
+      activeRemindPeriod = period || (currentKpiPeriod === 'matrix' ? 'month' : currentKpiPeriod);
+
+      changeRemindModalPeriod(activeRemindPeriod);
+      document.getElementById('kpi-remind-modal').classList.remove('hidden');
+    }
+
+    function closeKpiRemindModal() {
+      document.getElementById('kpi-remind-modal').classList.add('hidden');
+    }
+
+    function changeRemindModalPeriod(period) {
+      if (!activeRemindUser) return;
+      activeRemindPeriod = period;
+
+      const tabDay = document.getElementById('remind-tab-day');
+      const tabWeek = document.getElementById('remind-tab-week');
+      const tabMonth = document.getElementById('remind-tab-month');
+
+      [tabDay, tabWeek, tabMonth].forEach(t => {
+        if (!t) return;
+        t.className = 'px-2 py-0.5 rounded font-bold transition text-slate-400 hover:text-white cursor-pointer';
+      });
+
+      if (period === 'day' && tabDay) tabDay.className = 'px-2 py-0.5 rounded font-bold transition bg-amber-500/20 text-amber-300 border border-amber-500/30 cursor-pointer';
+      if (period === 'week' && tabWeek) tabWeek.className = 'px-2 py-0.5 rounded font-bold transition bg-blue-500/20 text-blue-300 border border-blue-500/30 cursor-pointer';
+      if (period === 'month' && tabMonth) tabMonth.className = 'px-2 py-0.5 rounded font-bold transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 cursor-pointer';
+
+      // Tính số liệu cho kỳ
+      const mTarget = activeRemindUser.target || 200000000;
+      let pTarget = mTarget;
+      let periodName = 'Tháng Này';
+
+      if (period === 'day') {
+        pTarget = Math.round(mTarget / 26);
+        periodName = 'Hôm Nay (Ngày)';
+      } else if (period === 'week') {
+        pTarget = Math.round(mTarget / 4);
+        periodName = 'Tuần Này';
+      }
+
+      let pRev = 0;
+      bookings.forEach(b => {
+        if ((b.saleEmail || '').toLowerCase() === activeRemindUser.email.toLowerCase()) {
+          if (isBookingInPeriod(b, period)) {
+            pRev += parseFloat(b.giaBan) || 0;
+          }
+        }
+      });
+
+      const remaining = Math.max(0, pTarget - pRev);
+      const prog = pTarget > 0 ? Math.round((pRev / pTarget) * 100) : 0;
+
+      const modalNameEl = document.getElementById('remind-modal-name');
+      const modalContactEl = document.getElementById('remind-modal-contact');
+      const statTargetEl = document.getElementById('remind-stat-target');
+      const statRevenueEl = document.getElementById('remind-stat-revenue');
+      const statRemainingEl = document.getElementById('remind-stat-remaining');
+      const messageEl = document.getElementById('remind-modal-message');
+
+      if (modalNameEl) modalNameEl.innerText = activeRemindUser.name || activeRemindUser.email.split('@')[0];
+      if (modalContactEl) modalContactEl.innerText = `${activeRemindUser.email} • ${activeRemindUser.phone || 'Chưa cập nhật SĐT'}`;
+      if (statTargetEl) statTargetEl.innerText = pTarget.toLocaleString('vi-VN') + ' đ';
+      if (statRevenueEl) statRevenueEl.innerText = pRev.toLocaleString('vi-VN') + ' đ (' + prog + '%)';
+      if (statRemainingEl) statRemainingEl.innerText = remaining.toLocaleString('vi-VN') + ' đ';
+
+      // Tạo nội dung tin nhắn truyền cảm hứng "CỐ LÊN!"
+      let cheerMsg = '';
+      if (prog >= 100) {
+        cheerMsg = `🎉 XUẤT SẮC! Em đã chính thức hoàn thành và vượt chỉ tiêu ${periodName}! Tiếp tục giữ vững phong độ đỉnh cao này nhé!`;
+      } else if (prog >= 70) {
+        cheerMsg = `🔥 CHỈ CÒN THIẾU ${remaining.toLocaleString('vi-VN')} đ nữa thôi là chạm đỉnh mục tiêu! Cố lên chút xíu nữa em nhé, giải thưởng và hoa hồng đang chờ em phía trước! 💪`;
+      } else if (prog > 0) {
+        cheerMsg = `🏃‍♂️ Tiến độ đang đạt ${prog}%. Em hãy rà soát lại các khách hàng tiềm năng đã hỏi giá hôm nay để chốt deal nhé! Cố lên Kiều/em ơi, cả đội luôn đồng hành và hỗ trợ em! 💪🔥`;
+      } else {
+        cheerMsg = `⚡ Hôm nay em chưa chốt được booking nào trên hệ thống. Chỉ tiêu ${periodName} là ${pTarget.toLocaleString('vi-VN')} đ. Đừng nản lòng nhé, hãy nhấc máy gọi lại cho 5 khách hàng cũ và gửi combo khuyến mãi ngay. CỐ LÊN EM NHÉ, EM LÀM ĐƯỢC MÀ! 💪✨`;
+      }
+
+      const template = 
+`🔥 [BOOKING TRAVEL ERP] LỜI NHẮC & TIẾP LỬA KPI ${periodName.toUpperCase()} 🔥
+Chào bạn ${activeRemindUser.name || activeRemindUser.email.split('@')[0]} (${activeRemindUser.email})!
+
+Ban Giám Đốc gửi bạn cập nhật tiến độ KPI ${periodName}:
+🎯 Chỉ tiêu giao: ${pTarget.toLocaleString('vi-VN')} đ
+💰 Thực tế đã chốt: ${pRev.toLocaleString('vi-VN')} đ (Đạt ${prog}%)
+⏳ Còn thiếu: ${remaining.toLocaleString('vi-VN')} đ để cán mốc!
+
+--------------------------------------------------
+${cheerMsg}
+--------------------------------------------------
+CÔNG TY TNHH BOOKING TRAVEL (bookingtravel.vn)
+Trưởng Bộ Phận / Ban Giám Đốc gửi lời động viên!`;
+
+      if (messageEl) messageEl.value = template;
+    }
+
+    function copyKpiRemindMessage() {
+      const msg = document.getElementById('remind-modal-message').value;
+      navigator.clipboard.writeText(msg).then(() => {
+        alert('📋 ĐÃ SAO CHÉP LỜI NHẮC ĐỘNG VIÊN! Bạn có thể dán gửi ngay qua Zalo cho nhân sự!');
+      });
+    }
+
+    function openSalesZaloChat() {
+      if (!activeRemindUser || !activeRemindUser.phone) {
+        alert('⚠️ Nhân viên này chưa cập nhật Số điện thoại Zalo trong hồ sơ!');
+        return;
+      }
+      let phone = activeRemindUser.phone.replace(/\D/g, '');
+      if (phone.startsWith('0')) phone = '84' + phone.slice(1);
+      window.open(`https://zalo.me/${phone}`, '_blank');
+    }
+
+    // BẢN TIN NHẮC NHỞ TOÀN ĐỘI SALES (ZALO BROADCAST)
+    function openKpiBroadcastModal() {
+      const messageEl = document.getElementById('broadcast-modal-message');
+      let periodLabel = currentKpiPeriod === 'day' ? 'HÔM NAY' : (currentKpiPeriod === 'week' ? 'TUẦN NÀY' : 'THÁNG NÀY');
+      
+      let lines = [];
+      systemUsers.filter(u => u.role === 'sale').forEach((u, i) => {
+        const mTarget = u.target || 200000000;
+        let pTarget = mTarget;
+        if (currentKpiPeriod === 'day') pTarget = Math.round(mTarget / 26);
+        else if (currentKpiPeriod === 'week') pTarget = Math.round(mTarget / 4);
+
+        let pRev = 0;
+        bookings.forEach(b => {
+          if ((b.saleEmail || '').toLowerCase() === u.email.toLowerCase()) {
+            if (isBookingInPeriod(b, currentKpiPeriod === 'matrix' ? 'month' : currentKpiPeriod)) {
+              pRev += parseFloat(b.giaBan) || 0;
+            }
+          }
+        });
+
+        const prog = pTarget > 0 ? Math.round((pRev / pTarget) * 100) : 0;
+        let icon = prog >= 100 ? '🏆' : (prog >= 50 ? '🏃‍♂️' : '⚡');
+        let note = prog >= 100 ? 'Đã đạt' : (prog >= 50 ? 'Đang bám sát' : 'Cần cố lên!');
+        lines.push(`${i + 1}. ${u.name || u.email.split('@')[0]} (${u.email.split('@')[0]}): ${prog}% [${pRev.toLocaleString('vi-VN')} đ] - ${icon} ${note}`);
+      });
+
+      const broadcastMsg = 
+`📢 [BẢN TIN NĂNG LƯỢNG KINH DOANH] TIẾP LỬA KPI ${periodLabel} 📢
+Gửi toàn thể các chiến binh Sales - Công ty TNHH Booking Travel!
+
+Sau đây là bảng cập nhật nhịp độ thi đua ${periodLabel.toLowerCase()}:
+--------------------------------------------------
+${lines.join('\n')}
+--------------------------------------------------
+🔥 LỜI NHẮC TỪ BAN GIÁM ĐỐC:
+"Thành công thuộc về những người kiên trì và chủ động. Các bạn đang ở nhịp thấp hãy tăng tốc gọi lại cho khách, chia sẻ combo ưu đãi và hỗ trợ đồng đội cùng về đích. CỐ LÊN BOOKING TRAVEL! CẢ ĐỘI CÙNG THẮNG LỚN! 💪🚀"
+═══════════════════════════════════════`;
+
+      if (messageEl) messageEl.value = broadcastMsg;
+      document.getElementById('kpi-broadcast-modal').classList.remove('hidden');
+    }
+
+    function closeKpiBroadcastModal() {
+      document.getElementById('kpi-broadcast-modal').classList.add('hidden');
+    }
+
+    function copyKpiBroadcastMessage() {
+      const msg = document.getElementById('broadcast-modal-message').value;
+      navigator.clipboard.writeText(msg).then(() => {
+        alert('📋 ĐÃ SAO CHÉP BẢN TIN! Bạn có thể dán ngay vào Nhóm Zalo Kinh Doanh của công ty!');
+      });
+    }
+
     function renderSuppliersView() {
       const suppliersMap = {};
 
