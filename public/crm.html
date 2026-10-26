@@ -1,0 +1,2948 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-950">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Travel ERP - Quản Trị Lữ Hành, Phân Quyền & Dòng Tiền Công Ty Chuẩn vTour</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Pro style Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .num-tabular { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="h-full flex overflow-hidden text-slate-200 antialiased bg-slate-950 font-sans">
+
+  <!-- ========================================================================= -->
+  <!-- MÀN HÌNH ĐĂNG NHẬP (LOGIN OVERLAY) KHI CHƯA ĐĂNG NHẬP -->
+  <!-- ========================================================================= -->
+  <div id="login-screen" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4 hidden">
+    <div class="relative bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 shadow-2xl">
+      
+      <!-- Logo & Brand Header -->
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-xl shadow-blue-500/20 font-black text-2xl mx-auto mb-3 tracking-wider">
+          BT
+        </div>
+        <h2 class="text-xl font-extrabold text-white tracking-wide uppercase">CÔNG TY TNHH BOOKING TRAVEL</h2>
+        <p class="text-xs text-blue-400 font-medium mt-1">Hệ Thống CRM & Điều Hành Lữ Hành Chuẩn vTour • <span class="text-slate-400 font-mono">crm.bookingtravel.vn</span></p>
+      </div>
+
+      <!-- Form Đăng Nhập -->
+      <form onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">ID Đăng Nhập (Email) (*)</label>
+          <div class="relative">
+            <i class="fa-solid fa-envelope absolute left-3 top-3 text-slate-500 text-xs"></i>
+            <input type="email" id="login-email" required placeholder="sales1@bookingtravel.vn" class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Mật Khẩu Bàn Giao (*)</label>
+          <div class="relative">
+            <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-500 text-xs"></i>
+            <input type="password" id="login-password" required placeholder="Mặc định: 123456" class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-lg shadow-blue-500/20 transition flex items-center justify-center gap-2 cursor-pointer mt-2">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          <span>ĐĂNG NHẬP VÀO CRM</span>
+        </button>
+      </form>
+
+      <!-- Danh Sách Tài Khoản Gợi Ý Chọn Nhanh -->
+      <div class="mt-6 pt-5 border-t border-slate-800">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Chọn Nhanh Tài Khoản (Pass: 123456)</span>
+        </div>
+        <div class="grid grid-cols-2 gap-1.5 max-h-40 overflow-y-auto pr-1 text-[11px] font-mono" id="quick-accounts-list">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 1. ENTERPRISE SIDEBAR -->
+  <!-- ========================================================================= -->
+  <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shrink-0 select-none z-30">
+    <div class="overflow-y-auto">
+      <!-- Brand Logo Header -->
+      <div class="h-16 flex items-center px-5 border-b border-slate-800/80 bg-slate-900/50 gap-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 font-black text-base tracking-wider">
+          BT
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-sm text-white tracking-wide">BOOKING TRAVEL</span>
+            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">vTour 4.0</span>
+          </div>
+          <p class="text-[10px] text-slate-400 font-medium">Quản Trị Báo Cáo & Nhân Sự</p>
+        </div>
+      </div>
+
+      <!-- Navigation Modules -->
+      <div class="px-3 py-4 space-y-5">
+        
+        <!-- BÁO CÁO & DÒNG TIỀN CÔNG TY (CHUẨN VTOUR) -->
+        <div>
+          <p class="px-3 text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+            <i class="fa-solid fa-chart-pie"></i> Báo Cáo & Dòng Tiền (vTour)
+          </p>
+          <nav class="space-y-0.5">
+            <button onclick="switchView('cashflow')" id="nav-cashflow" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-money-bill-transfer w-4 text-center text-emerald-400"></i>
+              <span>Dòng Tiền Cả Công Ty</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Dòng Tiền</span>
+            </button>
+            <button onclick="switchView('reports')" id="nav-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-chart-line w-4 text-center text-blue-400"></i>
+              <span>Báo Cáo Doanh Thu (P&L)</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">MISA</span>
+            </button>
+            <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+              <span>Đánh Giá & KPI Sales</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Top Sales</span>
+            </button>
+            <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-hotel w-4 text-center text-emerald-400"></i>
+              <span>Đánh Giá Đối Tác NCC</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">Resort</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- QUẢN TRỊ NHÂN SỰ & PHÂN QUYỀN (MỚI) -->
+        <div>
+          <p class="px-3 text-[10px] font-bold text-teal-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+            <i class="fa-solid fa-users-gear"></i> Nhân Sự & Phân Quyền
+          </p>
+          <nav class="space-y-0.5">
+            <button onclick="switchView('staff')" id="nav-staff" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-id-card-clip w-4 text-center text-teal-400"></i>
+              <span>Hồ Sơ & Phân Quyền Sales</span>
+              <span id="badge-staff-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-teal-500/10 text-teal-400">11</span>
+            </button>
+            <button onclick="openProfileModal(false)" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-user-pen w-4 text-center text-amber-400"></i>
+              <span>Cập Nhật Thông Tin Cá Nhân</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- NGHIỆP VỤ ĐIỀU HÀNH LỮ HÀNH -->
+        <div>
+          <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+            <i class="fa-solid fa-compass"></i> Điều Hành & Booking
+          </p>
+          <nav class="space-y-0.5">
+            <button onclick="switchView('bookings'); setFilter('all')" id="nav-all" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-white bg-blue-600/15 border border-blue-500/30 text-blue-400 transition">
+              <i class="fa-solid fa-receipt w-4 text-center"></i>
+              <span>Tất Cả Booking</span>
+              <span id="badge-total-orders" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">0</span>
+            </button>
+            <button onclick="switchView('bookings'); setFilter('my_orders')" id="nav-my_orders" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
+              <span>Đơn Của Tôi</span>
+              <span id="badge-my-orders-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400">0</span>
+            </button>
+            <button onclick="switchView('bookings'); setFilter('ar_pending')" id="nav-ar_pending" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-hand-holding-dollar w-4 text-center text-rose-400"></i>
+              <span>Khách Còn Nợ (AR)</span>
+              <span id="badge-ar-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">0</span>
+            </button>
+            <button onclick="switchView('bookings'); setFilter('ap_pending')" id="nav-ap_pending" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-truck-ramp-box w-4 text-center text-amber-400"></i>
+              <span>Nợ Đối Tác (AP)</span>
+              <span id="badge-ap-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- HÓA ĐƠN & KẾ TOÁN MISA -->
+        <div>
+          <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+            <i class="fa-solid fa-file-invoice"></i> Quản Lý Hóa Đơn
+          </p>
+          <nav class="space-y-0.5">
+            <button onclick="switchView('bookings'); setFilter('doi_hd_dau_vao')" id="nav-doi_hd_dau_vao" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-300 hover:text-white bg-rose-500/10 border border-rose-500/30 transition">
+              <i class="fa-solid fa-file-circle-exclamation w-4 text-center text-rose-400"></i>
+              <span>Cần Đòi HĐ Đầu Vào</span>
+              <span id="badge-doi-hd-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500 text-white animate-pulse">0</span>
+            </button>
+            <button onclick="switchView('bookings'); setFilter('can_xuat_hd_ra')" id="nav-can_xuat_hd_ra" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-file-invoice-dollar w-4 text-center text-indigo-400"></i>
+              <span>Cần Xuất HĐ Đầu Ra</span>
+              <span id="badge-can-xuat-hd-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-400">0</span>
+            </button>
+            <button onclick="xuatExcelMisa()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-file-excel w-4 text-center text-emerald-500"></i>
+              <span>Xuất MISA meInvoice</span>
+            </button>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- User Profile & Logout Section -->
+    <div class="p-3 border-t border-slate-800/80 bg-slate-900/60">
+      <div class="flex items-center justify-between p-2 rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-slate-600 transition">
+        <div class="flex items-center gap-2.5 min-w-0 flex-1 cursor-pointer" onclick="openProfileModal(false)" title="Bấm để cập nhật họ tên, ngày sinh, SĐT và đổi mật khẩu">
+          <div class="w-8 h-8 rounded-full bg-blue-600/30 text-blue-300 flex items-center justify-center font-bold text-xs border border-blue-500/30 shrink-0" id="user-avatar-text">
+            S1
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-xs font-bold text-white truncate" id="sidebar-user-name">Đang tải...</p>
+            <p class="text-[10px] text-slate-400 truncate font-mono" id="sidebar-user-info">0901234001</p>
+          </div>
+        </div>
+        <button onclick="handleLogout()" title="Đăng Xuất Khỏi CRM" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition text-xs shrink-0 cursor-pointer">
+          <i class="fa-solid fa-power-off"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- 2. MAIN APPLICATION WORKSPACE -->
+  <!-- ========================================================================= -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-950">
+    
+    <!-- TOP TOOLBAR -->
+    <header class="h-16 border-b border-slate-800 bg-slate-900/40 backdrop-blur px-6 flex items-center justify-between shrink-0 z-20">
+      
+      <!-- Current View Title & Search -->
+      <div class="flex items-center gap-4 flex-1 max-w-xl">
+        <div class="hidden sm:flex items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400" id="current-view-title">Điều Hành Booking</span>
+          <span class="text-slate-600">/</span>
+        </div>
+        <div class="relative w-full">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+          <input type="text" id="global-search" oninput="handleSearch()" placeholder="Tìm theo Mã Booking, Tên khách, SĐT, Dịch vụ, Nhân sự..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-4 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+        </div>
+      </div>
+
+      <!-- User Info & Action -->
+      <div class="flex items-center gap-3">
+        
+        <!-- Quỹ Tạm Ứng Nhân Viên / Hạn Mức Ví -->
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400" title="Quỹ tiền mặt bàn giao làm việc">
+          <i class="fa-solid fa-wallet"></i>
+          <span class="text-slate-400" id="topbar-wallet-label">Quỹ Tạm Ứng:</span>
+          <span id="topbar-user-wallet" class="font-mono font-bold text-emerald-300">1,000,000 đ</span>
+        </div>
+
+        <!-- Logged In User Pill -->
+        <button onclick="openProfileModal(false)" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs transition cursor-pointer">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span class="text-slate-400 hidden lg:inline">ID:</span>
+          <span id="topbar-user-email" class="font-mono font-bold text-white">sales1@bookingtravel.vn</span>
+          <i class="fa-solid fa-user-pen text-[10px] text-slate-500 ml-1"></i>
+        </button>
+
+        <!-- Add Booking Button -->
+        <button onclick="openModalTaoDon()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm shadow-blue-500/20 transition flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Tạo Booking Mới</span>
+        </button>
+
+      </div>
+
+    </header>
+
+    <!-- WORKSPACE BODY (CONTAINER CHO CÁC VIEW) -->
+    <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 1: QUẢN LÝ BOOKING & HẠCH TOÁN ĐIỀU HÀNH -->
+      <!-- ===================================================================== -->
+      <div id="view-bookings" class="space-y-6">
+
+        <!-- 5 METRIC CARDS KẾ TOÁN & CẢNH BÁO -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4.5 relative overflow-hidden">
+            <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+              <span>Tổng Doanh Thu</span>
+              <span class="text-blue-400 bg-blue-500/10 p-1.5 rounded-md border border-blue-500/20 text-xs"><i class="fa-solid fa-arrow-trend-up"></i></span>
+            </div>
+            <div class="mt-3">
+              <div id="stat-tong-thu" class="text-xl font-bold font-mono tracking-tight text-white num-tabular">0 đ</div>
+              <p class="text-[11px] text-slate-400 mt-1">Giá bán thu từ khách/CTV</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4.5 relative overflow-hidden">
+            <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+              <span>Giá Vốn (Trả NCC)</span>
+              <span class="text-orange-400 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/20 text-xs"><i class="fa-solid fa-boxes-packing"></i></span>
+            </div>
+            <div class="mt-3">
+              <div id="stat-tong-von" class="text-xl font-bold font-mono tracking-tight text-slate-300 num-tabular">0 đ</div>
+              <p class="text-[11px] text-slate-400 mt-1">Chi phí Vinpearl, Amaya, Xe...</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4.5 relative overflow-hidden">
+            <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+              <span>Lợi Nhuận Gộp (P&L)</span>
+              <span class="text-emerald-400 bg-emerald-500/10 p-1.5 rounded-md border border-emerald-500/20 text-xs"><i class="fa-solid fa-sack-dollar"></i></span>
+            </div>
+            <div class="mt-3">
+              <div id="stat-lai-gop" class="text-xl font-bold font-mono tracking-tight text-emerald-400 num-tabular">+0 đ</div>
+              <p id="stat-ty-suat" class="text-[11px] text-emerald-400/80 font-mono font-medium mt-1">Biên độ: 0%</p>
+            </div>
+          </div>
+
+          <!-- CẢNH BÁO: HÓA ĐƠN ĐẦU VÀO CẦN ĐÒI -->
+          <div onclick="setFilter('doi_hd_dau_vao')" class="bg-slate-900/80 border border-rose-900/60 bg-rose-950/10 rounded-xl p-4.5 relative overflow-hidden group hover:border-rose-700 transition cursor-pointer">
+            <div class="flex items-center justify-between text-rose-400 text-xs font-medium">
+              <span class="font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> Cần Đòi HĐ Đầu Vào
+              </span>
+              <span class="text-rose-400 bg-rose-500/20 p-1.5 rounded-md border border-rose-500/30 text-xs"><i class="fa-solid fa-file-circle-exclamation"></i></span>
+            </div>
+            <div class="mt-3">
+              <div id="stat-chua-co-hd-vao" class="text-xl font-bold font-mono tracking-tight text-rose-400 num-tabular">0 đơn</div>
+              <p class="text-[11px] text-rose-300 mt-1">Sale liên hệ đối tác đòi hóa đơn</p>
+            </div>
+          </div>
+
+          <!-- CẢNH BÁO: CÔNG NỢ KHÁCH -->
+          <div onclick="setFilter('ar_pending')" class="bg-slate-900/80 border border-amber-900/60 bg-amber-950/10 rounded-xl p-4.5 relative overflow-hidden group hover:border-amber-700 transition cursor-pointer">
+            <div class="flex items-center justify-between text-amber-400 text-xs font-medium">
+              <span class="font-bold">Khách Chưa Trả Hết</span>
+              <span class="text-amber-400 bg-amber-500/20 p-1.5 rounded-md border border-amber-500/30 text-xs"><i class="fa-solid fa-hand-holding-dollar"></i></span>
+            </div>
+            <div class="mt-3">
+              <div id="stat-no-khach" class="text-xl font-bold font-mono tracking-tight text-amber-400 num-tabular">0 đ</div>
+              <p class="text-[11px] text-amber-300 mt-1"><span id="stat-so-don-no-khach" class="font-mono font-bold">0</span> booking chưa cọc đủ</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- BẢNG THEO DÕI ĐƠN HÀNG & HÓA ĐƠN -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+          
+          <!-- Table Action Header -->
+          <div class="px-5 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4 bg-slate-900/90">
+            
+            <div class="flex flex-wrap items-center gap-1 p-1 bg-slate-950 rounded-lg border border-slate-800/80 text-xs" id="filter-segmented">
+              <button onclick="setFilter('all')" data-filter="all" class="px-3 py-1.5 rounded-md font-medium text-white bg-slate-800 shadow-sm transition">
+                Tất Cả (<span id="count-all">0</span>)
+              </button>
+              <button onclick="setFilter('my_orders')" data-filter="my_orders" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-sky-400 font-bold">Đơn Của Tôi (<span id="count-my" class="font-mono">0</span>)</span>
+              </button>
+              <button onclick="setFilter('doi_hd_dau_vao')" data-filter="doi_hd_dau_vao" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-rose-400 font-bold">⚠️ Cần Đòi HĐ Đầu Vào (<span id="count-doi-hd" class="font-mono">0</span>)</span>
+              </button>
+              <button onclick="setFilter('can_xuat_hd_ra')" data-filter="can_xuat_hd_ra" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                Cần Xuất HĐ Ra (<span id="count-xuat-hd" class="text-indigo-400 font-mono">0</span>)
+              </button>
+              <button onclick="setFilter('ar_pending')" data-filter="ar_pending" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                Khách Nợ (<span id="count-ar" class="text-amber-400 font-mono">0</span>)
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-slate-400">Hiển thị: <b id="showing-count" class="font-mono text-white">0</b> booking</span>
+            </div>
+
+          </div>
+
+          <!-- Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-950/60 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3.5">Mã Booking & Trạng Thái</th>
+                  <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
+                  <th class="py-3 px-3.5">Dịch Vụ & NCC</th>
+                  <th class="py-3 px-3.5 text-right">Doanh Thu</th>
+                  <th class="py-3 px-3.5 text-right">Giá Vốn</th>
+                  <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
+                  <th class="py-3 px-3.5 text-center">Công Nợ (AR / AP)</th>
+                  <th class="py-3 px-3.5 text-center">HĐ Đầu Vào (NCC)</th>
+                  <th class="py-3 px-3.5 text-center">HĐ Đầu Ra (Khách)</th>
+                  <th class="py-3 px-3.5 text-center">Tài Liệu File</th>
+                  <th class="py-3 px-3.5 text-right">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="table-body" class="divide-y divide-slate-800/60 font-medium">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 2: DÒNG TIỀN CẢ CÔNG TY (CASH FLOW STATEMENT CHUẨN VTOUR) -->
+      <!-- ===================================================================== -->
+      <div id="view-cashflow" class="space-y-6 hidden">
+        
+        <!-- Header Dòng Tiền -->
+        <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div>
+            <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-money-bill-transfer text-emerald-400"></i> QUẢN TRỊ DÒNG TIỀN THỰC TẾ TOÀN CÔNG TY (CASH FLOW)
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Dành riêng cho Ban Giám Đốc (<span class="font-mono text-emerald-400 font-bold">crm@bookingtravel.vn</span>) và nhân sự được phân quyền</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400">Tài khoản thanh toán:</span>
+            <span class="px-2.5 py-1 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono font-bold text-sky-400">Techcombank • MB Bank</span>
+          </div>
+        </div>
+
+        <!-- 4 KPI Cards Dòng Tiền Thực Thu - Thực Chi -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+              <span>Tổng Tiền Khách Đã Đóng</span>
+              <span class="text-emerald-400 bg-emerald-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-arrow-down-left"></i></span>
+            </div>
+            <div id="cf-total-inflow" class="text-2xl font-bold font-mono text-emerald-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Dòng tiền vào thực tế (Tiền cọc + TT)</div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+              <span>Tổng Tiền Đã Chi Trả NCC</span>
+              <span class="text-rose-400 bg-rose-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </div>
+            <div id="cf-total-outflow" class="text-2xl font-bold font-mono text-rose-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Tiền cty đã thực chuyển cho khách sạn</div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+              <span>Dòng Tiền Thuần Tồn Quỹ (Net)</span>
+              <span class="text-blue-400 bg-blue-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-scale-balanced"></i></span>
+            </div>
+            <div id="cf-net-cashflow" class="text-2xl font-bold font-mono text-white mt-2 num-tabular">+0 đ</div>
+            <div class="text-[11px] text-emerald-400/90 mt-1">Thặng dư dòng tiền kinh doanh</div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+              <span>Số Dư Khả Dụng Ngân Hàng</span>
+              <span class="text-amber-400 bg-amber-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-building-columns"></i></span>
+            </div>
+            <div id="cf-bank-balance" class="text-2xl font-bold font-mono text-amber-400 mt-2 num-tabular">247,800,000 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Techcombank + MB Bank + Quỹ mặt</div>
+          </div>
+        </div>
+
+        <!-- Bảng Nhật Ký Thu - Chi Thực Tế (Cash Ledger) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+          <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
+            <span class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i class="fa-solid fa-receipt text-emerald-400"></i> Bảng Kê Dòng Tiền Thu - Chi Thực Tế Toàn Công Ty
+            </span>
+            <span class="text-xs text-slate-400">Tự động cập nhật theo thời gian thực</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3.5">Mã Booking</th>
+                  <th class="py-3 px-3.5">Khách Hàng & Dịch Vụ</th>
+                  <th class="py-3 px-3.5 text-center">Sale Phụ Trách</th>
+                  <th class="py-3 px-3.5 text-right text-emerald-400">Tiền Thu Khách</th>
+                  <th class="py-3 px-3.5 text-right text-rose-400">Tiền Chi Trả NCC</th>
+                  <th class="py-3 px-3.5 text-right font-bold text-white">Chênh Lệch Dòng Tiền</th>
+                  <th class="py-3 px-3.5 text-center">Trạng Thái Quyết Toán</th>
+                </tr>
+              </thead>
+              <tbody id="cashflow-table-body" class="divide-y divide-slate-800/60 font-medium">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 3: BÁO CÁO DOANH THU & TÀI CHÍNH (P&L) CHUẨN VTOUR -->
+      <!-- ===================================================================== -->
+      <div id="view-reports" class="space-y-6 hidden">
+        
+        <!-- Header Báo cáo -->
+        <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div>
+            <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-chart-line text-blue-400"></i> BÁO CÁO KẾT QUẢ KINH DOANH & PHÂN TÍCH TÀI CHÍNH LỮ HÀNH
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Mô hình báo cáo quản trị chuyên sâu học tập từ giải pháp vTour & MISA meInvoice</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400 font-medium">Kỳ Báo Cáo:</span>
+            <select id="report-period" onchange="renderReportsView()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500 font-medium">
+              <option value="all">Toàn Bộ Dữ Liệu Năm 2026</option>
+              <option value="month">Tháng Này (10/2026)</option>
+              <option value="next_month">Tháng Sau (11/2026)</option>
+            </select>
+            <button onclick="xuatExcelMisa()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5">
+              <i class="fa-solid fa-download"></i> Tải Báo Cáo Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Cards Báo Cáo Tài Chính -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400">Tổng Giá Trị Hợp Đồng (Doanh Thu)</div>
+            <div id="rpt-total-rev" class="text-2xl font-bold font-mono text-white mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-blue-400 mt-1 flex items-center gap-1">
+              <i class="fa-solid fa-receipt"></i> <span id="rpt-booking-count">0</span> booking đã ghi nhận
+            </div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400">Tổng Chi Phí Dịch Vụ (Giá Vốn NCC)</div>
+            <div id="rpt-total-cost" class="text-2xl font-bold font-mono text-orange-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Chi trả Khách sạn, Resort, Xe, Vé</div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400">Lợi Nhuận Gộp Thực Thu (P&L)</div>
+            <div id="rpt-total-profit" class="text-2xl font-bold font-mono text-emerald-400 mt-2 num-tabular">+0 đ</div>
+            <div class="text-[11px] text-emerald-400/90 font-mono mt-1" id="rpt-profit-margin">Biên độ: 0%</div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400">Độ Lệch Dòng Tiền & Công Nợ 2 Chiều</div>
+            <div id="rpt-net-debt" class="text-2xl font-bold font-mono text-amber-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-amber-400/80 mt-1" id="rpt-debt-breakdown">AR: 0đ | AP: 0đ</div>
+          </div>
+        </div>
+
+        <!-- Phân Tích Cơ Cấu Doanh Thu Theo Dòng Sản Phẩm Du Lịch -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+              <div>
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <i class="fa-solid fa-layer-group text-indigo-400"></i> Cơ Cấu Doanh Thu Theo Nhóm Dịch Vụ
+                </h3>
+                <p class="text-[11px] text-slate-400">Phân bổ nguồn tiền giữa Combo, Khách sạn, Tour & Vé</p>
+              </div>
+            </div>
+            
+            <div class="space-y-4" id="rpt-service-breakdown-bars">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Bảng Đối Soát Công Nợ 2 Chiều (vTour Two-Way Reconciliation) -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+              <div>
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <i class="fa-solid fa-scale-balanced text-amber-400"></i> Đối Soát Công Nợ 2 Chiều (Khách Hàng & NCC)
+                </h3>
+                <p class="text-[11px] text-slate-400">Kiểm soát rủi ro dòng tiền và hạn mức thanh toán trước check-in</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-slate-950 border border-rose-900/40">
+                <div class="flex items-center justify-between text-xs font-bold text-rose-400 mb-2">
+                  <span>PHẢI THU KHÁCH (AR)</span>
+                  <i class="fa-solid fa-hand-holding-dollar"></i>
+                </div>
+                <div id="rpt-ar-debt-val" class="text-xl font-bold font-mono text-white num-tabular">0 đ</div>
+                <p class="text-[11px] text-rose-300 mt-1"><span id="rpt-ar-debt-count" class="font-bold">0</span> khách chưa hoàn tất 100%</p>
+                <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] text-slate-400">
+                  ⚠️ Nhắc Sales thu đủ cọc trước ngày khách lên đường!
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-950 border border-amber-900/40">
+                <div class="flex items-center justify-between text-xs font-bold text-amber-400 mb-2">
+                  <span>PHẢI TRẢ NCC (AP)</span>
+                  <i class="fa-solid fa-truck-ramp-box"></i>
+                </div>
+                <div id="rpt-ap-debt-val" class="text-xl font-bold font-mono text-white num-tabular">0 đ</div>
+                <p class="text-[11px] text-amber-300 mt-1"><span id="rpt-ap-debt-count" class="font-bold">0</span> đối tác cần thanh toán</p>
+                <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] text-slate-400">
+                  🔔 Thanh toán đúng hạn để đối tác giữ code phòng/vé.
+                </div>
+              </div>
+            </div>
+
+            <!-- Báo cáo Hóa đơn VAT -->
+            <div class="mt-4 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-xs">
+                  <i class="fa-solid fa-file-shield"></i>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">Tỷ Lệ Hợp Thức Hóa Đơn VAT</p>
+                  <p class="text-[10px] text-slate-400">Hóa đơn đầu vào từ đối tác đã thu thập về</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="rpt-vat-ratio" class="text-sm font-bold font-mono text-indigo-300">0%</span>
+                <span class="block text-[10px] text-slate-500" id="rpt-vat-count">0/0 hóa đơn</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 4: ĐÁNH GIÁ HIỆU SUẤT & BẢNG XẾP HẠNG SALES (CHUẨN VTOUR) -->
+      <!-- ===================================================================== -->
+      <div id="view-kpi-sales" class="space-y-6 hidden">
+        
+        <!-- Header Đánh Giá Sales -->
+        <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div>
+            <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-trophy text-amber-400"></i> ĐÁNH GIÁ HIỆU SUẤT, THI ĐUA & KPI ĐỘI NGŨ SALES
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Đo lường Doanh số thực tế, Lợi nhuận gộp đóng góp, Tỷ lệ đạt KPI và Thưởng hoa hồng</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400">Chỉ tiêu tháng/Sales:</span>
+            <span class="px-2.5 py-1 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono font-bold text-amber-400">200,000,000 đ</span>
+          </div>
+        </div>
+
+        <!-- BẢNG VINH DANH TOP 3 SALES (PODIUM LEADERBOARD) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="sales-podium">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- BẢNG ĐÁNH GIÁ CHI TIẾT TỪNG NHÂN SỰ SALES1 -> SALES10 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+          <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
+            <span class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i class="fa-solid fa-users text-blue-400"></i> Bảng Đánh Giá KPI & Xếp Loại Toàn Diện (10 Sales)
+            </span>
+            <span class="text-xs text-slate-400">Chính sách thưởng: <b class="text-emerald-400 font-mono">10% trên Lãi Gộp</b></span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3.5">Hạng</th>
+                  <th class="py-3 px-3.5">Nhân Viên Sales</th>
+                  <th class="py-3 px-3.5 text-center">Số Booking</th>
+                  <th class="py-3 px-3.5 text-right">Doanh Số Đạt</th>
+                  <th class="py-3 px-3.5 text-right">Chỉ Tiêu (KPI)</th>
+                  <th class="py-3 px-3.5 text-center">Tiến Độ KPI</th>
+                  <th class="py-3 px-3.5 text-right">Lãi Gộp Mang Về</th>
+                  <th class="py-3 px-3.5 text-right">Hoa Hồng Dự Kiến</th>
+                  <th class="py-3 px-3.5 text-center">Xếp Loại</th>
+                </tr>
+              </thead>
+              <tbody id="sales-kpi-table-body" class="divide-y divide-slate-800/60 font-medium">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 5: ĐÁNH GIÁ NHÀ CUNG CẤP & ĐỐI TÁC CHIẾN LƯỢC -->
+      <!-- ===================================================================== -->
+      <div id="view-suppliers" class="space-y-6 hidden">
+        
+        <!-- Header Đánh Giá NCC -->
+        <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div>
+            <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-hotel text-emerald-400"></i> ĐÁNH GIÁ CHẤT LƯỢNG & ĐỘ UY TÍN NHÀ CUNG CẤP (NCC)
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Xếp hạng Khách sạn, Resort, Villa và Đơn vị vận chuyển theo doanh thu, biên lợi nhuận và việc trả hóa đơn</p>
+          </div>
+        </div>
+
+        <!-- BẢNG ĐÁNH GIÁ ĐỐI TÁC -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3.5">Đối Tác / Khách Sạn / Resort</th>
+                  <th class="py-3 px-3.5 text-center">Số Lượng Booking</th>
+                  <th class="py-3 px-3.5 text-right">Tổng Tiền Trả NCC</th>
+                  <th class="py-3 px-3.5 text-right">Lãi Gộp Tạo Ra</th>
+                  <th class="py-3 px-3.5 text-center">Biên Lợi Nhuận (%)</th>
+                  <th class="py-3 px-3.5 text-center">Tuân Thủ HĐ Đầu Vào</th>
+                  <th class="py-3 px-3.5 text-center">Đánh Giá Uy Tín</th>
+                </tr>
+              </thead>
+              <tbody id="suppliers-table-body" class="divide-y divide-slate-800/60 font-medium">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 6: HỒ SƠ NHÂN SỰ & PHÂN QUYỀN SALES (CRM ADMIN) -->
+      <!-- ===================================================================== -->
+      <div id="view-staff" class="space-y-6 hidden">
+        
+        <!-- Header Nhân Sự -->
+        <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div>
+            <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-users-gear text-teal-400"></i> DANH SÁCH NHÂN SỰ & PHÂN QUYỀN TÀI KHOẢN SALES
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Quản lý ID (Email), Mật khẩu bàn giao (<strong class="text-white font-mono">123456</strong>), Quỹ tiền bàn giao (<strong class="text-emerald-400 font-mono">1.000.000 đ</strong>) và quyền xem dòng tiền</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-xs text-slate-400">Trạng thái hồ sơ:</div>
+            <span class="px-3 py-1 bg-slate-950 border border-slate-800 rounded-lg text-xs font-mono font-bold text-teal-400" id="staff-completed-badge">
+              Đang tải...
+            </span>
+            <button onclick="openProfileModal(false)" class="px-3.5 py-1.5 bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold rounded-lg shadow transition flex items-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-user-pen"></i> Sửa Thông Tin Tôi
+            </button>
+          </div>
+        </div>
+
+        <!-- BẢNG HỒ SƠ & PHÂN QUYỀN 11 TÀI KHOẢN -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3.5 text-center">STT</th>
+                  <th class="py-3 px-3.5">Họ Và Tên Nhân Viên</th>
+                  <th class="py-3 px-3.5">ID Đăng Nhập (Email)</th>
+                  <th class="py-3 px-3.5 text-center">Ngày Sinh</th>
+                  <th class="py-3 px-3.5 text-center">Số Điện Thoại</th>
+                  <th class="py-3 px-3.5 text-right">Quỹ Tiền Bàn Giao</th>
+                  <th class="py-3 px-3.5 text-center">Quyền Xem Dòng Tiền</th>
+                  <th class="py-3 px-3.5 text-center">Hồ Sơ</th>
+                  <th class="py-3 px-3.5 text-right">Phân Quyền & Bàn Giao</th>
+                </tr>
+              </thead>
+              <tbody id="staff-table-body" class="divide-y divide-slate-800/60 font-medium">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 3. MODAL: CẬP NHẬT THÔNG TIN CÁ NHÂN (BẮT BUỘC HỌ TÊN, NGÀY SINH, SĐT) -->
+  <!-- ========================================================================= -->
+  <div id="profile-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeProfileModal()"></div>
+    <div class="relative bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl z-10">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase">HỒ SƠ NHÂN SỰ & BẢO MẬT</h3>
+            <p class="text-[11px] text-slate-400">Bắt buộc cập nhật Họ tên, Ngày tháng năm sinh & Số điện thoại</p>
+          </div>
+        </div>
+        <button id="prof-close-btn" onclick="closeProfileModal()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Banner Cảnh Báo Khi Bắt Buộc Nhập Thông Tin -->
+      <div id="prof-forced-alert" class="p-3 mb-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-start gap-2.5 hidden">
+        <i class="fa-solid fa-triangle-exclamation text-base shrink-0 mt-0.5 text-amber-400"></i>
+        <div>
+          <p class="font-bold uppercase tracking-wide">QUY ĐỊNH BẮT BUỘC TỪ BAN GIÁM ĐỐC:</p>
+          <p class="text-[11px] text-amber-200/90 mt-0.5">Nhân viên phải nhập đầy đủ <strong>Họ và tên</strong>, <strong>Ngày tháng năm sinh</strong> và <strong>Số điện thoại</strong> để kích hoạt tài khoản làm việc trên CRM và tính thưởng KPI!</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleSaveProfile(event)" class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-medium text-slate-400 mb-1">ID Đăng Nhập (Cố Định)</label>
+          <input type="text" id="prof-email" readonly class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono font-bold text-slate-400 select-none">
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-200 mb-1">
+            Họ Và Tên Nhân Viên <span class="text-rose-400 font-bold">(*)</span>
+          </label>
+          <input type="text" id="prof-name" required placeholder="VD: Nguyễn Thị Kiều" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 placeholder-slate-600">
+          <p class="text-[10px] text-slate-500 mt-1">Nhập đầy đủ họ và tên thật theo CCCD.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-200 mb-1">
+              Ngày Tháng Năm Sinh <span class="text-rose-400 font-bold">(*)</span>
+            </label>
+            <input type="date" id="prof-dob" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-blue-500">
+            <p class="text-[10px] text-slate-500 mt-1">Bắt buộc theo quy chế nhân sự.</p>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-200 mb-1">
+              Số Điện Thoại Liên Hệ <span class="text-rose-400 font-bold">(*)</span>
+            </label>
+            <input type="tel" id="prof-phone" required placeholder="VD: 0901234567" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-blue-500 placeholder-slate-600">
+            <p class="text-[10px] text-slate-500 mt-1">SĐT Zalo để nhận việc.</p>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800">
+          <p class="text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-lock"></i> Đổi Mật Khẩu Đăng Nhập
+          </p>
+          
+          <div class="space-y-2.5">
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Mật khẩu mới (Để trống nếu không đổi)</label>
+              <input type="password" id="prof-new-pass" placeholder="Nhập mật khẩu mới..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Xác nhận mật khẩu mới</label>
+              <input type="password" id="prof-confirm-pass" placeholder="Xác nhận lại mật khẩu..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+          <button type="button" id="prof-cancel-btn" onclick="closeProfileModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition cursor-pointer">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span>Lưu Thông Tin Nhân Viên</span>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 4. MODAL: PHÂN QUYỀN & BÀN GIAO TÀI KHOẢN (CRM ADMIN EXCLUSIVE) -->
+  <!-- ========================================================================= -->
+  <div id="permissions-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closePermissionsModal()"></div>
+    <div class="relative bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl z-10 flex flex-col max-h-[90vh]">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase">PHÂN QUYỀN & BÀN GIAO TÀI KHOẢN</h3>
+            <p class="text-[11px] text-slate-400" id="perm-user-title">Thiết lập quyền hạn & quỹ tạm ứng cho nhân viên</p>
+          </div>
+        </div>
+        <button onclick="closePermissionsModal()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="perm-form" onsubmit="handleSavePermissions(event)" class="space-y-4 overflow-y-auto pr-1 flex-1">
+        <input type="hidden" id="perm-user-email">
+
+        <!-- Thông tin cơ bản -->
+        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-400">ID Đăng Nhập:</span>
+            <span id="perm-display-email" class="font-mono font-bold text-blue-400">sales1@bookingtravel.vn</span>
+          </div>
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-400">Mật Khẩu Mặc Định:</span>
+            <span class="font-mono font-bold text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-700">123456</span>
+          </div>
+        </div>
+
+        <!-- Quỹ Tạm Ứng Bàn Giao -->
+        <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-900/40 space-y-1.5">
+          <label class="block text-xs font-bold text-emerald-400">
+            <i class="fa-solid fa-wallet mr-1"></i> Quỹ Tiền Tạm Ứng Bàn Giao (VNĐ) (*)
+          </label>
+          <input type="number" id="perm-wallet" required class="w-full bg-slate-950 border border-emerald-800/60 rounded-lg px-3 py-2 text-xs font-mono font-bold text-emerald-300 focus:outline-none focus:border-emerald-500">
+          <p class="text-[10px] text-emerald-300/80">Mặc định bàn giao 1.000.000 đ cho nhân viên để cọc nhanh & giữ chỗ dịch vụ.</p>
+        </div>
+
+        <!-- Danh sách quyền hạn chi tiết -->
+        <div class="space-y-2.5">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Phân Quyền Truy Cập Hệ Thống:</span>
+
+          <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition cursor-pointer">
+            <div>
+              <span class="text-xs font-bold text-white block">Xem Dòng Tiền Toàn Công Ty</span>
+              <span class="text-[10px] text-slate-500">Cho phép theo dõi thu chi Techcombank, MB Bank và dòng tiền cả công ty</span>
+            </div>
+            <input type="checkbox" id="perm-view-cashflow" class="w-4 h-4 rounded text-blue-600 focus:ring-0 bg-slate-900 border-slate-700">
+          </label>
+
+          <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition cursor-pointer">
+            <div>
+              <span class="text-xs font-bold text-white block">Xem Tất Cả Booking Công Ty</span>
+              <span class="text-[10px] text-slate-500">Nếu tắt: Nhân viên chỉ được xem đơn hàng của chính mình (Đơn Của Tôi)</span>
+            </div>
+            <input type="checkbox" id="perm-view-all" class="w-4 h-4 rounded text-blue-600 focus:ring-0 bg-slate-900 border-slate-700">
+          </label>
+
+          <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition cursor-pointer">
+            <div>
+              <span class="text-xs font-bold text-white block">Xem Giá Vốn & Lãi Gộp Đơn Hàng</span>
+              <span class="text-[10px] text-slate-500">Cho phép nhân viên nhìn thấy giá net nhà cung cấp và tỷ suất lợi nhuận</span>
+            </div>
+            <input type="checkbox" id="perm-view-profit" class="w-4 h-4 rounded text-blue-600 focus:ring-0 bg-slate-900 border-slate-700">
+          </label>
+
+          <label class="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition cursor-pointer">
+            <div>
+              <span class="text-xs font-bold text-white block">Quyền Xóa Đơn Hàng</span>
+              <span class="text-[10px] text-slate-500">Cho phép xóa booking vĩnh viễn (Khuyên dùng: Chỉ cấp cho Quản trị viên)</span>
+            </div>
+            <input type="checkbox" id="perm-delete-booking" class="w-4 h-4 rounded text-rose-600 focus:ring-0 bg-slate-900 border-slate-700">
+          </label>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2 shrink-0">
+          <button type="button" onclick="copyHandoverCard()" class="px-3.5 py-2 bg-indigo-600/20 hover:bg-indigo-600 hover:text-white border border-indigo-500/40 text-indigo-300 text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Sao chép nội dung gửi Zalo cho nhân viên">
+            <i class="fa-solid fa-copy"></i>
+            <span>Sao Chép Phiếu Bàn Giao (Zalo)</span>
+          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="closePermissionsModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition cursor-pointer">Hủy</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg shadow transition cursor-pointer">Lưu Phân Quyền</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 5. SLIDE-OVER DRAWER: FORM TẠO/SỬA BOOKING (CHUẨN VTOUR) -->
+  <!-- ========================================================================= -->
+  <div id="booking-modal" class="fixed inset-0 z-50 overflow-hidden hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeModalTaoDon()"></div>
+    
+    <div class="fixed inset-y-0 right-0 max-w-2xl w-full bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col z-10 overflow-hidden">
+      
+      <div class="h-16 px-6 border-b border-slate-800 flex items-center justify-between bg-slate-950/40 shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center font-bold text-sm">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+          </div>
+          <div>
+            <h3 id="modal-title" class="text-sm font-bold text-white uppercase tracking-wide">ĐIỀU HÀNH & HẠCH TOÁN BOOKING</h3>
+            <p class="text-[11px] text-slate-400">Kiểm soát tiến trình dịch vụ, công nợ & hóa đơn theo chuẩn vTour</p>
+          </div>
+        </div>
+        <button onclick="closeModalTaoDon()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <form id="booking-form" onsubmit="handleSaveBooking(event)" class="flex-1 overflow-y-auto p-6 space-y-6">
+        <input type="hidden" id="edit-id" value="">
+
+        <!-- Phần 1: Thông tin khách & Phân loại dịch vụ -->
+        <div class="space-y-3">
+          <div class="border-b border-slate-800 pb-1.5 flex items-center justify-between">
+            <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-info"></i> 1. Thông Tin Khách & Dịch Vụ
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Mã Booking (*)</label>
+              <input type="text" id="ipt-code" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono font-bold text-blue-400 focus:outline-none focus:border-blue-500 uppercase">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Sale Phụ Trách (*)</label>
+              <select id="ipt-sale" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Nhóm Dịch Vụ (vTour) (*)</label>
+              <select id="ipt-service-type" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                <option value="hotel">🏨 Khách Sạn / Resort Lẻ</option>
+                <option value="combo">✈️ Combo Du Lịch (Phòng + Vé/Xe)</option>
+                <option value="tour">🚩 Tour Trọn Gói / Ghép Đoàn</option>
+                <option value="ticket">🎟️ Vé Vui Chơi (VinWonders/Sun World)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Trạng Thái Điều Hành (*)</label>
+              <select id="ipt-tour-status" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-amber-300 font-semibold focus:outline-none focus:border-blue-500">
+                <option value="moi_tao">🔵 Mới Tạo / Chờ Cọc</option>
+                <option value="da_coc">🟡 Khách Đã Đặt Cọc</option>
+                <option value="da_xac_nhan">🟢 Đã Chốt Code Phòng Với NCC</option>
+                <option value="dang_di">🟣 Đang Check-in / Đi Tour</option>
+                <option value="hoan_tat">⚪ Đã Check-out & Quyết Toán</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Họ Tên Khách Hàng (*)</label>
+              <input type="text" id="ipt-customer" required placeholder="Nguyễn Văn A" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Số Điện Thoại (*)</label>
+              <input type="text" id="ipt-phone" required placeholder="0901234567" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Tên Dịch Vụ / Lộ Trình Chi Tiết (*)</label>
+              <input type="text" id="ipt-service" required placeholder="VD: Amaya Retreat Sóc Sơn 2N1Đ Sky Villa kèm ăn 3 bữa" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Ngày Check-In (*)</label>
+              <input type="date" id="ipt-checkin" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-400 mb-1">Ngày Check-Out (*)</label>
+              <input type="date" id="ipt-checkout" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+            </div>
+          </div>
+        </div>
+
+        <!-- Phần 2: Hạch toán Doanh thu & Giá vốn -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3.5 bg-slate-950/70 border border-blue-900/30 rounded-xl space-y-2.5">
+            <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider block">Bán Hàng (Thu Khách)</span>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Giá Bán (VNĐ) (*)</label>
+              <input type="number" id="ipt-revenue" required placeholder="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Khách Đã Trả (VNĐ)</label>
+              <input type="number" id="ipt-ar-paid" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-emerald-400 focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div class="p-3.5 bg-slate-950/70 border border-amber-900/30 rounded-xl space-y-2.5">
+            <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Mua Hàng (Chi Đối Tác)</span>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Tên Đối Tác / NCC (*)</label>
+              <input type="text" id="ipt-supplier" required placeholder="Amaya Retreat / Vinpearl..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Giá Vốn Trả NCC (VNĐ) (*)</label>
+              <input type="number" id="ipt-cost" required placeholder="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-slate-200 focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Đã Thanh Toán NCC (VNĐ)</label>
+              <input type="number" id="ipt-ap-paid" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-sky-400 focus:outline-none focus:border-amber-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Phần 3: QUẢN LÝ HÓA ĐƠN ĐẦU VÀO -->
+        <div class="p-4 bg-slate-950 border border-rose-900/40 rounded-xl space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="text-[11px] font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-file-import text-rose-400"></i> Hóa Đơn Đầu Vào (Từ Đối Tác / NCC)
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-medium text-slate-300 mb-1">Trạng Thái HĐ Đầu Vào (*)</label>
+              <select id="ipt-status-hd-vao" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold">
+                <option value="chua_lay">🔴 Chưa Có HĐ (CẦN ĐÒI ĐỐI TÁC!)</option>
+                <option value="da_co">🟢 Đã Nhận Hóa Đơn NCC</option>
+                <option value="khong_co">⚪ Không Có HĐ</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-300 mb-1">Số Hóa Đơn NCC (Nếu có)</label>
+              <input type="text" id="ipt-so-hd-vao" placeholder="VD: 00012345" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono">
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3 shrink-0">
+          <button type="button" onclick="closeModalTaoDon()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition">Hủy Bỏ</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg shadow-sm transition">Lưu Hạch Toán Đơn Hàng</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 6. MODAL: KHO TÀI LIỆU CHỨNG TỪ (FILE VAULT) -->
+  <!-- ========================================================================= -->
+  <div id="files-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeFilesModal()"></div>
+    <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full p-6 shadow-2xl z-10 flex flex-col max-h-[85vh]">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <div>
+          <h3 class="text-sm font-bold text-white" id="files-modal-title">KHO TÀI LIỆU CHỨNG TỪ</h3>
+          <p class="text-[11px] text-slate-400" id="files-modal-subtitle">Tải lên & lưu giữ hóa đơn đầu vào, đầu ra, ủy nhiệm chi...</p>
+        </div>
+        <button onclick="closeFilesModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="p-4 border-2 border-dashed border-slate-700 rounded-xl bg-slate-950/60 text-center mb-4 hover:border-blue-500 transition cursor-pointer" onclick="document.getElementById('file-upload-input').click()">
+        <input type="file" id="file-upload-input" onchange="handleFileUpload(event)" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.xml,.docx,.xlsx">
+        <i class="fa-solid fa-cloud-arrow-up text-2xl text-blue-400 mb-1.5 block"></i>
+        <p class="text-xs font-semibold text-slate-200">Bấm để tải file hóa đơn / chứng từ lên máy chủ</p>
+        <p class="text-[10px] text-slate-500 mt-0.5">Hỗ trợ PDF, Ảnh hóa đơn (PNG, JPG), XML (Tối đa 25MB)</p>
+      </div>
+
+      <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="files-list-container"></div>
+
+      <div class="mt-4 pt-3 border-t border-slate-800 flex justify-end">
+        <button onclick="closeFilesModal()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 7. DIALOG: MẪU TIN NHẮN ZALO ĐÒI HÓA ĐƠN ĐỐI TÁC -->
+  <!-- ========================================================================= -->
+  <div id="doi-hd-dialog" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeDoiHdDialog()"></div>
+    <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl z-10">
+      <div class="flex items-center gap-2.5 mb-3">
+        <div class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center text-sm">
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white">TIN NHẮN ĐÒI HÓA ĐƠN ĐẦU VÀO GỬI ĐỐI TÁC</h3>
+          <p class="text-[11px] text-slate-400">Sale sao chép gửi qua Zalo cho đại diện khách sạn / NCC</p>
+        </div>
+      </div>
+
+      <textarea id="doi-hd-text" rows="7" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-sans focus:outline-none focus:border-rose-500" readonly></textarea>
+
+      <div class="mt-4 flex items-center justify-end gap-2">
+        <button onclick="closeDoiHdDialog()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition">Đóng</button>
+        <button onclick="copyDoiHdText()" class="px-4 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-lg shadow transition flex items-center gap-1.5">
+          <i class="fa-solid fa-copy"></i> Sao Chép Tin Nhắn
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 8. JAVASCRIPT HỆ THỐNG: TÀI KHOẢN, PHÂN QUYỀN, DÒNG TIỀN & BÁO CÁO VTOUR -->
+  <!-- ========================================================================= -->
+  <script>
+    // =========================================================================
+    // DANH SÁCH 11 TÀI KHOẢN: ID (EMAIL), PASS BÀN GIAO 123456, QUỸ 1.000.000 Đ
+    // =========================================================================
+    const DEFAULT_SYSTEM_USERS = [
+      {
+        email: "crm@bookingtravel.vn",
+        pass: "123456",
+        name: "Ban Giám Đốc",
+        phone: "0846477222",
+        dob: "1988-06-15",
+        role: "admin",
+        target: 500000000,
+        walletBalance: 247800000, // Quỹ cty
+        permissions: {
+          xem_tat_ca_don: true,
+          xem_dong_tien: true,
+          xem_lai_gop: true,
+          xoa_don: true
+        }
+      },
+      {
+        email: "sales1@bookingtravel.vn",
+        pass: "123456",
+        name: "Nguyễn Thị Kiều",
+        phone: "0901234001",
+        dob: "1998-05-15",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000, // 1.000.000 đ mặc định
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales2@bookingtravel.vn",
+        pass: "123456",
+        name: "Trần Thu Hồng",
+        phone: "0901234002",
+        dob: "1999-10-22",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales3@bookingtravel.vn",
+        pass: "123456",
+        name: "Lê Nhật Quang",
+        phone: "0901234003",
+        dob: "1996-03-08",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales4@bookingtravel.vn",
+        pass: "123456",
+        name: "Vũ Khánh Linh",
+        phone: "0901234004",
+        dob: "2000-11-12",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales5@bookingtravel.vn",
+        pass: "123456",
+        name: "Đặng Thị Hảo",
+        phone: "0901234005",
+        dob: "1997-07-19",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales6@bookingtravel.vn",
+        pass: "123456",
+        name: "Phạm Đức Thắng",
+        phone: "0901234006",
+        dob: "1995-12-04",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales7@bookingtravel.vn",
+        pass: "123456",
+        name: "",
+        phone: "",
+        dob: "",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales8@bookingtravel.vn",
+        pass: "123456",
+        name: "",
+        phone: "",
+        dob: "",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales9@bookingtravel.vn",
+        pass: "123456",
+        name: "",
+        phone: "",
+        dob: "",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
+        email: "sales10@bookingtravel.vn",
+        pass: "123456",
+        name: "",
+        phone: "",
+        dob: "",
+        role: "sale",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: {
+          xem_tat_ca_don: false,
+          xem_dong_tien: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      }
+    ];
+
+    let systemUsers = [];
+    let currentUser = null;
+    let currentView = 'bookings'; // bookings, cashflow, reports, kpi_sales, suppliers, staff
+    let isProfileForced = false;
+
+    function initAuth() {
+      const storedUsers = localStorage.getItem('BOOKING_TRAVEL_USERS');
+      if (storedUsers) {
+        try {
+          const parsed = JSON.parse(storedUsers);
+          systemUsers = DEFAULT_SYSTEM_USERS.map(def => {
+            const found = parsed.find(x => x.email.toLowerCase() === def.email.toLowerCase());
+            if (found) {
+              return {
+                ...def,
+                ...found,
+                walletBalance: found.walletBalance !== undefined ? found.walletBalance : def.walletBalance,
+                permissions: found.permissions ? { ...def.permissions, ...found.permissions } : def.permissions
+              };
+            }
+            return def;
+          });
+        } catch(e) {
+          systemUsers = DEFAULT_SYSTEM_USERS;
+        }
+      } else {
+        systemUsers = DEFAULT_SYSTEM_USERS;
+      }
+      saveUsers();
+
+      renderQuickAccounts();
+
+      const storedSession = localStorage.getItem('BOOKING_TRAVEL_CURRENT_USER');
+      if (storedSession) {
+        try {
+          const u = JSON.parse(storedSession);
+          const found = systemUsers.find(x => x.email.toLowerCase() === u.email.toLowerCase());
+          if (found) currentUser = found;
+          else currentUser = u;
+        } catch(e) {
+          currentUser = null;
+        }
+      }
+
+      if (!currentUser) {
+        document.getElementById('login-screen').classList.remove('hidden');
+      } else {
+        document.getElementById('login-screen').classList.add('hidden');
+        applyCurrentUserUI();
+        checkProfileCompletion();
+      }
+    }
+
+    function saveUsers() {
+      localStorage.setItem('BOOKING_TRAVEL_USERS', JSON.stringify(systemUsers));
+      updateStaffBadge();
+    }
+
+    function renderQuickAccounts() {
+      const container = document.getElementById('quick-accounts-list');
+      container.innerHTML = '';
+      systemUsers.forEach(u => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'text-left p-1.5 rounded bg-slate-950 border border-slate-800 hover:border-blue-500 hover:text-blue-300 text-slate-400 transition truncate';
+        const roleLabel = u.role === 'admin' ? '[Giám Đốc]' : '[Sales]';
+        btn.innerText = `${u.email.split('@')[0]} ${roleLabel}`;
+        btn.title = `ID: ${u.email} | Pass: 123456 | Quỹ: ${(u.walletBalance || 1000000).toLocaleString('vi-VN')} đ`;
+        btn.onclick = () => {
+          document.getElementById('login-email').value = u.email;
+          document.getElementById('login-password').value = u.pass;
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const pass = document.getElementById('login-password').value;
+
+      const user = systemUsers.find(x => x.email.toLowerCase() === email && x.pass === pass);
+      if (!user) {
+        alert('❌ Sai email hoặc mật khẩu! Mật khẩu mặc định bàn giao là: 123456');
+        return;
+      }
+
+      currentUser = user;
+      localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
+      document.getElementById('login-screen').classList.add('hidden');
+      applyCurrentUserUI();
+      renderTable();
+      updateMetrics();
+      checkProfileCompletion();
+    }
+
+    function handleLogout() {
+      if (confirm('Xác nhận đăng xuất khỏi tài khoản CRM?')) {
+        localStorage.removeItem('BOOKING_TRAVEL_CURRENT_USER');
+        currentUser = null;
+        document.getElementById('login-screen').classList.remove('hidden');
+      }
+    }
+
+    function checkProfileCompletion() {
+      if (!currentUser) return;
+      const isNameMissing = !currentUser.name || currentUser.name.trim() === '' || currentUser.name.toLowerCase().startsWith('sales ');
+      const isDobMissing = !currentUser.dob || currentUser.dob.trim() === '';
+      const isPhoneMissing = !currentUser.phone || currentUser.phone.trim() === '' || currentUser.phone.trim().length < 9;
+
+      if (isNameMissing || isDobMissing || isPhoneMissing) {
+        openProfileModal(true);
+      }
+    }
+
+    function formatDob(dateStr) {
+      if (!dateStr) return '<span class="text-rose-400 font-bold">Chưa nhập</span>';
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      return dateStr;
+    }
+
+    function applyCurrentUserUI() {
+      if (!currentUser) return;
+      document.getElementById('sidebar-user-name').innerText = currentUser.name || currentUser.email.split('@')[0];
+      
+      const dobDisplay = currentUser.dob ? ` • ${formatDob(currentUser.dob)}` : '';
+      document.getElementById('sidebar-user-info').innerHTML = (currentUser.phone || '<span class="text-rose-400">Chưa có SĐT</span>') + dobDisplay;
+      document.getElementById('topbar-user-email').innerText = currentUser.email;
+
+      // Hiển thị Quỹ Tạm Ứng trên Topbar
+      const walletVal = currentUser.walletBalance !== undefined ? currentUser.walletBalance : 1000000;
+      document.getElementById('topbar-user-wallet').innerText = walletVal.toLocaleString('vi-VN') + ' đ';
+      if (currentUser.role === 'admin') {
+        document.getElementById('topbar-wallet-label').innerText = 'Quỹ Công Ty:';
+      } else {
+        document.getElementById('topbar-wallet-label').innerText = 'Quỹ Tạm Ứng:';
+      }
+
+      const shortName = (currentUser.name && currentUser.name.length >= 2) ? 
+        currentUser.name.split(' ').pop().slice(0, 2).toUpperCase() : 
+        currentUser.email.slice(0, 2).toUpperCase();
+      document.getElementById('user-avatar-text').innerText = shortName;
+
+      // Populate dropdown sale
+      const saleSelect = document.getElementById('ipt-sale');
+      saleSelect.innerHTML = '';
+      systemUsers.filter(u => u.role === 'sale' || u.role === 'admin').forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.email;
+        const uLabel = u.name ? `${u.name} (${u.email.split('@')[0]})` : u.email;
+        opt.innerText = uLabel;
+        if (u.email.toLowerCase() === currentUser.email.toLowerCase()) {
+          opt.selected = true;
+        }
+        saleSelect.appendChild(opt);
+      });
+
+      updateStaffBadge();
+    }
+
+    function updateStaffBadge() {
+      const completedCount = systemUsers.filter(u => u.name && u.dob && u.phone && u.phone.length >= 9 && !u.name.toLowerCase().startsWith('sales ')).length;
+      const badgeEl = document.getElementById('staff-completed-badge');
+      if (badgeEl) badgeEl.innerText = `${completedCount}/${systemUsers.length} hồ sơ chuẩn`;
+    }
+
+    // Modal Hồ Sơ Cá Nhân
+    function openProfileModal(forced = false) {
+      if (!currentUser) return;
+      isProfileForced = forced;
+
+      document.getElementById('prof-email').value = currentUser.email;
+      document.getElementById('prof-name').value = (currentUser.name && !currentUser.name.toLowerCase().startsWith('sales ')) ? currentUser.name : '';
+      document.getElementById('prof-dob').value = currentUser.dob || '';
+      document.getElementById('prof-phone').value = (currentUser.phone && !currentUser.phone.startsWith('090123400')) ? currentUser.phone : (currentUser.phone || '');
+      document.getElementById('prof-new-pass').value = '';
+      document.getElementById('prof-confirm-pass').value = '';
+
+      const alertBox = document.getElementById('prof-forced-alert');
+      const closeBtn = document.getElementById('prof-close-btn');
+      const cancelBtn = document.getElementById('prof-cancel-btn');
+
+      if (forced) {
+        alertBox.classList.remove('hidden');
+        closeBtn.classList.add('hidden');
+        cancelBtn.classList.add('hidden');
+      } else {
+        alertBox.classList.add('hidden');
+        closeBtn.classList.remove('hidden');
+        cancelBtn.classList.remove('hidden');
+      }
+
+      document.getElementById('profile-modal').classList.remove('hidden');
+    }
+
+    function closeProfileModal() {
+      if (isProfileForced) {
+        alert('⚠️ QUY ĐỊNH BẮT BUỘC: Nhân viên phải nhập đầy đủ Họ và tên, Ngày tháng năm sinh và Số điện thoại trước khi thao tác!');
+        return;
+      }
+      document.getElementById('profile-modal').classList.add('hidden');
+    }
+
+    function handleSaveProfile(e) {
+      e.preventDefault();
+      const newName = document.getElementById('prof-name').value.trim();
+      const newDob = document.getElementById('prof-dob').value;
+      const newPhone = document.getElementById('prof-phone').value.trim();
+      const newPass = document.getElementById('prof-new-pass').value;
+      const confirmPass = document.getElementById('prof-confirm-pass').value;
+
+      if (!newName || newName.length < 2) {
+        alert('❌ BẮT BUỘC: Vui lòng nhập đầy đủ Họ và tên nhân viên!');
+        document.getElementById('prof-name').focus();
+        return;
+      }
+
+      if (!newDob) {
+        alert('❌ BẮT BUỘC: Vui lòng chọn Ngày tháng năm sinh!');
+        document.getElementById('prof-dob').focus();
+        return;
+      }
+
+      if (!newPhone || newPhone.length < 9) {
+        alert('❌ BẮT BUỘC: Vui lòng nhập Số điện thoại liên hệ chính xác!');
+        document.getElementById('prof-phone').focus();
+        return;
+      }
+
+      if (newPass) {
+        if (newPass !== confirmPass) {
+          alert('❌ Mật khẩu mới và xác nhận mật khẩu không khớp nhau!');
+          return;
+        }
+        currentUser.pass = newPass;
+      }
+
+      currentUser.name = newName;
+      currentUser.dob = newDob;
+      currentUser.phone = newPhone;
+
+      const idx = systemUsers.findIndex(x => x.email.toLowerCase() === currentUser.email.toLowerCase());
+      if (idx !== -1) {
+        systemUsers[idx] = currentUser;
+        saveUsers();
+      }
+
+      localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
+      applyCurrentUserUI();
+      isProfileForced = false;
+      document.getElementById('profile-modal').classList.add('hidden');
+
+      renderTable();
+      if (currentView === 'staff') renderStaffView();
+      if (currentView === 'kpi_sales') renderSalesKpiView();
+      alert('🎉 ĐÃ CẬP NHẬT HỒ SƠ NHÂN SỰ VÀ BẢO MẬT THÀNH CÔNG!');
+    }
+
+    // =========================================================================
+    // MODAL PHÂN QUYỀN & BÀN GIAO TÀI KHOẢN (ADMIN EXCLUSIVE)
+    // =========================================================================
+    let activePermUser = null;
+
+    function openPermissionsModal(email) {
+      if (currentUser.role !== 'admin') {
+        alert('⛔ Chỉ Ban Giám Đốc (crm@bookingtravel.vn) mới có quyền phân quyền nhân sự!');
+        return;
+      }
+
+      const u = systemUsers.find(x => x.email.toLowerCase() === email.toLowerCase());
+      if (!u) return;
+
+      activePermUser = u;
+      document.getElementById('perm-user-email').value = u.email;
+      document.getElementById('perm-display-email').innerText = u.email;
+      document.getElementById('perm-user-title').innerText = `Thiết lập quyền & quỹ bàn giao cho: ${u.name || u.email}`;
+      document.getElementById('perm-wallet').value = u.walletBalance !== undefined ? u.walletBalance : 1000000;
+
+      const perms = u.permissions || {
+        xem_tat_ca_don: false,
+        xem_dong_tien: false,
+        xem_lai_gop: true,
+        xoa_don: false
+      };
+
+      document.getElementById('perm-view-cashflow').checked = !!perms.xem_dong_tien;
+      document.getElementById('perm-view-all').checked = !!perms.xem_tat_ca_don;
+      document.getElementById('perm-view-profit').checked = perms.xem_lai_gop !== false;
+      document.getElementById('perm-delete-booking').checked = !!perms.xoa_don;
+
+      document.getElementById('permissions-modal').classList.remove('hidden');
+    }
+
+    function closePermissionsModal() {
+      document.getElementById('permissions-modal').classList.add('hidden');
+    }
+
+    function handleSavePermissions(e) {
+      e.preventDefault();
+      if (!activePermUser) return;
+
+      const wallet = parseFloat(document.getElementById('perm-wallet').value) || 0;
+      activePermUser.walletBalance = wallet;
+
+      activePermUser.permissions = {
+        xem_dong_tien: document.getElementById('perm-view-cashflow').checked,
+        xem_tat_ca_don: document.getElementById('perm-view-all').checked,
+        xem_lai_gop: document.getElementById('perm-view-profit').checked,
+        xoa_don: document.getElementById('perm-delete-booking').checked
+      };
+
+      const idx = systemUsers.findIndex(x => x.email.toLowerCase() === activePermUser.email.toLowerCase());
+      if (idx !== -1) {
+        systemUsers[idx] = activePermUser;
+        saveUsers();
+      }
+
+      closePermissionsModal();
+      renderStaffView();
+      alert(`✅ ĐÃ LƯU PHÂN QUYỀN CHO TÀI KHOẢN: ${activePermUser.email}`);
+    }
+
+    function copyHandoverCard() {
+      if (!activePermUser) return;
+      const wallet = parseFloat(document.getElementById('perm-wallet').value) || 1000000;
+      const canViewCashflow = document.getElementById('perm-view-cashflow').checked ? 'ĐƯỢC CẤP QUYỀN XEM DÒNG TIỀN CTY' : 'Chỉ xem dòng tiền cá nhân';
+      const canViewAll = document.getElementById('perm-view-all').checked ? 'Xem toàn bộ đơn công ty' : 'Chỉ xem đơn cá nhân (Đơn Của Tôi)';
+
+      const card = `═══════════════════════════════════════\n` +
+        `THÔNG TIN BÀN GIAO TÀI KHOẢN CRM - BOOKING TRAVEL\n` +
+        `═══════════════════════════════════════\n` +
+        `Kính gửi nhân viên: ${activePermUser.name || 'Sales Tour'}\n` +
+        `Ban Giám Đốc trân trọng bàn giao tài khoản làm việc:\n` +
+        `• Link truy cập CRM: https://crm.bookingtravel.vn (hoặc http://localhost/CRM_Booking.html)\n` +
+        `• ID Đăng Nhập (Email): ${activePermUser.email}\n` +
+        `• Mật Khẩu Bàn Giao: 123456\n` +
+        `• Quỹ Tiền Tạm Ứng Bàn Giao: ${wallet.toLocaleString('vi-VN')} VNĐ\n` +
+        `• Phạm Vi Phân Quyền:\n` +
+        `  - ${canViewAll}\n` +
+        `  - ${canViewCashflow}\n\n` +
+        `(*) LƯU Ý BẮT BUỘC TỪ BAN GIÁM ĐỐC:\n` +
+        `1. Đổi mật khẩu ngay lần đầu đăng nhập để bảo mật.\n` +
+        `2. Bắt buộc cập nhật Họ tên, Ngày tháng năm sinh và Số điện thoại cá nhân để kích hoạt tài khoản làm việc và tính thưởng KPI doanh số.\n` +
+        `═══════════════════════════════════════`;
+
+      navigator.clipboard.writeText(card).then(() => {
+        alert('📋 ĐÃ SAO CHÉP PHIẾU BÀN GIAO! Giám đốc có thể gửi ngay qua Zalo cho nhân sự!');
+      });
+    }
+
+    // =========================================================================
+    // DỮ LIỆU MẪU ĐẦY ĐỦ 10 SALES & CÁC KHÁCH SẠN ĐỐI TÁC CHIẾN LƯỢC
+    // =========================================================================
+    const INITIAL_REFINED_DATA = [
+      {
+        id: "BK-2611-01",
+        maBooking: "BK-2611-01",
+        khachHang: "Chị Hoàng Thị Hồng Ly",
+        sdt: "0877213681",
+        saleEmail: "sales1@bookingtravel.vn",
+        serviceType: "hotel",
+        dichVu: "Khách Sạn Rova Nha Trang - Suite City View",
+        doiTac: "Khách Sạn Rova",
+        checkIn: "2026-11-15",
+        checkOut: "2026-11-16",
+        tourStatus: "da_xac_nhan",
+        giaBan: 800000,
+        khachDaCoc: 800000,
+        giaVon: 750000,
+        daTraDoiTac: 750000,
+        statusHdVao: "chua_lay",
+        soHdVao: "",
+        coXuatVat: true,
+        statusHdRa: "da_xuat",
+        soHdRa: "0001245",
+        mst: "2801448238",
+        tenCongTy: "Công ty TNHH Thái Toàn Hưng",
+        emailVat: "phuongduongth@gmail.com",
+        files: []
+      },
+      {
+        id: "BK-2610-02",
+        maBooking: "BK-2610-02",
+        khachHang: "Anh Đỗ Khánh Linh",
+        sdt: "0976937575",
+        saleEmail: "sales2@bookingtravel.vn",
+        serviceType: "hotel",
+        dichVu: "King Town Grand Hotel - 2 Phòng Executive Ocean View",
+        doiTac: "King Town Grand Hotel",
+        checkIn: "2026-10-29",
+        checkOut: "2026-10-31",
+        tourStatus: "da_coc",
+        giaBan: 3732000,
+        khachDaCoc: 1866000,
+        giaVon: 3200000,
+        daTraDoiTac: 1600000,
+        statusHdVao: "chua_lay",
+        soHdVao: "",
+        coXuatVat: false,
+        statusHdRa: "khong_xuat",
+        files: []
+      },
+      {
+        id: "BK-2611-03",
+        maBooking: "BK-2611-03",
+        khachHang: "Đoàn Anh Vũ (12 Khách)",
+        sdt: "0918889999",
+        saleEmail: "sales3@bookingtravel.vn",
+        serviceType: "combo",
+        dichVu: "Combo Vinpearl Nha Trang Resort 3N2Đ + Vé Cáp Treo VinWonders",
+        doiTac: "Vinpearl Nha Trang",
+        checkIn: "2026-11-20",
+        checkOut: "2026-11-23",
+        tourStatus: "da_xac_nhan",
+        giaBan: 28500000,
+        khachDaCoc: 15000000,
+        giaVon: 24200000,
+        daTraDoiTac: 12000000,
+        statusHdVao: "da_co",
+        soHdVao: "VP-882910",
+        coXuatVat: true,
+        statusHdRa: "chua_xuat",
+        soHdRa: "",
+        mst: "0108998877",
+        tenCongTy: "Tập Đoàn Đầu Tư Hoàng Mai",
+        emailVat: "ketoan@hoangmai.vn",
+        files: []
+      },
+      {
+        id: "BK-2610-04",
+        maBooking: "BK-2610-04",
+        khachHang: "Gia đình chị Phạm Mai Hương",
+        sdt: "0934567890",
+        saleEmail: "sales1@bookingtravel.vn",
+        serviceType: "hotel",
+        dichVu: "Amaya Retreat Sóc Sơn - Forest Hill Villa 2N1Đ Full Bữa Ăn",
+        doiTac: "Amaya Retreat",
+        checkIn: "2026-10-30",
+        checkOut: "2026-10-31",
+        tourStatus: "da_xac_nhan",
+        giaBan: 9600000,
+        khachDaCoc: 9600000,
+        giaVon: 8200000,
+        daTraDoiTac: 8200000,
+        statusHdVao: "da_co",
+        soHdVao: "AMY-2026-99",
+        coXuatVat: false,
+        statusHdRa: "khong_xuat",
+        files: []
+      },
+      {
+        id: "BK-2611-05",
+        maBooking: "BK-2611-05",
+        khachHang: "Công ty Cổ phần Techcom VN",
+        sdt: "0982345678",
+        saleEmail: "sales4@bookingtravel.vn",
+        serviceType: "tour",
+        dichVu: "Tour Gala Dinner & Teambuilding FLC Sầm Sơn 3N2Đ",
+        doiTac: "FLC Sầm Sơn",
+        checkIn: "2026-11-08",
+        checkOut: "2026-11-10",
+        tourStatus: "da_coc",
+        giaBan: 45000000,
+        khachDaCoc: 25000000,
+        giaVon: 38500000,
+        daTraDoiTac: 20000000,
+        statusHdVao: "chua_lay",
+        soHdVao: "",
+        coXuatVat: true,
+        statusHdRa: "chua_xuat",
+        mst: "0107778899",
+        tenCongTy: "Techcom VN Solution JSC",
+        emailVat: "account@techcomvn.com",
+        files: []
+      },
+      {
+        id: "BK-2611-06",
+        maBooking: "BK-2611-06",
+        khachHang: "Bác sĩ Trần Quốc Toản",
+        sdt: "0912345670",
+        saleEmail: "sales2@bookingtravel.vn",
+        serviceType: "hotel",
+        dichVu: "Villa Nghỉ Dưỡng Đà Lạt View Đồi Thông 4 Phòng Ngủ",
+        doiTac: "Đà Lạt Villas Group",
+        checkIn: "2026-11-12",
+        checkOut: "2026-11-14",
+        tourStatus: "da_xac_nhan",
+        giaBan: 14800000,
+        khachDaCoc: 14800000,
+        giaVon: 12200000,
+        daTraDoiTac: 12200000,
+        statusHdVao: "chua_lay",
+        soHdVao: "",
+        coXuatVat: false,
+        statusHdRa: "khong_xuat",
+        files: []
+      },
+      {
+        id: "BK-2610-07",
+        maBooking: "BK-2610-07",
+        khachHang: "Đoàn Sinh Viên FTU (24 Bạn)",
+        sdt: "0967891234",
+        saleEmail: "sales5@bookingtravel.vn",
+        serviceType: "ticket",
+        dichVu: "Combo Vé Cáp Treo Fansipan Legend + Tàu Hỏa Leo Núi",
+        doiTac: "Sun World Fansipan",
+        checkIn: "2026-10-31",
+        checkOut: "2026-10-31",
+        tourStatus: "hoan_tat",
+        giaBan: 19200000,
+        khachDaCoc: 19200000,
+        giaVon: 17500000,
+        daTraDoiTac: 17500000,
+        statusHdVao: "da_co",
+        soHdVao: "SW-FSP-3819",
+        coXuatVat: false,
+        statusHdRa: "khong_xuat",
+        files: []
+      },
+      {
+        id: "BK-2611-08",
+        maBooking: "BK-2611-08",
+        khachHang: "Chị Lê Bích Ngọc",
+        sdt: "0909876543",
+        saleEmail: "sales3@bookingtravel.vn",
+        serviceType: "hotel",
+        dichVu: "Amaya Retreat - Moonlight Bungalow 2N1Đ",
+        doiTac: "Amaya Retreat",
+        checkIn: "2026-11-06",
+        checkOut: "2026-11-07",
+        tourStatus: "da_coc",
+        giaBan: 5200000,
+        khachDaCoc: 2600000,
+        giaVon: 4400000,
+        daTraDoiTac: 2200000,
+        statusHdVao: "chua_lay",
+        soHdVao: "",
+        coXuatVat: false,
+        statusHdRa: "khong_xuat",
+        files: []
+      }
+    ];
+
+    let bookings = [];
+    let currentFilter = 'all';
+    let activeFilesBookingId = null;
+
+    function initData() {
+      const stored = localStorage.getItem('BOOKING_TRAVEL_MISA_V30');
+      if (stored) {
+        try {
+          bookings = JSON.parse(stored);
+        } catch(e) {
+          bookings = INITIAL_REFINED_DATA;
+        }
+      } else {
+        bookings = INITIAL_REFINED_DATA;
+        saveData();
+      }
+      updateMetrics();
+      renderTable();
+    }
+
+    function saveData() {
+      localStorage.setItem('BOOKING_TRAVEL_MISA_V30', JSON.stringify(bookings));
+      updateMetrics();
+    }
+
+    // =========================================================================
+    // CHUYỂN ĐỔI GIAO DIỆN / VIEWS
+    // =========================================================================
+    function switchView(viewName) {
+      // Kiểm tra quyền truy cập Dòng tiền công ty
+      if (viewName === 'cashflow' && currentUser.role !== 'admin' && !currentUser.permissions?.xem_dong_tien) {
+        alert('⛔ BẢO MẬT: Bạn không có quyền truy cập Dòng Tiền Công Ty! Vui lòng liên hệ crm@bookingtravel.vn để được phân quyền.');
+        return;
+      }
+
+      currentView = viewName;
+
+      // Ẩn tất cả view
+      document.getElementById('view-bookings').classList.add('hidden');
+      document.getElementById('view-cashflow').classList.add('hidden');
+      document.getElementById('view-reports').classList.add('hidden');
+      document.getElementById('view-kpi-sales').classList.add('hidden');
+      document.getElementById('view-suppliers').classList.add('hidden');
+      document.getElementById('view-staff').classList.add('hidden');
+
+      // Bỏ active tất cả nav buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
+        btn.classList.add('text-slate-300');
+      });
+
+      const titleEl = document.getElementById('current-view-title');
+
+      if (viewName === 'bookings') {
+        document.getElementById('view-bookings').classList.remove('hidden');
+        titleEl.innerText = 'Điều Hành Booking';
+        renderTable();
+        updateMetrics();
+      } else if (viewName === 'cashflow') {
+        document.getElementById('view-cashflow').classList.remove('hidden');
+        titleEl.innerText = 'Dòng Tiền Công Ty';
+        const btn = document.getElementById('nav-cashflow');
+        if (btn) btn.classList.add('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
+        renderCashflowView();
+      } else if (viewName === 'reports') {
+        document.getElementById('view-reports').classList.remove('hidden');
+        titleEl.innerText = 'Báo Cáo Doanh Thu (P&L)';
+        const btn = document.getElementById('nav-reports');
+        if (btn) btn.classList.add('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
+        renderReportsView();
+      } else if (viewName === 'kpi_sales') {
+        document.getElementById('view-kpi-sales').classList.remove('hidden');
+        titleEl.innerText = 'Đánh Giá & KPI Sales';
+        const btn = document.getElementById('nav-kpi_sales');
+        if (btn) btn.classList.add('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
+        renderSalesKpiView();
+      } else if (viewName === 'suppliers') {
+        document.getElementById('view-suppliers').classList.remove('hidden');
+        titleEl.innerText = 'Đánh Giá Đối Tác NCC';
+        const btn = document.getElementById('nav-suppliers');
+        if (btn) btn.classList.add('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
+        renderSuppliersView();
+      } else if (viewName === 'staff') {
+        document.getElementById('view-staff').classList.remove('hidden');
+        titleEl.innerText = 'Quản Trị Nhân Sự & Sales';
+        const btn = document.getElementById('nav-staff');
+        if (btn) btn.classList.add('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
+        renderStaffView();
+      }
+    }
+
+    function handleSearch() {
+      if (currentView === 'bookings') {
+        renderTable();
+      } else if (currentView === 'cashflow') {
+        renderCashflowView();
+      } else if (currentView === 'reports') {
+        renderReportsView();
+      } else if (currentView === 'kpi_sales') {
+        renderSalesKpiView();
+      } else if (currentView === 'suppliers') {
+        renderSuppliersView();
+      } else if (currentView === 'staff') {
+        renderStaffView();
+      }
+    }
+
+    // =========================================================================
+    // METRICS TÍNH TOÁN REALTIME (THEO PHÂN QUYỀN)
+    // =========================================================================
+    function updateMetrics() {
+      let revenue = 0, cost = 0, arDebt = 0;
+      let arCount = 0, apCount = 0, doiHdCount = 0, canXuatHdCount = 0, myOrdersCount = 0;
+
+      const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
+      const canViewAll = currentUser && (currentUser.role === 'admin' || currentUser.permissions?.xem_tat_ca_don);
+
+      bookings.forEach(b => {
+        const isMine = b.saleEmail && b.saleEmail.toLowerCase() === myEmail;
+        if (!canViewAll && !isMine) return; // Nếu không có quyền xem all, chỉ tính đơn của chính mình
+
+        const rev = parseFloat(b.giaBan) || 0;
+        const cst = parseFloat(b.giaVon) || 0;
+        const paidAR = parseFloat(b.khachDaCoc) || 0;
+        const paidAP = parseFloat(b.daTraDoiTac) || 0;
+
+        revenue += rev;
+        cost += cst;
+
+        const remainAR = Math.max(0, rev - paidAR);
+        const remainAP = Math.max(0, cst - paidAP);
+
+        if (remainAR > 0) { arDebt += remainAR; arCount++; }
+        if (remainAP > 0) { apCount++; }
+
+        if (b.statusHdVao === 'chua_lay') doiHdCount++;
+        if (b.coXuatVat && b.statusHdRa === 'chua_xuat') canXuatHdCount++;
+        if (isMine) myOrdersCount++;
+      });
+
+      const profit = revenue - cost;
+      const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : 0;
+
+      document.getElementById('stat-tong-thu').innerText = revenue.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('stat-tong-von').innerText = cost.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('stat-lai-gop').innerText = (profit >= 0 ? '+' : '') + profit.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('stat-ty-suat').innerText = `Biên độ lợi nhuận: ${margin}%`;
+      document.getElementById('stat-chua-co-hd-vao').innerText = doiHdCount + ' đơn';
+      document.getElementById('stat-no-khach').innerText = arDebt.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('stat-so-don-no-khach').innerText = arCount;
+
+      document.getElementById('badge-total-orders').innerText = canViewAll ? bookings.length : myOrdersCount;
+      document.getElementById('badge-my-orders-count').innerText = myOrdersCount;
+      document.getElementById('badge-ar-count').innerText = arCount;
+      document.getElementById('badge-ap-count').innerText = apCount;
+      document.getElementById('badge-doi-hd-count').innerText = doiHdCount;
+      document.getElementById('badge-can-xuat-hd-count').innerText = canXuatHdCount;
+
+      document.getElementById('count-all').innerText = canViewAll ? bookings.length : myOrdersCount;
+      document.getElementById('count-my').innerText = myOrdersCount;
+      document.getElementById('count-doi-hd').innerText = doiHdCount;
+      document.getElementById('count-xuat-hd').innerText = canXuatHdCount;
+      document.getElementById('count-ar').innerText = arCount;
+    }
+
+    // =========================================================================
+    // RENDER VIEW 1: BẢNG BOOKING
+    // =========================================================================
+    function renderTable() {
+      const tbody = document.getElementById('table-body');
+      const query = (document.getElementById('global-search').value || '').toLowerCase().trim();
+      const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
+      const canViewAll = currentUser && (currentUser.role === 'admin' || currentUser.permissions?.xem_tat_ca_don);
+      const canDelete = currentUser && (currentUser.role === 'admin' || currentUser.permissions?.xoa_don);
+      const canViewProfit = currentUser && (currentUser.role === 'admin' || currentUser.permissions?.xem_lai_gop !== false);
+
+      const filtered = bookings.filter(b => {
+        const isMine = b.saleEmail && b.saleEmail.toLowerCase() === myEmail;
+        if (!canViewAll && !isMine) return false;
+
+        const rev = parseFloat(b.giaBan) || 0;
+        const paidAR = parseFloat(b.khachDaCoc) || 0;
+        const remainAR = Math.max(0, rev - paidAR);
+
+        if (currentFilter === 'my_orders' && !isMine) return false;
+        if (currentFilter === 'doi_hd_dau_vao' && b.statusHdVao !== 'chua_lay') return false;
+        if (currentFilter === 'can_xuat_hd_ra' && (!b.coXuatVat || b.statusHdRa !== 'chua_xuat')) return false;
+        if (currentFilter === 'ar_pending' && remainAR <= 0) return false;
+
+        if (query) {
+          const hay = `${b.maBooking} ${b.khachHang} ${b.sdt} ${b.dichVu} ${b.doiTac} ${b.saleEmail} ${b.soHdVao} ${b.soHdRa} ${b.mst}`.toLowerCase();
+          if (!hay.includes(query)) return false;
+        }
+
+        return true;
+      });
+
+      document.getElementById('showing-count').innerText = filtered.length;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="11" class="py-12 text-center text-slate-500 font-normal">
+              <i class="fa-solid fa-folder-open text-3xl mb-2 text-slate-600 block"></i>
+              Không tìm thấy hồ sơ booking nào phù hợp với bộ lọc hiện tại.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach((b) => {
+        const rev = parseFloat(b.giaBan) || 0;
+        const cst = parseFloat(b.giaVon) || 0;
+        const profit = rev - cst;
+        const paidAR = parseFloat(b.khachDaCoc) || 0;
+        const paidAP = parseFloat(b.daTraDoiTac) || 0;
+        const remainAR = Math.max(0, rev - paidAR);
+        const remainAP = Math.max(0, cst - paidAP);
+
+        let tourBadge = '';
+        if (b.tourStatus === 'da_xac_nhan') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Code OK</span>';
+        } else if (b.tourStatus === 'da_coc') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Đã Cọc</span>';
+        } else if (b.tourStatus === 'dang_di') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">Đang Đi</span>';
+        } else if (b.tourStatus === 'hoan_tat') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">Hoàn Tất</span>';
+        } else {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Mới Tạo</span>';
+        }
+
+        let hdVaoBadge = '';
+        if (b.statusHdVao === 'chua_lay') {
+          hdVaoBadge = `
+            <button onclick="openDoiHdDialog('${b.id}')" title="Bấm để lấy tin nhắn Zalo đi đòi hóa đơn đối tác" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30 transition flex items-center gap-1 cursor-pointer mx-auto">
+              <i class="fa-solid fa-bell text-[9px] animate-pulse"></i> Cần Đòi HĐ!
+            </button>
+          `;
+        } else if (b.statusHdVao === 'da_co') {
+          hdVaoBadge = `
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <i class="fa-solid fa-circle-check text-[9px]"></i> Đã Có HĐ
+            </span>
+          `;
+        } else {
+          hdVaoBadge = `<span class="text-slate-600 text-[10px]">-</span>`;
+        }
+
+        let hdRaBadge = '';
+        if (!b.coXuatVat) {
+          hdRaBadge = `<span class="text-slate-600 text-[10px]">-</span>`;
+        } else if (b.statusHdRa === 'chua_xuat') {
+          hdRaBadge = `
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+              <i class="fa-solid fa-clock text-[9px]"></i> Chờ Xuất
+            </span>
+          `;
+        } else {
+          hdRaBadge = `
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <i class="fa-solid fa-file-circle-check text-[9px]"></i> Đã Xuất
+            </span>
+          `;
+        }
+
+        const filesCount = (b.files || []).length;
+        const fileBtnClass = filesCount > 0 ? 
+          "text-blue-400 bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20" : 
+          "text-slate-500 bg-slate-800/40 border-slate-700/40 hover:text-slate-300";
+
+        const costDisplay = canViewProfit ? `${cst.toLocaleString('vi-VN')} đ` : '<span class="text-slate-600">***</span>';
+        const profitDisplay = canViewProfit ? `+${profit.toLocaleString('vi-VN')} đ` : '<span class="text-slate-600">***</span>';
+
+        html += `
+          <tr class="hover:bg-slate-800/30 transition group">
+            <td class="py-3 px-3.5">
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono font-bold text-blue-400 text-xs">${escapeHtml(b.maBooking)}</span>
+                ${tourBadge}
+              </div>
+              <span class="text-[10px] text-slate-500 font-mono block mt-0.5">${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</span>
+            </td>
+
+            <td class="py-3 px-3.5">
+              <span class="font-semibold text-slate-200 block text-xs">${escapeHtml(b.khachHang)}</span>
+              <span class="font-mono text-[11px] text-slate-400 block">${escapeHtml(b.sdt)}</span>
+            </td>
+
+            <td class="py-3 px-3.5 max-w-xs">
+              <span class="text-slate-300 font-medium truncate block text-xs" title="${escapeHtml(b.dichVu)}">${escapeHtml(b.dichVu)}</span>
+              <span class="text-[10px] text-slate-500 block">NCC: <strong class="text-slate-300">${escapeHtml(b.doiTac || 'N/A')}</strong> • ${b.checkIn || ''}</span>
+            </td>
+
+            <td class="py-3 px-3.5 text-right font-mono font-bold text-white text-xs num-tabular">
+              ${rev.toLocaleString('vi-VN')} đ
+            </td>
+
+            <td class="py-3 px-3.5 text-right font-mono text-slate-400 text-xs num-tabular">
+              ${costDisplay}
+            </td>
+
+            <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">
+              ${profitDisplay}
+            </td>
+
+            <td class="py-3 px-3.5 text-center font-mono text-[10px]">
+              <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-slate-500'} block">
+                Khách: ${remainAR > 0 ? '-' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Thu đủ'}
+              </span>
+              <span class="${remainAP > 0 ? 'text-amber-400 font-bold' : 'text-slate-500'} block mt-0.5">
+                NCC: ${remainAP > 0 ? '-' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Trả đủ'}
+              </span>
+            </td>
+
+            <td class="py-3 px-3.5 text-center">
+              ${hdVaoBadge}
+            </td>
+
+            <td class="py-3 px-3.5 text-center">
+              ${hdRaBadge}
+            </td>
+
+            <td class="py-3 px-3.5 text-center">
+              <button onclick="openFilesModal('${b.id}')" class="px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 mx-auto transition cursor-pointer ${fileBtnClass}">
+                <i class="fa-solid fa-paperclip text-[10px]"></i>
+                <span class="font-mono text-[10px]">${filesCount} file</span>
+              </button>
+            </td>
+
+            <td class="py-3 px-3.5 text-right">
+              <div class="flex items-center justify-end gap-1">
+                <button onclick="openDoiHdDialog('${b.id}')" title="Soạn tin Zalo đòi HĐ đối tác" class="p-1.5 rounded-md hover:bg-rose-500/20 text-rose-400 transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-comment-sms"></i>
+                </button>
+                <button onclick="editBooking('${b.id}')" title="Sửa thông tin" class="p-1.5 rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                ${canDelete ? `
+                <button onclick="deleteBooking('${b.id}')" title="Xóa đơn (Chỉ quyền Admin)" class="p-1.5 rounded-md hover:bg-rose-500/20 text-slate-500 hover:text-rose-400 transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-trash"></i>
+                </button>` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function setFilter(filterKey) {
+      currentFilter = filterKey;
+      document.querySelectorAll('#filter-segmented button').forEach(btn => {
+        if (btn.dataset.filter === filterKey) {
+          btn.className = 'px-3 py-1.5 rounded-md font-medium text-white bg-slate-800 shadow-sm transition';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition';
+        }
+      });
+      renderTable();
+    }
+
+    // =========================================================================
+    // RENDER VIEW 2: DÒNG TIỀN CẢ CÔNG TY (CASH FLOW STATEMENT)
+    // =========================================================================
+    function renderCashflowView() {
+      let totalInflow = 0;
+      let totalOutflow = 0;
+
+      bookings.forEach(b => {
+        totalInflow += parseFloat(b.khachDaCoc) || 0;
+        totalOutflow += parseFloat(b.daTraDoiTac) || 0;
+      });
+
+      const netCashflow = totalInflow - totalOutflow;
+
+      document.getElementById('cf-total-inflow').innerText = totalInflow.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('cf-total-outflow').innerText = totalOutflow.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('cf-net-cashflow').innerText = (netCashflow >= 0 ? '+' : '') + netCashflow.toLocaleString('vi-VN') + ' đ';
+
+      // Render Bảng Kê Thu - Chi
+      const tbody = document.getElementById('cashflow-table-body');
+      tbody.innerHTML = '';
+
+      bookings.forEach(b => {
+        const inMoney = parseFloat(b.khachDaCoc) || 0;
+        const outMoney = parseFloat(b.daTraDoiTac) || 0;
+        const net = inMoney - outMoney;
+
+        let statusText = '';
+        if (inMoney >= b.giaBan && outMoney >= b.giaVon) {
+          statusText = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Đã Quyết Toán</span>';
+        } else {
+          statusText = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Đang Vận Hành</span>';
+        }
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-800/30 transition font-mono">
+            <td class="py-3 px-3.5 font-bold text-blue-400 text-xs">${b.maBooking}</td>
+            <td class="py-3 px-3.5 font-sans font-medium text-slate-200">
+              <span class="block font-bold text-xs">${escapeHtml(b.khachHang)}</span>
+              <span class="text-[10px] text-slate-500">${escapeHtml(b.dichVu)}</span>
+            </td>
+            <td class="py-3 px-3.5 text-center text-slate-400 text-xs">${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</td>
+            <td class="py-3 px-3.5 text-right text-emerald-400 font-bold text-xs num-tabular">+${inMoney.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-right text-rose-400 font-bold text-xs num-tabular">-${outMoney.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-right font-bold text-xs num-tabular ${net >= 0 ? 'text-white' : 'text-rose-400'}">${(net >= 0 ? '+' : '') + net.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-center">${statusText}</td>
+          </tr>
+        `;
+      });
+    }
+
+    // =========================================================================
+    // RENDER VIEW 3: BÁO CÁO DOANH THU & TÀI CHÍNH (P&L) CHUẨN VTOUR
+    // =========================================================================
+    function renderReportsView() {
+      let rev = 0, cst = 0, arDebt = 0, apDebt = 0;
+      let countWithHdVao = 0, countVatEligible = 0;
+
+      const services = {
+        hotel: { name: "🏨 Khách Sạn / Resort", rev: 0, profit: 0, count: 0, color: "bg-blue-500" },
+        combo: { name: "✈️ Combo Du Lịch", rev: 0, profit: 0, count: 0, color: "bg-indigo-500" },
+        tour: { name: "🚩 Tour Trọn Gói / Ghép", rev: 0, profit: 0, count: 0, color: "bg-emerald-500" },
+        ticket: { name: "🎟️ Vé Vui Chơi / Khác", rev: 0, profit: 0, count: 0, color: "bg-amber-500" }
+      };
+
+      bookings.forEach(b => {
+        const r = parseFloat(b.giaBan) || 0;
+        const c = parseFloat(b.giaVon) || 0;
+        const p = r - c;
+        const paidAR = parseFloat(b.khachDaCoc) || 0;
+        const paidAP = parseFloat(b.daTraDoiTac) || 0;
+
+        rev += r;
+        cst += c;
+
+        const remainAR = Math.max(0, r - paidAR);
+        const remainAP = Math.max(0, c - paidAP);
+        if (remainAR > 0) arDebt += remainAR;
+        if (remainAP > 0) apDebt += remainAP;
+
+        countVatEligible++;
+        if (b.statusHdVao === 'da_co') countWithHdVao++;
+
+        const type = b.serviceType || (b.dichVu.toLowerCase().includes('combo') ? 'combo' : (b.dichVu.toLowerCase().includes('vé') ? 'ticket' : (b.dichVu.toLowerCase().includes('tour') ? 'tour' : 'hotel')));
+        if (services[type]) {
+          services[type].rev += r;
+          services[type].profit += p;
+          services[type].count++;
+        } else {
+          services.hotel.rev += r;
+          services.hotel.profit += p;
+          services.hotel.count++;
+        }
+      });
+
+      const profit = rev - cst;
+      const margin = rev > 0 ? ((profit / rev) * 100).toFixed(1) : 0;
+
+      document.getElementById('rpt-total-rev').innerText = rev.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('rpt-booking-count').innerText = bookings.length;
+      document.getElementById('rpt-total-cost').innerText = cst.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('rpt-total-profit').innerText = '+' + profit.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('rpt-profit-margin').innerText = `Biên độ lợi nhuận gộp: ${margin}%`;
+
+      document.getElementById('rpt-net-debt').innerText = Math.abs(arDebt - apDebt).toLocaleString('vi-VN') + ' đ';
+      document.getElementById('rpt-debt-breakdown').innerText = `Phải thu: ${arDebt.toLocaleString('vi-VN')} đ | Phải trả: ${apDebt.toLocaleString('vi-VN')} đ`;
+
+      document.getElementById('rpt-ar-debt-val').innerText = arDebt.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('rpt-ar-debt-count').innerText = bookings.filter(b => (b.giaBan - b.khachDaCoc) > 0).length;
+      document.getElementById('rpt-ap-debt-val').innerText = apDebt.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('rpt-ap-debt-count').innerText = bookings.filter(b => (b.giaVon - b.daTraDoiTac) > 0).length;
+
+      const vatPercent = countVatEligible > 0 ? Math.round((countWithHdVao / countVatEligible) * 100) : 0;
+      document.getElementById('rpt-vat-ratio').innerText = vatPercent + '%';
+      document.getElementById('rpt-vat-count').innerText = `${countWithHdVao}/${countVatEligible} hóa đơn đã thu`;
+
+      const barsContainer = document.getElementById('rpt-service-breakdown-bars');
+      barsContainer.innerHTML = '';
+      Object.keys(services).forEach(k => {
+        const item = services[k];
+        const pct = rev > 0 ? Math.round((item.rev / rev) * 100) : 0;
+        barsContainer.innerHTML += `
+          <div>
+            <div class="flex items-center justify-between text-xs mb-1">
+              <span class="font-bold text-slate-200">${item.name} (${item.count} đơn)</span>
+              <span class="font-mono text-white font-bold">${item.rev.toLocaleString('vi-VN')} đ <span class="text-slate-400 font-normal">(${pct}%)</span></span>
+            </div>
+            <div class="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-slate-800">
+              <div class="${item.color} h-full rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
+              <span>Lợi nhuận gộp: <strong class="text-emerald-400">+${item.profit.toLocaleString('vi-VN')} đ</strong></span>
+              <span>Biên độ: ${item.rev > 0 ? ((item.profit / item.rev) * 100).toFixed(1) : 0}%</span>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // =========================================================================
+    // RENDER VIEW 4: ĐÁNH GIÁ & XẾP HẠNG SALES (KPI CHUẨN VTOUR)
+    // =========================================================================
+    function renderSalesKpiView() {
+      const salesMap = {};
+      systemUsers.filter(u => u.role === 'sale' || u.role === 'admin').forEach(u => {
+        salesMap[u.email.toLowerCase()] = {
+          user: u,
+          revenue: 0,
+          cost: 0,
+          profit: 0,
+          bookingsCount: 0
+        };
+      });
+
+      bookings.forEach(b => {
+        const email = (b.saleEmail || '').toLowerCase();
+        if (salesMap[email]) {
+          const r = parseFloat(b.giaBan) || 0;
+          const c = parseFloat(b.giaVon) || 0;
+          salesMap[email].revenue += r;
+          salesMap[email].cost += c;
+          salesMap[email].profit += (r - c);
+          salesMap[email].bookingsCount++;
+        }
+      });
+
+      const salesList = Object.values(salesMap).sort((a, b) => b.revenue - a.revenue);
+
+      const podiumContainer = document.getElementById('sales-podium');
+      podiumContainer.innerHTML = '';
+
+      const medalConfig = [
+        { title: "QUÁN QUÂN DOANH SỐ", icon: "fa-crown", border: "border-amber-500/50 bg-amber-500/10", text: "text-amber-400", badge: "🥇 TOP 1" },
+        { title: "Á QUÂN KINH DOANH", icon: "fa-medal", border: "border-slate-400/50 bg-slate-400/10", text: "text-slate-300", badge: "🥈 TOP 2" },
+        { title: "HẠNG BA THI ĐUA", icon: "fa-award", border: "border-amber-700/50 bg-amber-700/10", text: "text-amber-600", badge: "🥉 TOP 3" }
+      ];
+
+      for (let i = 0; i < Math.min(3, salesList.length); i++) {
+        const s = salesList[i];
+        const cfg = medalConfig[i];
+        const target = s.user.target || 200000000;
+        const progress = Math.min(100, Math.round((s.revenue / target) * 100));
+        const commission = Math.round(s.profit * 0.10);
+
+        podiumContainer.innerHTML += `
+          <div class="rounded-2xl border ${cfg.border} p-5 relative overflow-hidden shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-slate-900 border ${cfg.text}">
+                ${cfg.badge}
+              </span>
+              <i class="fa-solid ${cfg.icon} text-xl ${cfg.text}"></i>
+            </div>
+            <h4 class="text-base font-extrabold text-white truncate">${s.user.name || s.user.email.split('@')[0]}</h4>
+            <p class="text-xs text-slate-400 font-mono">${s.user.email} • ${s.user.phone || 'Chưa có SĐT'}</p>
+            
+            <div class="mt-4 pt-3 border-t border-slate-800 space-y-1.5">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">Doanh số đạt:</span>
+                <span class="font-mono font-bold text-white">${s.revenue.toLocaleString('vi-VN')} đ</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">Lãi gộp cty thu:</span>
+                <span class="font-mono font-bold text-emerald-400">+${s.profit.toLocaleString('vi-VN')} đ</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">Hoa hồng dự kiến:</span>
+                <span class="font-mono font-bold text-amber-300">${commission.toLocaleString('vi-VN')} đ</span>
+              </div>
+              <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden mt-2 border border-slate-800">
+                <div class="bg-amber-400 h-full rounded-full" style="width: ${progress}%"></div>
+              </div>
+              <div class="text-right text-[10px] text-amber-300 font-mono">Đạt ${progress}% chỉ tiêu</div>
+            </div>
+          </div>
+        `;
+      }
+
+      const tbody = document.getElementById('sales-kpi-table-body');
+      tbody.innerHTML = '';
+
+      salesList.forEach((s, idx) => {
+        const target = s.user.target || 200000000;
+        const progress = Math.round((s.revenue / target) * 100);
+        const commission = Math.round(s.profit * 0.10);
+
+        let rankBadge = '';
+        if (idx === 0) rankBadge = '<span class="font-bold text-amber-400">🥇 #1</span>';
+        else if (idx === 1) rankBadge = '<span class="font-bold text-slate-300">🥈 #2</span>';
+        else if (idx === 2) rankBadge = '<span class="font-bold text-amber-600">🥉 #3</span>';
+        else rankBadge = `<span class="font-mono text-slate-500 font-bold">#${idx + 1}</span>`;
+
+        let gradeBadge = '';
+        if (progress >= 100) {
+          gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Xuất Sắc</span>';
+        } else if (progress >= 50) {
+          gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">Tốt</span>';
+        } else if (progress > 0) {
+          gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">Đạt</span>';
+        } else {
+          gradeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400">Cần Nỗ Lực</span>';
+        }
+
+        const dobLabel = s.user.dob ? ` • Sinh: ${formatDob(s.user.dob)}` : '';
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-800/30 transition">
+            <td class="py-3 px-3.5 text-center">${rankBadge}</td>
+            <td class="py-3 px-3.5">
+              <span class="font-bold text-white block text-xs">${s.user.name || '<span class="text-rose-400">Chưa điền họ tên</span>'}</span>
+              <span class="text-[10px] text-slate-500 font-mono">${s.user.email} • ${s.user.phone || 'Chưa SĐT'}${dobLabel}</span>
+            </td>
+            <td class="py-3 px-3.5 text-center font-mono font-bold text-white text-xs">${s.bookingsCount}</td>
+            <td class="py-3 px-3.5 text-right font-mono font-bold text-white text-xs num-tabular">${s.revenue.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-right font-mono text-slate-400 text-xs num-tabular">${target.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-center font-mono font-bold text-amber-400 text-xs">${progress}%</td>
+            <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">+${s.profit.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-right font-mono font-bold text-amber-300 text-xs num-tabular">${commission.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-center">${gradeBadge}</td>
+          </tr>
+        `;
+      });
+    }
+
+    // =========================================================================
+    // RENDER VIEW 5: ĐÁNH GIÁ NHÀ CUNG CẤP & ĐỐI TÁC (NCC)
+    // =========================================================================
+    function renderSuppliersView() {
+      const suppliersMap = {};
+
+      bookings.forEach(b => {
+        const name = (b.doiTac || 'Khác').trim();
+        if (!suppliersMap[name]) {
+          suppliersMap[name] = {
+            name: name,
+            count: 0,
+            cost: 0,
+            revenue: 0,
+            profit: 0,
+            hdVaoDone: 0
+          };
+        }
+        const r = parseFloat(b.giaBan) || 0;
+        const c = parseFloat(b.giaVon) || 0;
+        suppliersMap[name].count++;
+        suppliersMap[name].revenue += r;
+        suppliersMap[name].cost += c;
+        suppliersMap[name].profit += (r - c);
+        if (b.statusHdVao === 'da_co') suppliersMap[name].hdVaoDone++;
+      });
+
+      const list = Object.values(suppliersMap).sort((a, b) => b.cost - a.cost);
+      const tbody = document.getElementById('suppliers-table-body');
+      tbody.innerHTML = '';
+
+      list.forEach(s => {
+        const margin = s.revenue > 0 ? ((s.profit / s.revenue) * 100).toFixed(1) : 0;
+        const hdRatio = s.count > 0 ? Math.round((s.hdVaoDone / s.count) * 100) : 0;
+
+        let hdRatioBadge = '';
+        if (hdRatio >= 100) {
+          hdRatioBadge = `<span class="text-emerald-400 font-bold font-mono">100% (Đủ HĐ)</span>`;
+        } else if (hdRatio > 0) {
+          hdRatioBadge = `<span class="text-amber-400 font-bold font-mono">${hdRatio}% (${s.hdVaoDone}/${s.count})</span>`;
+        } else {
+          hdRatioBadge = `<span class="text-rose-400 font-bold font-mono">0% (Chưa có HĐ)</span>`;
+        }
+
+        let ratingStars = '<i class="fa-solid fa-star text-amber-400"></i><i class="fa-solid fa-star text-amber-400"></i><i class="fa-solid fa-star text-amber-400"></i><i class="fa-solid fa-star text-amber-400"></i><i class="fa-solid fa-star text-amber-400"></i>';
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-800/30 transition">
+            <td class="py-3 px-3.5 font-bold text-white text-xs">${escapeHtml(s.name)}</td>
+            <td class="py-3 px-3.5 text-center font-mono font-bold text-white text-xs">${s.count} đơn</td>
+            <td class="py-3 px-3.5 text-right font-mono font-bold text-slate-300 text-xs num-tabular">${s.cost.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">+${s.profit.toLocaleString('vi-VN')} đ</td>
+            <td class="py-3 px-3.5 text-center font-mono font-bold text-indigo-400 text-xs">${margin}%</td>
+            <td class="py-3 px-3.5 text-center text-xs">${hdRatioBadge}</td>
+            <td class="py-3 px-3.5 text-center text-xs">${ratingStars}</td>
+          </tr>
+        `;
+      });
+    }
+
+    // =========================================================================
+    // RENDER VIEW 6: QUẢN LÝ NHÂN SỰ & PHÂN QUYỀN SALES
+    // =========================================================================
+    function renderStaffView() {
+      const tbody = document.getElementById('staff-table-body');
+      const query = (document.getElementById('global-search').value || '').toLowerCase().trim();
+      tbody.innerHTML = '';
+
+      const filtered = systemUsers.filter(u => {
+        if (!query) return true;
+        const hay = `${u.name} ${u.email} ${u.phone} ${u.dob}`.toLowerCase();
+        return hay.includes(query);
+      });
+
+      filtered.forEach((u, idx) => {
+        const isComplete = u.name && u.dob && u.phone && u.phone.length >= 9 && !u.name.toLowerCase().startsWith('sales ');
+
+        let statusBadge = '';
+        if (isComplete) {
+          statusBadge = `
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <i class="fa-solid fa-circle-check text-[9px]"></i> Đã Hoàn Tất
+            </span>
+          `;
+        } else {
+          statusBadge = `
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30 animate-pulse">
+              <i class="fa-solid fa-triangle-exclamation text-[9px]"></i> Thiếu Ngày Sinh / SĐT
+            </span>
+          `;
+        }
+
+        const walletMoney = (u.walletBalance !== undefined ? u.walletBalance : 1000000).toLocaleString('vi-VN') + ' đ';
+
+        let cashflowPermBadge = '';
+        if (u.role === 'admin' || u.permissions?.xem_dong_tien) {
+          cashflowPermBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🟢 Được Xem</span>';
+        } else {
+          cashflowPermBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-500">🔒 Khóa</span>';
+        }
+
+        const isAdmin = currentUser && currentUser.role === 'admin';
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-800/30 transition">
+            <td class="py-3 px-3.5 text-center font-mono text-slate-500">${idx + 1}</td>
+            <td class="py-3 px-3.5">
+              <span class="font-bold text-white block text-xs">${u.name || '<span class="text-rose-400 italic">Chưa nhập họ tên</span>'}</span>
+            </td>
+            <td class="py-3 px-3.5 font-mono text-blue-400 text-xs">${u.email}</td>
+            <td class="py-3 px-3.5 text-center font-mono text-xs">${formatDob(u.dob)}</td>
+            <td class="py-3 px-3.5 text-center font-mono text-xs">
+              ${u.phone ? `<a href="tel:${u.phone}" class="text-emerald-400 font-bold hover:underline">${u.phone}</a>` : '<span class="text-rose-400 font-bold">Chưa nhập</span>'}
+            </td>
+            <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">${walletMoney}</td>
+            <td class="py-3 px-3.5 text-center">${cashflowPermBadge}</td>
+            <td class="py-3 px-3.5 text-center">${statusBadge}</td>
+            <td class="py-3 px-3.5 text-right">
+              ${isAdmin ? `
+                <button onclick="openPermissionsModal('${u.email}')" class="px-2.5 py-1 rounded bg-indigo-600/20 hover:bg-indigo-600 hover:text-white border border-indigo-500/30 text-indigo-300 text-xs font-semibold transition cursor-pointer">
+                  <i class="fa-solid fa-shield-halved mr-1 text-[10px]"></i> Phân Quyền
+                </button>
+              ` : `
+                <button onclick="openProfileModal(false)" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs transition cursor-pointer">
+                  <i class="fa-solid fa-eye text-[10px]"></i> Xem
+                </button>
+              `}
+            </td>
+          </tr>
+        `;
+      });
+
+      updateStaffBadge();
+    }
+
+    // =========================================================================
+    // MODAL TẠO & SỬA ĐƠN
+    // =========================================================================
+    function openModalTaoDon() {
+      document.getElementById('edit-id').value = '';
+      document.getElementById('booking-form').reset();
+      document.getElementById('modal-title').innerText = 'ĐIỀU HÀNH & HẠCH TOÁN BOOKING';
+      document.getElementById('ipt-code').value = 'BK' + Date.now().toString().slice(-6);
+      
+      if (currentUser) {
+        document.getElementById('ipt-sale').value = currentUser.email;
+      }
+
+      document.getElementById('booking-modal').classList.remove('hidden');
+    }
+
+    function closeModalTaoDon() {
+      document.getElementById('booking-modal').classList.add('hidden');
+    }
+
+    function handleSaveBooking(e) {
+      e.preventDefault();
+      const editId = document.getElementById('edit-id').value;
+
+      const item = {
+        id: editId || ('BK_' + Date.now()),
+        maBooking: document.getElementById('ipt-code').value.trim().toUpperCase(),
+        khachHang: document.getElementById('ipt-customer').value.trim(),
+        sdt: document.getElementById('ipt-phone').value.trim(),
+        saleEmail: document.getElementById('ipt-sale').value,
+        serviceType: document.getElementById('ipt-service-type').value,
+        tourStatus: document.getElementById('ipt-tour-status').value,
+        dichVu: document.getElementById('ipt-service').value.trim(),
+        checkIn: document.getElementById('ipt-checkin').value,
+        checkOut: document.getElementById('ipt-checkout').value,
+        giaBan: parseFloat(document.getElementById('ipt-revenue').value) || 0,
+        khachDaCoc: parseFloat(document.getElementById('ipt-ar-paid').value) || 0,
+        doiTac: document.getElementById('ipt-supplier').value.trim(),
+        giaVon: parseFloat(document.getElementById('ipt-cost').value) || 0,
+        daTraDoiTac: parseFloat(document.getElementById('ipt-ap-paid').value) || 0,
+        statusHdVao: document.getElementById('ipt-status-hd-vao').value,
+        soHdVao: document.getElementById('ipt-so-hd-vao').value.trim(),
+        coXuatVat: false,
+        files: editId ? (bookings.find(x => x.id === editId)?.files || []) : []
+      };
+
+      if (editId) {
+        const idx = bookings.findIndex(x => x.id === editId);
+        if (idx !== -1) bookings[idx] = item;
+      } else {
+        bookings.unshift(item);
+      }
+
+      saveData();
+      renderTable();
+      if (currentView === 'cashflow') renderCashflowView();
+      closeModalTaoDon();
+    }
+
+    function editBooking(id) {
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      document.getElementById('edit-id').value = b.id;
+      document.getElementById('modal-title').innerText = 'HẠCH TOÁN ĐƠN: ' + b.maBooking;
+      document.getElementById('ipt-code').value = b.maBooking;
+      document.getElementById('ipt-customer').value = b.khachHang;
+      document.getElementById('ipt-phone').value = b.sdt;
+      document.getElementById('ipt-sale').value = b.saleEmail || (currentUser ? currentUser.email : '');
+      document.getElementById('ipt-service-type').value = b.serviceType || 'hotel';
+      document.getElementById('ipt-tour-status').value = b.tourStatus || 'da_xac_nhan';
+      document.getElementById('ipt-service').value = b.dichVu;
+      document.getElementById('ipt-checkin').value = b.checkIn;
+      document.getElementById('ipt-checkout').value = b.checkOut;
+      document.getElementById('ipt-revenue').value = b.giaBan;
+      document.getElementById('ipt-ar-paid').value = b.khachDaCoc;
+      document.getElementById('ipt-supplier').value = b.doiTac;
+      document.getElementById('ipt-cost').value = b.giaVon;
+      document.getElementById('ipt-ap-paid').value = b.daTraDoiTac || 0;
+      document.getElementById('ipt-status-hd-vao').value = b.statusHdVao || 'chua_lay';
+      document.getElementById('ipt-so-hd-vao').value = b.soHdVao || '';
+
+      document.getElementById('booking-modal').classList.remove('hidden');
+    }
+
+    function deleteBooking(id) {
+      if (!currentUser || (currentUser.role !== 'admin' && !currentUser.permissions?.xoa_don)) {
+        alert('⛔ Bạn không có quyền xóa booking! Chỉ Ban Giám Đốc mới có quyền xóa dữ liệu.');
+        return;
+      }
+      if (confirm('Xác nhận xóa booking này khỏi hệ thống?')) {
+        bookings = bookings.filter(x => x.id !== id);
+        saveData();
+        renderTable();
+        if (currentView === 'cashflow') renderCashflowView();
+      }
+    }
+
+    // =========================================================================
+    // MODAL QUẢN LÝ FILE CHỨNG TỪ (FILE VAULT)
+    // =========================================================================
+    function openFilesModal(id) {
+      activeFilesBookingId = id;
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      document.getElementById('files-modal-title').innerText = `KHO TÀI LIỆU CHỨNG TỪ [${b.maBooking}]`;
+      document.getElementById('files-modal-subtitle').innerText = `Khách: ${b.khachHang} • Đối tác: ${b.doiTac}`;
+      renderFilesList();
+      document.getElementById('files-modal').classList.remove('hidden');
+    }
+
+    function closeFilesModal() {
+      document.getElementById('files-modal').classList.add('hidden');
+    }
+
+    function renderFilesList() {
+      const container = document.getElementById('files-list-container');
+      const b = bookings.find(x => x.id === activeFilesBookingId);
+      if (!b) return;
+
+      const files = b.files || [];
+      if (files.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-6 text-slate-500 text-xs">
+            <i class="fa-solid fa-file-circle-question text-2xl mb-1 text-slate-600 block"></i>
+            Chưa có file chứng từ nào được đính kèm. Bấm vào khung trên để tải file lên máy chủ.
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      files.forEach((f, idx) => {
+        const isPdf = f.name.toLowerCase().endsWith('.pdf');
+        const icon = isPdf ? 'fa-file-pdf text-rose-500' : 'fa-file-image text-emerald-400';
+        
+        html += `
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs hover:border-slate-700 transition">
+            <div class="flex items-center gap-2.5 min-w-0 flex-1 pr-2">
+              <i class="fa-solid ${icon} text-base shrink-0"></i>
+              <div class="truncate">
+                <span class="font-semibold text-slate-200 block truncate">${escapeHtml(f.name)}</span>
+                <span class="text-[10px] text-slate-500 font-mono">Tải lên: ${f.time || 'Hôm nay'}</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <a href="${f.url}" target="_blank" class="px-2.5 py-1 rounded bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white border border-blue-500/30 text-[11px] font-semibold transition flex items-center gap-1">
+                <i class="fa-solid fa-eye text-[9px]"></i> Xem
+              </a>
+              <button onclick="deleteFile(${idx})" class="p-1 rounded text-slate-500 hover:text-rose-400 transition" title="Xóa file">
+                <i class="fa-solid fa-trash text-xs"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    async function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const b = bookings.find(x => x.id === activeFilesBookingId);
+      if (!b) return;
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('upload.php', { method: 'POST', body: formData });
+        const data = await res.json();
+
+        if (data.success) {
+          if (!b.files) b.files = [];
+          b.files.push({
+            name: data.fileName,
+            url: data.fileUrl,
+            time: data.uploadTime
+          });
+
+          if (file.name.toLowerCase().includes('hd') || file.name.toLowerCase().includes('hoa_don')) {
+            b.statusHdVao = 'da_co';
+          }
+
+          saveData();
+          renderFilesList();
+          renderTable();
+          alert('✅ Đã tải và lưu giữ file thành công lên máy chủ!');
+        } else {
+          alert('❌ Lỗi upload: ' + data.error);
+        }
+      } catch (err) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          if (!b.files) b.files = [];
+          b.files.push({
+            name: file.name,
+            url: e.target.result,
+            time: new Date().toLocaleString('vi-VN')
+          });
+          saveData();
+          renderFilesList();
+          renderTable();
+          alert('✅ Đã lưu file vào bộ nhớ hệ thống!');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      event.target.value = '';
+    }
+
+    function deleteFile(idx) {
+      const b = bookings.find(x => x.id === activeFilesBookingId);
+      if (!b || !b.files) return;
+      if (confirm('Xóa file chứng từ này?')) {
+        b.files.splice(idx, 1);
+        saveData();
+        renderFilesList();
+        renderTable();
+      }
+    }
+
+    // =========================================================================
+    // SOẠN TIN NHẮN ZALO ĐÒI HÓA ĐƠN ĐỐI TÁC
+    // =========================================================================
+    function openDoiHdDialog(id) {
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      const text = `Kính gửi đối tác ${b.doiTac || 'Khách sạn'},\n\nBooking Travel xin gửi lời chào trân trọng.\nNhờ anh/chị kế toán hỗ trợ xuất giúp em Hóa Đơn GTGT (Đầu vào) cho đoàn khách sau ạ:\n- Mã Booking: ${b.maBooking}\n- Tên Khách Hàng: ${b.khachHang}\n- Dịch Vụ: ${b.dichVu}\n- Lịch Trình: Check-in: ${b.checkIn} ➔ Check-out: ${b.checkOut}\n- Số Tiền Thực Trả: ${(b.giaVon || 0).toLocaleString('vi-VN')} VNĐ\n\nTHÔNG TIN XUẤT HÓA ĐƠN CỦA CÔNG TY:\n- Tên Công Ty: CÔNG TY TNHH BOOKING TRAVEL\n- Mã Số Thuế: (Điền MST Cty Booking Travel)\n- Email Nhận Hóa Đơn: ketoan@bookingtravel.vn\n\nEm cảm ơn anh/chị nhiều ạ!`;
+
+      document.getElementById('doi-hd-text').value = text;
+      document.getElementById('doi-hd-dialog').classList.remove('hidden');
+    }
+
+    function closeDoiHdDialog() {
+      document.getElementById('doi-hd-dialog').classList.add('hidden');
+    }
+
+    function copyDoiHdText() {
+      const text = document.getElementById('doi-hd-text').value;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('📋 ĐÃ SAO CHÉP TIN NHẮN! Sales chỉ cần mở Zalo và dán (Ctrl+V) gửi cho đối tác ngay!');
+      });
+    }
+
+    function xuatExcelMisa() {
+      let csv = '\uFEFFMã Booking,Khách Hàng,SĐT,Sale Phụ Trách,Loại Dịch Vụ,Chi Tiết Dịch Vụ,Ngày In,Ngày Out,Doanh Thu,Giá Vốn,Lãi Gộp,HĐ Đầu Vào,Đối Tác NCC\n';
+      bookings.forEach(b => {
+        const rev = b.giaBan || 0;
+        const cst = b.giaVon || 0;
+        const p = rev - cst;
+        csv += `"${b.maBooking}","${b.khachHang}","${b.sdt}","${b.saleEmail || ''}","${b.serviceType || 'hotel'}","${(b.dichVu || '').replace(/"/g, '""')}","${b.checkIn}","${b.checkOut}",${rev},${cst},${p},"${b.statusHdVao === 'da_co' ? 'ĐÃ CÓ HĐ' : 'CẦN ĐÒI'}","${b.doiTac || ''}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `MISA_VTOUR_BOOKING_TRAVEL_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function escapeHtml(str) {
+      return (str || '').toString().replace(/"/g, '&quot;');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initAuth();
+      initData();
+    });
+  </script>
+</body>
+</html>

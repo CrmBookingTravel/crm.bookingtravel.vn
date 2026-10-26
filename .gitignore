@@ -1,0 +1,9 @@
+node_modules/
+service-account.json
+credentials.json
+.env
+zalo_profile/
+uploads/
+*.log
+.DS_Store
+Thumbs.db
