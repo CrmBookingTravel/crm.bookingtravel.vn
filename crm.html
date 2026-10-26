@@ -1231,187 +1231,257 @@
   <!-- ========================================================================= -->
   <!-- 5. SLIDE-OVER DRAWER: FORM TẠO/SỬA BOOKING (CHUẨN VTOUR) -->
   <!-- ========================================================================= -->
-  <div id="booking-modal" class="fixed inset-0 z-50 overflow-hidden hidden">
+  <div id="booking-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-2 sm:p-4 lg:p-6 bg-slate-950/85 backdrop-blur-sm">
     <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeModalTaoDon()"></div>
     
-    <div class="fixed inset-y-0 right-0 max-w-2xl w-full bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col z-10 overflow-hidden">
+    <div id="booking-modal-container" class="relative bg-slate-900 border border-blue-900/60 rounded-2xl w-full max-w-6xl max-h-[96vh] flex flex-col shadow-2xl z-10 overflow-hidden transition-all duration-300">
       
-      <div class="h-16 px-6 border-b border-slate-800 flex items-center justify-between bg-slate-950/40 shrink-0">
+      <!-- Modal Header -->
+      <div class="h-16 px-6 border-b border-slate-800 flex items-center justify-between bg-[#07162f] shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center font-bold text-sm">
+          <div class="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center font-bold text-base shadow-sm">
             <i class="fa-solid fa-file-invoice-dollar"></i>
           </div>
           <div>
-            <h3 id="modal-title" class="text-sm font-bold text-white uppercase tracking-wide">ĐIỀU HÀNH & HẠCH TOÁN BOOKING</h3>
-            <p class="text-[11px] text-slate-400">Kiểm soát tiến trình dịch vụ, công nợ & hóa đơn theo chuẩn vTour</p>
+            <h3 id="modal-title" class="text-sm sm:text-base font-extrabold text-white uppercase tracking-wide flex items-center gap-2">
+              <span>ĐIỀU HÀNH & HẠCH TOÁN BOOKING</span>
+              <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Chuẩn vTour 4.0</span>
+            </h3>
+            <p class="text-[11px] text-blue-200/80">Quản trị tiến trình dịch vụ, công nợ AR/AP & hóa đơn thuế GTGT • "Khách hàng là gia đình"</p>
           </div>
         </div>
-        <button onclick="closeModalTaoDon()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition">
-          <i class="fa-solid fa-xmark text-sm"></i>
-        </button>
+        
+        <div class="flex items-center gap-2">
+          <!-- Nút Phóng To / Thu Nhỏ Hết Màn Hình -->
+          <button type="button" onclick="toggleBookingFullscreen()" id="btn-fullscreen-booking" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center gap-1.5 text-xs font-semibold transition cursor-pointer" title="Phóng to rộng hết màn hình">
+            <i class="fa-solid fa-expand text-xs"></i>
+            <span class="hidden sm:inline" id="btn-fullscreen-text">Phóng To Toàn Màn Hình</span>
+          </button>
+          <!-- Nút Đóng -->
+          <button type="button" onclick="closeModalTaoDon()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition" title="Đóng cửa sổ">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
       </div>
 
-      <form id="booking-form" onsubmit="handleSaveBooking(event)" class="flex-1 overflow-y-auto p-6 space-y-6">
+      <!-- Modal Body (Form Đa Cột Rộng Thoáng) -->
+      <form id="booking-form" onsubmit="handleSaveBooking(event)" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 bg-[#0b192c]/50">
         <input type="hidden" id="edit-id" value="">
 
-        <!-- Phần 1: Thông tin khách & Phân loại dịch vụ -->
-        <div class="space-y-3">
-          <div class="border-b border-slate-800 pb-1.5 flex items-center justify-between">
-            <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-circle-info"></i> 1. Thông Tin Khách & Dịch Vụ
-            </span>
-          </div>
-
-          <!-- KHỐI TRA CỨU & TỰ ĐỘNG ĐIỀN HẠNG PHÒNG TỪ GOOGLE SHEETS -->
-          <div class="p-3.5 bg-gradient-to-r from-blue-950/70 via-slate-900 to-indigo-950/60 border border-blue-500/40 rounded-xl space-y-2.5 shadow-lg">
-            <div class="flex items-center justify-between">
-              <label class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                <i class="fa-solid fa-hotel text-amber-400"></i>
-                <span>TỰ ĐỘNG ĐIỀN HẠNG PHÒNG & GIÁ BÁO KHÁCH (GOOGLE SHEETS)</span>
-              </label>
-              <a href="https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0" target="_blank" class="text-[10px] text-emerald-400 hover:text-white flex items-center gap-1 font-mono transition" title="Mở bảng giá gốc trên Google Sheets">
+        <!-- KHỐI TRA CỨU & TỰ ĐỘNG ĐIỀN HẠNG PHÒNG TỪ GOOGLE SHEETS (NỔI BẬT NHẤT) -->
+        <div class="p-4 bg-gradient-to-r from-blue-950/80 via-slate-900 to-indigo-950/80 border border-amber-500/50 rounded-xl space-y-3 shadow-xl">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-blue-900/40 pb-2">
+            <label class="text-xs font-black text-amber-300 flex items-center gap-2 uppercase tracking-wide">
+              <i class="fa-solid fa-hotel text-amber-400 text-sm"></i>
+              <span>TRA CỨU & TỰ ĐỘNG ĐIỀN HẠNG PHÒNG (GOOGLE SHEETS)</span>
+              <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">GSheet Sync</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <a href="https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0" target="_blank" class="text-[11px] text-emerald-400 hover:underline flex items-center gap-1 font-mono transition" title="Mở bảng giá gốc trên Google Sheets">
                 <i class="fa-solid fa-file-excel"></i> Mở Bảng Giá GSheet <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
               </a>
             </div>
+          </div>
 
-            <div class="flex items-center gap-2">
+          <!-- Thanh Tìm Kiếm Có Nút Bấm To Rõ Ràng -->
+          <div class="space-y-2">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <!-- Ô Nhập Từ Khóa -->
               <div class="relative flex-1">
-                <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-amber-400 text-xs">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-amber-400 text-xs">
                   <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
-                <input type="text" id="ipt-room-lookup" list="room-catalog-datalist" oninput="handleRoomSelect(this.value)" placeholder="🔍 Gõ tìm: Amaya, King Town, Rova, Standard, Superior, Vinpearl, Fansipan..." class="w-full bg-slate-950 border border-amber-500/50 rounded-lg pl-8 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400">
-                <datalist id="room-catalog-datalist">
-                  <!-- Rendered dynamically by JS -->
-                </datalist>
+                <input type="text" id="ipt-room-lookup" onkeydown="if(event.key==='Enter'){event.preventDefault();executeRoomSearch();}" oninput="handleRoomLookupInput(this.value)" placeholder="Gõ tên khách sạn, resort, hạng phòng (VD: Amaya, King Town, Rova, Vinpearl...)" class="w-full bg-[#07162f] border-2 border-amber-500/60 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/40 font-medium">
               </div>
-              <button type="button" onclick="syncPriceCatalogFromGoogleSheets(true)" class="px-3 py-2 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer whitespace-nowrap" title="Đồng bộ lại từ Google Sheets">
-                <i class="fa-solid fa-rotate text-xs"></i> <span>Đồng Bộ</span>
+
+              <!-- NÚT 1: TÌM KIẾM TO RÕ RÀNG (KHÁCH HÀNG YÊU CẦU) -->
+              <button type="button" onclick="executeRoomSearch()" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 active:from-amber-600 active:to-orange-600 text-slate-950 text-xs font-black rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider shrink-0">
+                <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                <span>TÌM KIẾM</span>
+              </button>
+
+              <!-- NÚT 2: CHỌN TRỰC QUAN TỪ DANH MỤC GSHEET -->
+              <button type="button" onclick="openPriceCatalogModalForCurrentBooking()" class="px-4 py-2.5 bg-blue-600/30 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Mở Bảng Danh Mục GSheet</span>
+              </button>
+
+              <!-- NÚT 3: ĐỒNG BỘ LẠI TỪ GSHEET -->
+              <button type="button" onclick="syncPriceCatalogFromGoogleSheets(true)" class="px-3.5 py-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0" title="Đồng bộ lại từ Google Sheets">
+                <i class="fa-solid fa-rotate text-xs"></i>
+                <span>Đồng Bộ</span>
               </button>
             </div>
 
-            <!-- Báo hiệu tự động điền thành công -->
-            <div id="room-autofill-alert" class="hidden p-2 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[11px] font-medium flex items-center gap-2">
-              <i class="fa-solid fa-circle-check text-emerald-400"></i>
-              <span id="room-autofill-text">Đã tự động điền thông tin hạng phòng & giá báo khách!</span>
+            <!-- BẢNG KẾT QUẢ TÌM KIẾM THẢ XUỐNG TỰ ĐỘNG (INSTANT DROPDOWN SEARCH RESULTS) -->
+            <div id="room-quick-results" class="hidden bg-slate-950 border border-blue-500/50 rounded-xl overflow-hidden shadow-2xl z-20">
+              <!-- Rendered dynamically by JS -->
             </div>
 
-            <p class="text-[10px] text-slate-400 italic flex items-center gap-1">
+            <!-- Báo hiệu tự động điền thành công -->
+            <div id="room-autofill-alert" class="hidden p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-medium flex items-center justify-between gap-2 shadow-sm">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                <span id="room-autofill-text">Đã tự động điền thông tin hạng phòng & giá báo khách!</span>
+              </div>
+              <button type="button" onclick="document.getElementById('room-autofill-alert').classList.add('hidden')" class="text-emerald-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <p class="text-[11px] text-blue-200/80 flex items-center gap-1.5">
               <i class="fa-solid fa-bolt text-amber-400"></i>
-              <span>Chọn phòng từ danh sách: Hệ thống tự điền Dịch Vụ, Đối Tác, Giá Báo Khách & Giá Vốn (khỏi mất công gõ lại)!</span>
+              <span>Nhập tên khách sạn rồi bấm <strong>"TÌM KIẾM"</strong> hoặc bấm <strong>"Mở Bảng Danh Mục GSheet"</strong> để chọn phòng trong 1 giây (hệ thống tự điền Dịch vụ, Đối tác, Giá bán & Giá vốn)!</span>
             </p>
           </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Mã Booking (*)</label>
-              <input type="text" id="ipt-code" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono font-bold text-blue-400 focus:outline-none focus:border-blue-500 uppercase">
-            </div>
-            <div>
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Sale Phụ Trách (*)</label>
-              <select id="ipt-sale" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-                <!-- Populated dynamically -->
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Nhóm Dịch Vụ (vTour) (*)</label>
-              <select id="ipt-service-type" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
-                <option value="hotel">🏨 Khách Sạn / Resort Lẻ</option>
-                <option value="combo">✈️ Combo Du Lịch (Phòng + Vé/Xe)</option>
-                <option value="tour">🚩 Tour Trọn Gói / Ghép Đoàn</option>
-                <option value="ticket">🎟️ Vé Vui Chơi (VinWonders/Sun World)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Trạng Thái Điều Hành (*)</label>
-              <select id="ipt-tour-status" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-amber-300 font-semibold focus:outline-none focus:border-blue-500">
-                <option value="moi_tao">🔵 Mới Tạo / Chờ Cọc</option>
-                <option value="da_coc">🟡 Khách Đã Đặt Cọc</option>
-                <option value="da_xac_nhan">🟢 Đã Chốt Code Phòng Với NCC</option>
-                <option value="dang_di">🟣 Đang Check-in / Đi Tour</option>
-                <option value="hoan_tat">⚪ Đã Check-out & Quyết Toán</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Họ Tên Khách Hàng (*)</label>
-              <input type="text" id="ipt-customer" required placeholder="Nguyễn Văn A" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
-            </div>
-            <div>
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Số Điện Thoại (*)</label>
-              <input type="text" id="ipt-phone" required placeholder="0901234567" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
-            </div>
-            <div class="col-span-2">
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Tên Dịch Vụ / Lộ Trình Chi Tiết (*)</label>
-              <input type="text" id="ipt-service" required placeholder="VD: Amaya Retreat Sóc Sơn 2N1Đ Sky Villa kèm ăn 3 bữa" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
-            </div>
-            <div>
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Ngày Check-In (*)</label>
-              <input type="date" id="ipt-checkin" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
-            </div>
-            <div>
-              <label class="block text-[11px] font-medium text-slate-400 mb-1">Ngày Check-Out (*)</label>
-              <input type="date" id="ipt-checkout" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
-            </div>
-          </div>
         </div>
 
-        <!-- Phần 2: Hạch toán Doanh thu & Giá vốn -->
-        <div class="grid grid-cols-2 gap-3">
-          <div class="p-3.5 bg-slate-950/70 border border-blue-900/30 rounded-xl space-y-2.5">
-            <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider block">Bán Hàng (Thu Khách)</span>
-            <div>
-              <label class="block text-[10px] text-slate-400 mb-1">Giá Bán (VNĐ) (*)</label>
-              <input type="number" id="ipt-revenue" required placeholder="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white focus:outline-none focus:border-blue-500">
+        <!-- BỐ CỤC ĐA CỘT FORM: THÔNG TIN DỊCH VỤ & HẠCH TOÁN DÒNG TIỀN -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          
+          <!-- CỘT 1 (lg:col-span-7): THÔNG TIN KHÁCH & TIẾN TRÌNH DỊCH VỤ -->
+          <div class="lg:col-span-7 space-y-4 bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+            <div class="border-b border-slate-800 pb-2 flex items-center justify-between">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-info"></i> 1. Thông Tin Khách Hàng & Dịch Vụ
+              </span>
             </div>
-            <div>
-              <label class="block text-[10px] text-slate-400 mb-1">Khách Đã Trả (VNĐ)</label>
-              <input type="number" id="ipt-ar-paid" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-emerald-400 focus:outline-none focus:border-blue-500">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Mã Booking (*)</label>
+                <input type="text" id="ipt-code" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs font-mono font-bold text-blue-400 focus:outline-none focus:border-blue-500 uppercase">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Sale Phụ Trách (*)</label>
+                <select id="ipt-sale" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nhóm Dịch Vụ (vTour) (*)</label>
+                <select id="ipt-service-type" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                  <option value="hotel">🏨 Khách Sạn / Resort Lẻ</option>
+                  <option value="combo">✈️ Combo Du Lịch (Phòng + Vé/Xe)</option>
+                  <option value="tour">🚩 Tour Trọn Gói / Ghép Đoàn</option>
+                  <option value="ticket">🎟️ Vé Vui Chơi (VinWonders/Sun World)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Trạng Thái Điều Hành (*)</label>
+                <select id="ipt-tour-status" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-amber-300 font-semibold focus:outline-none focus:border-blue-500">
+                  <option value="moi_tao">🔵 Mới Tạo / Chờ Cọc</option>
+                  <option value="da_coc">🟡 Khách Đã Đặt Cọc</option>
+                  <option value="da_xac_nhan">🟢 Đã Chốt Code Phòng Với NCC</option>
+                  <option value="dang_di">🟣 Đang Check-in / Đi Tour</option>
+                  <option value="hoan_tat">⚪ Đã Check-out & Quyết Toán</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Họ Tên Khách Hàng (*)</label>
+                <input type="text" id="ipt-customer" required placeholder="Nguyễn Văn A" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Số Điện Thoại (*)</label>
+                <input type="text" id="ipt-phone" required placeholder="0901234567" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Tên Dịch Vụ / Lộ Trình Chi Tiết (*)</label>
+                <input type="text" id="ipt-service" required placeholder="VD: Amaya Retreat Sóc Sơn 2N1Đ Sky Villa kèm ăn 3 bữa" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-medium">
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Ngày Check-In (*)</label>
+                <input type="date" id="ipt-checkin" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Ngày Check-Out (*)</label>
+                <input type="date" id="ipt-checkout" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+              </div>
             </div>
           </div>
 
-          <div class="p-3.5 bg-slate-950/70 border border-amber-900/30 rounded-xl space-y-2.5">
-            <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">Mua Hàng (Chi Đối Tác)</span>
-            <div>
-              <label class="block text-[10px] text-slate-400 mb-1">Tên Đối Tác / NCC (*)</label>
-              <input type="text" id="ipt-supplier" required placeholder="Amaya Retreat / Vinpearl..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+          <!-- CỘT 2 (lg:col-span-5): HẠCH TOÁN DÒNG TIỀN & HÓA ĐƠN THUẾ MISA -->
+          <div class="lg:col-span-5 space-y-4">
+            
+            <!-- Khối Bán Hàng & Mua Hàng -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+              <!-- Bán Hàng (Thu Khách) -->
+              <div class="p-3.5 bg-slate-950/80 border border-blue-900/40 rounded-xl space-y-2">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center justify-between">
+                  <span>Bán Hàng (Thu Khách)</span>
+                  <span class="text-[10px] text-slate-400">Doanh Thu</span>
+                </span>
+                <div>
+                  <label class="block text-[10px] text-slate-300 mb-1">Giá Bán Báo Khách (VNĐ) (*)</label>
+                  <input type="number" id="ipt-revenue" required placeholder="0" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-amber-300 focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                  <label class="block text-[10px] text-slate-300 mb-1">Khách Đã Thanh Toán / Cọc (VNĐ)</label>
+                  <input type="number" id="ipt-ar-paid" value="0" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-emerald-400 focus:outline-none focus:border-blue-500">
+                </div>
+              </div>
+
+              <!-- Mua Hàng (Chi Đối Tác) -->
+              <div class="p-3.5 bg-slate-950/80 border border-amber-900/40 rounded-xl space-y-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center justify-between">
+                  <span>Mua Hàng (Chi Đối Tác)</span>
+                  <span class="text-[10px] text-slate-400">Giá Vốn (Net)</span>
+                </span>
+                <div>
+                  <label class="block text-[10px] text-slate-300 mb-1">Tên Đối Tác / Nhà Cung Cấp (*)</label>
+                  <input type="text" id="ipt-supplier" required placeholder="Amaya Retreat / Vinpearl..." class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="block text-[10px] text-slate-300 mb-1">Giá Vốn Trả NCC (VNĐ) (*)</label>
+                  <input type="number" id="ipt-cost" required placeholder="0" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-slate-200 focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="block text-[10px] text-slate-300 mb-1">Đã Trả / Tạm Ứng Cho NCC (VNĐ)</label>
+                  <input type="number" id="ipt-ap-paid" value="0" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-sky-400 focus:outline-none focus:border-amber-500">
+                </div>
+              </div>
             </div>
-            <div>
-              <label class="block text-[10px] text-slate-400 mb-1">Giá Vốn Trả NCC (VNĐ) (*)</label>
-              <input type="number" id="ipt-cost" required placeholder="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-slate-200 focus:outline-none focus:border-amber-500">
+
+            <!-- Khối Hóa Đơn Đầu Vào (MISA) -->
+            <div class="p-3.5 bg-slate-950/90 border border-rose-900/40 rounded-xl space-y-2.5">
+              <span class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-file-import text-rose-400"></i> Hóa Đơn Đầu Vào (Từ Đối Tác / NCC)
+              </span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div>
+                  <label class="block text-[10px] text-slate-300 mb-1">Trạng Thái HĐ Đầu Vào (*)</label>
+                  <select id="ipt-status-hd-vao" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold">
+                    <option value="chua_lay">🔴 Chưa Có HĐ (CẦN ĐÒI!)</option>
+                    <option value="da_co">🟢 Đã Nhận Hóa Đơn</option>
+                    <option value="khong_co">⚪ Không Có HĐ</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[10px] text-slate-300 mb-1">Số Hóa Đơn NCC (Nếu có)</label>
+                  <input type="text" id="ipt-so-hd-vao" placeholder="VD: 00012345" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono">
+                </div>
+              </div>
             </div>
-            <div>
-              <label class="block text-[10px] text-slate-400 mb-1">Đã Thanh Toán NCC (VNĐ)</label>
-              <input type="number" id="ipt-ap-paid" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-sky-400 focus:outline-none focus:border-amber-500">
-            </div>
+
           </div>
+
         </div>
 
-        <!-- Phần 3: QUẢN LÝ HÓA ĐƠN ĐẦU VÀO -->
-        <div class="p-4 bg-slate-950 border border-rose-900/40 rounded-xl space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-            <span class="text-[11px] font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-file-import text-rose-400"></i> Hóa Đơn Đầu Vào (Từ Đối Tác / NCC)
-            </span>
+        <!-- Footer Nút Bấm Ghim Cố Định Ở Đáy -->
+        <div class="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0">
+          <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+            <span>Dữ liệu được lưu trữ bảo mật & tự động cập nhật doanh số KPI nhân sự</span>
           </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-medium text-slate-300 mb-1">Trạng Thái HĐ Đầu Vào (*)</label>
-              <select id="ipt-status-hd-vao" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold">
-                <option value="chua_lay">🔴 Chưa Có HĐ (CẦN ĐÒI ĐỐI TÁC!)</option>
-                <option value="da_co">🟢 Đã Nhận Hóa Đơn NCC</option>
-                <option value="khong_co">⚪ Không Có HĐ</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-[11px] font-medium text-slate-300 mb-1">Số Hóa Đơn NCC (Nếu có)</label>
-              <input type="text" id="ipt-so-hd-vao" placeholder="VD: 00012345" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono">
-            </div>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="closeModalTaoDon()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition cursor-pointer">Hủy Bỏ</button>
+            <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-extrabold rounded-xl shadow-lg shadow-blue-500/25 transition flex items-center gap-2 cursor-pointer uppercase tracking-wider">
+              <i class="fa-solid fa-floppy-disk text-sm"></i>
+              <span>LƯU HẠCH TOÁN ĐƠN HÀNG</span>
+            </button>
           </div>
-        </div>
-
-        <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3 shrink-0">
-          <button type="button" onclick="closeModalTaoDon()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition">Hủy Bỏ</button>
-          <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg shadow-sm transition">Lưu Hạch Toán Đơn Hàng</button>
         </div>
 
       </form>
@@ -1419,8 +1489,7 @@
     </div>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- 6. MODAL: KHO TÀI LIỆU CHỨNG TỪ (FILE VAULT) -->
+<!-- 6. MODAL: KHO TÀI LIỆU CHỨNG TỪ (FILE VAULT) -->
   <!-- ========================================================================= -->
   <div id="files-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
     <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeFilesModal()"></div>
@@ -3140,6 +3209,148 @@
     }
 
     // Xử lý tự động điền khi gõ hoặc chọn phòng
+    // Chuyển đổi chế độ Toàn Màn Hình cho Booking Modal
+    let isBookingModalFullscreen = false;
+    function toggleBookingFullscreen() {
+      const container = document.getElementById('booking-modal-container');
+      const btnText = document.getElementById('btn-fullscreen-text');
+      const btnIcon = document.querySelector('#btn-fullscreen-booking i');
+      if (!container) return;
+
+      isBookingModalFullscreen = !isBookingModalFullscreen;
+      if (isBookingModalFullscreen) {
+        container.className = 'fixed inset-0 w-screen h-screen max-w-none max-h-none rounded-none bg-slate-900 border-none shadow-none flex flex-col z-50 overflow-hidden transition-all duration-300';
+        if (btnText) btnText.innerText = 'Thu Nhỏ Cửa Sổ';
+        if (btnIcon) btnIcon.className = 'fa-solid fa-compress text-xs';
+      } else {
+        container.className = 'relative bg-slate-900 border border-blue-900/60 rounded-2xl w-full max-w-6xl max-h-[96vh] flex flex-col shadow-2xl z-10 overflow-hidden transition-all duration-300';
+        if (btnText) btnText.innerText = 'Phóng To Toàn Màn Hình';
+        if (btnIcon) btnIcon.className = 'fa-solid fa-expand text-xs';
+      }
+    }
+
+    // Thực hiện tìm kiếm hạng phòng khi bấm nút "TÌM KIẾM" hoặc bấm Enter
+    function executeRoomSearch() {
+      const input = document.getElementById('ipt-room-lookup');
+      const query = (input ? input.value : '').toLowerCase().trim();
+      const resultsContainer = document.getElementById('room-quick-results');
+      if (!resultsContainer) return;
+
+      if (!query) {
+        openPriceCatalogModalForCurrentBooking();
+        return;
+      }
+
+      const matches = priceCatalog.filter(item => {
+        return item.hotel.toLowerCase().includes(query) ||
+               item.hangPhong.toLowerCase().includes(query) ||
+               item.khuVuc.toLowerCase().includes(query) ||
+               (item.moTa && item.moTa.toLowerCase().includes(query));
+      });
+
+      if (matches.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="p-3 text-xs text-rose-400 flex flex-wrap items-center justify-between gap-2">
+            <span>❌ Không tìm thấy hạng phòng nào khớp với "<strong>${query}</strong>"</span>
+            <button type="button" onclick="openPriceCatalogModalForCurrentBooking()" class="underline font-bold text-amber-300 hover:text-white">Xem toàn bộ bảng giá GSheet</button>
+          </div>
+        `;
+        resultsContainer.classList.remove('hidden');
+        return;
+      }
+
+      if (matches.length === 1) {
+        applyRoomToForm(matches[0]);
+        resultsContainer.classList.add('hidden');
+        return;
+      }
+
+      // Nhiều kết quả: hiển thị bảng chọn trực quan
+      resultsContainer.innerHTML = `
+        <div class="p-2.5 border-b border-slate-800 flex items-center justify-between text-xs text-amber-300 font-bold bg-[#07162f]">
+          <span>🔍 Tìm thấy ${matches.length} hạng phòng (Bấm vào phòng để tự động điền đơn):</span>
+          <button type="button" onclick="document.getElementById('room-quick-results').classList.add('hidden')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="max-h-64 overflow-y-auto divide-y divide-slate-800">
+          ${matches.map(m => `
+            <div onclick="selectRoomFromQuickResult('${m.id}')" class="p-3 hover:bg-blue-950/60 transition cursor-pointer flex items-center justify-between gap-3 text-xs group">
+              <div>
+                <div class="font-bold text-white group-hover:text-blue-300">${m.hotel} - <span class="text-amber-300">${m.hangPhong}</span></div>
+                <div class="text-[11px] text-slate-400">${m.khuVuc} • ${m.moTa || 'Dịch vụ chuẩn Booking Travel'}</div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="text-[10px] text-slate-400 block uppercase">Báo Khách:</span>
+                <span class="text-xs text-amber-300 font-mono font-bold">${m.giaBaoKhach.toLocaleString('vi-VN')} đ</span>
+                <span class="text-[10px] text-slate-400 block font-mono">Vốn: ${m.giaVon.toLocaleString('vi-VN')} đ</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      resultsContainer.classList.remove('hidden');
+    }
+
+    function handleRoomLookupInput(val) {
+      if (!val || val.trim().length === 0) {
+        const rc = document.getElementById('room-quick-results');
+        if (rc) rc.classList.add('hidden');
+        return;
+      }
+      if (val.trim().length >= 2) {
+        executeRoomSearch();
+      }
+    }
+
+    function selectRoomFromQuickResult(roomId) {
+      const found = priceCatalog.find(x => x.id === roomId);
+      if (found) {
+        applyRoomToForm(found);
+      }
+    }
+
+    function applyRoomToForm(found) {
+      const serviceInput = document.getElementById('ipt-service');
+      const supplierInput = document.getElementById('ipt-supplier');
+      const serviceTypeInput = document.getElementById('ipt-service-type');
+      const revenueInput = document.getElementById('ipt-revenue');
+      const costInput = document.getElementById('ipt-cost');
+      const lookupInput = document.getElementById('ipt-room-lookup');
+
+      if (lookupInput) lookupInput.value = `${found.hotel} - ${found.hangPhong}`;
+      if (serviceInput) serviceInput.value = `${found.hotel} - ${found.hangPhong}`;
+      if (supplierInput) supplierInput.value = found.hotel;
+      if (serviceTypeInput) serviceTypeInput.value = found.serviceType || 'hotel';
+      if (revenueInput) revenueInput.value = found.giaBaoKhach;
+      if (costInput) costInput.value = found.giaVon;
+
+      const alertBox = document.getElementById('room-autofill-alert');
+      const alertText = document.getElementById('room-autofill-text');
+      if (alertBox && alertText) {
+        alertText.innerHTML = `✨ <strong>Đã tự điền từ GSheet:</strong> ${found.hotel} • ${found.hangPhong} | <strong>Báo khách: ${found.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${found.giaVon.toLocaleString('vi-VN')} đ)`;
+        alertBox.classList.remove('hidden');
+      }
+
+      const resultsContainer = document.getElementById('room-quick-results');
+      if (resultsContainer) resultsContainer.classList.add('hidden');
+    }
+
+    // Mở Bảng Giá GSheet để chọn phòng cho Booking hiện tại
+    function openPriceCatalogModalForCurrentBooking() {
+      openPriceCatalogModal();
+    }
+
+    function selectRoomFromCatalog(roomId) {
+      const found = priceCatalog.find(x => x.id === roomId);
+      if (found) {
+        closePriceCatalogModal();
+        const bookingModal = document.getElementById('booking-modal');
+        if (bookingModal && bookingModal.classList.contains('hidden')) {
+          openModalTaoDon();
+        }
+        applyRoomToForm(found);
+      }
+    }
+
     function handleRoomSelect(val) {
       if (!val || val.trim() === '') return;
       const lower = val.toLowerCase().trim();
@@ -3691,8 +3902,8 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
               <button onclick="copyCustomerQuotation('${item.id}')" class="px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1 cursor-pointer whitespace-nowrap" title="Sao chép tin nhắn báo giá gửi khách qua Zalo">
                 <i class="fa-solid fa-copy"></i> <span>Báo Khách (Zalo)</span>
               </button>
-              <button onclick="createBookingWithRoom('${item.id}')" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg transition flex items-center gap-1 cursor-pointer shadow-sm whitespace-nowrap">
-                <i class="fa-solid fa-plus"></i> <span>Tạo Booking</span>
+              <button onclick="selectRoomFromCatalog('${item.id}')" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg transition flex items-center gap-1 cursor-pointer shadow-sm whitespace-nowrap">
+                <i class="fa-solid fa-check"></i> <span>Chọn Hạng Phòng Này</span>
               </button>
             </div>
 
