@@ -2,16 +2,92 @@
 <html lang="vi" class="h-full bg-[#07162f]">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking Travel CRM - Khách Hàng Là Gia Đình • Chuẩn vTour 4.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>Booking Travel CRM - Hệ Thống Điều Hành Lữ Hành & Quản Trị Khách Sạn Resort Chuẩn vTour 4.0</title>
+  <meta name="title" content="Booking Travel CRM - Hệ Thống Điều Hành Lữ Hành & Quản Trị Khách Sạn Resort Chuẩn vTour 4.0">
+  <meta name="description" content="Hệ thống CRM & ERP quản trị lữ hành chuyên nghiệp của Công ty TNHH Booking Travel. Quản lý 100+ khách sạn, resort, tour đoàn, dòng tiền thực chuẩn vTour và hóa đơn MISA với triết lý 'Khách hàng là gia đình'.">
+  <meta name="keywords" content="Booking Travel, crm booking travel, phần mềm lữ hành vTour, quản trị du lịch, đặt phòng resort, bảng giá khách sạn resort, quản lý tour lữ hành, MISA du lịch">
+  <meta name="author" content="Công ty TNHH Booking Travel">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#07162f">
+  <link rel="canonical" href="https://crm.bookingtravel.vn/">
+
+  <!-- Geo Meta Tags -->
+  <meta name="geo.region" content="VN">
+  <meta name="geo.placename" content="Vietnam">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://crm.bookingtravel.vn/">
+  <meta property="og:title" content="Booking Travel CRM - Khách Hàng Là Gia Đình • Chuẩn vTour 4.0">
+  <meta property="og:description" content="Nền tảng CRM & ERP điều hành lữ hành, quản trị bảng giá 100+ khách sạn resort, dòng tiền thực và hóa đơn MISA của Công ty TNHH Booking Travel.">
+  <meta property="og:image" content="https://crm.bookingtravel.vn/logo.png">
+  <meta property="og:site_name" content="Booking Travel ERP">
+  <meta property="og:locale" content="vi_VN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://crm.bookingtravel.vn/">
+  <meta name="twitter:title" content="Booking Travel CRM - Khách Hàng Là Gia Đình">
+  <meta name="twitter:description" content="Hệ thống CRM & ERP quản trị lữ hành, khách sạn resort chuẩn vTour 4.0.">
+  <meta name="twitter:image" content="https://crm.bookingtravel.vn/logo.png">
+
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="logof.png">
+
+  <!-- Performance Optimization: DNS Prefetch & Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+
+  <!-- Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Pro style Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Structured Data JSON-LD (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TravelAgency",
+        "@id": "https://bookingtravel.vn/#organization",
+        "name": "Công ty TNHH Booking Travel",
+        "url": "https://bookingtravel.vn",
+        "logo": "https://crm.bookingtravel.vn/logo.png",
+        "slogan": "Khách hàng là gia đình",
+        "description": "Doanh nghiệp lữ hành chuyên phân phối phòng khách sạn, resort cao cấp, combo du lịch và tour trọn gói trên toàn quốc.",
+        "telephone": "+84846455222",
+        "email": "crm@bookingtravel.vn",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "VN"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Booking Travel CRM vTour",
+        "operatingSystem": "Web, Windows, macOS, iOS, Android",
+        "applicationCategory": "BusinessApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "VND"
+        }
+      }
+    ]
+  }
+  </script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -76,7 +152,7 @@
         <div class="flex items-center gap-3.5">
           <!-- Logo container viền kính trắng nổi bật trên nền xanh navy -->
           <div class="bg-white rounded-2xl px-4 py-2.5 shadow-2xl inline-flex items-center justify-center border border-white/80">
-            <img src="logo.png" alt="Booking Travel - Khách Hàng Là Gia Đình" class="h-10 sm:h-12 w-auto object-contain">
+            <img src="logo.png" alt="Booking Travel - Khách Hàng Là Gia Đình" width="200" height="69" fetchpriority="high" class="h-10 sm:h-12 w-auto object-contain">
           </div>
           <div>
             <div class="flex items-center gap-1.5">
@@ -160,7 +236,7 @@
         <!-- Tiêu Đề Đăng Nhập -->
         <div>
           <div class="flex items-center gap-3 mb-2">
-            <img src="logof.png" alt="BT Emblem" class="w-10 h-10 rounded-xl object-contain bg-white/10 p-1 border border-white/20 shadow-md">
+            <img src="logof.png" alt="Booking Travel Emblem" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-white/10 p-1 border border-white/20 shadow-md">
             <div>
               <h2 class="text-xl font-bold text-white tracking-wide">ĐĂNG NHẬP CRM</h2>
               <p class="text-xs text-blue-300">Cổng Quản Trị & Điều Hành Du Lịch Nội Bộ</p>
@@ -234,7 +310,7 @@
       <!-- Brand Logo Header -->
       <div class="h-16 flex items-center px-4 border-b border-[#1a2c47] bg-[#07162f] gap-3">
         <div class="bg-white rounded-lg p-1 shadow-sm flex items-center justify-center shrink-0">
-          <img src="logo.png" alt="Booking Travel" class="h-7 w-auto object-contain">
+          <img src="logo.png" alt="Booking Travel" width="116" height="40" class="h-7 w-auto object-contain">
         </div>
         <div class="min-w-0 flex-1">
           <div class="flex items-center gap-1.5">
@@ -1907,7 +1983,7 @@
           <!-- Brand Header -->
           <div class="flex items-center justify-between border-b pb-4 border-slate-200">
             <div class="flex items-center gap-3">
-              <img src="logo.png" alt="Booking Travel" class="h-10 w-auto object-contain">
+              <img src="logo.png" alt="Booking Travel" width="160" height="55" class="h-10 w-auto object-contain">
               <div>
                 <h2 class="text-sm font-black text-slate-900 uppercase">CÔNG TY TNHH BOOKING TRAVEL</h2>
                 <p class="text-[11px] text-blue-600 font-bold">"Khách hàng là gia đình" • Hotline: 084.64.55.222</p>
