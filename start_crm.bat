@@ -33,10 +33,10 @@ if %ERRORLEVEL% NEQ 0 (
     echo [OK] Máy chủ Web (Port 80) đang hoạt động!
 )
 
-:: 3. Mở trình duyệt làm việc ngay
+:: 3. Mở trình duyệt làm việc ngay (Dùng Port 5000 để Chrome không bao giờ chặn HTTPS)
 echo.
 echo [3/3] Đang mở giao diện làm việc CRM trên trình duyệt...
-start "" "http://localhost/CRM_Booking.html"
+start "" "http://localhost:5000/CRM_Booking.html"
 
 echo.
 echo ===================================================================
