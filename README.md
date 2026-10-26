@@ -44,6 +44,21 @@ Hệ thống **Booking Travel ERP v4.0** giải quyết triệt để bài toán
 
 ---
 
+### 🎯 Phân hệ 2.1: Phân Chia KPI Theo Ngày • Tuần • Tháng & Tiếp Lửa Sales ("CỐ LÊN!")
+- **Phân rã đa chu kỳ linh hoạt:**
+  - 📅 **Hôm Nay (Ngày):** Chỉ tiêu ngày = `Chỉ tiêu tháng / 26` ngày công (~7.69M/ngày). Phát hiện ngay nhân viên chưa chốt đơn trong ngày.
+  - 📆 **Tuần Này:** Chỉ tiêu tuần = `Chỉ tiêu tháng / 4` (~50M/tuần).
+  - 📊 **Tháng Này:** Chỉ tiêu chuẩn 200M/tháng cho mỗi chiến binh Sales.
+  - ⚡ **Tổng Hợp 3 Chu Kỳ (Matrix):** Hiển thị trực quan cùng lúc cả 3 cột tiến độ Ngày - Tuần - Tháng kèm mã màu cảnh báo.
+- **Thanh Sức Khỏe KPI & Cảnh Báo Tiếp Sức:**
+  - 🏆 *Chiến binh về đích:* Tôn vinh các nhân sự đạt từ 100% KPI.
+  - ⚡ *Cần nhắc "CỐ LÊN!":* Thống kê ngay các bạn đang chậm nhịp để lãnh đạo hỗ trợ kịp thời.
+- **Hệ thống Gửi Lời Động Viên Cá Nhân Hóa (1-Click Zalo):**
+  - Nút **"Nhắc: Cố lên!"** sinh tin nhắn truyền cảm hứng kèm số liệu thiếu hụt cụ thể, mở trực tiếp chat Zalo với Sales.
+  - Nút **"Gửi Tin Động Viên Toàn Đội"** xuất bản tin tiếp lửa thi đua vào nhóm Zalo chung của công ty.
+
+---
+
 ### 💰 Phân hệ 3: Quản Trị Dòng Tiền Toàn Công Ty (Cash Flow Statement)
 - **Kiểm soát dòng tiền thực tế:**
   - 📥 **Dòng Tiền Vào (Cash Inflow):** Tiền thực tế khách & CTV đã thanh toán/cọc.
