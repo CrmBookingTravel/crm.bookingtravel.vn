@@ -1410,137 +1410,444 @@
           </div>
         </div>
 
-        <!-- BỐ CỤC ĐA CỘT FORM: THÔNG TIN DỊCH VỤ & HẠCH TOÁN DÒNG TIỀN -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- BỐ CỤC ĐA CỘT FORM: THÔNG TIN DỊCH VỤ & HẠCH TOÁN DÒNG TIỀN (CHUẨN vTOUR 4.0) -->
+        <div class="space-y-5">
           
-          <!-- CỘT 1 (lg:col-span-7): THÔNG TIN KHÁCH & TIẾN TRÌNH DỊCH VỤ -->
-          <div class="lg:col-span-7 space-y-4 bg-slate-900/80 p-4 rounded-xl border border-slate-800">
-            <div class="border-b border-slate-800 pb-2 flex items-center justify-between">
-              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i class="fa-solid fa-circle-info"></i> 1. Thông Tin Khách Hàng & Dịch Vụ
+          <!-- ========================================================================= -->
+          <!-- KHỐI 1: THÔNG TIN ĐIỀU HÀNH & KHÁCH HÀNG -->
+          <!-- ========================================================================= -->
+          <div class="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-blue-900/40 shadow-lg space-y-4">
+            <div class="border-b border-slate-800 pb-2.5 flex items-center justify-between">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-address-card text-sky-400 text-sm"></i> 1. Thông Tin Điều Hành & Hồ Sơ Khách Hàng
+              </span>
+              <span class="text-[10px] text-blue-300 font-medium bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+                Triết lý "Khách hàng là gia đình"
               </span>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Dòng 1: Mã Đơn, Ngày Tạo, Sale, Phân Loại -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <div>
                 <label class="block text-[11px] font-semibold text-slate-300 mb-1">Mã Booking (*)</label>
-                <input type="text" id="ipt-code" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs font-mono font-bold text-blue-400 focus:outline-none focus:border-blue-500 uppercase">
+                <input type="text" id="ipt-code" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs font-mono font-bold text-blue-400 focus:outline-none focus:border-blue-500 uppercase">
               </div>
+
+              <!-- YÊU CẦU 9: Ngày Tạo Đơn Hàng -->
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+                  <span>Ngày Tạo Đơn Hàng (*)</span>
+                  <span class="text-[9px] text-emerald-400 font-mono">Tự động</span>
+                </label>
+                <input type="datetime-local" id="ipt-created-date" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs font-mono text-emerald-300 focus:outline-none focus:border-emerald-500">
+              </div>
+
               <div>
                 <label class="block text-[11px] font-semibold text-slate-300 mb-1">Sale Phụ Trách (*)</label>
-                <select id="ipt-sale" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                <select id="ipt-sale" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
                   <!-- Populated dynamically -->
                 </select>
               </div>
 
               <div>
-                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nhóm Dịch Vụ (vTour) (*)</label>
-                <select id="ipt-service-type" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Nhóm Dịch Vụ (*)</label>
+                <select id="ipt-service-type" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
                   <option value="hotel">🏨 Khách Sạn / Resort Lẻ</option>
                   <option value="combo">✈️ Combo Du Lịch (Phòng + Vé/Xe)</option>
                   <option value="tour">🚩 Tour Trọn Gói / Ghép Đoàn</option>
                   <option value="ticket">🎟️ Vé Vui Chơi (VinWonders/Sun World)</option>
                 </select>
               </div>
+            </div>
+
+            <!-- Dòng 2: Trạng Thái & Lịch Trình Check-in / Out -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <!-- YÊU CẦU 1: Đổi NCC thành Nhà Cung Cấp rõ ràng -->
               <div>
                 <label class="block text-[11px] font-semibold text-slate-300 mb-1">Trạng Thái Điều Hành (*)</label>
-                <select id="ipt-tour-status" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-amber-300 font-semibold focus:outline-none focus:border-blue-500">
+                <select id="ipt-tour-status" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-amber-300 font-semibold focus:outline-none focus:border-blue-500">
                   <option value="moi_tao">🔵 Mới Tạo / Chờ Cọc</option>
                   <option value="da_coc">🟡 Khách Đã Đặt Cọc</option>
-                  <option value="da_xac_nhan">🟢 Đã Chốt Code Phòng Với NCC</option>
+                  <option value="da_xac_nhan">🟢 Đã Chốt Code Phòng Với Nhà Cung Cấp (Khách Sạn / Resort)</option>
                   <option value="dang_di">🟣 Đang Check-in / Đi Tour</option>
                   <option value="hoan_tat">⚪ Đã Check-out & Quyết Toán</option>
                 </select>
               </div>
 
               <div>
-                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Họ Tên Khách Hàng (*)</label>
-                <input type="text" id="ipt-customer" required placeholder="Nguyễn Văn A" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
-              </div>
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Số Điện Thoại (*)</label>
-                <input type="text" id="ipt-phone" required placeholder="0901234567" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
-              </div>
-
-              <div class="sm:col-span-2">
-                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Tên Dịch Vụ / Lộ Trình Chi Tiết (*)</label>
-                <input type="text" id="ipt-service" required placeholder="VD: Amaya Retreat Sóc Sơn 2N1Đ Sky Villa kèm ăn 3 bữa" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-medium">
-              </div>
-
-              <div>
                 <label class="block text-[11px] font-semibold text-slate-300 mb-1">Ngày Check-In (*)</label>
-                <input type="date" id="ipt-checkin" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+                <input type="date" id="ipt-checkin" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
               </div>
+
               <div>
                 <label class="block text-[11px] font-semibold text-slate-300 mb-1">Ngày Check-Out (*)</label>
-                <input type="date" id="ipt-checkout" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+                <input type="date" id="ipt-checkout" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+              </div>
+            </div>
+
+            <!-- Dòng 3: Họ Tên, SĐT Chặn Gõ Chữ, Email Khách, Số CCCD / Hộ Chiếu -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Họ Tên Khách Hàng (*)</label>
+                <input type="text" id="ipt-customer" required placeholder="Nguyễn Văn A" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-semibold">
+              </div>
+
+              <!-- YÊU CẦU 4: Số Điện Thoại CHẶN GÕ CHỮ -->
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+                  <span>Số Điện Thoại (*)</span>
+                  <span class="text-[9px] text-amber-400">Chỉ cho nhập số</span>
+                </label>
+                <input type="tel" id="ipt-phone" required maxlength="11" oninput="handlePhoneInput(this)" placeholder="0901234567" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+                <div id="phone-validation-hint" class="hidden text-[10px] mt-0.5"></div>
+              </div>
+
+              <!-- YÊU CẦU 8: Email Khách Hàng -->
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+                  <span>Email Khách Hàng</span>
+                  <span class="text-[9px] text-slate-400">Gửi Voucher/Xác nhận</span>
+                </label>
+                <input type="email" id="ipt-customer-email" placeholder="khachhang@gmail.com" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+              </div>
+
+              <!-- YÊU CẦU 8: Số CCCD / Hộ Chiếu -->
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+                  <span>Số CCCD / Hộ Chiếu</span>
+                  <span class="text-[9px] text-slate-400">Lưu trú / Vé bay</span>
+                </label>
+                <input type="text" id="ipt-customer-cccd" maxlength="20" placeholder="12 số CCCD / Hộ chiếu" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+              </div>
+            </div>
+
+            <!-- Dòng 4: YÊU CẦU 2 - Tên Dịch Vụ / Lộ Trình Chi Tiết RỘNG RA -->
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+                <span class="flex items-center gap-1.5 text-amber-300">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  <strong>Tên Dịch Vụ / Lộ Trình Chi Tiết & Ghi Chú Yêu Cầu (*)</strong>
+                </span>
+                <span class="text-[10px] text-slate-400">Rộng rãi thoải mái ghi chú lịch trình, ăn uống, xe đưa đón, số lượng người lớn/trẻ em, bồn tắm view</span>
+              </label>
+              <textarea id="ipt-service" rows="3" required placeholder="Nhập tên khách sạn, hạng phòng, lộ trình chi tiết:&#10;VD: Amaya Retreat Sóc Sơn 2N1Đ Bungalow Tầng Trên View Rừng Thông.&#10;• Khách: 2 Người Lớn + 1 Bé 5 tuổi (kê thêm nệm).&#10;• Ăn uống: 01 bữa tối BBQ Set menu + Free buffet sáng.&#10;• Xe đưa đón: Đón 14h tại Nhà Hát Lớn Hà Nội." class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400 font-medium leading-relaxed resize-y min-h-[80px] max-h-[220px] shadow-inner"></textarea>
+            </div>
+          </div>
+
+          <!-- ========================================================================= -->
+          <!-- KHỐI 2: TÀI CHÍNH BÁN HÀNG & MUA HÀNG + CÔNG THỨC LỢI NHUẬN GỘP (YÊU CẦU 3 & 7) -->
+          <!-- ========================================================================= -->
+          <div class="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-amber-900/40 shadow-lg space-y-4">
+            <div class="border-b border-slate-800 pb-2.5 flex items-center justify-between">
+              <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-coins text-amber-400 text-sm"></i> 2. Hạch Toán Doanh Thu, Giá Vốn & Lợi Nhuận Gộp
+              </span>
+              <span class="text-[10px] text-amber-300 font-mono bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                Định dạng tiền tệ có dấu chấm phân cách hàng nghìn (vi-VN)
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <!-- Cột 1: Bán Hàng (Thu Khách) -->
+              <div class="p-4 bg-slate-950/80 border border-blue-900/50 rounded-xl space-y-3">
+                <div class="flex items-center justify-between border-b border-blue-900/30 pb-2">
+                  <span class="text-xs font-bold text-blue-400 uppercase flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrow-down-long text-emerald-400"></i> Bán Hàng (Doanh Thu Khách)
+                  </span>
+                  <span class="text-[10px] text-slate-400">GIÁ BÁN THỰC TẾ</span>
+                </div>
+
+                <!-- YÊU CẦU 3: Số tiền có dấu chấm phân cách hàng nghìn -->
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+                    <span>Giá Bán Báo Khách (VNĐ) (*)</span>
+                    <span class="text-[10px] text-amber-300 font-mono font-bold" id="badge-revenue-word"></span>
+                  </label>
+                  <div class="relative">
+                    <input type="text" id="ipt-revenue" required placeholder="0" oninput="handleCurrencyInput(this); calculateFormFinancials();" class="w-full bg-[#07162f] border-2 border-blue-900/60 rounded-xl pl-3 pr-10 py-2.5 text-sm font-mono font-extrabold text-amber-300 focus:outline-none focus:border-amber-400">
+                    <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-xs text-slate-400 font-bold">VNĐ</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-lg bg-blue-950/40 border border-blue-900/30 text-[11px] text-slate-300 space-y-1">
+                  <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Tổng Đã Thu Của Khách:</span>
+                    <span id="sum-customer-paid-display" class="font-mono font-bold text-emerald-400">0 đ</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Số Tiền Khách Còn Thiếu:</span>
+                    <span id="sum-customer-remain-display" class="font-mono font-bold text-rose-400">0 đ</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cột 2: Mua Hàng (Chi Nhà Cung Cấp) - YÊU CẦU 1: Ghi rõ Nhà Cung Cấp -->
+              <div class="p-4 bg-slate-950/80 border border-amber-900/50 rounded-xl space-y-3">
+                <div class="flex items-center justify-between border-b border-amber-900/30 pb-2">
+                  <span class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrow-up-long text-rose-400"></i> Mua Hàng (Giá Vốn Nhà Cung Cấp)
+                  </span>
+                  <span class="text-[10px] text-slate-400">GIÁ NHẬN (NET)</span>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Tên Nhà Cung Cấp (Khách Sạn / Resort / Xe / Tour) (*)</label>
+                  <input type="text" id="ipt-supplier" required placeholder="VD: Amaya Retreat, Vinpearl, Flamingo..." class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400 font-medium">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <!-- YÊU CẦU 3: Số tiền có dấu chấm phân cách hàng nghìn -->
+                  <div>
+                    <label class="block text-[10px] font-semibold text-slate-300 mb-1">Giá Vốn Trả NCC (VNĐ) (*)</label>
+                    <div class="relative">
+                      <input type="text" id="ipt-cost" required placeholder="0" oninput="handleCurrencyInput(this); calculateFormFinancials();" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl pl-2.5 pr-8 py-2 text-xs font-mono font-bold text-slate-200 focus:outline-none focus:border-amber-400">
+                      <span class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none text-[10px] text-slate-400 font-bold">đ</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="block text-[10px] font-semibold text-slate-300 mb-1">Đã Trả / Tạm Ứng NCC (VNĐ)</label>
+                    <div class="relative">
+                      <input type="text" id="ipt-ap-paid" placeholder="0" oninput="handleCurrencyInput(this); calculateFormFinancials();" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl pl-2.5 pr-8 py-2 text-xs font-mono font-bold text-sky-400 focus:outline-none focus:border-amber-400">
+                      <span class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none text-[10px] text-slate-400 font-bold">đ</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex justify-between items-center text-[11px] pt-1 text-slate-400">
+                  <span>Còn Phải Trả Nhà Cung Cấp:</span>
+                  <span id="sum-supplier-remain-display" class="font-mono font-bold text-amber-400">0 đ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- YÊU CẦU 7: CÔNG THỨC LỢI NHUẬN GỘP & HOA HỒNG REALTIME HIỂN THỊ TRỰC QUAN -->
+            <div class="p-3.5 bg-gradient-to-r from-emerald-950/60 via-slate-900 to-teal-950/60 border border-emerald-500/40 rounded-xl shadow-md">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-900/40 pb-2 mb-2.5">
+                <span class="text-[11px] font-bold text-emerald-300 uppercase tracking-wide flex items-center gap-1.5">
+                  <i class="fa-solid fa-calculator text-emerald-400"></i> Công Thức Hạch Toán Lợi Nhuận Gộp & Hoa Hồng (P&L Realtime)
+                </span>
+                <span id="profit-margin-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  Tỷ suất: 0.0%
+                </span>
+              </div>
+
+              <!-- Thẻ Công Thức Trực Quan: GIÁ BÁN - GIÁ NHẬN = HOA HỒNG -->
+              <div class="grid grid-cols-1 sm:grid-cols-5 items-center gap-2 text-center">
+                <!-- GIÁ BÁN -->
+                <div class="p-2 rounded-lg bg-blue-950/60 border border-blue-500/30">
+                  <span class="text-[9px] text-blue-300 uppercase block font-semibold">GIÁ BÁN (Doanh Thu)</span>
+                  <span id="formula-revenue" class="text-xs sm:text-sm font-mono font-black text-amber-300 block mt-0.5">0 đ</span>
+                </div>
+
+                <!-- DẤU TRỪ -->
+                <div class="text-base font-black text-slate-400">
+                  <i class="fa-solid fa-minus"></i>
+                </div>
+
+                <!-- GIÁ NHẬN -->
+                <div class="p-2 rounded-lg bg-slate-800/80 border border-slate-700/50">
+                  <span class="text-[9px] text-slate-400 uppercase block font-semibold">GIÁ NHẬN (Vốn NCC)</span>
+                  <span id="formula-cost" class="text-xs sm:text-sm font-mono font-bold text-slate-200 block mt-0.5">0 đ</span>
+                </div>
+
+                <!-- DẤU BẰNG -->
+                <div class="text-base font-black text-slate-400">
+                  <i class="fa-solid fa-equals"></i>
+                </div>
+
+                <!-- HOA HỒNG / LỢI NHUẬN GỘP -->
+                <div class="p-2 rounded-lg bg-emerald-950/80 border border-emerald-500/50 shadow-inner">
+                  <span class="text-[9px] text-emerald-300 uppercase block font-bold">HOA HỒNG / LỢI NHUẬN GỘP</span>
+                  <span id="formula-profit" class="text-xs sm:text-sm font-mono font-black text-emerald-400 block mt-0.5">+0 đ</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ========================================================================= -->
+          <!-- KHỐI 3: LỊCH SỬ & KẾ HOẠCH THANH TOÁN CỦA KHÁCH (HỖ TRỢ 3 - 4 LẦN) (YÊU CẦU 7) -->
+          <!-- ========================================================================= -->
+          <div class="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-indigo-900/40 shadow-lg space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+              <div>
+                <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
+                  <i class="fa-solid fa-credit-card text-indigo-400 text-sm"></i> 3. Quản Lý Các Đợt Thanh Toán Của Khách (Hỗ Trợ Thanh Toán 3 - 4 Lần)
+                </span>
+                <p class="text-[10px] text-slate-400 mt-0.5">Khách cọc giữ chỗ 30-50%, thanh toán đợt 2 trước ngày đi, quyết toán nốt khi check-in hoặc sau chuyến đi.</p>
+              </div>
+
+              <!-- Nút Thêm Đợt -->
+              <button type="button" onclick="addPaymentInstallment()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-md shadow-indigo-600/20">
+                <i class="fa-solid fa-plus text-xs"></i>
+                <span>Thêm Đợt Thu Tiền</span>
+              </button>
+            </div>
+
+            <!-- Danh Sách Các Đợt Thanh Toán -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="text-[10px] text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/60">
+                    <th class="py-2 px-2.5">Tên Đợt / Kế Hoạch</th>
+                    <th class="py-2 px-2.5 text-right w-36">Số Tiền (VNĐ)</th>
+                    <th class="py-2 px-2.5 w-32">Ngày Thu / Hạn</th>
+                    <th class="py-2 px-2.5 w-44">Phương Thức</th>
+                    <th class="py-2 px-2.5 w-32">Trạng Thái</th>
+                    <th class="py-2 px-2.5">Ghi Chú / Mã Giao Dịch</th>
+                    <th class="py-2 px-2 text-center w-10">Xóa</th>
+                  </tr>
+                </thead>
+                <tbody id="payment-installments-tbody" class="divide-y divide-slate-800/60">
+                  <!-- Rendered dynamically by JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Bảng Tổng Kết Tiến Độ Thu Khách -->
+            <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div class="flex items-center gap-2">
+                <span class="text-slate-400 font-semibold">Tình Trạng Thu Tiền:</span>
+                <span id="payment-progress-status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  Chưa thu tiền
+                </span>
+              </div>
+              <div class="flex items-center gap-4">
+                <div>
+                  <span class="text-slate-400 text-[11px]">Tổng Đã Thu: </span>
+                  <span id="installment-total-collected" class="font-mono font-bold text-emerald-400">0 đ</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 text-[11px]">Còn Thiếu: </span>
+                  <span id="installment-total-remaining" class="font-mono font-bold text-rose-400">0 đ</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- CỘT 2 (lg:col-span-5): HẠCH TOÁN DÒNG TIỀN & HÓA ĐƠN THUẾ MISA -->
-          <div class="lg:col-span-5 space-y-4">
-            
-            <!-- Khối Bán Hàng & Mua Hàng -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
-              <!-- Bán Hàng (Thu Khách) -->
-              <div class="p-3.5 bg-slate-950/80 border border-blue-900/40 rounded-xl space-y-2">
-                <span class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center justify-between">
-                  <span>Bán Hàng (Thu Khách)</span>
-                  <span class="text-[10px] text-slate-400">Doanh Thu</span>
+          <!-- ========================================================================= -->
+          <!-- KHỐI 4: HÓA ĐƠN GTGT ĐẦU RA (XUẤT CHO KHÁCH HÀNG / DOANH NGHIỆP) (YÊU CẦU 5) -->
+          <!-- ========================================================================= -->
+          <div class="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-blue-900/40 shadow-lg space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2">
+                  <i class="fa-solid fa-file-invoice-dollar text-blue-400 text-sm"></i> 4. Hóa Đơn GTGT Đầu Ra (Xuất Cho Khách Hàng / Doanh Nghiệp)
                 </span>
-                <div>
-                  <label class="block text-[10px] text-slate-300 mb-1">Giá Bán Báo Khách (VNĐ) (*)</label>
-                  <input type="number" id="ipt-revenue" required placeholder="0" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-amber-300 focus:outline-none focus:border-blue-500">
-                </div>
-                <div>
-                  <label class="block text-[10px] text-slate-300 mb-1">Khách Đã Thanh Toán / Cọc (VNĐ)</label>
-                  <input type="number" id="ipt-ar-paid" value="0" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-emerald-400 focus:outline-none focus:border-blue-500">
-                </div>
+                <!-- Nút Bật/Tắt Xuất Hóa Đơn -->
+                <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+                  <input type="checkbox" id="ipt-co-xuat-vat" onchange="toggleVatOutputSection()" class="sr-only peer">
+                  <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                  <span class="text-xs font-bold text-slate-300 peer-checked:text-blue-300">Khách Yêu Cầu Xuất HĐ VAT</span>
+                </label>
               </div>
 
-              <!-- Mua Hàng (Chi Đối Tác) -->
-              <div class="p-3.5 bg-slate-950/80 border border-amber-900/40 rounded-xl space-y-2">
-                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center justify-between">
-                  <span>Mua Hàng (Chi Đối Tác)</span>
-                  <span class="text-[10px] text-slate-400">Giá Vốn (Net)</span>
-                </span>
-                <div>
-                  <label class="block text-[10px] text-slate-300 mb-1">Tên Đối Tác / Nhà Cung Cấp (*)</label>
-                  <input type="text" id="ipt-supplier" required placeholder="Amaya Retreat / Vinpearl..." class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
-                </div>
-                <div>
-                  <label class="block text-[10px] text-slate-300 mb-1">Giá Vốn Trả NCC (VNĐ) (*)</label>
-                  <input type="number" id="ipt-cost" required placeholder="0" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-slate-200 focus:outline-none focus:border-amber-500">
-                </div>
-                <div>
-                  <label class="block text-[10px] text-slate-300 mb-1">Đã Trả / Tạm Ứng Cho NCC (VNĐ)</label>
-                  <input type="number" id="ipt-ap-paid" value="0" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-sky-400 focus:outline-none focus:border-amber-500">
-                </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="copyVatInfoForMisa()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-semibold transition flex items-center gap-1.5 cursor-pointer" title="Sao chép toàn bộ thông tin xuất hóa đơn để gửi kế toán MISA">
+                  <i class="fa-solid fa-copy text-xs"></i>
+                  <span>Copy Dữ Liệu Gửi MISA</span>
+                </button>
               </div>
             </div>
 
-            <!-- Khối Hóa Đơn Đầu Vào (MISA) -->
-            <div class="p-3.5 bg-slate-950/90 border border-rose-900/40 rounded-xl space-y-2.5">
-              <span class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i class="fa-solid fa-file-import text-rose-400"></i> Hóa Đơn Đầu Vào (Từ Đối Tác / NCC)
-              </span>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <!-- Form Chi Tiết Hóa Đơn Đầu Ra (YÊU CẦU 5: Mã HĐ, Đơn vị, MST, Mail, Địa chỉ, Nội dung) -->
+            <div id="vat-output-details" class="space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <div>
-                  <label class="block text-[10px] text-slate-300 mb-1">Trạng Thái HĐ Đầu Vào (*)</label>
-                  <select id="ipt-status-hd-vao" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-2.5 py-1.5 text-xs text-white font-semibold">
-                    <option value="chua_lay">🔴 Chưa Có HĐ (CẦN ĐÒI!)</option>
-                    <option value="da_co">🟢 Đã Nhận Hóa Đơn</option>
-                    <option value="khong_co">⚪ Không Có HĐ</option>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Mã / Số Hóa Đơn Xuất</label>
+                  <input type="text" id="ipt-so-hd-ra" placeholder="VD: 1C26TBT-000123" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Trạng Thái HĐ Đầu Ra (*)</label>
+                  <select id="ipt-status-hd-ra" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white font-semibold focus:outline-none focus:border-blue-500">
+                    <option value="khong_xuat">⚪ Khách Lẻ Không Lấy HĐ</option>
+                    <option value="chua_xuat">🟡 Đang Chờ Kế Toán Xuất</option>
+                    <option value="da_xuat">🟢 Đã Xuất & Gửi Email Khách</option>
                   </select>
                 </div>
+
                 <div>
-                  <label class="block text-[10px] text-slate-300 mb-1">Số Hóa Đơn NCC (Nếu có)</label>
-                  <input type="text" id="ipt-so-hd-vao" placeholder="VD: 00012345" class="w-full bg-[#07162f] border border-blue-900/60 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono">
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Mã Số Thuế Đơn Vị (MST) (*)</label>
+                  <input type="text" id="ipt-vat-taxcode" placeholder="VD: 0101234567" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono font-bold">
                 </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Email Nhận Hóa Đơn Điện Tử (*)</label>
+                  <input type="email" id="ipt-vat-email" placeholder="ketoan@congty.com" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Tên Đơn Vị / Công Ty Mua Hàng (*)</label>
+                  <input type="text" id="ipt-vat-company" placeholder="VD: Công Ty Cổ Phần Công Nghệ MISA" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-semibold">
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-300 mb-1">Địa Chỉ Đăng Ký Kinh Doanh (*)</label>
+                  <input type="text" id="ipt-vat-address" placeholder="VD: Tòa nhà Technosoft, Phố Duy Tân, Cầu Giấy, Hà Nội" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+                  <span>Nội Dung Chi Tiết Ghi Trên Hóa Đơn GTGT (*)</span>
+                  <span class="text-[10px] text-slate-400">Ví dụ: Dịch vụ phòng nghỉ tại Amaya Retreat từ ngày 20/11/2026 đến 22/11/2026</span>
+                </label>
+                <textarea id="ipt-vat-content" rows="2" placeholder="VD: Dịch vụ phòng nghỉ và ẩm thực tại Amaya Retreat từ ngày 20/11/2026 đến 22/11/2026..." class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-medium resize-y"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========================================================================= -->
+          <!-- KHỐI 5: HÓA ĐƠN ĐẦU VÀO (TỪ NHÀ CUNG CẤP / KHÁCH SẠN / RESORT) (YÊU CẦU 6) -->
+          <!-- ========================================================================= -->
+          <div class="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-rose-900/40 shadow-lg space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+              <div>
+                <span class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
+                  <i class="fa-solid fa-file-import text-rose-400 text-sm"></i> 5. Hóa Đơn Đầu Vào (Từ Nhà Cung Cấp / Khách Sạn / Resort / Đối Tác)
+                </span>
+                <p class="text-[10px] text-slate-400 mt-0.5">Kiểm soát chặt chẽ hóa đơn chi phí đầu vào để quyết toán thuế GTGT & hợp lệ chi phí doanh nghiệp.</p>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="openFilesModal(document.getElementById('edit-id').value || '')" class="px-2.5 py-1 rounded-lg bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-300 text-[11px] font-semibold transition flex items-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-paperclip text-xs"></i>
+                  <span>Tải Lên File HĐ (PDF/XML)</span>
+                </button>
               </div>
             </div>
 
+            <!-- YÊU CẦU 6: Trạng Thái HĐ Đầu Vào, Mã Số Thuế Nhà Cung Cấp, Số Hóa Đơn, Ngày Nhận -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Trạng Thái HĐ Đầu Vào (*)</label>
+                <select id="ipt-status-hd-vao" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white font-semibold focus:outline-none focus:border-rose-500">
+                  <option value="chua_lay">🔴 Chưa Có HĐ (CẦN ĐÒI NCC!)</option>
+                  <option value="dang_cho">🟡 Đang Chờ NCC Xuất</option>
+                  <option value="da_co">🟢 Đã Nhận Đủ Hóa Đơn</option>
+                  <option value="khong_co">⚪ NCC Không Có HĐ</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Mã Số Thuế Nhà Cung Cấp</label>
+                <input type="text" id="ipt-ncc-mst" placeholder="VD: 0312345678" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500 font-mono">
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Số / Mã Hóa Đơn Đầu Vào</label>
+                <input type="text" id="ipt-so-hd-vao" placeholder="VD: 00012345 hoặc VP-8829" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500 font-mono font-bold">
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Ngày Nhận Hóa Đơn</label>
+                <input type="date" id="ipt-ncc-hd-date" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500 font-mono">
+              </div>
+            </div>
           </div>
 
         </div>
@@ -1549,17 +1856,16 @@
         <div class="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0">
           <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
             <i class="fa-solid fa-shield-halved text-emerald-400"></i>
-            <span>Dữ liệu được lưu trữ bảo mật & tự động cập nhật doanh số KPI nhân sự</span>
+            <span>Dữ liệu được lưu trữ bảo mật & tự động cập nhật doanh số KPI nhân sự • Booking Travel CRM vTour 4.0</span>
           </div>
           <div class="flex items-center gap-3">
             <button type="button" onclick="closeModalTaoDon()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition cursor-pointer">Hủy Bỏ</button>
-            <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-extrabold rounded-xl shadow-lg shadow-blue-500/25 transition flex items-center gap-2 cursor-pointer uppercase tracking-wider">
+            <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black rounded-xl shadow-lg shadow-blue-500/25 transition flex items-center gap-2 cursor-pointer uppercase tracking-wider">
               <i class="fa-solid fa-floppy-disk text-sm"></i>
               <span>LƯU HẠCH TOÁN ĐƠN HÀNG</span>
             </button>
           </div>
         </div>
-
       </form>
 
     </div>
@@ -2686,6 +2992,17 @@
       {
         id: "BK-2611-01",
         maBooking: "BK-2611-01",
+        ngayTao: "2026-10-25T09:30",
+        email: "hongly.hoang@gmail.com",
+        cccd: "034195008892",
+        diaChiVat: "Số 45 Lê Lợi, TP. Thanh Hóa, Tỉnh Thanh Hóa",
+        noiDungVat: "Dịch vụ phòng nghỉ tại Khách Sạn Rova Nha Trang từ 15/11 đến 16/11/2026",
+        mstNcc: "4201889922",
+        ngayHdVao: "",
+        payments: [
+          { id: "p1", dot: "Đợt 1 - Cọc giữ chỗ (50%)", soTien: 400000, ngay: "2026-10-25", hinhThuc: "Chuyển khoản (Vietcombank)", trangThai: "da_thu", ghiChu: "CK Cọc qua VCB" },
+          { id: "p2", dot: "Đợt 2 - Quyết toán trước nhận phòng", soTien: 400000, ngay: "2026-11-10", hinhThuc: "Chuyển khoản (Vietcombank)", trangThai: "da_thu", ghiChu: "Thanh toán nốt" }
+        ],
         khachHang: "Chị Hoàng Thị Hồng Ly",
         sdt: "0877213681",
         saleEmail: "sales1@bookingtravel.vn",
@@ -2712,6 +3029,17 @@
       {
         id: "BK-2610-02",
         maBooking: "BK-2610-02",
+        ngayTao: "2026-10-26T14:15",
+        email: "vuong.nguyen@vinachem.com.vn",
+        cccd: "001088005521",
+        diaChiVat: "",
+        noiDungVat: "",
+        mstNcc: "4201778811",
+        ngayHdVao: "",
+        payments: [
+          { id: "p1", dot: "Đợt 1 - Cọc giữ chỗ", soTien: 1866000, ngay: "2026-10-26", hinhThuc: "Chuyển khoản (Techcombank)", trangThai: "da_thu", ghiChu: "Cọc 50%" },
+          { id: "p2", dot: "Đợt 2 - Quyết toán khi check-in", soTien: 1866000, ngay: "2026-10-29", hinhThuc: "Chuyển khoản (Techcombank)", trangThai: "cho_thu", ghiChu: "Hẹn thu tại lễ tân" }
+        ],
         khachHang: "Anh Đỗ Khánh Linh",
         sdt: "0976937575",
         saleEmail: "sales2@bookingtravel.vn",
@@ -2734,6 +3062,17 @@
       {
         id: "BK-2611-03",
         maBooking: "BK-2611-03",
+        ngayTao: "2026-10-24T10:00",
+        email: "doanvu@hoangmai.vn",
+        cccd: "025091004433",
+        diaChiVat: "Tầng 12 Tòa Nhà Hoàng Mai, Q. Hoàng Mai, Hà Nội",
+        noiDungVat: "Combo dịch vụ nghỉ dưỡng Vinpearl Nha Trang Resort 3N2Đ & Vé VinWonders",
+        mstNcc: "4200456889",
+        ngayHdVao: "2026-10-25",
+        payments: [
+          { id: "p1", dot: "Đợt 1 - Cọc giữ phòng (50%)", soTien: 15000000, ngay: "2026-10-24", hinhThuc: "Chuyển khoản (Vietcombank)", trangThai: "da_thu", ghiChu: "Đã nhận UNC cọc" },
+          { id: "p2", dot: "Đợt 2 - Trước khởi hành 7 ngày", soTien: 13500000, ngay: "2026-11-13", hinhThuc: "Chuyển khoản (Vietcombank)", trangThai: "cho_thu", ghiChu: "Hẹn thanh toán nốt" }
+        ],
         khachHang: "Đoàn Anh Vũ (12 Khách)",
         sdt: "0918889999",
         saleEmail: "sales3@bookingtravel.vn",
@@ -2895,6 +3234,17 @@
       {
         id: "BK-2611-08",
         maBooking: "BK-2611-08",
+        ngayTao: "2026-10-26T16:45",
+        email: "bichngoc.le@gmail.com",
+        cccd: "038192007744",
+        diaChiVat: "",
+        noiDungVat: "",
+        mstNcc: "0109988776",
+        ngayHdVao: "",
+        payments: [
+          { id: "p1", dot: "Đợt 1 - Cọc giữ Bungalow (50%)", soTien: 2600000, ngay: "2026-10-26", hinhThuc: "Chuyển khoản (MBBank)", trangThai: "da_thu", ghiChu: "Cọc qua MB" },
+          { id: "p2", dot: "Đợt 2 - Quyết toán khi nhận phòng", soTien: 2600000, ngay: "2026-11-06", hinhThuc: "Tiền mặt", trangThai: "cho_thu", ghiChu: "Thanh toán nốt" }
+        ],
         khachHang: "Chị Lê Bích Ngọc",
         sdt: "0909876543",
         saleEmail: "sales3@bookingtravel.vn",
@@ -3393,16 +3743,21 @@
       const lookupInput = document.getElementById('ipt-room-lookup');
 
       if (lookupInput) lookupInput.value = `${found.hotel} - ${found.hangPhong}`;
-      if (serviceInput) serviceInput.value = `${found.hotel} - ${found.hangPhong}`;
+      if (serviceInput) {
+        serviceInput.value = `${found.hotel} - ${found.hangPhong}\n• Bao gồm: ${found.moTa || 'Dịch vụ chuẩn Booking Travel'}\n• Khu vực: ${found.khuVuc}`;
+      }
       if (supplierInput) supplierInput.value = found.hotel;
       if (serviceTypeInput) serviceTypeInput.value = found.serviceType || 'hotel';
-      if (revenueInput) revenueInput.value = found.giaBaoKhach;
-      if (costInput) costInput.value = found.giaVon;
+      if (revenueInput) revenueInput.value = formatCurrency(found.giaBaoKhach);
+      if (costInput) costInput.value = formatCurrency(found.giaVon);
+
+      // Tự động tính toán lại P&L
+      calculateFormFinancials();
 
       const alertBox = document.getElementById('room-autofill-alert');
       const alertText = document.getElementById('room-autofill-text');
       if (alertBox && alertText) {
-        alertText.innerHTML = `✨ <strong>Đã tự điền từ GSheet:</strong> ${found.hotel} • ${found.hangPhong} | <strong>Báo khách: ${found.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${found.giaVon.toLocaleString('vi-VN')} đ)`;
+        alertText.innerHTML = `✨ <strong>Đã tự điền từ GSheet:</strong> ${found.hotel} • ${found.hangPhong} | <strong>Báo khách: ${found.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${found.giaVon.toLocaleString('vi-VN')} đ) • Lợi nhuận: ${(found.giaBaoKhach - found.giaVon).toLocaleString('vi-VN')} đ`;
         alertBox.classList.remove('hidden');
       }
 
@@ -3410,7 +3765,6 @@
       if (resultsContainer) resultsContainer.classList.add('hidden');
     }
 
-    // Mở Bảng Giá GSheet để chọn phòng cho Booking hiện tại
     function openPriceCatalogModalForCurrentBooking() {
       openPriceCatalogModal();
     }
@@ -3670,16 +4024,18 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const serviceTypeInput = document.getElementById('ipt-service-type');
       const revInput = document.getElementById('ipt-revenue');
       const costInput = document.getElementById('ipt-cost');
-      const dateInInput = document.getElementById('ipt-date-start');
-      const dateOutInput = document.getElementById('ipt-date-end');
+      const dateInInput = document.getElementById('ipt-checkin');
+      const dateOutInput = document.getElementById('ipt-checkout');
 
-      if (serviceInput) serviceInput.value = `${currentSqRoom.hotel} - ${currentSqRoom.hangPhong} (${rooms} phòng, ${nights} đêm)`;
+      if (serviceInput) serviceInput.value = `${currentSqRoom.hotel} - ${currentSqRoom.hangPhong} (${rooms} phòng, ${nights} đêm)\n• Lộ trình: Nghỉ dưỡng cao cấp ${currentSqRoom.khuVuc}`;
       if (supplierInput) supplierInput.value = currentSqRoom.hotel;
       if (serviceTypeInput) serviceTypeInput.value = 'hotel';
-      if (revInput) revInput.value = totalPrice;
-      if (costInput) costInput.value = totalCost;
+      if (revInput) revInput.value = formatCurrency(totalPrice);
+      if (costInput) costInput.value = formatCurrency(totalCost);
       if (dateInInput && checkin) dateInInput.value = checkin;
       if (dateOutInput && checkout) dateOutInput.value = checkout;
+
+      calculateFormFinancials();
     }
 
     // =========================================================================
@@ -4036,8 +4392,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       if (serviceInput) serviceInput.value = `${item.hotel} - ${item.hangPhong}`;
       if (supplierInput) supplierInput.value = item.hotel;
       if (serviceTypeInput) serviceTypeInput.value = item.serviceType || 'hotel';
-      if (revenueInput) revenueInput.value = item.giaBaoKhach;
-      if (costInput) costInput.value = item.giaVon;
+      if (revenueInput) revenueInput.value = formatCurrency(item.giaBaoKhach);
+      if (costInput) costInput.value = formatCurrency(item.giaVon);
+      calculateFormFinancials();
 
       const alertBox = document.getElementById('room-autofill-alert');
       const alertText = document.getElementById('room-autofill-text');
@@ -4235,7 +4592,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         if (currentFilter === 'aging_due' && (remainAR <= 0 && remainAP <= 0)) return false;
 
         if (query) {
-          const hay = `${b.maBooking} ${b.khachHang} ${b.sdt} ${b.dichVu} ${b.doiTac} ${b.saleEmail} ${b.soHdVao} ${b.soHdRa} ${b.mst}`.toLowerCase();
+          const hay = `${b.maBooking} ${b.khachHang} ${b.sdt} ${b.email || ''} ${b.cccd || ''} ${b.dichVu} ${b.doiTac} ${b.saleEmail} ${b.soHdVao} ${b.soHdRa} ${b.mst}`.toLowerCase();
           if (!hay.includes(query)) return false;
         }
 
@@ -4328,17 +4685,26 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                 <span class="font-mono font-bold text-blue-400 text-xs">${escapeHtml(b.maBooking)}</span>
                 ${tourBadge}
               </div>
-              <span class="text-[10px] text-slate-500 font-mono block mt-0.5">${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</span>
+              <div class="flex items-center gap-1.5 text-[10px] text-slate-500 font-mono mt-0.5">
+                <span>${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</span>
+                ${b.ngayTao ? `<span class="text-emerald-400/80">• Tạo: ${escapeHtml(b.ngayTao.slice(5, 10))}</span>` : ''}
+              </div>
             </td>
 
             <td class="py-3 px-3.5">
-              <span class="font-semibold text-slate-200 block text-xs">${escapeHtml(b.khachHang)}</span>
-              <span class="font-mono text-[11px] text-slate-400 block">${escapeHtml(b.sdt)}</span>
+              <div class="flex items-center gap-1.5">
+                <span class="font-semibold text-slate-200 block text-xs">${escapeHtml(b.khachHang)}</span>
+                ${b.cccd ? `<span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono border border-slate-700" title="CCCD / Hộ chiếu">CCCD: ${escapeHtml(b.cccd)}</span>` : ''}
+              </div>
+              <div class="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono mt-0.5">
+                <span>${escapeHtml(b.sdt)}</span>
+                ${b.email ? `<span class="text-blue-300/80 font-sans truncate max-w-[130px]" title="${escapeHtml(b.email)}">• ${escapeHtml(b.email)}</span>` : ''}
+              </div>
             </td>
 
             <td class="py-3 px-3.5 max-w-xs">
               <span class="text-slate-300 font-medium truncate block text-xs" title="${escapeHtml(b.dichVu)}">${escapeHtml(b.dichVu)}</span>
-              <span class="text-[10px] text-slate-500 block">NCC: <strong class="text-slate-300">${escapeHtml(b.doiTac || 'N/A')}</strong> • ${b.checkIn || ''}</span>
+              <span class="text-[10px] text-slate-500 block">Nhà Cung Cấp: <strong class="text-slate-300">${escapeHtml(b.doiTac || 'N/A')}</strong> • ${b.checkIn || ''}</span>
             </td>
 
             <td class="py-3 px-3.5 text-right font-mono font-bold text-white text-xs num-tabular">
@@ -4354,12 +4720,17 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             </td>
 
             <td class="py-3 px-3.5 text-center font-mono text-[10px]">
-              <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-slate-500'} block">
+              <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-semibold'} block">
                 Khách: ${remainAR > 0 ? '-' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Thu đủ'}
               </span>
               <span class="${remainAP > 0 ? 'text-amber-400 font-bold' : 'text-slate-500'} block mt-0.5">
                 NCC: ${remainAP > 0 ? '-' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Trả đủ'}
               </span>
+              ${Array.isArray(b.payments) && b.payments.length > 1 ? `
+                <span class="text-[9px] text-indigo-300 block mt-0.5 font-sans bg-indigo-500/10 px-1 py-0.2 rounded border border-indigo-500/20">
+                  Đã thu ${b.payments.filter(p=>p.trangThai==='da_thu').length}/${b.payments.length} đợt
+                </span>
+              ` : ''}
             </td>
 
             <td class="py-3 px-3.5 text-center">
@@ -5284,17 +5655,357 @@ ${lines.join('\n')}
     }
 
     // =========================================================================
-    // MODAL TẠO & SỬA ĐƠN
+    // MODAL TẠO & SỬA ĐƠN & QUẢN TRỊ THANH TOÁN ĐA ĐỢT (CHUẨN vTOUR 4.0)
     // =========================================================================
+    let currentFormPayments = [];
+
+    // Helper: Định dạng tiền tệ có dấu chấm phân cách hàng nghìn (VD: 1.000.000)
+    function formatCurrency(val) {
+      if (val === null || val === undefined || val === '') return '';
+      const num = typeof val === 'number' ? val : (parseFloat(String(val).replace(/[^0-9.-]/g, '')) || 0);
+      return Math.round(num).toLocaleString('vi-VN');
+    }
+
+    // Helper: Chuyển chuỗi có dấu chấm thành số nguyên Number (VD: "1.000.000" -> 1000000)
+    function parseCurrency(str) {
+      if (!str) return 0;
+      const cleaned = String(str).replace(/[^0-9]/g, '');
+      return cleaned ? parseInt(cleaned, 10) : 0;
+    }
+
+    // Xử lý khi gõ vào ô nhập tiền tệ
+    function handleCurrencyInput(el) {
+      const raw = parseCurrency(el.value);
+      if (raw === 0 && (!el.value || el.value.trim() === '')) {
+        el.value = '';
+      } else {
+        el.value = raw.toLocaleString('vi-VN');
+      }
+    }
+
+    // Đổi số tiền thành ước lượng chữ (VD: 10.000.000 -> "~ 10 Triệu")
+    function numberToVietnameseWords(num) {
+      if (!num || num <= 0) return '';
+      if (num >= 1000000000) {
+        return ' (~ ' + (num / 1000000000).toFixed(2).replace(/\.00$/, '') + ' Tỷ)';
+      }
+      if (num >= 1000000) {
+        return ' (~ ' + (num / 1000000).toFixed(2).replace(/\.00$/, '') + ' Triệu)';
+      }
+      if (num >= 1000) {
+        return ' (~ ' + (num / 1000).toFixed(0) + ' Ngàn)';
+      }
+      return '';
+    }
+
+    // YÊU CẦU 4: Chặn nhập chữ vào ô số điện thoại & kiểm tra định dạng
+    function handlePhoneInput(el) {
+      el.value = el.value.replace(/[^0-9]/g, '').slice(0, 11);
+      const hint = document.getElementById('phone-validation-hint');
+      if (!hint) return;
+      if (!el.value) {
+        hint.className = 'hidden';
+        hint.innerText = '';
+      } else if (el.value.length < 10) {
+        hint.className = 'text-[10px] text-amber-400 mt-1 block';
+        hint.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Cần tối thiểu 10 chữ số (đang có ' + el.value.length + ' số)';
+      } else if (!el.value.startsWith('0')) {
+        hint.className = 'text-[10px] text-rose-400 mt-1 block';
+        hint.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Số điện thoại Việt Nam phải bắt đầu bằng số 0';
+      } else {
+        hint.className = 'text-[10px] text-emerald-400 mt-1 block';
+        hint.innerHTML = '<i class="fa-solid fa-circle-check"></i> Số điện thoại hợp lệ (' + el.value + ')';
+      }
+    }
+
+    // YÊU CẦU 7: Tính toán P&L Realtime: GIÁ BÁN - GIÁ NHẬN = HOA HỒNG / LỢI NHUẬN GỘP
+    function calculateFormFinancials() {
+      const revInput = document.getElementById('ipt-revenue');
+      const costInput = document.getElementById('ipt-cost');
+      const apPaidInput = document.getElementById('ipt-ap-paid');
+
+      const rev = revInput ? parseCurrency(revInput.value) : 0;
+      const cost = costInput ? parseCurrency(costInput.value) : 0;
+      const apPaid = apPaidInput ? parseCurrency(apPaidInput.value) : 0;
+
+      const profit = rev - cost;
+      const margin = rev > 0 ? ((profit / rev) * 100).toFixed(1) : '0.0';
+
+      const badgeRevWord = document.getElementById('badge-revenue-word');
+      if (badgeRevWord) badgeRevWord.innerText = numberToVietnameseWords(rev);
+
+      const formulaRev = document.getElementById('formula-revenue');
+      const formulaCost = document.getElementById('formula-cost');
+      const formulaProfit = document.getElementById('formula-profit');
+      const marginBadge = document.getElementById('profit-margin-badge');
+
+      if (formulaRev) formulaRev.innerText = rev.toLocaleString('vi-VN') + ' đ';
+      if (formulaCost) formulaCost.innerText = cost.toLocaleString('vi-VN') + ' đ';
+      if (formulaProfit) {
+        if (profit >= 0) {
+          formulaProfit.className = 'text-xs sm:text-sm font-mono font-black text-emerald-400 block mt-0.5';
+          formulaProfit.innerText = '+' + profit.toLocaleString('vi-VN') + ' đ';
+        } else {
+          formulaProfit.className = 'text-xs sm:text-sm font-mono font-black text-rose-400 block mt-0.5';
+          formulaProfit.innerText = profit.toLocaleString('vi-VN') + ' đ';
+        }
+      }
+      if (marginBadge) {
+        marginBadge.innerText = 'Tỷ suất: ' + margin + '%';
+        if (profit >= 0) {
+          marginBadge.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        } else {
+          marginBadge.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40';
+        }
+      }
+
+      // Còn nợ nhà cung cấp
+      const supplierRemain = Math.max(0, cost - apPaid);
+      const sumSupplierRemain = document.getElementById('sum-supplier-remain-display');
+      if (sumSupplierRemain) sumSupplierRemain.innerText = supplierRemain.toLocaleString('vi-VN') + ' đ';
+
+      // Tính tổng tiến độ các đợt thanh toán của khách
+      calculateInstallmentTotals(rev);
+    }
+
+    // YÊU CẦU 7: Quản lý các đợt thanh toán (3 - 4 lần)
+    function renderInstallmentPayments() {
+      const tbody = document.getElementById('payment-installments-tbody');
+      if (!tbody) return;
+
+      if (!currentFormPayments || currentFormPayments.length === 0) {
+        currentFormPayments = [
+          {
+            id: 'pm_' + Date.now(),
+            dot: 'Đợt 1 - Cọc Giữ Chỗ (30-50%)',
+            soTien: 0,
+            ngay: new Date().toISOString().slice(0, 10),
+            hinhThuc: 'Chuyển khoản (Vietcombank)',
+            trangThai: 'cho_thu',
+            ghiChu: 'Hẹn cọc ngay khi chốt code'
+          }
+        ];
+      }
+
+      tbody.innerHTML = currentFormPayments.map((pm, idx) => {
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-2 px-2.5">
+              <input type="text" value="${escapeHtml(pm.dot)}" onchange="updatePaymentField('${pm.id}', 'dot', this.value)" placeholder="Tên đợt (VD: Đợt ${idx + 1})" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-indigo-400 font-semibold">
+            </td>
+            <td class="py-2 px-2.5">
+              <input type="text" value="${formatCurrency(pm.soTien)}" oninput="handleCurrencyInput(this); updatePaymentField('${pm.id}', 'soTien', this.value);" placeholder="0" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2 py-1 text-xs text-right font-mono font-bold text-amber-300 focus:outline-none focus:border-indigo-400">
+            </td>
+            <td class="py-2 px-2.5">
+              <input type="date" value="${pm.ngay || ''}" onchange="updatePaymentField('${pm.id}', 'ngay', this.value)" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2 py-1 text-[11px] font-mono text-slate-200 focus:outline-none focus:border-indigo-400">
+            </td>
+            <td class="py-2 px-2.5">
+              <select onchange="updatePaymentField('${pm.id}', 'hinhThuc', this.value)" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-indigo-400">
+                <option value="Chuyển khoản (Vietcombank)" ${pm.hinhThuc === 'Chuyển khoản (Vietcombank)' ? 'selected' : ''}>Chuyển khoản (Vietcombank)</option>
+                <option value="Chuyển khoản (Techcombank)" ${pm.hinhThuc === 'Chuyển khoản (Techcombank)' ? 'selected' : ''}>Chuyển khoản (Techcombank)</option>
+                <option value="Chuyển khoản (MBBank)" ${pm.hinhThuc === 'Chuyển khoản (MBBank)' ? 'selected' : ''}>Chuyển khoản (MBBank)</option>
+                <option value="Tiền mặt" ${pm.hinhThuc === 'Tiền mặt' ? 'selected' : ''}>Tiền mặt trực tiếp</option>
+                <option value="Cà thẻ POS" ${pm.hinhThuc === 'Cà thẻ POS' ? 'selected' : ''}>Cà thẻ POS / Tín dụng</option>
+                <option value="Khác" ${pm.hinhThuc === 'Khác' ? 'selected' : ''}>Khác...</option>
+              </select>
+            </td>
+            <td class="py-2 px-2.5">
+              <select onchange="updatePaymentField('${pm.id}', 'trangThai', this.value)" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2 py-1 text-[11px] font-bold ${pm.trangThai === 'da_thu' ? 'text-emerald-400' : 'text-amber-400'} focus:outline-none focus:border-indigo-400">
+                <option value="da_thu" ${pm.trangThai === 'da_thu' ? 'selected' : ''}>🟢 ĐÃ THU ĐỦ</option>
+                <option value="cho_thu" ${pm.trangThai === 'cho_thu' ? 'selected' : ''}>🟡 CHỜ THU / HẸN</option>
+              </select>
+            </td>
+            <td class="py-2 px-2.5">
+              <input type="text" value="${escapeHtml(pm.ghiChu || '')}" onchange="updatePaymentField('${pm.id}', 'ghiChu', this.value)" placeholder="Mã GD, nội dung..." class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-300 focus:outline-none focus:border-indigo-400">
+            </td>
+            <td class="py-2 px-2 text-center">
+              ${currentFormPayments.length > 1 ? `
+                <button type="button" onclick="removePaymentInstallment('${pm.id}')" class="text-slate-500 hover:text-rose-400 transition" title="Xóa đợt này">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              ` : `
+                <span class="text-slate-700"><i class="fa-solid fa-lock"></i></span>
+              `}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function addPaymentInstallment() {
+      const count = currentFormPayments.length + 1;
+      const defaultNames = [
+        '',
+        'Đợt 1 - Cọc Giữ Chỗ (30-50%)',
+        'Đợt 2 - Thanh Toán Đợt 2 (Trước Ngày Đi)',
+        'Đợt 3 - Quyết Toán Khi Check-in',
+        'Đợt 4 - Thanh Toán Dịch Vụ Phát Sinh'
+      ];
+      const dotName = count < defaultNames.length ? defaultNames[count] : ('Đợt ' + count + ' - Quyết Toán');
+
+      currentFormPayments.push({
+        id: 'pm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+        dot: dotName,
+        soTien: 0,
+        ngay: new Date().toISOString().slice(0, 10),
+        hinhThuc: 'Chuyển khoản (Vietcombank)',
+        trangThai: 'cho_thu',
+        ghiChu: ''
+      });
+
+      renderInstallmentPayments();
+      calculateFormFinancials();
+    }
+
+    function removePaymentInstallment(id) {
+      if (currentFormPayments.length <= 1) return;
+      currentFormPayments = currentFormPayments.filter(p => p.id !== id);
+      renderInstallmentPayments();
+      calculateFormFinancials();
+    }
+
+    function updatePaymentField(id, field, value) {
+      const item = currentFormPayments.find(p => p.id === id);
+      if (!item) return;
+
+      if (field === 'soTien') {
+        item.soTien = parseCurrency(value);
+      } else {
+        item[field] = value;
+      }
+
+      calculateFormFinancials();
+      if (field === 'trangThai') {
+        renderInstallmentPayments();
+      }
+    }
+
+    function calculateInstallmentTotals(rev) {
+      const totalCollected = currentFormPayments
+        .filter(p => p.trangThai === 'da_thu')
+        .reduce((sum, p) => sum + (parseFloat(p.soTien) || 0), 0);
+
+      const remaining = Math.max(0, rev - totalCollected);
+
+      const collDisplay = document.getElementById('installment-total-collected');
+      const remDisplay = document.getElementById('installment-total-remaining');
+      const sumCustPaid = document.getElementById('sum-customer-paid-display');
+      const sumCustRemain = document.getElementById('sum-customer-remain-display');
+      const statusBadge = document.getElementById('payment-progress-status-badge');
+
+      if (collDisplay) collDisplay.innerText = totalCollected.toLocaleString('vi-VN') + ' đ';
+      if (remDisplay) remDisplay.innerText = remaining.toLocaleString('vi-VN') + ' đ';
+      if (sumCustPaid) sumCustPaid.innerText = totalCollected.toLocaleString('vi-VN') + ' đ';
+      if (sumCustRemain) sumCustRemain.innerText = remaining.toLocaleString('vi-VN') + ' đ';
+
+      if (statusBadge) {
+        if (rev > 0 && totalCollected >= rev) {
+          statusBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+          statusBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã Thu Đủ 100%';
+        } else if (totalCollected > 0) {
+          const pct = rev > 0 ? Math.round((totalCollected / rev) * 100) : 0;
+          statusBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40';
+          statusBadge.innerHTML = '<i class="fa-solid fa-clock"></i> Đã Thu ' + pct + '% (Còn thiếu ' + remaining.toLocaleString('vi-VN') + ' đ)';
+        } else {
+          statusBadge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30';
+          statusBadge.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Chưa Thu Tiền (Chờ Cọc)';
+        }
+      }
+    }
+
+    // YÊU CẦU 5: Chuyển đổi trạng thái xuất Hóa đơn GTGT đầu ra
+    function toggleVatOutputSection() {
+      const chk = document.getElementById('ipt-co-xuat-vat');
+      const statusSelect = document.getElementById('ipt-status-hd-ra');
+      if (chk && statusSelect) {
+        if (chk.checked) {
+          if (statusSelect.value === 'khong_xuat') statusSelect.value = 'chua_xuat';
+        } else {
+          statusSelect.value = 'khong_xuat';
+        }
+      }
+    }
+
+    function copyVatInfoForMisa() {
+      const company = (document.getElementById('ipt-vat-company')?.value || '').trim();
+      const taxcode = (document.getElementById('ipt-vat-taxcode')?.value || '').trim();
+      const email = (document.getElementById('ipt-vat-email')?.value || '').trim();
+      const address = (document.getElementById('ipt-vat-address')?.value || '').trim();
+      const content = (document.getElementById('ipt-vat-content')?.value || '').trim();
+      const rev = document.getElementById('ipt-revenue')?.value || '0';
+
+      if (!company && !taxcode) {
+        alert('⚠️ Chưa có thông tin tên công ty hoặc mã số thuế để sao chép!');
+        return;
+      }
+
+      const text = `THÔNG TIN XUẤT HÓA ĐƠN GTGT (GỬI KẾ TOÁN MISA - BOOKING TRAVEL)
+• Tên Đơn Vị: ${company}
+• Mã Số Thuế: ${taxcode}
+• Email Nhận HĐ: ${email}
+• Địa Chỉ: ${address}
+• Tổng Tiền: ${rev} VNĐ
+• Nội Dung Xuất HĐ: ${content || 'Dịch vụ lưu trú du lịch'}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert('📋 ĐÃ SAO CHÉP THÔNG TIN XUẤT HÓA ĐƠN GTGT! Bạn có thể dán (Ctrl+V) gửi ngay cho Kế toán MISA meInvoice!');
+      });
+    }
+
+    // Mở Modal Tạo Đơn
     function openModalTaoDon() {
       document.getElementById('edit-id').value = '';
       document.getElementById('booking-form').reset();
       document.getElementById('modal-title').innerText = 'ĐIỀU HÀNH & HẠCH TOÁN BOOKING';
       document.getElementById('ipt-code').value = 'BK' + Date.now().toString().slice(-6);
-      
+
+      // YÊU CẦU 9: Tự động gán ngày giờ tạo đơn
+      const now = new Date();
+      const localIso = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      document.getElementById('ipt-created-date').value = localIso;
+
       if (currentUser) {
         document.getElementById('ipt-sale').value = currentUser.email;
       }
+
+      // Reset các trường
+      document.getElementById('ipt-customer-email').value = '';
+      document.getElementById('ipt-customer-cccd').value = '';
+      document.getElementById('ipt-revenue').value = '';
+      document.getElementById('ipt-cost').value = '';
+      document.getElementById('ipt-ap-paid').value = '';
+      document.getElementById('ipt-co-xuat-vat').checked = false;
+      document.getElementById('ipt-status-hd-ra').value = 'khong_xuat';
+      document.getElementById('ipt-so-hd-ra').value = '';
+      document.getElementById('ipt-vat-company').value = '';
+      document.getElementById('ipt-vat-taxcode').value = '';
+      document.getElementById('ipt-vat-email').value = '';
+      document.getElementById('ipt-vat-address').value = '';
+      document.getElementById('ipt-vat-content').value = '';
+      document.getElementById('ipt-status-hd-vao').value = 'chua_lay';
+      document.getElementById('ipt-ncc-mst').value = '';
+      document.getElementById('ipt-so-hd-vao').value = '';
+      document.getElementById('ipt-ncc-hd-date').value = '';
+
+      const hint = document.getElementById('phone-validation-hint');
+      if (hint) { hint.className = 'hidden'; hint.innerText = ''; }
+
+      // Khởi tạo đợt thanh toán mặc định
+      currentFormPayments = [
+        {
+          id: 'pm_' + Date.now(),
+          dot: 'Đợt 1 - Cọc Giữ Chỗ (30-50%)',
+          soTien: 0,
+          ngay: new Date().toISOString().slice(0, 10),
+          hinhThuc: 'Chuyển khoản (Vietcombank)',
+          trangThai: 'cho_thu',
+          ghiChu: 'Hẹn cọc ngay khi xác nhận giữ phòng'
+        }
+      ];
+
+      renderInstallmentPayments();
+      calculateFormFinancials();
+      toggleVatOutputSection();
 
       document.getElementById('booking-modal').classList.remove('hidden');
     }
@@ -5303,29 +6014,63 @@ ${lines.join('\n')}
       document.getElementById('booking-modal').classList.add('hidden');
     }
 
+    // Lưu Booking
     function handleSaveBooking(e) {
       e.preventDefault();
       const editId = document.getElementById('edit-id').value;
 
+      // YÊU CẦU 4: Validation số điện thoại
+      const phoneVal = document.getElementById('ipt-phone').value.trim();
+      if (!phoneVal || phoneVal.length < 10 || !phoneVal.startsWith('0')) {
+        alert('⚠️ Vui lòng nhập số điện thoại hợp lệ (10 - 11 chữ số bắt đầu bằng 0)!');
+        document.getElementById('ipt-phone').focus();
+        return;
+      }
+
+      const rev = parseCurrency(document.getElementById('ipt-revenue').value);
+      const cost = parseCurrency(document.getElementById('ipt-cost').value);
+      const apPaid = parseCurrency(document.getElementById('ipt-ap-paid').value);
+
+      // Tính tổng khách đã cọc / thanh toán từ các đợt đã thu
+      const totalCustomerPaid = currentFormPayments
+        .filter(p => p.trangThai === 'da_thu')
+        .reduce((sum, p) => sum + (parseFloat(p.soTien) || 0), 0);
+
       const item = {
         id: editId || ('BK_' + Date.now()),
         maBooking: document.getElementById('ipt-code').value.trim().toUpperCase(),
+        ngayTao: document.getElementById('ipt-created-date').value,
+        createdAt: document.getElementById('ipt-created-date').value,
         khachHang: document.getElementById('ipt-customer').value.trim(),
-        sdt: document.getElementById('ipt-phone').value.trim(),
+        sdt: phoneVal,
+        email: document.getElementById('ipt-customer-email').value.trim(),
+        cccd: document.getElementById('ipt-customer-cccd').value.trim(),
         saleEmail: document.getElementById('ipt-sale').value,
         serviceType: document.getElementById('ipt-service-type').value,
         tourStatus: document.getElementById('ipt-tour-status').value,
         dichVu: document.getElementById('ipt-service').value.trim(),
         checkIn: document.getElementById('ipt-checkin').value,
         checkOut: document.getElementById('ipt-checkout').value,
-        giaBan: parseFloat(document.getElementById('ipt-revenue').value) || 0,
-        khachDaCoc: parseFloat(document.getElementById('ipt-ar-paid').value) || 0,
+        giaBan: rev,
+        khachDaCoc: totalCustomerPaid,
+        payments: JSON.parse(JSON.stringify(currentFormPayments)),
         doiTac: document.getElementById('ipt-supplier').value.trim(),
-        giaVon: parseFloat(document.getElementById('ipt-cost').value) || 0,
-        daTraDoiTac: parseFloat(document.getElementById('ipt-ap-paid').value) || 0,
+        giaVon: cost,
+        daTraDoiTac: apPaid,
+        // Hóa đơn đầu ra
+        coXuatVat: document.getElementById('ipt-co-xuat-vat').checked,
+        statusHdRa: document.getElementById('ipt-status-hd-ra').value,
+        soHdRa: document.getElementById('ipt-so-hd-ra').value.trim(),
+        tenCongTy: document.getElementById('ipt-vat-company').value.trim(),
+        mst: document.getElementById('ipt-vat-taxcode').value.trim(),
+        emailVat: document.getElementById('ipt-vat-email').value.trim(),
+        diaChiVat: document.getElementById('ipt-vat-address').value.trim(),
+        noiDungVat: document.getElementById('ipt-vat-content').value.trim(),
+        // Hóa đơn đầu vào
         statusHdVao: document.getElementById('ipt-status-hd-vao').value,
+        mstNcc: document.getElementById('ipt-ncc-mst').value.trim(),
         soHdVao: document.getElementById('ipt-so-hd-vao').value.trim(),
-        coXuatVat: false,
+        ngayHdVao: document.getElementById('ipt-ncc-hd-date').value,
         files: editId ? (bookings.find(x => x.id === editId)?.files || []) : []
       };
 
@@ -5340,8 +6085,11 @@ ${lines.join('\n')}
       renderTable();
       if (currentView === 'cashflow') renderCashflowView();
       closeModalTaoDon();
+
+      alert('✅ ĐÃ LƯU THÀNH CÔNG BOOKING [' + item.maBooking + ']!\n• Khách: ' + item.khachHang + '\n• Doanh Thu: ' + item.giaBan.toLocaleString('vi-VN') + ' đ\n• Đã Thu: ' + item.khachDaCoc.toLocaleString('vi-VN') + ' đ\n• Lợi Nhuận Gộp: ' + (item.giaBan - item.giaVon).toLocaleString('vi-VN') + ' đ');
     }
 
+    // Sửa Booking
     function editBooking(id) {
       const b = bookings.find(x => x.id === id);
       if (!b) return;
@@ -5349,21 +6097,73 @@ ${lines.join('\n')}
       document.getElementById('edit-id').value = b.id;
       document.getElementById('modal-title').innerText = 'HẠCH TOÁN ĐƠN: ' + b.maBooking;
       document.getElementById('ipt-code').value = b.maBooking;
-      document.getElementById('ipt-customer').value = b.khachHang;
-      document.getElementById('ipt-phone').value = b.sdt;
+
+      // YÊU CẦU 9: Ngày tạo đơn
+      if (b.ngayTao) {
+        document.getElementById('ipt-created-date').value = b.ngayTao.length === 10 ? b.ngayTao + 'T08:00' : b.ngayTao;
+      } else if (b.createdAt) {
+        document.getElementById('ipt-created-date').value = b.createdAt.slice(0, 16);
+      } else {
+        document.getElementById('ipt-created-date').value = (b.checkIn ? b.checkIn + 'T08:00' : new Date().toISOString().slice(0, 16));
+      }
+
+      document.getElementById('ipt-customer').value = b.khachHang || '';
+      document.getElementById('ipt-phone').value = b.sdt || '';
+      handlePhoneInput(document.getElementById('ipt-phone'));
+
+      // YÊU CẦU 8: Email & CCCD
+      document.getElementById('ipt-customer-email').value = b.email || '';
+      document.getElementById('ipt-customer-cccd').value = b.cccd || '';
+
       document.getElementById('ipt-sale').value = b.saleEmail || (currentUser ? currentUser.email : '');
       document.getElementById('ipt-service-type').value = b.serviceType || 'hotel';
       document.getElementById('ipt-tour-status').value = b.tourStatus || 'da_xac_nhan';
-      document.getElementById('ipt-service').value = b.dichVu;
-      document.getElementById('ipt-checkin').value = b.checkIn;
-      document.getElementById('ipt-checkout').value = b.checkOut;
-      document.getElementById('ipt-revenue').value = b.giaBan;
-      document.getElementById('ipt-ar-paid').value = b.khachDaCoc;
-      document.getElementById('ipt-supplier').value = b.doiTac;
-      document.getElementById('ipt-cost').value = b.giaVon;
-      document.getElementById('ipt-ap-paid').value = b.daTraDoiTac || 0;
+      document.getElementById('ipt-service').value = b.dichVu || '';
+      document.getElementById('ipt-checkin').value = b.checkIn || '';
+      document.getElementById('ipt-checkout').value = b.checkOut || '';
+
+      // YÊU CẦU 3: Định dạng có dấu chấm
+      document.getElementById('ipt-revenue').value = formatCurrency(b.giaBan || 0);
+      document.getElementById('ipt-supplier').value = b.doiTac || '';
+      document.getElementById('ipt-cost').value = formatCurrency(b.giaVon || 0);
+      document.getElementById('ipt-ap-paid').value = formatCurrency(b.daTraDoiTac || 0);
+
+      // YÊU CẦU 5: Hóa Đơn Đầu Ra
+      document.getElementById('ipt-co-xuat-vat').checked = !!b.coXuatVat;
+      document.getElementById('ipt-status-hd-ra').value = b.statusHdRa || (b.coXuatVat ? 'chua_xuat' : 'khong_xuat');
+      document.getElementById('ipt-so-hd-ra').value = b.soHdRa || '';
+      document.getElementById('ipt-vat-company').value = b.tenCongTy || '';
+      document.getElementById('ipt-vat-taxcode').value = b.mst || '';
+      document.getElementById('ipt-vat-email').value = b.emailVat || '';
+      document.getElementById('ipt-vat-address').value = b.diaChiVat || '';
+      document.getElementById('ipt-vat-content').value = b.noiDungVat || '';
+
+      // YÊU CẦU 6: Hóa Đơn Đầu Vào
       document.getElementById('ipt-status-hd-vao').value = b.statusHdVao || 'chua_lay';
+      document.getElementById('ipt-ncc-mst').value = b.mstNcc || '';
       document.getElementById('ipt-so-hd-vao').value = b.soHdVao || '';
+      document.getElementById('ipt-ncc-hd-date').value = b.ngayHdVao || '';
+
+      // YÊU CẦU 7: Quản lý các đợt thanh toán (3 - 4 lần)
+      if (Array.isArray(b.payments) && b.payments.length > 0) {
+        currentFormPayments = JSON.parse(JSON.stringify(b.payments));
+      } else {
+        currentFormPayments = [
+          {
+            id: 'pm_' + Date.now(),
+            dot: 'Đợt 1 - Tiền Cọc / Đã Thu',
+            soTien: b.khachDaCoc || 0,
+            ngay: b.checkIn || new Date().toISOString().slice(0, 10),
+            hinhThuc: 'Chuyển khoản Ngân hàng',
+            trangThai: (b.khachDaCoc > 0) ? 'da_thu' : 'cho_thu',
+            ghiChu: 'Thanh toán đợt đầu'
+          }
+        ];
+      }
+
+      renderInstallmentPayments();
+      calculateFormFinancials();
+      toggleVatOutputSection();
 
       document.getElementById('booking-modal').classList.remove('hidden');
     }
@@ -5533,12 +6333,17 @@ ${lines.join('\n')}
     }
 
     function xuatExcelMisa() {
-      let csv = '\uFEFFMã Booking,Khách Hàng,SĐT,Sale Phụ Trách,Loại Dịch Vụ,Chi Tiết Dịch Vụ,Ngày In,Ngày Out,Doanh Thu,Giá Vốn,Lãi Gộp,HĐ Đầu Vào,Đối Tác NCC\n';
+      let csv = '\uFEFFMã Booking,Ngày Tạo Đơn,Khách Hàng,Số Điện Thoại,Email Khách,Số CCCD / Hộ Chiếu,Sale Phụ Trách,Nhóm Dịch Vụ,Chi Tiết Dịch Vụ & Lộ Trình,Ngày In,Ngày Out,Giá Bán (Doanh Thu),Giá Nhận (Vốn NCC),Lợi Nhuận Gộp (Hoa Hồng),Khách Đã Thu,Khách Còn Nợ,Tên Nhà Cung Cấp,Đã Trả NCC,Còn Nợ NCC,Trạng Thái HĐ Đầu Vào,Mã Số Thuế NCC,Số HĐ Đầu Vào,Ngày Nhận HĐ NCC,Xuất Hóa Đơn Đầu Ra,Trạng Thái HĐ Đầu Ra,Số HĐ Đầu Ra,Tên Đơn Vị Mua Hàng,Mã Số Thuế Đơn Vị,Email Nhận HĐ,Địa Chỉ Xuất HĐ,Nội Dung Xuất HĐ\n';
       bookings.forEach(b => {
         const rev = b.giaBan || 0;
         const cst = b.giaVon || 0;
         const p = rev - cst;
-        csv += `"${b.maBooking}","${b.khachHang}","${b.sdt}","${b.saleEmail || ''}","${b.serviceType || 'hotel'}","${(b.dichVu || '').replace(/"/g, '""')}","${b.checkIn}","${b.checkOut}",${rev},${cst},${p},"${b.statusHdVao === 'da_co' ? 'ĐÃ CÓ HĐ' : 'CẦN ĐÒI'}","${b.doiTac || ''}"\n`;
+        const paidAR = b.khachDaCoc || 0;
+        const remAR = Math.max(0, rev - paidAR);
+        const paidAP = b.daTraDoiTac || 0;
+        const remAP = Math.max(0, cst - paidAP);
+
+        csv += `"${b.maBooking}","${b.ngayTao || b.createdAt || ''}","${(b.khachHang || '').replace(/"/g, '""')}","${b.sdt || ''}","${b.email || ''}","${b.cccd || ''}","${b.saleEmail || ''}","${b.serviceType || 'hotel'}","${(b.dichVu || '').replace(/"/g, '""')}","${b.checkIn || ''}","${b.checkOut || ''}",${rev},${cst},${p},${paidAR},${remAR},"${(b.doiTac || '').replace(/"/g, '""')}",${paidAP},${remAP},"${b.statusHdVao || 'chua_lay'}","${b.mstNcc || ''}","${b.soHdVao || ''}","${b.ngayHdVao || ''}","${b.coXuatVat ? 'CÓ' : 'KHÔNG'}","${b.statusHdRa || 'khong_xuat'}","${b.soHdRa || ''}","${(b.tenCongTy || '').replace(/"/g, '""')}","${b.mst || ''}","${b.emailVat || ''}","${(b.diaChiVat || '').replace(/"/g, '""')}","${(b.noiDungVat || '').replace(/"/g, '""')}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
