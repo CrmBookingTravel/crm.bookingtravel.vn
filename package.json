@@ -5,6 +5,7 @@
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
+    "build": "node -e \"console.log('Build OK')\"",
     "start": "node server.js",
     "dev": "node server.js",
     "sheets:manage": "node manager-client.js",
