@@ -1,21 +1,30 @@
 @echo off
-chcp 65001 >nul
+title DANG DAY CODE CRM LEN GITHUB
+cls
+cd /d "C:\Users\USER\Documents\antigravity\modest-bohr"
 echo ========================================================
-echo   BOOKING TRAVEL ERP - ĐẨY MÃ NGUỒN LÊN GITHUB
-echo   Kho chứa: https://github.com/CrmBookingTravel/crm.bookingtravel.vn.git
+echo   BOOKING TRAVEL CRM - DANG DAY CODE LEN GITHUB
 echo ========================================================
 echo.
-echo Đang kết nối và đẩy mã nguồn lên nhánh main...
+echo 1. Thu muc:
+cd
+echo.
+echo 2. Kiem tra trang thai:
+git status -s
+echo.
+echo 3. Dang day code len GitHub...
 git push -u origin main
+echo.
 if %ERRORLEVEL% EQU 0 (
-    echo.
     echo ========================================================
-    echo   [THÀNH CÔNG] Đã đẩy toàn bộ hệ thống lên GitHub!
-    echo   Xem tại: https://github.com/CrmBookingTravel/crm.bookingtravel.vn
+    echo   [THANH CONG 100%] DA DAY TOAN BO MA NGUON LEN GITHUB!
+    echo   Anh quay lai trinh duyet GitHub bam F5 la thay day du nhe!
     echo ========================================================
 ) else (
-    echo.
-    echo [LƯU Ý] Nếu GitHub yêu cầu đăng nhập, vui lòng chọn 'Sign in with your browser' trên cửa sổ vừa mở.
+    echo ========================================================
+    echo   [CHU Y] Neu co bang nho hien len hoi dang nhap:
+    echo   Anh bam vao dong chu 'Sign in with your browser'.
+    echo ========================================================
 )
 echo.
 pause
