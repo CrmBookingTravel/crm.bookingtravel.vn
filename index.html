@@ -705,8 +705,16 @@
   </div>
 
 
-  <!-- User Profile & Logout Section -->
-    <div class="p-3 border-t border-slate-800/80 bg-slate-900/60">
+  <!-- Hotline Hỗ Trợ & User Profile Section -->
+    <div class="p-3 border-t border-slate-800/80 bg-slate-900/60 space-y-2">
+      <!-- Hotline Điều Hành Doanh Nghiệp -->
+      <div class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs">
+        <span class="text-slate-400 flex items-center gap-1.5 text-[11px]">
+          <i class="fa-solid fa-headset text-amber-400"></i> Hotline:
+        </span>
+        <a href="tel:0846477222" class="font-mono font-bold text-amber-300 hover:text-amber-200">0846.477.222</a>
+      </div>
+
       <div class="flex items-center justify-between p-2 rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-slate-600 transition">
         <div class="flex items-center gap-2.5 min-w-0 flex-1 cursor-pointer" onclick="openProfileModal(false)" title="Bấm để cập nhật họ tên, ngày sinh, SĐT và đổi mật khẩu">
           <div class="w-8 h-8 rounded-full bg-blue-600/30 text-blue-300 flex items-center justify-center font-bold text-xs border border-blue-500/30 shrink-0" id="user-avatar-text">
@@ -744,72 +752,43 @@
         </div>
       </div>
 
-      <!-- User Info & Action -->
-      <div class="flex items-center gap-3">
+      <!-- Cột Phải: Ưu Tiên Hotline Doanh Nghiệp, Quỹ & Nút Tạo Đơn CRM Chính -->
+      <div class="flex items-center gap-3 shrink-0">
         
-        <!-- Slogan Doanh Nghiệp -->
-        <div class="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold shadow-sm" title="Slogan chính thức của Công ty Booking Travel">
-          <i class="fa-solid fa-heart text-rose-400 text-xs animate-pulse"></i>
-          <span class="text-amber-200/80 font-normal">Slogan:</span>
-          <span class="font-bold tracking-wide text-amber-300">"Khách hàng là gia đình"</span>
+        <!-- NỔI BẬT HOTLINE ĐIỀU HÀNH DOANH NGHIỆP (ƯU TIÊN HOTLINE) -->
+        <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold shadow-sm" title="Hotline Điều Hành & Hỗ Trợ 24/7 của Booking Travel">
+          <i class="fa-solid fa-phone-volume text-amber-400 animate-pulse text-xs"></i>
+          <span class="text-amber-200/80 font-normal hidden sm:inline">Hotline:</span>
+          <a href="tel:0846477222" class="font-mono text-amber-300 hover:text-amber-200 font-black tracking-wide">0846.477.222</a>
+          <span class="text-amber-500/40 hidden md:inline">•</span>
+          <a href="tel:0833001000" class="font-mono text-amber-300 hover:text-amber-200 font-black tracking-wide hidden md:inline">08.33.00.1000</a>
         </div>
 
-        <!-- Nút Mở Nhanh Nhóm Zalo Đơn Hàng -->
-        <a href="https://zalo.me/g/mtbelj694" target="_blank" rel="noopener noreferrer" class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 border border-blue-500/40 text-blue-300 hover:text-white hover:bg-blue-600/30 text-xs font-semibold transition cursor-pointer" title="Mở Nhóm Zalo Điều Hành Đơn Hàng Công Ty (https://zalo.me/g/mtbelj694)">
-          <i class="fa-solid fa-users text-sky-400"></i>
-          <span>Nhóm Zalo Đơn Hàng</span>
-        </a>
+        <!-- Slogan Doanh Nghiệp (Gọn gàng, tinh tế) -->
+        <div class="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold shadow-sm" title="Slogan: Khách hàng là gia đình">
+          <i class="fa-solid fa-heart text-rose-400 text-xs animate-pulse"></i>
+          <span>"Khách hàng là gia đình"</span>
+        </div>
 
         <!-- Quỹ Tạm Ứng Nhân Viên / Hạn Mức Ví -->
-        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400" title="Quỹ tiền mặt bàn giao làm việc">
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400" title="Quỹ tiền mặt bàn giao làm việc">
           <i class="fa-solid fa-wallet"></i>
-          <span class="text-slate-400" id="topbar-wallet-label">Quỹ Tạm Ứng:</span>
+          <span class="text-slate-400 hidden lg:inline" id="topbar-wallet-label">Quỹ Tạm Ứng:</span>
           <span id="topbar-user-wallet" class="font-mono font-bold text-emerald-300">1,000,000 đ</span>
         </div>
 
         <!-- Logged In User Pill -->
-        <button onclick="openProfileModal(false)" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs transition cursor-pointer">
+        <button onclick="openProfileModal(false)" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs transition cursor-pointer" title="Thông tin tài khoản Sales">
           <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span class="text-slate-400 hidden lg:inline">ID:</span>
-          <span id="topbar-user-email" class="font-mono font-bold text-white">sales1@bookingtravel.vn</span>
+          <span class="text-slate-400 hidden 2xl:inline">ID:</span>
+          <span id="topbar-user-email" class="font-mono font-bold text-white hidden sm:inline">sales1@bookingtravel.vn</span>
           <i class="fa-solid fa-user-pen text-[10px] text-slate-500 ml-1"></i>
         </button>
 
-        <!-- Add Booking Button -->
-        <!-- Nút 1: Báo Giá Nhanh 1 Chạm & AI Chiết Tính P&L (TourWell / Nhanh Travel) -->
-        <button onclick="openSmartQuoteModal()" class="px-3.5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold rounded-lg shadow-md transition flex items-center gap-1.5 cursor-pointer" title="Báo giá nhanh 1 chạm & chiết tính P&L chuẩn TourWell">
-          <i class="fa-solid fa-bolt text-amber-300"></i>
-          <span class="hidden sm:inline">Báo Giá Nhanh</span>
-        </button>
-
-        <!-- Nút 2: Tri Ân Sinh Nhật Khách Hàng (Chuẩn Khách hàng là gia đình) -->
-        <button onclick="openBirthdayModal()" class="px-3 py-2 bg-gradient-to-r from-amber-500/20 to-rose-500/20 hover:from-amber-500 hover:to-rose-500 border border-amber-500/30 text-amber-300 hover:text-white text-xs font-bold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer" title="Chăm sóc sinh nhật & gửi voucher tri ân gia đình">
-          <i class="fa-solid fa-cake-candles text-rose-400"></i>
-          <span class="hidden xl:inline">Sinh Nhật Khách</span>
-        </button>
-
-        <!-- Nút 3: Bảng Giá GSheet -->
-        <button onclick="openPriceCatalogModal()" class="px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-semibold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer" title="Tra cứu bảng giá khách sạn & hạng phòng từ Google Sheets">
-          <i class="fa-solid fa-file-excel text-emerald-400"></i>
-          <span class="hidden md:inline">Bảng Giá GSheet</span>
-        </button>
-
-        <!-- Nút: Danh Bạ Khách Hàng (SĐT Marketing) -->
-        <button onclick="openCustomerDirectoryModal()" class="px-3 py-2 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Xem danh sách khách hàng và xuất số điện thoại Zalo Marketing">
-          <i class="fa-solid fa-address-book text-amber-400"></i>
-          <span class="hidden sm:inline">Danh Bạ Khách (SĐT)</span>
-        </button>
-
-        <!-- Nút: Sao Lưu Dữ Liệu CRM -->
-        <button onclick="openBackupRestoreModal()" class="px-3 py-2 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-300 hover:text-white text-xs font-medium rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Sao lưu dữ liệu CRM về máy tính">
-          <i class="fa-solid fa-cloud-arrow-down text-cyan-400"></i>
-          <span class="hidden lg:inline">Sao Lưu</span>
-        </button>
-
-        <!-- Nút 4: Tạo Booking Mới -->
-        <button onclick="openModalTaoDon()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm shadow-blue-500/20 transition flex items-center gap-2 cursor-pointer">
+        <!-- NÚT CỐT LÕI DUY NHẤT CỦA CRM: TẠO BOOKING MỚI (ƯU TIÊN CRM - TO RÕ NỔI BẬT) -->
+        <button onclick="openModalTaoDon()" class="px-4 sm:px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-95 text-white text-xs font-black rounded-xl shadow-md shadow-blue-600/30 transition flex items-center gap-2 cursor-pointer" title="Tạo đơn hàng booking mới vào hệ thống CRM">
           <i class="fa-solid fa-plus text-xs"></i>
-          <span>Tạo Booking Mới</span>
+          <span class="uppercase tracking-wider">Tạo Booking Mới</span>
         </button>
 
       </div>
@@ -6509,10 +6488,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <!-- 12. THAO TÁC -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
-                <button onclick="shareBookingToZaloGroup('${b.id}')" title="Bắn Đơn Hàng Vào Nhóm Zalo Điều Hành (https://zalo.me/g/mtbelj694)" class="p-1.5 rounded-lg text-amber-400 hover:text-white hover:bg-amber-600/30 transition text-xs cursor-pointer">
-                  <i class="fa-solid fa-share-nodes"></i>
-                </button>
-                <button onclick="openVoucherModal('${b.id}')" title="In Phiếu Xác Nhận Dịch Vụ / Rooming List" class="p-1.5 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-600/30 transition text-xs cursor-pointer">
+                <button onclick="openVoucherModal('${b.id}')" title="In Phiếu Xác Nhận Dịch Vụ / Rooming List & Gửi Zalo" class="p-1.5 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-file-invoice"></i>
                 </button>
                 <button onclick="editBooking('${b.id}')" title="Chỉnh Sửa Booking" class="p-1.5 rounded-lg text-sky-400 hover:text-white hover:bg-sky-600/30 transition text-xs cursor-pointer">
