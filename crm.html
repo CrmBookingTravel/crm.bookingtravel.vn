@@ -376,7 +376,7 @@
             </button>
             <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-hotel w-4 text-center text-emerald-400"></i>
-              <span>Đánh Giá Đối Tác NCC</span>
+              <span>Đánh Giá Nhà Cung Cấp</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">Resort</span>
             </button>
           </nav>
@@ -423,7 +423,7 @@
             </button>
             <button onclick="switchView('bookings'); setFilter('ap_pending')" id="nav-ap_pending" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-truck-ramp-box w-4 text-center text-amber-400"></i>
-              <span>Nợ Đối Tác (AP)</span>
+              <span>Nợ Nhà Cung Cấp (AP)</span>
               <span id="badge-ap-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('aging_due')" id="nav-aging_due" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-slate-800/60 transition">
@@ -577,7 +577,7 @@
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4.5 relative overflow-hidden">
             <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
-              <span>Giá Vốn (Trả NCC)</span>
+              <span>Giá Vốn (Trả Nhà Cung Cấp)</span>
               <span class="text-orange-400 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/20 text-xs"><i class="fa-solid fa-boxes-packing"></i></span>
             </div>
             <div class="mt-3">
@@ -647,6 +647,9 @@
               <button onclick="setFilter('ar_pending')" data-filter="ar_pending" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 Khách Nợ (<span id="count-ar" class="text-amber-400 font-mono">0</span>)
               </button>
+              <button onclick="setFilter('aging_due')" data-filter="aging_due" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-amber-400 font-bold"><i class="fa-solid fa-clock-rotate-left text-[10px]"></i> Tuổi Nợ (<span id="count-aging" class="font-mono">0</span>)</span>
+              </button>
             </div>
 
             <div class="flex items-center gap-2">
@@ -662,7 +665,7 @@
                 <tr>
                   <th class="py-3 px-3.5">Mã Booking & Trạng Thái</th>
                   <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
-                  <th class="py-3 px-3.5">Dịch Vụ & NCC</th>
+                  <th class="py-3 px-3.5">Dịch Vụ & Nhà Cung Cấp</th>
                   <th class="py-3 px-3.5 text-right">Doanh Thu</th>
                   <th class="py-3 px-3.5 text-right">Giá Vốn</th>
                   <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
@@ -715,7 +718,7 @@
 
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
             <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
-              <span>Tổng Tiền Đã Chi Trả NCC</span>
+              <span>Tổng Tiền Đã Trả Nhà Cung Cấp</span>
               <span class="text-rose-400 bg-rose-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
             </div>
             <div id="cf-total-outflow" class="text-2xl font-bold font-mono text-rose-400 mt-2 num-tabular">0 đ</div>
@@ -758,7 +761,7 @@
                   <th class="py-3 px-3.5">Khách Hàng & Dịch Vụ</th>
                   <th class="py-3 px-3.5 text-center">Sale Phụ Trách</th>
                   <th class="py-3 px-3.5 text-right text-emerald-400">Tiền Thu Khách</th>
-                  <th class="py-3 px-3.5 text-right text-rose-400">Tiền Chi Trả NCC</th>
+                  <th class="py-3 px-3.5 text-right text-rose-400">Chi Trả Nhà Cung Cấp</th>
                   <th class="py-3 px-3.5 text-right font-bold text-white">Chênh Lệch Dòng Tiền</th>
                   <th class="py-3 px-3.5 text-center">Trạng Thái Quyết Toán</th>
                 </tr>
@@ -808,7 +811,7 @@
             </div>
           </div>
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
-            <div class="text-xs font-semibold text-slate-400">Tổng Chi Phí Dịch Vụ (Giá Vốn NCC)</div>
+            <div class="text-xs font-semibold text-slate-400">Tổng Chi Phí Dịch Vụ (Giá Vốn Nhà Cung Cấp)</div>
             <div id="rpt-total-cost" class="text-2xl font-bold font-mono text-orange-400 mt-2 num-tabular">0 đ</div>
             <div class="text-[11px] text-slate-400 mt-1">Chi trả Khách sạn, Resort, Xe, Vé</div>
           </div>
@@ -847,7 +850,7 @@
             <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
               <div>
                 <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                  <i class="fa-solid fa-scale-balanced text-amber-400"></i> Đối Soát Công Nợ 2 Chiều (Khách Hàng & NCC)
+                  <i class="fa-solid fa-scale-balanced text-amber-400"></i> Đối Soát Công Nợ 2 Chiều (Khách Hàng & Nhà Cung Cấp)
                 </h3>
                 <p class="text-[11px] text-slate-400">Kiểm soát rủi ro dòng tiền và hạn mức thanh toán trước check-in</p>
               </div>
@@ -868,7 +871,7 @@
 
               <div class="p-4 rounded-xl bg-slate-950 border border-amber-900/40">
                 <div class="flex items-center justify-between text-xs font-bold text-amber-400 mb-2">
-                  <span>PHẢI TRẢ NCC (AP)</span>
+                  <span>PHẢI TRẢ NHÀ CUNG CẤP (AP)</span>
                   <i class="fa-solid fa-truck-ramp-box"></i>
                 </div>
                 <div id="rpt-ap-debt-val" class="text-xl font-bold font-mono text-white num-tabular">0 đ</div>
@@ -1030,7 +1033,7 @@
         <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
           <div>
             <h2 class="text-base font-extrabold text-white flex items-center gap-2">
-              <i class="fa-solid fa-hotel text-emerald-400"></i> ĐÁNH GIÁ CHẤT LƯỢNG & ĐỘ UY TÍN NHÀ CUNG CẤP (NCC)
+              <i class="fa-solid fa-hotel text-emerald-400"></i> ĐÁNH GIÁ CHẤT LƯỢNG & ĐỘ UY TÍN NHÀ CUNG CẤP (KHÁCH SẠN / RESORT)
             </h2>
             <p class="text-xs text-slate-400 mt-0.5">Xếp hạng Khách sạn, Resort, Villa và Đơn vị vận chuyển theo doanh thu, biên lợi nhuận và việc trả hóa đơn</p>
           </div>
@@ -1044,7 +1047,7 @@
                 <tr>
                   <th class="py-3 px-3.5">Đối Tác / Khách Sạn / Resort</th>
                   <th class="py-3 px-3.5 text-center">Số Lượng Booking</th>
-                  <th class="py-3 px-3.5 text-right">Tổng Tiền Trả NCC</th>
+                  <th class="py-3 px-3.5 text-right">Tổng Tiền Trả Nhà Cung Cấp</th>
                   <th class="py-3 px-3.5 text-right">Lãi Gộp Tạo Ra</th>
                   <th class="py-3 px-3.5 text-center">Biên Lợi Nhuận (%)</th>
                   <th class="py-3 px-3.5 text-center">Tuân Thủ HĐ Đầu Vào</th>
@@ -1476,7 +1479,7 @@
 
               <div>
                 <label class="block text-[11px] font-semibold text-slate-300 mb-1">Ngày Check-In (*)</label>
-                <input type="date" id="ipt-checkin" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
+                <input type="date" id="ipt-checkin" onchange="document.getElementById('ipt-checkout').min = this.value" required class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-mono">
               </div>
 
               <div>
@@ -2323,6 +2326,14 @@
             <div>
               <span class="text-slate-500 block">Số Điện Thoại Khách:</span>
               <strong id="vc-customer-phone" class="text-slate-900 font-mono">0901234567</strong>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Số CCCD / Hộ Chiếu:</span>
+              <strong id="vc-customer-cccd" class="text-slate-900 font-mono">Đang cập nhật</strong>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Email Khách Hàng:</span>
+              <strong id="vc-customer-email" class="text-slate-900 font-mono truncate block max-w-[200px]">Chưa có email</strong>
             </div>
             <div>
               <span class="text-slate-500 block">Hạng Phòng & Dịch Vụ:</span>
@@ -4048,24 +4059,37 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const b = bookings.find(x => x.id === bookingId);
       if (!b) return;
 
+      const dIn = b.checkIn ? b.checkIn.split('-').reverse().join('/') : (b.ngayDi || '---');
+      const dOut = b.checkOut ? b.checkOut.split('-').reverse().join('/') : (b.ngayVe || '---');
+
       document.getElementById('vc-code').innerText = b.maBooking || 'BT-2026-001';
       document.getElementById('vc-supplier').innerText = b.doiTac || 'Khách sạn / Resort';
       document.getElementById('vc-resort-code').value = b.resortCode || '';
       document.getElementById('vc-customer-name').innerText = b.khachHang || 'Khách Hàng';
       document.getElementById('vc-customer-phone').innerText = b.sdt || '---';
+
+      const cccdEl = document.getElementById('vc-customer-cccd');
+      if (cccdEl) cccdEl.innerText = b.cccd || 'Đang cập nhật';
+      const emailEl = document.getElementById('vc-customer-email');
+      if (emailEl) emailEl.innerText = b.email || 'Chưa có email';
+
       document.getElementById('vc-room').innerText = b.dichVu || 'Dịch vụ nghỉ dưỡng';
-      document.getElementById('vc-dates').innerText = `${b.ngayDi || '---'} đến ${b.ngayVe || '---'}`;
+      document.getElementById('vc-dates').innerText = `${dIn} ➔ ${dOut}`;
       document.getElementById('vc-staff').innerText = b.saleName || (currentUser ? currentUser.name : 'Booking Travel Sales');
-      document.getElementById('vc-rooming-list').value = b.roomingList || `1. ${b.khachHang} (Đại diện đoàn)`;
+
+      const defaultRooming = b.cccd ? 
+        `1. ${b.khachHang} (Đại diện đoàn - CCCD: ${b.cccd} - SĐT: ${b.sdt})` : 
+        `1. ${b.khachHang} (Đại diện đoàn - SĐT: ${b.sdt})`;
+      document.getElementById('vc-rooming-list').value = b.roomingList || defaultRooming;
 
       const statusBadge = document.getElementById('vc-status-badge');
       if (statusBadge) {
         if (parseFloat(b.daTraDoiTac) >= parseFloat(b.giaVon)) {
           statusBadge.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300';
-          statusBadge.innerText = 'ĐÃ THANH TOÁN 100% CHO NCC';
+          statusBadge.innerText = 'ĐÃ THANH TOÁN 100% CHO NHÀ CUNG CẤP';
         } else if (parseFloat(b.daTraDoiTac) > 0) {
           statusBadge.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300';
-          statusBadge.innerText = 'ĐÃ CỌC GIỮ CHỖ VỚI NCC';
+          statusBadge.innerText = 'ĐÃ CỌC GIỮ CHỖ VỚI NHÀ CUNG CẤP';
         } else {
           statusBadge.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-blue-100 text-blue-800 border border-blue-300';
           statusBadge.innerText = 'ĐÃ XÁC NHẬN ĐẶT PHÒNG';
@@ -4086,9 +4110,8 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
 
       b.resortCode = document.getElementById('vc-resort-code').value.trim();
       b.roomingList = document.getElementById('vc-rooming-list').value.trim();
-
-      saveBookings();
-      alert('💾 ĐÃ LƯU MÃ XÁC NHẬN RESORT VÀ DANH SÁCH KHÁCH (ROOMING LIST)!');
+      saveData();
+      alert('✅ ĐÃ LƯU MÃ RESORT VÀ DANH SÁCH ĐOÀN!');
     }
 
     function copyVoucherToZalo() {
@@ -4096,6 +4119,8 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const b = bookings.find(x => x.id === currentVoucherBookingId);
       if (!b) return;
 
+      const dIn = b.checkIn ? b.checkIn.split('-').reverse().join('/') : (b.ngayDi || '---');
+      const dOut = b.checkOut ? b.checkOut.split('-').reverse().join('/') : (b.ngayVe || '---');
       const resortCode = document.getElementById('vc-resort-code').value.trim();
       const roomingList = document.getElementById('vc-rooming-list').value.trim();
 
@@ -4106,9 +4131,9 @@ Booking Travel xin gửi thông tin xác nhận đoàn khách lưu trú:
 
 🏷️ Mã Booking CRM: ${b.maBooking}
 🔑 Mã Xác Nhận Resort: ${resortCode || 'Chờ cấp mã'}
-👤 Khách hàng đại diện: ${b.khachHang} - SĐT: ${b.sdt}
+👤 Khách hàng đại diện: ${b.khachHang} - SĐT: ${b.sdt}${b.cccd ? ' - CCCD: ' + b.cccd : ''}${b.email ? ' - Email: ' + b.email : ''}
 🏨 Hạng phòng & Dịch vụ: ${b.dichVu}
-📅 Thời gian lưu trú: ${b.ngayDi || '---'} đến ${b.ngayVe || '---'}
+📅 Thời gian lưu trú: ${dIn} đến ${dOut}
 👥 Danh sách đoàn (Rooming List):
 ${roomingList || ('1. ' + b.khachHang)}
 
@@ -4171,6 +4196,8 @@ ${roomingList || ('1. ' + b.khachHang)}
           customerMap[b.sdt] = {
             name: b.khachHang,
             phone: b.sdt,
+            email: b.email || '',
+            cccd: b.cccd || '',
             service: b.dichVu,
             bookingCode: b.maBooking,
             saleName: b.saleName || 'Sales Booking Travel'
@@ -4193,7 +4220,7 @@ ${roomingList || ('1. ' + b.khachHang)}
                 <h4 class="text-xs font-bold text-white">${c.name}</h4>
                 <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300">Khách Gia Đình</span>
               </div>
-              <p class="text-[11px] text-slate-400 font-mono">${c.phone} • Đơn: ${c.bookingCode}</p>
+              <p class="text-[11px] text-slate-400 font-mono">${c.phone}${c.email ? ' • ' + c.email : ''}${c.cccd ? ' • CCCD: ' + c.cccd : ''} • Đơn: ${c.bookingCode}</p>
             </div>
           </div>
           <button onclick="sendBirthdayWishZalo('${c.phone}', '${c.name}', '${c.service}')" class="px-3 py-1.5 bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white text-xs font-bold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
@@ -4478,7 +4505,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         renderSalesKpiView();
       } else if (viewName === 'suppliers') {
         document.getElementById('view-suppliers').classList.remove('hidden');
-        titleEl.innerText = 'Đánh Giá Đối Tác NCC';
+        titleEl.innerText = 'Đánh Giá Nhà Cung Cấp (Khách Sạn / Resort)';
         const btn = document.getElementById('nav-suppliers');
         if (btn) btn.classList.add('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
         renderSuppliersView();
@@ -4540,6 +4567,14 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         if (isMine) myOrdersCount++;
       });
 
+      const agingCount = bookings.filter(b => {
+        const rev = parseFloat(b.giaBan) || 0;
+        const cst = parseFloat(b.giaVon) || 0;
+        const paidAR = parseFloat(b.khachDaCoc) || 0;
+        const paidAP = parseFloat(b.daTraDoiTac) || 0;
+        return (rev - paidAR > 0) || (cst - paidAP > 0);
+      }).length;
+
       const profit = revenue - cost;
       const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : 0;
 
@@ -4555,6 +4590,10 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       document.getElementById('badge-my-orders-count').innerText = myOrdersCount;
       document.getElementById('badge-ar-count').innerText = arCount;
       document.getElementById('badge-ap-count').innerText = apCount;
+      const bAging = document.getElementById('badge-aging-count');
+      if (bAging) bAging.innerText = agingCount;
+      const cAging = document.getElementById('count-aging');
+      if (cAging) cAging.innerText = agingCount;
       document.getElementById('badge-doi-hd-count').innerText = doiHdCount;
       document.getElementById('badge-can-xuat-hd-count').innerText = canXuatHdCount;
 
@@ -4823,7 +4862,8 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <td class="py-3 px-3.5 font-bold text-blue-400 text-xs">${b.maBooking}</td>
             <td class="py-3 px-3.5 font-sans font-medium text-slate-200">
               <span class="block font-bold text-xs">${escapeHtml(b.khachHang)}</span>
-              <span class="text-[10px] text-slate-500">${escapeHtml(b.dichVu)}</span>
+              <span class="text-[10px] text-slate-400 block">${escapeHtml(b.dichVu)}</span>
+              <span class="text-[10px] text-slate-500 block">Nhà Cung Cấp: <strong class="text-slate-300">${escapeHtml(b.doiTac || 'N/A')}</strong></span>
             </td>
             <td class="py-3 px-3.5 text-center text-slate-400 text-xs">${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</td>
             <td class="py-3 px-3.5 text-right text-emerald-400 font-bold text-xs num-tabular">+${inMoney.toLocaleString('vi-VN')} đ</td>
@@ -6027,9 +6067,24 @@ ${lines.join('\n')}
         return;
       }
 
+      // RÀNG BUỘC KIỂM TRA NGÀY CHECK-IN & CHECK-OUT
+      const checkInVal = document.getElementById('ipt-checkin').value;
+      const checkOutVal = document.getElementById('ipt-checkout').value;
+      if (checkInVal && checkOutVal && checkOutVal < checkInVal) {
+        alert('⚠️ LỖI LỊCH TRÌNH: Ngày Check-Out (' + checkOutVal + ') không được trước ngày Check-In (' + checkInVal + ')! Vui lòng kiểm tra lại.');
+        document.getElementById('ipt-checkout').focus();
+        return;
+      }
+
       const rev = parseCurrency(document.getElementById('ipt-revenue').value);
       const cost = parseCurrency(document.getElementById('ipt-cost').value);
       const apPaid = parseCurrency(document.getElementById('ipt-ap-paid').value);
+
+      // CẢNH BÁO NẾU BÁN LỖ (GIÁ VỐN > GIÁ BÁN)
+      if (rev > 0 && cost > rev) {
+        const isLossApproved = confirm('⚠️ CẢNH BÁO BÁN LỖ:\n• Giá Vốn Nhà Cung Cấp: ' + cost.toLocaleString('vi-VN') + ' đ\n• Giá Bán Báo Khách: ' + rev.toLocaleString('vi-VN') + ' đ\n• Đơn hàng này sẽ bị LỖ: -' + (cost - rev).toLocaleString('vi-VN') + ' đ!\n\nBạn có chắc chắn đơn hàng này đã được Ban Giám Đốc phê duyệt bán lỗ không?');
+        if (!isLossApproved) return;
+      }
 
       // Tính tổng khách đã cọc / thanh toán từ các đợt đã thu
       const totalCustomerPaid = currentFormPayments
@@ -6315,7 +6370,10 @@ ${lines.join('\n')}
       const b = bookings.find(x => x.id === id);
       if (!b) return;
 
-      const text = `Kính gửi đối tác ${b.doiTac || 'Khách sạn'},\n\nBooking Travel xin gửi lời chào trân trọng.\nNhờ anh/chị kế toán hỗ trợ xuất giúp em Hóa Đơn GTGT (Đầu vào) cho đoàn khách sau ạ:\n- Mã Booking: ${b.maBooking}\n- Tên Khách Hàng: ${b.khachHang}\n- Dịch Vụ: ${b.dichVu}\n- Lịch Trình: Check-in: ${b.checkIn} ➔ Check-out: ${b.checkOut}\n- Số Tiền Thực Trả: ${(b.giaVon || 0).toLocaleString('vi-VN')} VNĐ\n\nTHÔNG TIN XUẤT HÓA ĐƠN CỦA CÔNG TY:\n- Tên Công Ty: CÔNG TY TNHH BOOKING TRAVEL\n- Mã Số Thuế: (Điền MST Cty Booking Travel)\n- Email Nhận Hóa Đơn: ketoan@bookingtravel.vn\n\nEm cảm ơn anh/chị nhiều ạ!`;
+      const dIn = b.checkIn ? b.checkIn.split('-').reverse().join('/') : '';
+      const dOut = b.checkOut ? b.checkOut.split('-').reverse().join('/') : '';
+
+      const text = `Kính gửi Bộ phận Kế toán / Đặt phòng Nhà Cung Cấp: ${b.doiTac || 'Khách sạn / Resort'},\n\nBooking Travel xin gửi lời chào trân trọng và chúc Quý đối tác kinh doanh phát đạt!\nNhờ Anh/Chị kế toán hỗ trợ xuất giúp em Hóa Đơn GTGT (Đầu vào) cho đoàn khách sau ạ:\n• Mã Booking CRM: ${b.maBooking}\n• Tên Khách Hàng: ${b.khachHang}\n• Dịch Vụ: ${b.dichVu}\n• Lịch Trình Lưu Trú: Từ ${dIn} ➔ ${dOut}\n• Số Tiền Thực Trả (Giá Vốn Net): ${(b.giaVon || 0).toLocaleString('vi-VN')} VNĐ\n\n═══════════════════════════════════════\nTHÔNG TIN XUẤT HÓA ĐƠN GTGT CỦA CÔNG TY:\n• Tên Đơn Vị: CÔNG TY TNHH BOOKING TRAVEL\n• Mã Số Thuế: 0317894562\n• Địa Chỉ: Tầng 5, Tòa Nhà Booking Travel, Việt Nam\n• Email Nhận HĐĐT: ketoan@bookingtravel.vn\n• Hotline Kế Toán: 084.64.55.222 & 08.33.00.1000\n═══════════════════════════════════════\n\nBooking Travel xin chân thành cảm ơn sự đồng hành và hỗ trợ chu đáo của Quý đối tác!`;
 
       document.getElementById('doi-hd-text').value = text;
       document.getElementById('doi-hd-dialog').classList.remove('hidden');
