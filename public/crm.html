@@ -754,6 +754,12 @@
           <span class="font-bold tracking-wide text-amber-300">"Khách hàng là gia đình"</span>
         </div>
 
+        <!-- Nút Mở Nhanh Nhóm Zalo Đơn Hàng -->
+        <a href="https://zalo.me/g/mtbelj694" target="_blank" rel="noopener noreferrer" class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 border border-blue-500/40 text-blue-300 hover:text-white hover:bg-blue-600/30 text-xs font-semibold transition cursor-pointer" title="Mở Nhóm Zalo Điều Hành Đơn Hàng Công Ty (https://zalo.me/g/mtbelj694)">
+          <i class="fa-solid fa-users text-sky-400"></i>
+          <span>Nhóm Zalo Đơn Hàng</span>
+        </a>
+
         <!-- Quỹ Tạm Ứng Nhân Viên / Hạn Mức Ví -->
         <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400" title="Quỹ tiền mặt bàn giao làm việc">
           <i class="fa-solid fa-wallet"></i>
@@ -2687,6 +2693,10 @@
           <button type="button" onclick="copyVoucherToZalo()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer">
             <i class="fa-solid fa-hotel"></i>
             <span>Copy Zalo Gửi Resort</span>
+          </button>
+          <button type="button" onclick="shareBookingToZaloGroup(currentVoucherBookingId)" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer" title="Bắn thông báo đơn vào Nhóm Zalo Điều Hành (https://zalo.me/g/mtbelj694)">
+            <i class="fa-solid fa-users"></i>
+            <span>Bắn Vào Nhóm Zalo Đơn Hàng</span>
           </button>
           <button type="button" onclick="printVoucher()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer">
             <i class="fa-solid fa-print"></i>
@@ -5646,6 +5656,62 @@ ${roomingList || ('1. ' + b.khachHang)}
       });
     }
 
+    // 2.3 BẮN THÔNG BÁO VÀO NHÓM ZALO ĐIỀU HÀNH NỘI BỘ (https://zalo.me/g/mtbelj694)
+    function shareBookingToZaloGroup(bookingId) {
+      const b = bookings.find(x => x.id === bookingId);
+      if (!b) return;
+
+      const dIn = b.checkIn ? b.checkIn.split('-').reverse().join('/') : (b.ngayDi || '---');
+      const dOut = b.checkOut ? b.checkOut.split('-').reverse().join('/') : (b.ngayVe || '---');
+      
+      let nights = 1;
+      if (b.checkIn && b.checkOut) {
+        const d1 = new Date(b.checkIn);
+        const d2 = new Date(b.checkOut);
+        const diffDays = Math.round((d2 - d1) / (1000 * 3600 * 24));
+        if (diffDays > 0) nights = diffDays;
+      }
+      if (b.soDem) nights = parseInt(b.soDem, 10) || nights;
+
+      const roomQty = b.soLuongPhong || 1;
+      const roomCat = b.hangPhong || b.dichVu || 'Phòng nghỉ dưỡng cao cấp';
+      const guestQty = b.soKhach || '2 Người lớn';
+      const tongThu = Number(b.giaBan || 0);
+      const daThu = Number(b.khachDaCoc || 0);
+      const giaVon = Number(b.giaVon || 0);
+      const loiNhuan = tongThu - giaVon;
+      const sale = b.saleEmail || (currentUser ? currentUser.email : 'Ban Giám Đốc');
+      const bank = (b.payments && b.payments[0]) ? b.payments[0].hinhThuc : 'Techcombank';
+
+      const msg = 
+`🚨 [BOOKING TRAVEL] CÓ ĐƠN HÀNG MỚI!
+
+• Mã Booking: ${b.maBooking}
+• Khách Hàng: ${b.khachHang}${b.sdt ? ` (${b.sdt})` : ''}
+• Đối Tác / Khách Sạn: ${b.doiTac || 'Khách sạn / Resort'}
+• Hạng Phòng: ${roomCat}
+• Số Lượng: ${roomQty} Phòng | ${guestQty} | ${nights} Đêm
+• Lịch Trình: ${dIn} ➔ ${dOut}
+• Tổng Doanh Thu: ${tongThu.toLocaleString('vi-VN')} đ
+• Đã Thu Đợt Này: ${daThu.toLocaleString('vi-VN')} đ (${bank})
+• Lợi Nhuận Gộp: ${loiNhuan.toLocaleString('vi-VN')} đ
+• Nhân Viên Sale: ${sale}
+
+✨ Triết lý: "Khách hàng là gia đình" - Booking Travel
+👉 Nhóm Điều Hành: https://zalo.me/g/mtbelj694`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(msg).then(() => {
+          window.open('https://zalo.me/g/mtbelj694', '_blank');
+          alert('✅ ĐÃ SAO CHÉP THÔNG BÁO ĐƠN [' + b.maBooking + ']!\n\nĐang mở Nhóm Zalo Điều Hành (https://zalo.me/g/mtbelj694).\nBạn chỉ cần bấm Dán (Ctrl + V) và Gửi tin nhắn là xong!');
+        }).catch(() => {
+          window.open('https://zalo.me/g/mtbelj694', '_blank');
+        });
+      } else {
+        window.open('https://zalo.me/g/mtbelj694', '_blank');
+      }
+    }
+
     // 3. IN VOUCHER CHUẨN A4 ĐẦY ĐỦ THÔNG TIN
     function printVoucher() {
       // Sao lưu giá trị các ô input thành chữ để khi in hiển thị đẹp nhất
@@ -6443,6 +6509,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <!-- 12. THAO TÁC -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
+                <button onclick="shareBookingToZaloGroup('${b.id}')" title="Bắn Đơn Hàng Vào Nhóm Zalo Điều Hành (https://zalo.me/g/mtbelj694)" class="p-1.5 rounded-lg text-amber-400 hover:text-white hover:bg-amber-600/30 transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-share-nodes"></i>
+                </button>
                 <button onclick="openVoucherModal('${b.id}')" title="In Phiếu Xác Nhận Dịch Vụ / Rooming List" class="p-1.5 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-file-invoice"></i>
                 </button>
@@ -7805,7 +7874,7 @@ ${lines.join('\n')}
       if (currentView === 'cashflow') renderCashflowView();
       closeModalTaoDon();
 
-      alert('✅ ĐÃ LƯU THÀNH CÔNG BOOKING [' + item.maBooking + ']!\n• Khách: ' + item.khachHang + '\n• Doanh Thu: ' + item.giaBan.toLocaleString('vi-VN') + ' đ\n• Đã Thu: ' + item.khachDaCoc.toLocaleString('vi-VN') + ' đ\n• Lợi Nhuận Gộp: ' + (item.giaBan - item.giaVon).toLocaleString('vi-VN') + ' đ');
+      alert('✅ ĐÃ LƯU THÀNH CÔNG BOOKING [' + item.maBooking + ']!\n• Khách: ' + item.khachHang + '\n• Doanh Thu: ' + item.giaBan.toLocaleString('vi-VN') + ' đ\n• Đã Thu: ' + item.khachDaCoc.toLocaleString('vi-VN') + ' đ\n• Đã đồng bộ Google Sheets & sẵn sàng gửi Bot Zalo (https://zalo.me/g/mtbelj694)');
     }
 
     // Sửa Booking
@@ -7830,7 +7899,9 @@ ${lines.join('\n')}
           giaVon: b.giaVon,
           soTienThuDotNay: b.khachDaCoc,
           nganHang: (b.payments && b.payments[0]) ? b.payments[0].hinhThuc : 'Chuyển khoản (Techcombank)',
-          sale: b.saleEmail || 'crm@bookingtravel.vn'
+          sale: b.saleEmail || 'crm@bookingtravel.vn',
+          zaloGroupId: 'mtbelj694',
+          zaloGroupUrl: 'https://zalo.me/g/mtbelj694'
         };
 
         fetch(scriptUrl, {

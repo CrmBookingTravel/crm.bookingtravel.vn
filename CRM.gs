@@ -1,12 +1,27 @@
 // =========================================================================
 // HỆ THỐNG ĐIỀU HÀNH BOOKING TRAVEL - FILE CRM.gs HOÀN CHỈNH
 // Tự động lưu đơn hàng vào Google Sheets "DON_HANG_THUE" & Gửi Bot Zalo
+// Cấu hình Zalo OA & Nhóm Điều Hành: https://zalo.me/g/mtbelj694
 // =========================================================================
+
+// CẤU HÌNH DOANH NGHIỆP & ZALO OA
+var ZALO_CONFIG = {
+  appId: "2770692627149916393",
+  appSecret: "miATWEV7nPIvODh1Q759",
+  groupId: "mtbelj694",
+  groupUrl: "https://zalo.me/g/mtbelj694",
+  oaName: "Booking Travel",
+  companyName: "CÔNG TY TNHH BOOKING TRAVEL",
+  slogan: "Khách hàng là gia đình"
+};
 
 function doGet(e) {
   return ContentService.createTextOutput(JSON.stringify({
     "status": "success",
-    "message": "Cổng kết nối Google Sheets & Zalo Bot của Booking Travel đang hoạt động bình thường!"
+    "message": "Cổng kết nối Google Sheets & Zalo Bot của Booking Travel đang hoạt động bình thường!",
+    "groupUrl": ZALO_CONFIG.groupUrl,
+    "groupId": ZALO_CONFIG.groupId,
+    "appId": ZALO_CONFIG.appId
   })).setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -88,11 +103,7 @@ function doPost(e) {
       thoiGianTao
     ]);
 
-    // 2. TỰ ĐỘNG GỬI THÔNG BÁO QUA ZALO BOT
-    // Sử dụng thông tin ứng dụng "Điều Hành Booking Travel" (App ID: 2770692627149916393)
-    var appId = "2770692627149916393";
-    var appSecret = "miATWEV7nPIvODh1Q759";
-    
+    // 2. TỰ ĐỘNG GỬI THÔNG BÁO QUA ZALO BOT & NHÓM ĐIỀU HÀNH
     var noiDungZalo = "🚨 [BOOKING TRAVEL] CÓ ĐƠN HÀNG MỚI!\n\n" +
                       "• Mã Booking: " + maBooking + "\n" +
                       "• Khách hàng: " + khachHang + (sdt ? " (" + sdt + ")" : "") + "\n" +
@@ -103,19 +114,24 @@ function doPost(e) {
                       "• Tổng tiền: " + tongThu.toLocaleString('vi-VN') + " đ\n" +
                       "• Đã thu đợt này: " + soTienThuDotNay.toLocaleString('vi-VN') + " đ (" + nganHang + ")\n" +
                       "• Lợi nhuận gộp: " + loiNhuan.toLocaleString('vi-VN') + " đ\n" +
-                      "• Phụ trách: " + sale + "\n\n" +
+                      "• Phụ trách: " + sale + "\n" +
+                      "• Nhóm Zalo Điều Hành: " + ZALO_CONFIG.groupUrl + "\n\n" +
                       "✨ Khách hàng là gia đình - Booking Travel";
 
-    // Gửi thông báo đến Webhook Bot Zalo nếu có truyền URL
+    // Gửi thông báo đến Webhook Bot Zalo nếu có cấu hình
     try {
-      if (params.zaloWebhookUrl) {
-        UrlFetchApp.fetch(params.zaloWebhookUrl, {
+      var webhookUrl = params.zaloWebhookUrl || "";
+      if (webhookUrl) {
+        UrlFetchApp.fetch(webhookUrl, {
           method: "post",
           contentType: "application/json",
           payload: JSON.stringify({ 
             message: noiDungZalo,
             maBooking: maBooking,
-            khachHang: khachHang
+            khachHang: khachHang,
+            groupId: ZALO_CONFIG.groupId,
+            groupUrl: ZALO_CONFIG.groupUrl,
+            appId: ZALO_CONFIG.appId
           }),
           muteHttpExceptions: true
         });
@@ -128,7 +144,9 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({
       "status": "success", 
       "message": "Đã lưu đơn hàng vào Google Sheets và kích hoạt Bot Zalo thành công!",
-      "maBooking": maBooking
+      "maBooking": maBooking,
+      "zaloGroupUrl": ZALO_CONFIG.groupUrl,
+      "zaloGroupId": ZALO_CONFIG.groupId
     })).setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
