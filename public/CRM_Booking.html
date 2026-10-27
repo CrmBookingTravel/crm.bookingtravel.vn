@@ -453,13 +453,265 @@
               <i class="fa-solid fa-file-excel w-4 text-center text-emerald-500"></i>
               <span>Kết Xuất Kế Toán MISA</span>
             </button>
+            <button onclick="openCustomerDirectoryModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-amber-300 hover:text-white hover:bg-amber-600/20 transition cursor-pointer">
+              <i class="fa-solid fa-address-book w-4 text-center text-amber-400"></i>
+              <span>Danh Bạ Khách Hàng (SĐT)</span>
+              <span id="badge-total-customers-sidebar" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300">0</span>
+            </button>
+            <button onclick="openBackupRestoreModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
+              <i class="fa-solid fa-cloud-arrow-down w-4 text-center text-cyan-400"></i>
+              <span>Sao Lưu & Phục Hồi CRM</span>
+            </button>
           </nav>
         </div>
 
       </div>
     </div>
 
-    <!-- User Profile & Logout Section -->
+    
+  <!-- ========================================================================= -->
+  <!-- MODAL: DANH BẠ KHÁCH HÀNG & CSKH ZALO (XUẤT SĐT MARKETING) -->
+  <!-- ========================================================================= -->
+  <div id="customer-directory-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeCustomerDirectoryModal()"></div>
+    <div class="relative bg-slate-900 border border-amber-500/50 rounded-2xl max-w-5xl w-full p-5 sm:p-6 shadow-2xl z-10 flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Header -->
+      <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 mb-4 gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-address-book"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-white uppercase tracking-wide flex items-center gap-2">
+              <span>DANH BẠ KHÁCH HÀNG & CSKH ZALO</span>
+              <span id="cust-dir-total-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">0 Khách Hàng</span>
+            </h3>
+            <p class="text-[11px] text-slate-400">Trích xuất toàn bộ danh bạ từ các đơn đặt phòng &bull; Xuất file Excel hoặc Sao chép SĐT Zalo Marketing 1-chạm</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Nút Tải File Excel Danh Bạ -->
+          <button type="button" onclick="xuatDanhBaKhachHangExcel()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm shadow-emerald-600/30 cursor-pointer">
+            <i class="fa-solid fa-file-excel text-sm"></i>
+            <span>Tải File Excel Khách Hàng</span>
+          </button>
+          
+          <!-- Nút Sao Chép Tất Cả SĐT -->
+          <button type="button" onclick="copyAllCustomerPhones()" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-black rounded-xl transition flex items-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer">
+            <i class="fa-solid fa-copy text-sm"></i>
+            <span>Sao Chép Tất Cả SĐT</span>
+          </button>
+
+          <!-- Nút Đóng -->
+          <button type="button" onclick="closeCustomerDirectoryModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 KPI Cards Khách Hàng -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4 shrink-0">
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+          <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Tổng Khách Hàng</span>
+          <span id="cust-stat-total" class="text-lg font-bold font-mono text-white mt-0.5 block">0</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+          <span class="text-[10px] text-amber-400 uppercase tracking-wider block">🌟 Khách VIP (&ge;15Tr)</span>
+          <span id="cust-stat-vip" class="text-lg font-bold font-mono text-amber-300 mt-0.5 block">0</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+          <span class="text-[10px] text-sky-400 uppercase tracking-wider block">💎 Thân Thiết (&ge;2 Lần)</span>
+          <span id="cust-stat-repeat" class="text-lg font-bold font-mono text-sky-300 mt-0.5 block">0</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+          <span class="text-[10px] text-emerald-400 uppercase tracking-wider block">🟢 Khách Mới</span>
+          <span id="cust-stat-new" class="text-lg font-bold font-mono text-emerald-300 mt-0.5 block">0</span>
+        </div>
+      </div>
+
+      <!-- Ô Tìm Kiếm Nhanh Khách Hàng -->
+      <div class="relative mb-3 shrink-0">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <input type="text" id="ipt-search-customer" oninput="renderCustomerDirectory(this.value)" placeholder="Tìm khách theo Tên, Số điện thoại, Email, Số CCCD..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400">
+      </div>
+
+      <!-- Bảng Danh Sách Khách Hàng -->
+      <div class="flex-1 overflow-y-auto border border-slate-800 rounded-xl bg-slate-950/60">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead class="sticky top-0 bg-[#07162f] text-slate-300 font-semibold border-b border-slate-800 z-10">
+            <tr>
+              <th class="py-2.5 px-3 text-center w-12">STT</th>
+              <th class="py-2.5 px-3">Khách Hàng & Phân Nhóm</th>
+              <th class="py-2.5 px-3">Số Điện Thoại & Zalo</th>
+              <th class="py-2.5 px-3">Email & CCCD</th>
+              <th class="py-2.5 px-3 text-center">Số Lần Đặt</th>
+              <th class="py-2.5 px-3 text-right">Tổng Chi Tiêu</th>
+              <th class="py-2.5 px-3">Khách Sạn & Dịch Vụ Đã Đi</th>
+              <th class="py-2.5 px-3 text-center">Hành Động</th>
+            </tr>
+          </thead>
+          <tbody id="customer-directory-table-body" class="divide-y divide-slate-800/60 text-slate-300">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="mt-3 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+        <span class="flex items-center gap-1.5 text-blue-300">
+          <i class="fa-solid fa-circle-info"></i> Bấm vào nút Zalo bên cạnh SĐT để mở khung chat trực tiếp với khách trên zalo.me.
+        </span>
+        <button type="button" onclick="closeCustomerDirectoryModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition cursor-pointer">
+          Đóng Cửa Sổ
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: SAO LƯU & PHỤC HỒI DỮ LIỆU CRM (CEO & QUẢN TRỊ) -->
+  <!-- ========================================================================= -->
+  <div id="backup-restore-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeBackupRestoreModal()"></div>
+    <div class="relative bg-slate-900 border border-cyan-500/50 rounded-2xl max-w-2xl w-full p-6 shadow-2xl z-10 flex flex-col">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-database"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white uppercase tracking-wide">
+              SAO LƯU (BACKUP) & PHỤC HỒI (RESTORE) CRM
+            </h3>
+            <p class="text-[11px] text-slate-400">Quản trị dữ liệu nội bộ an toàn &bull; Đảm bảo không mất dữ liệu</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeBackupRestoreModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Hướng dẫn lưu trữ dữ liệu CRM cho CEO -->
+      <div class="p-3.5 rounded-xl bg-slate-950 border border-blue-900/50 text-xs text-slate-300 space-y-2 mb-4">
+        <div class="flex items-center gap-2 font-bold text-amber-300">
+          <i class="fa-solid fa-circle-question text-sm"></i>
+          <span>DỮ LIỆU CRM ĐƯỢC LƯU Ở ĐÂU?</span>
+        </div>
+        <p class="text-slate-400 leading-relaxed text-[11px]">
+          Toàn bộ đơn booking, khách hàng, số điện thoại, công nợ và bảng giá của công ty được lưu trực tiếp tại <strong>Bộ nhớ cục bộ (HTML5 LocalStorage)</strong> trên trình duyệt của máy tính này. Dữ liệu KHÔNG mất khi bạn tắt máy hay đóng trình duyệt.
+        </p>
+        <p class="text-amber-200/90 leading-relaxed text-[11px]">
+          &bull; <strong>Lưu ý:</strong> Để chuyển dữ liệu sang máy tính khác hoặc đề phòng ai đó xóa lịch sử web, bạn nên bấm <strong>"Tải File Sao Lưu (Backup)"</strong> về máy tính định kỳ.
+        </p>
+      </div>
+
+      <!-- 2 Cột: Sao Lưu & Phục Hồi -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Khối 1: Tải Bản Sao Lưu -->
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between space-y-3">
+          <div>
+            <h4 class="text-xs font-bold text-cyan-300 flex items-center gap-2">
+              <i class="fa-solid fa-download"></i> 1. TẢI FILE SAO LƯU (BACKUP)
+            </h4>
+            <p class="text-[11px] text-slate-400 mt-1">Xuất toàn bộ Booking, Khách hàng, Bảng giá thành 1 file .JSON duy nhất để cất giữ an toàn.</p>
+          </div>
+          <button type="button" onclick="backupFullCrmData()" class="w-full py-2.5 px-3 bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-md shadow-cyan-600/30 cursor-pointer">
+            <i class="fa-solid fa-file-arrow-down"></i>
+            <span>Tải File Backup (.JSON)</span>
+          </button>
+        </div>
+
+        <!-- Khối 2: Phục Hồi Dữ Liệu -->
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-col justify-between space-y-3">
+          <div>
+            <h4 class="text-xs font-bold text-emerald-300 flex items-center gap-2">
+              <i class="fa-solid fa-upload"></i> 2. PHỤC HỒI DỮ LIỆU (RESTORE)
+            </h4>
+            <p class="text-[11px] text-slate-400 mt-1">Nạp lại dữ liệu từ file backup đã lưu trước đó khi chuyển máy tính mới.</p>
+          </div>
+          <div>
+            <input type="file" id="ipt-restore-file" accept=".json" onchange="restoreFullCrmData(this)" class="hidden">
+            <button type="button" onclick="document.getElementById('ipt-restore-file').click()" class="w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 shadow-md shadow-emerald-600/30 cursor-pointer">
+              <i class="fa-solid fa-file-arrow-up"></i>
+              <span>Chọn File Backup Để Phục Hồi</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: DÁN NHANH BẢNG GIÁ TỪ GOOGLE SHEETS / EXCEL (PASTE TABLE) -->
+  <!-- ========================================================================= -->
+  <div id="import-price-sheet-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeImportPriceModal()"></div>
+    <div class="relative bg-slate-900 border border-blue-500/50 rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl z-10 flex flex-col max-h-[92vh]">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/40 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-paste"></i>
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white uppercase tracking-wide">
+              NHẬP & CẬP NHẬT KHO BẢNG GIÁ TỪ SHEET / EXCEL
+            </h3>
+            <p class="text-[11px] text-slate-400">Copy dữ liệu từ Google Sheets hoặc Excel rồi dán (Paste) vào đây để nạp nhanh</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeImportPriceModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Hướng dẫn định dạng cột -->
+      <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1.5 mb-3 shrink-0">
+        <span class="font-bold text-amber-300 flex items-center gap-1.5">
+          <i class="fa-solid fa-table-columns"></i> Thứ tự các cột chuẩn khi copy từ Google Sheets hoặc Excel:
+        </span>
+        <div class="p-2 rounded bg-slate-900 font-mono text-[11px] text-emerald-300 border border-slate-800 overflow-x-auto whitespace-nowrap">
+          [Tên Khách Sạn] &bull; [Khu Vực] &bull; [Số Sao: 3/4/5] &bull; [Tên Hạng Phòng] &bull; [Giá Vốn NCC] &bull; [Giá Báo Khách] &bull; [Tiện Ích Mô Tả]
+        </div>
+        <p class="text-[10px] text-slate-400">Hệ thống chấp nhận định dạng phân cách bởi Tab (khi copy từ Sheets) hoặc dấu phẩy (CSV).</p>
+      </div>
+
+      <!-- Ô dán dữ liệu -->
+      <div class="flex-1 flex flex-col mb-3">
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Dán (Paste) nội dung bảng tính vào đây:</label>
+        <textarea id="txt-paste-sheet" rows="8" placeholder="Dán các dòng từ Google Sheets vào đây...&#10;Ví dụ:&#10;Sheraton Nha Trang&#9;Nha Trang&#9;5&#9;Deluxe Ocean View&#9;2200000&#9;2650000&#9;Ăn sáng buffet&#10;Havana Nha Trang&#9;Nha Trang&#9;5&#9;Deluxe Ocean View&#9;1250000&#9;1550000&#9;Hầm ngầm ra biển" class="w-full flex-1 bg-[#07162f] border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-blue-500"></textarea>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800 shrink-0">
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="downloadPriceTemplateExcel()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-download"></i> <span>Tải Mẫu File Sheet (CSV)</span>
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeImportPriceModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer">
+            Hủy
+          </button>
+          <button type="button" onclick="handleImportPriceData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-md shadow-blue-600/30 cursor-pointer">
+            <i class="fa-solid fa-file-import"></i>
+            <span>Phân Tích & Cập Nhật Vào Kho CRM</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- User Profile & Logout Section -->
     <div class="p-3 border-t border-slate-800/80 bg-slate-900/60">
       <div class="flex items-center justify-between p-2 rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-slate-600 transition">
         <div class="flex items-center gap-2.5 min-w-0 flex-1 cursor-pointer" onclick="openProfileModal(false)" title="Bấm để cập nhật họ tên, ngày sinh, SĐT và đổi mật khẩu">
@@ -540,6 +792,18 @@
         <button onclick="openPriceCatalogModal()" class="px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-semibold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer" title="Tra cứu bảng giá khách sạn & hạng phòng từ Google Sheets">
           <i class="fa-solid fa-file-excel text-emerald-400"></i>
           <span class="hidden md:inline">Bảng Giá GSheet</span>
+        </button>
+
+        <!-- Nút: Danh Bạ Khách Hàng (SĐT Marketing) -->
+        <button onclick="openCustomerDirectoryModal()" class="px-3 py-2 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Xem danh sách khách hàng và xuất số điện thoại Zalo Marketing">
+          <i class="fa-solid fa-address-book text-amber-400"></i>
+          <span class="hidden sm:inline">Danh Bạ Khách (SĐT)</span>
+        </button>
+
+        <!-- Nút: Sao Lưu Dữ Liệu CRM -->
+        <button onclick="openBackupRestoreModal()" class="px-3 py-2 bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-300 hover:text-white text-xs font-medium rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Sao lưu dữ liệu CRM về máy tính">
+          <i class="fa-solid fa-cloud-arrow-down text-cyan-400"></i>
+          <span class="hidden lg:inline">Sao Lưu</span>
         </button>
 
         <!-- Nút 4: Tạo Booking Mới -->
@@ -1348,54 +1612,82 @@
         <input type="hidden" id="edit-id" value="">
 
         <!-- KHỐI TRA CỨU & TỰ ĐỘNG ĐIỀN HẠNG PHÒNG TỪ GOOGLE SHEETS (NỔI BẬT NHẤT) -->
-        <div class="p-4 bg-gradient-to-r from-blue-950/80 via-slate-900 to-indigo-950/80 border border-amber-500/50 rounded-xl space-y-3 shadow-xl">
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-blue-900/40 pb-2">
-            <label class="text-xs font-black text-amber-300 flex items-center gap-2 uppercase tracking-wide">
-              <i class="fa-solid fa-hotel text-amber-400 text-sm"></i>
-              <span>TRA CỨU & TỰ ĐỘNG ĐIỀN HẠNG PHÒNG (GOOGLE SHEETS)</span>
-              <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">GSheet Sync</span>
-            </label>
-            <div class="flex items-center gap-2">
-              <a href="https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0" target="_blank" class="text-[11px] text-emerald-400 hover:underline flex items-center gap-1 font-mono transition" title="Mở bảng giá gốc trên Google Sheets">
-                <i class="fa-solid fa-file-excel"></i> Mở Bảng Giá GSheet <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- Thanh Tìm Kiếm Có Nút Bấm To Rõ Ràng -->
-          <div class="space-y-2">
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <!-- Ô Nhập Từ Khóa -->
-              <div class="relative flex-1">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-amber-400 text-xs">
-                  <i class="fa-solid fa-magnifying-glass"></i>
+        <!-- ========================================================================= -->
+          <!-- KHỐI BỘ CHỌN KHÁCH SẠN & HẠNG PHÒNG NHA TRANG (3-4-5 SAO) TỰ ĐỘNG ĐIỀN 100% -->
+          <!-- ========================================================================= -->
+          <div class="bg-gradient-to-r from-blue-950/95 via-slate-900 to-indigo-950/95 p-4 rounded-2xl border-2 border-amber-500/50 shadow-2xl space-y-3.5">
+            
+            <!-- Header bộ chọn -->
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-blue-800/60 pb-2.5">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-sm font-bold shadow-sm">
+                  <i class="fa-solid fa-hotel"></i>
+                </span>
+                <div>
+                  <h4 class="text-xs font-black text-amber-300 uppercase tracking-wide flex items-center gap-1.5">
+                    <span>KHO KHÁCH SẠN NHA TRANG (3⭐ - 4⭐ - 5⭐) & TOÀN QUỐC</span>
+                    <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono font-bold">Tự Động 100%</span>
+                  </h4>
+                  <p class="text-[10px] text-blue-200/90">Chọn Khách Sạn &rarr; Chọn Hạng Phòng là tự điền Dịch vụ, Giá bán, Giá vốn & Lãi gộp. Không cần gõ tay thủ công!</p>
                 </div>
-                <input type="text" id="ipt-room-lookup" onkeydown="if(event.key==='Enter'){event.preventDefault();executeRoomSearch();}" oninput="handleRoomLookupInput(this.value)" placeholder="Gõ tên khách sạn, resort, hạng phòng (VD: Amaya, King Town, Rova, Vinpearl...)" class="w-full bg-[#07162f] border-2 border-amber-500/60 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/40 font-medium">
+              </div>
+              
+              <!-- Tab Phân Khúc Sao Nhanh -->
+              <div class="flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800 text-[11px]" id="filter-pills-container">
+                <button type="button" onclick="filterHotelsByStar('all')" id="btn-star-all" class="px-2.5 py-0.5 rounded-lg font-bold bg-amber-500 text-slate-950 transition shadow cursor-pointer">Tất Cả</button>
+                <button type="button" onclick="filterHotelsByStar('5')" id="btn-star-5" class="px-2.5 py-0.5 rounded-lg font-bold text-amber-300 hover:text-white hover:bg-slate-800 transition cursor-pointer">⭐⭐⭐⭐⭐ 5 Sao</button>
+                <button type="button" onclick="filterHotelsByStar('4')" id="btn-star-4" class="px-2.5 py-0.5 rounded-lg font-bold text-sky-300 hover:text-white hover:bg-slate-800 transition cursor-pointer">⭐⭐⭐⭐ 4 Sao</button>
+                <button type="button" onclick="filterHotelsByStar('3')" id="btn-star-3" class="px-2.5 py-0.5 rounded-lg font-bold text-emerald-300 hover:text-white hover:bg-slate-800 transition cursor-pointer">⭐⭐⭐ 3 Sao</button>
+              </div>
+            </div>
+
+            <!-- 2 Dropdown liên hoàn chọn Khách Sạn & Hạng Phòng (Cascading Select) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <!-- Dropdown 1: Chọn Khách Sạn -->
+              <div>
+                <label class="block text-[11px] font-bold text-amber-200 mb-1 flex items-center justify-between">
+                  <span><i class="fa-solid fa-building text-amber-400 mr-1"></i> 1. CHỌN KHÁCH SẠN / RESORT:</span>
+                  <span id="selected-hotel-star-badge" class="text-[10px] text-amber-300 font-mono"></span>
+                </label>
+                <select id="sel-booking-hotel" onchange="handleBookingHotelChange(this.value)" class="w-full bg-[#07162f] border-2 border-blue-500/60 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/30 cursor-pointer">
+                  <!-- Rendered dynamically -->
+                </select>
               </div>
 
-              <!-- NÚT 1: TÌM KIẾM TO RÕ RÀNG (KHÁCH HÀNG YÊU CẦU) -->
-              <button type="button" onclick="executeRoomSearch()" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 active:from-amber-600 active:to-orange-600 text-slate-950 text-xs font-black rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider shrink-0">
-                <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                <span>TÌM KIẾM</span>
+              <!-- Dropdown 2: Chọn Hạng Phòng Của Khách Sạn Đó -->
+              <div>
+                <label class="block text-[11px] font-bold text-emerald-300 mb-1 flex items-center justify-between">
+                  <span><i class="fa-solid fa-bed text-emerald-400 mr-1"></i> 2. CHỌN HẠNG PHÒNG (TỰ ĐIỀN ĐƠN HÀNG):</span>
+                  <span class="text-[10px] text-emerald-400 font-mono" id="room-price-preview"></span>
+                </label>
+                <select id="sel-booking-room" onchange="handleBookingRoomChange(this.value)" class="w-full bg-[#07162f] border-2 border-emerald-500/60 rounded-xl px-3 py-2.5 text-xs text-white font-semibold focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30 cursor-pointer">
+                  <!-- Rendered dynamically -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Tra cứu nhanh bằng từ khóa nếu sales muốn gõ -->
+            <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <input type="text" id="ipt-room-lookup" onkeydown="if(event.key==='Enter'){event.preventDefault();executeRoomSearch();}" oninput="handleRoomLookupInput(this.value)" placeholder="Hoặc gõ nhanh tên KS, resort, hạng phòng (VD: Sheraton, Havana, Vinpearl, Rova, Deluxe...)" class="w-full bg-[#07162f]/80 border border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 font-medium">
+              </div>
+
+              <button type="button" onclick="executeRoomSearch()" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs font-bold rounded-xl shadow transition flex items-center justify-center gap-1.5 cursor-pointer shrink-0">
+                <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                <span>Tìm Nhanh</span>
               </button>
 
-              <!-- NÚT 2: CHỌN TRỰC QUAN TỪ DANH MỤC GSHEET -->
-              <button type="button" onclick="openPriceCatalogModalForCurrentBooking()" class="px-4 py-2.5 bg-blue-600/30 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0">
+              <button type="button" onclick="openPriceCatalogModalForCurrentBooking()" class="px-3.5 py-2 bg-blue-600/30 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0">
                 <i class="fa-solid fa-list-check"></i>
-                <span>Mở Bảng Danh Mục GSheet</span>
-              </button>
-
-              <!-- NÚT 3: ĐỒNG BỘ LẠI TỪ GSHEET -->
-              <button type="button" onclick="syncPriceCatalogFromGoogleSheets(true)" class="px-3.5 py-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0" title="Đồng bộ lại từ Google Sheets">
-                <i class="fa-solid fa-rotate text-xs"></i>
-                <span>Đồng Bộ</span>
+                <span>Xem Kho Bảng Giá & Sheet</span>
               </button>
             </div>
 
-            <!-- BẢNG KẾT QUẢ TÌM KIẾM THẢ XUỐNG TỰ ĐỘNG (INSTANT DROPDOWN SEARCH RESULTS) -->
-            <div id="room-quick-results" class="hidden bg-slate-950 border border-blue-500/50 rounded-xl overflow-hidden shadow-2xl z-20">
-              <!-- Rendered dynamically by JS -->
-            </div>
+            <!-- BẢNG KẾT QUẢ TÌM KIẾM THẢ XUỐNG TỰ ĐỘNG -->
+            <div id="room-quick-results" class="hidden bg-slate-950 border border-amber-500/50 rounded-xl overflow-hidden shadow-2xl z-20"></div>
 
             <!-- Báo hiệu tự động điền thành công -->
             <div id="room-autofill-alert" class="hidden p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-medium flex items-center justify-between gap-2 shadow-sm">
@@ -1403,15 +1695,10 @@
                 <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
                 <span id="room-autofill-text">Đã tự động điền thông tin hạng phòng & giá báo khách!</span>
               </div>
-              <button type="button" onclick="document.getElementById('room-autofill-alert').classList.add('hidden')" class="text-emerald-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+              <button type="button" onclick="document.getElementById('room-autofill-alert').classList.add('hidden')" class="text-emerald-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <p class="text-[11px] text-blue-200/80 flex items-center gap-1.5">
-              <i class="fa-solid fa-bolt text-amber-400"></i>
-              <span>Nhập tên khách sạn rồi bấm <strong>"TÌM KIẾM"</strong> hoặc bấm <strong>"Mở Bảng Danh Mục GSheet"</strong> để chọn phòng trong 1 giây (hệ thống tự điền Dịch vụ, Đối tác, Giá bán & Giá vốn)!</span>
-            </p>
           </div>
-        </div>
 
         <!-- BỐ CỤC ĐA CỘT FORM: THÔNG TIN DỊCH VỤ & HẠCH TOÁN DÒNG TIỀN (CHUẨN vTOUR 4.0) -->
         <div class="space-y-5">
@@ -2066,6 +2353,12 @@
         </div>
         
         <div class="flex items-center gap-2">
+          <button onclick="openImportPriceModal()" class="px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Dán nhanh bảng tính từ Excel hoặc Google Sheets">
+            <i class="fa-solid fa-paste"></i> <span>Dán Từ Sheet/Excel</span>
+          </button>
+          <button onclick="exportPriceCatalogExcel()" class="px-3 py-1.5 bg-amber-600/20 hover:bg-amber-600 border border-amber-500/40 text-amber-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Xuất toàn bộ kho bảng giá ra file Excel">
+            <i class="fa-solid fa-file-excel"></i> <span>Xuất Excel Kho Phòng</span>
+          </button>
           <button onclick="syncPriceCatalogFromGoogleSheets(true)" class="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer">
             <i class="fa-solid fa-rotate"></i> <span>Làm Mới Từ GSheet</span>
           </button>
@@ -3287,345 +3580,1365 @@
     // Link: https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0
     // =========================================================================
     const DEFAULT_PRICE_CATALOG = [
-      // Amaya Retreat Sóc Sơn
-      {
-        id: "RM-AMY-01",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Bungalow 06 - Standard Tầng Dưới (6L)",
-        serviceType: "hotel",
-        giaBaoKhach: 2800000,
-        giaVon: 2350000,
-        moTa: "1 King Bed 2mx1.8m, Free ăn sáng 2NL, bể bơi chung"
-      },
-      {
-        id: "RM-AMY-02",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Bungalow 06 - Standard Tầng Trên (6U)",
-        serviceType: "hotel",
-        giaBaoKhach: 3000000,
-        giaVon: 2500000,
-        moTa: "1 King Bed 2mx1.8m, Ban công riêng view rừng thông"
-      },
-      {
-        id: "RM-AMY-03",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Bungalow 07 - Standard Tầng Dưới (7L)",
-        serviceType: "hotel",
-        giaBaoKhach: 2800000,
-        giaVon: 2350000,
-        moTa: "1 King Bed 2mx1.8m, Phụ thu người thứ 3: 1,000,000 đ"
-      },
-      {
-        id: "RM-AMY-04",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Bungalow 07 - Standard Tầng Trên (7U)",
-        serviceType: "hotel",
-        giaBaoKhach: 3000000,
-        giaVon: 2500000,
-        moTa: "1 King Bed 2mx1.8m, View rừng thông thoáng đãng"
-      },
-      {
-        id: "RM-AMY-05",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Bungalow 08 - Superior Bồn Tắm Riêng (8L)",
-        serviceType: "hotel",
-        giaBaoKhach: 3600000,
-        giaVon: 3000000,
-        moTa: "Bồn tắm riêng, view rừng thông, Free ăn sáng 2NL"
-      },
-      {
-        id: "RM-AMY-06",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Bungalow 08 - Superior Bồn Tắm Riêng (8U)",
-        serviceType: "hotel",
-        giaBaoKhach: 3800000,
-        giaVon: 3150000,
-        moTa: "Tầng trên bồn tắm riêng, view panorama rừng thông"
-      },
-      {
-        id: "RM-AMY-07",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Bungalow 09 - Superior Bồn Tắm Riêng (9L)",
-        serviceType: "hotel",
-        giaBaoKhach: 3600000,
-        giaVon: 3000000,
-        moTa: "Bồn tắm riêng khép kín, ban công riêng"
-      },
-      {
-        id: "RM-AMY-08",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Forest Hill Villa 2N1Đ Full Bữa Ăn",
-        serviceType: "hotel",
-        giaBaoKhach: 9600000,
-        giaVon: 8200000,
-        moTa: "Villa nguyên căn kèm ăn 3 bữa cao cấp, view đỉnh đồi"
-      },
-      {
-        id: "RM-AMY-09",
-        khuVuc: "Hà Nội - Sóc Sơn",
-        hotel: "Amaya Retreat",
-        hangPhong: "Moonlight Bungalow 2N1Đ Lãng Mạn",
-        serviceType: "hotel",
-        giaBaoKhach: 5200000,
-        giaVon: 4400000,
-        moTa: "Bể bơi riêng, setup hoa & nến lãng mạn cho cặp đôi"
-      },
-
-      // Nha Trang - Cam Ranh
-      {
-        id: "RM-ROVA-01",
-        khuVuc: "Nha Trang",
-        hotel: "Khách Sạn Rova",
-        hangPhong: "Superior City View",
-        serviceType: "hotel",
-        giaBaoKhach: 650000,
-        giaVon: 550000,
-        moTa: "1 Giường đôi hoặc 2 giường đơn, Free ăn sáng, cách biển 100m"
-      },
-      {
-        id: "RM-ROVA-02",
-        khuVuc: "Nha Trang",
-        hotel: "Khách Sạn Rova",
-        hangPhong: "Deluxe Ocean View",
-        serviceType: "hotel",
-        giaBaoKhach: 800000,
-        giaVon: 750000,
-        moTa: "View biển trực diện ban công, Free ăn sáng buffet"
-      },
-      {
-        id: "RM-ROVA-03",
-        khuVuc: "Nha Trang",
-        hotel: "Khách Sạn Rova",
-        hangPhong: "Suite City View",
-        serviceType: "hotel",
-        giaBaoKhach: 1200000,
-        giaVon: 1050000,
-        moTa: "Phòng Suite sang trọng 45m2, bồn tắm nằm cao cấp"
-      },
-      {
-        id: "RM-KT-01",
-        khuVuc: "Nha Trang",
-        hotel: "King Town Grand Hotel",
-        hangPhong: "Deluxe City View",
-        serviceType: "hotel",
-        giaBaoKhach: 1500000,
-        giaVon: 1300000,
-        moTa: "Tiêu chuẩn 4 sao, hồ bơi vô cực, gym, Free buffet sáng"
-      },
-      {
-        id: "RM-KT-02",
-        khuVuc: "Nha Trang",
-        hotel: "King Town Grand Hotel",
-        hangPhong: "Executive Ocean View",
-        serviceType: "hotel",
-        giaBaoKhach: 1866000,
-        giaVon: 1600000,
-        moTa: "Tầng cao view trọn vịnh Nha Trang, phòng tắm kính sang trọng"
-      },
-      {
-        id: "RM-KT-03",
-        khuVuc: "Nha Trang",
-        hotel: "King Town Grand Hotel",
-        hangPhong: "2 Phòng Executive Ocean View (Gia Đình)",
-        serviceType: "hotel",
-        giaBaoKhach: 3732000,
-        giaVon: 3200000,
-        moTa: "Cặp phòng liền kề dành cho gia đình 4-6 khách"
-      },
-      {
-        id: "RM-KT-04",
-        khuVuc: "Nha Trang",
-        hotel: "King Town Grand Hotel",
-        hangPhong: "Premier Suite Hướng Biển",
-        serviceType: "hotel",
-        giaBaoKhach: 2400000,
-        giaVon: 2050000,
-        moTa: "Suite VIP 60m2 phòng khách riêng biệt view biển"
-      },
-
-      // Ninh Thuận - Phan Rang - Vĩnh Hy
-      {
-        id: "RM-PR-01",
-        khuVuc: "Phan Rang - Vĩnh Hy",
-        hotel: "PR-Grand Luxury",
-        hangPhong: "Deluxe Double City View",
-        serviceType: "hotel",
-        giaBaoKhach: 1400000,
-        giaVon: 1200000,
-        moTa: "Khách sạn trung tâm Phan Rang, Free ăn sáng"
-      },
-      {
-        id: "RM-TTC-01",
-        khuVuc: "Phan Rang - Vĩnh Hy",
-        hotel: "TTC Resort Ninh Thuận",
-        hangPhong: "Superior Bungalow Hướng Vườn",
-        serviceType: "hotel",
-        giaBaoKhach: 1750000,
-        giaVon: 1500000,
-        moTa: "Resort bãi biển Ninh Chử, công viên nước, xe điện đưa đón"
-      },
-      {
-        id: "RM-HM-01",
-        khuVuc: "Phan Rang - Vĩnh Hy",
-        hotel: "Hoàn Mỹ Resort Ninh Chử",
-        hangPhong: "Deluxe Garden View",
-        serviceType: "hotel",
-        giaBaoKhach: 1900000,
-        giaVon: 1650000,
-        moTa: "Resort 4 sao sát biển Ninh Chử, hồ bơi tràn bờ"
-      },
-      {
-        id: "RM-AMN-01",
-        khuVuc: "Phan Rang - Vĩnh Hy",
-        hotel: "VH-Amanoi Resort Vĩnh Hy",
-        hangPhong: "Ocean Pool Villa Siêu Sang",
-        serviceType: "hotel",
-        giaBaoKhach: 32000000,
-        giaVon: 28500000,
-        moTa: "Amanoi 6 sao đẳng cấp thế giới, hồ bơi vô cực riêng ngắm vịnh Vĩnh Hy"
-      },
-
-      // Vinpearl & VinWonders
-      {
-        id: "RM-VIN-01",
-        khuVuc: "Vinpearl Toàn Quốc",
-        hotel: "Vinpearl Nha Trang",
-        hangPhong: "Combo Vinpearl Resort 3N2Đ + Vé VinWonders",
-        serviceType: "combo",
-        giaBaoKhach: 28500000,
-        giaVon: 24200000,
-        moTa: "Đoàn 12 khách, 3N2Đ buffet 3 bữa + vui chơi VinWonders không giới hạn"
-      },
-      {
-        id: "RM-VIN-02",
-        khuVuc: "Vinpearl Toàn Quốc",
-        hotel: "Vinpearl Resort & Spa Nha Trang Bay",
-        hangPhong: "Deluxe King Hướng Biển",
-        serviceType: "hotel",
-        giaBaoKhach: 3200000,
-        giaVon: 2750000,
-        moTa: "Phòng nghỉ đảo Hòn Tre, cáp treo / cano 2 chiều"
-      },
-      {
-        id: "RM-VW-01",
-        khuVuc: "Vinpearl Toàn Quốc",
-        hotel: "VinWonders Nha Trang",
-        hangPhong: "Vé Người Lớn Cáp Treo 2 Chiều Trọn Gói",
-        serviceType: "ticket",
-        giaBaoKhach: 880000,
-        giaVon: 800000,
-        moTa: "Vé tham quan trọn vẹn 6 phân khu VinWonders Hòn Tre"
-      },
-      {
-        id: "RM-VW-02",
-        khuVuc: "Vinpearl Toàn Quốc",
-        hotel: "VinWonders Phú Quốc",
-        hangPhong: "Vé Người Lớn Trọn Gói Công Viên Chủ Đề",
-        serviceType: "ticket",
-        giaBaoKhach: 950000,
-        giaVon: 880000,
-        moTa: "Vui chơi công viên chủ đề lớn nhất Việt Nam"
-      },
-
-      // Sun World
-      {
-        id: "RM-SW-01",
-        khuVuc: "Sun World Toàn Quốc",
-        hotel: "Sun World Fansipan",
-        hangPhong: "Combo Vé Cáp Treo Fansipan + Tàu Hỏa Mường Hoa",
-        serviceType: "ticket",
-        giaBaoKhach: 950000,
-        giaVon: 870000,
-        moTa: "Chinh phục nóc nhà Đông Dương, khứ hồi cáp treo + tàu hỏa leo núi"
-      },
-      {
-        id: "RM-SW-02",
-        khuVuc: "Sun World Toàn Quốc",
-        hotel: "Sun World Fansipan",
-        hangPhong: "Đoàn 24 Khách - Vé Cáp Treo + Tàu Hỏa Leo Núi",
-        serviceType: "ticket",
-        giaBaoKhach: 19200000,
-        giaVon: 17500000,
-        moTa: "Giá vé đoàn ưu đãi cho trường học, công ty"
-      },
-      {
-        id: "RM-SW-03",
-        khuVuc: "Sun World Toàn Quốc",
-        hotel: "Sun World Bà Nà Hills",
-        hangPhong: "Vé Cáp Treo + Buffet Trưa 4 Sao",
-        serviceType: "ticket",
-        giaBaoKhach: 1250000,
-        giaVon: 1150000,
-        moTa: "Check-in Cầu Vàng, Làng Pháp + Buffet quốc tế hơn 100 món"
-      },
-
-      // Tour & Điểm Đến Khác
-      {
-        id: "RM-DL-01",
-        khuVuc: "Đà Lạt",
-        hotel: "Đà Lạt Villas Group",
-        hangPhong: "Villa Nghỉ Dưỡng 4 Phòng Ngủ View Đồi Thông",
-        serviceType: "hotel",
-        giaBaoKhach: 14800000,
-        giaVon: 12200000,
-        moTa: "Nguyên căn 4 phòng ngủ sân vườn BBQ, sức chứa 10-14 khách"
-      },
-      {
-        id: "RM-FLM-01",
-        khuVuc: "Vĩnh Phúc - Hà Nội",
-        hotel: "Flamingo Đại Lải",
-        hangPhong: "Combo Flamingo 2N1Đ Villa Mặt Hồ + Bữa Tối",
-        serviceType: "combo",
-        giaBaoKhach: 4500000,
-        giaVon: 3800000,
-        moTa: "Villa mặt hồ thơ mộng, bao gồm ăn sáng + ăn tối set menu"
-      },
-      {
-        id: "RM-FLC-01",
-        khuVuc: "Thanh Hóa",
-        hotel: "FLC Sầm Sơn",
-        hangPhong: "Tour Gala Dinner & Teambuilding 3N2Đ",
-        serviceType: "tour",
-        giaBaoKhach: 45000000,
-        giaVon: 38500000,
-        moTa: "Trọn gói xe đưa đón, resort FLC 5 sao, âm thanh ánh sáng gala"
-      },
-      {
-        id: "RM-TC-01",
-        khuVuc: "Hà Nam",
-        hotel: "Tam Chúc Travel",
-        hangPhong: "Tour Chùa Tam Chúc 1 Ngày Thuyền VIP",
-        serviceType: "tour",
-        giaBaoKhach: 1800000,
-        giaVon: 1500000,
-        moTa: "Xe du lịch đời mới, du thuyền VIP lòng hồ Tam Chúc, ăn trưa nhà hàng"
-      }
-    ];
+  {
+    "id": "RM-NT-5-VIN-01",
+    "khuVuc": "Nha Trang (Đảo Hòn Tre)",
+    "hotel": "Vinpearl Resort & Spa Nha Trang Bay",
+    "sao": 5,
+    "hangPhong": "Deluxe King Hướng Vườn",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2750000,
+    "giaVon": 2300000,
+    "moTa": "Phòng 45m2, 1 giường King, ăn sáng buffet 2 khách, cano cao tốc 2 chiều ra đảo Hòn Tre"
+  },
+  {
+    "id": "RM-NT-5-VIN-02",
+    "khuVuc": "Nha Trang (Đảo Hòn Tre)",
+    "hotel": "Vinpearl Resort & Spa Nha Trang Bay",
+    "sao": 5,
+    "hangPhong": "Deluxe Twin Hướng Biển",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3100000,
+    "giaVon": 2600000,
+    "moTa": "Phòng 45m2, 2 giường đơn, ban công view biển trực diện, buffet sáng hải sản, cano ra đảo"
+  },
+  {
+    "id": "RM-NT-5-VIN-03",
+    "khuVuc": "Nha Trang (Đảo Hòn Tre)",
+    "hotel": "Vinpearl Resort & Spa Nha Trang Bay",
+    "sao": 5,
+    "hangPhong": "Executive Suite Hướng Biển",
+    "serviceType": "hotel",
+    "giaBaoKhach": 5000000,
+    "giaVon": 4200000,
+    "moTa": "Suite 90m2, bồn tắm kính view biển, đặc quyền Lounge VIP, trà chiều cano riêng"
+  },
+  {
+    "id": "RM-NT-5-VIN-04",
+    "khuVuc": "Nha Trang (Đảo Hòn Tre)",
+    "hotel": "Vinpearl Resort & Spa Nha Trang Bay",
+    "sao": 5,
+    "hangPhong": "Villa 2 Phòng Ngủ Hồ Bơi Riêng",
+    "serviceType": "hotel",
+    "giaBaoKhach": 7900000,
+    "giaVon": 6800000,
+    "moTa": "Villa 190m2 hồ bơi riêng biệt, phòng khách riêng, cho 4 người lớn 2 trẻ em, ăn sáng buffet"
+  },
+  {
+    "id": "RM-NT-5-VIN-05",
+    "khuVuc": "Nha Trang (Đảo Hòn Tre)",
+    "hotel": "Vinpearl Resort & Spa Nha Trang Bay",
+    "sao": 5,
+    "hangPhong": "Villa 3 Phòng Ngủ Hướng Biển",
+    "serviceType": "hotel",
+    "giaBaoKhach": 11200000,
+    "giaVon": 9500000,
+    "moTa": "Villa 290m2 sát biển hồ bơi riêng, 3 phòng ngủ master cho 6 người lớn, sân vườn BBQ"
+  },
+  {
+    "id": "RM-NT-5-IC-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "InterContinental Nha Trang",
+    "sao": 5,
+    "hangPhong": "Classic City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2950000,
+    "giaVon": 2500000,
+    "moTa": "Chuẩn 5 sao quốc tế IHG, bồn tắm cẩm thạch, buffet sáng hải sản thượng hạng, đối diện biển"
+  },
+  {
+    "id": "RM-NT-5-IC-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "InterContinental Nha Trang",
+    "sao": 5,
+    "hangPhong": "Classic Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3450000,
+    "giaVon": 2900000,
+    "moTa": "Ban công ngắm trọn vẹn vịnh Nha Trang, giường lông vũ cao cấp, bồn tắm nằm view biển"
+  },
+  {
+    "id": "RM-NT-5-IC-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "InterContinental Nha Trang",
+    "sao": 5,
+    "hangPhong": "Premium Ocean Front",
+    "serviceType": "hotel",
+    "giaBaoKhach": 4250000,
+    "giaVon": 3600000,
+    "moTa": "Tầng cao trực diện biển, ban công rộng góc panorama ngắm bình minh đại dương"
+  },
+  {
+    "id": "RM-NT-5-IC-04",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "InterContinental Nha Trang",
+    "sao": 5,
+    "hangPhong": "Junior Suite Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 6100000,
+    "giaVon": 5200000,
+    "moTa": "Suite 70m2, khu tiếp khách riêng, bồn tắm kính nhìn ra biển, Club InterContinental Lounge"
+  },
+  {
+    "id": "RM-NT-5-SHE-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Sheraton Nha Trang Hotel & Spa",
+    "sao": 5,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2650000,
+    "giaVon": 2200000,
+    "moTa": "100% phòng hướng biển, giường độc quyền Sheraton Sweet Sleeper Bed, buffet sáng Feast"
+  },
+  {
+    "id": "RM-NT-5-SHE-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Sheraton Nha Trang Hotel & Spa",
+    "sao": 5,
+    "hangPhong": "Premium Deluxe Ocean",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3050000,
+    "giaVon": 2550000,
+    "moTa": "Tầng 18-24, ban công kính ngắm bình minh biển Nha Trang, bồn tắm nằm cao cấp"
+  },
+  {
+    "id": "RM-NT-5-SHE-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Sheraton Nha Trang Hotel & Spa",
+    "sao": 5,
+    "hangPhong": "Club Ocean View (Sheraton Club)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3900000,
+    "giaVon": 3300000,
+    "moTa": "Đặc quyền Sheraton Club Lounge tầng 25, trà chiều, bánh ngọt & cocktail tối ngắm vịnh"
+  },
+  {
+    "id": "RM-NT-5-SHE-04",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Sheraton Nha Trang Hotel & Spa",
+    "sao": 5,
+    "hangPhong": "Executive Suite Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 5400000,
+    "giaVon": 4600000,
+    "moTa": "70m2 phòng khách riêng biệt, bồn tắm sục jacuzzi view biển, đặc quyền Club Lounge"
+  },
+  {
+    "id": "RM-NT-5-HAV-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Havana Nha Trang Hotel",
+    "sao": 5,
+    "hangPhong": "Deluxe Ocean View (Hầm Qua Biển)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1550000,
+    "giaVon": 1250000,
+    "moTa": "Khách sạn có đường hầm ngầm riêng ra bãi biển, bồn tắm nằm view biển, buffet sáng quốc tế"
+  },
+  {
+    "id": "RM-NT-5-HAV-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Havana Nha Trang Hotel",
+    "sao": 5,
+    "hangPhong": "Junior Suite Queen",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1950000,
+    "giaVon": 1650000,
+    "moTa": "Phòng 40m2 nội thất gỗ cao cấp, ban công thoáng nhìn trọn vịnh Nha Trang"
+  },
+  {
+    "id": "RM-NT-5-HAV-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Havana Nha Trang Hotel",
+    "sao": 5,
+    "hangPhong": "Club Suite King Ocean",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2500000,
+    "giaVon": 2100000,
+    "moTa": "Phòng 65m2 tầng cao ngắm toàn cảnh thành phố và biển, skylight rooftop club"
+  },
+  {
+    "id": "RM-NT-5-HAV-04",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Havana Nha Trang Hotel",
+    "sao": 5,
+    "hangPhong": "Family Suite 2 Phòng Ngủ",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3450000,
+    "giaVon": 2900000,
+    "moTa": "2 phòng ngủ riêng biệt cho 4 người lớn, bếp & phòng khách, 2 phòng tắm rộng"
+  },
+  {
+    "id": "RM-NT-5-AMI-01",
+    "khuVuc": "Nha Trang (Đường Phạm Văn Đồng)",
+    "hotel": "Amiana Resort Nha Trang",
+    "sao": 5,
+    "hangPhong": "Deluxe Villa Hướng Vườn",
+    "serviceType": "hotel",
+    "giaBaoKhach": 4050000,
+    "giaVon": 3400000,
+    "moTa": "Villa 65m2 phòng tắm ngoài trời độc đáo, bể bơi nước biển tự nhiên 2.500m2, bãi biển riêng"
+  },
+  {
+    "id": "RM-NT-5-AMI-02",
+    "khuVuc": "Nha Trang (Đường Phạm Văn Đồng)",
+    "hotel": "Amiana Resort Nha Trang",
+    "sao": 5,
+    "hangPhong": "Ocean Deluxe King",
+    "serviceType": "hotel",
+    "giaBaoKhach": 4850000,
+    "giaVon": 4100000,
+    "moTa": "Sát mép biển vịnh Nha Trang, ngắm hoàng hôn vịnh biển tuyệt đẹp, tắm bùn khoáng cao cấp"
+  },
+  {
+    "id": "RM-NT-5-AMI-03",
+    "khuVuc": "Nha Trang (Đường Phạm Văn Đồng)",
+    "hotel": "Amiana Resort Nha Trang",
+    "sao": 5,
+    "hangPhong": "Ocean Villa Hồ Bơi Riêng",
+    "serviceType": "hotel",
+    "giaBaoKhach": 8200000,
+    "giaVon": 6900000,
+    "moTa": "Villa hồ bơi riêng view biển trực diện, hiên tắm nắng, dịch vụ quản gia cao cấp"
+  },
+  {
+    "id": "RM-NT-5-AMI-04",
+    "khuVuc": "Nha Trang (Đường Phạm Văn Đồng)",
+    "hotel": "Amiana Resort Nha Trang",
+    "sao": 5,
+    "hangPhong": "Family Villa 2 Phòng Ngủ",
+    "serviceType": "hotel",
+    "giaBaoKhach": 9200000,
+    "giaVon": 7800000,
+    "moTa": "120m2 cho đại gia đình 4-6 khách, không gian xanh riêng tư, ăn sáng buffet Á-Âu"
+  },
+  {
+    "id": "RM-NT-5-SIX-01",
+    "khuVuc": "Nha Trang (Vịnh Ninh Vân)",
+    "hotel": "Six Senses Ninh Van Bay",
+    "sao": 5,
+    "hangPhong": "Hill Top Pool Villa",
+    "serviceType": "hotel",
+    "giaBaoKhach": 16800000,
+    "giaVon": 14500000,
+    "moTa": "Biệt thự đỉnh đồi có hồ bơi riêng, ngắm toàn cảnh vịnh Ninh Vân, quản gia GEM riêng biệt"
+  },
+  {
+    "id": "RM-NT-5-SIX-02",
+    "khuVuc": "Nha Trang (Vịnh Ninh Vân)",
+    "hotel": "Six Senses Ninh Van Bay",
+    "sao": 5,
+    "hangPhong": "Beachfront Pool Villa",
+    "serviceType": "hotel",
+    "giaBaoKhach": 21000000,
+    "giaVon": 18200000,
+    "moTa": "Biệt thự bãi biển bước thẳng ra bờ cát trắng mịn, hồ bơi riêng biệt lập, tàu cano đưa đón"
+  },
+  {
+    "id": "RM-NT-5-SIX-03",
+    "khuVuc": "Nha Trang (Vịnh Ninh Vân)",
+    "hotel": "Six Senses Ninh Van Bay",
+    "sao": 5,
+    "hangPhong": "Water Pool Villa",
+    "serviceType": "hotel",
+    "giaBaoKhach": 25500000,
+    "giaVon": 22000000,
+    "moTa": "Biệt thự dựng trên ghềnh đá mép sóng đại dương, hồ bơi vô cực ngắm hoàng hôn buông xuống vịnh"
+  },
+  {
+    "id": "RM-NT-5-MTL-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Muong Thanh Luxury Nha Trang",
+    "sao": 5,
+    "hangPhong": "Deluxe King Hướng Phố",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1300000,
+    "giaVon": 1050000,
+    "moTa": "32m2, tiện nghi 5 sao, hồ bơi lớn tầng 4, buffet sáng phong phú 100 món Á-Âu"
+  },
+  {
+    "id": "RM-NT-5-MTL-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Muong Thanh Luxury Nha Trang",
+    "sao": 5,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1550000,
+    "giaVon": 1250000,
+    "moTa": "Ban công hướng biển Trần Phú lộng gió, bồn tắm nằm, cách bãi biển 20m"
+  },
+  {
+    "id": "RM-NT-5-MTL-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Muong Thanh Luxury Nha Trang",
+    "sao": 5,
+    "hangPhong": "Grand Suite King",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2850000,
+    "giaVon": 2400000,
+    "moTa": "60m2 phòng khách riêng biệt, bồn tắm sục jacuzzi ngắm biển, hoa quả chào đón"
+  },
+  {
+    "id": "RM-NT-5-QA-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Queen Ann Nha Trang Hotel",
+    "sao": 5,
+    "hangPhong": "Deluxe City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1400000,
+    "giaVon": 1150000,
+    "moTa": "Thiết kế sang trọng châu Âu dát vàng, cách biển 30m, hồ bơi tràn bờ view vịnh"
+  },
+  {
+    "id": "RM-NT-5-QA-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Queen Ann Nha Trang Hotel",
+    "sao": 5,
+    "hangPhong": "Grand Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1700000,
+    "giaVon": 1400000,
+    "moTa": "View biển 180 độ không góc khuất, ban công kính, bồn tắm nằm sang trọng"
+  },
+  {
+    "id": "RM-NT-5-QA-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Queen Ann Nha Trang Hotel",
+    "sao": 5,
+    "hangPhong": "Premier Suite King",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2350000,
+    "giaVon": 1950000,
+    "moTa": "55m2 tầng 25+, ngắm bình minh và pháo hoa vịnh Nha Trang, phòng khách riêng"
+  },
+  {
+    "id": "RM-NT-5-RG-01",
+    "khuVuc": "Nha Trang (Đường Nguyễn Thị Minh Khai)",
+    "hotel": "Regalia Gold Hotel",
+    "sao": 5,
+    "hangPhong": "Superior City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1100000,
+    "giaVon": 850000,
+    "moTa": "Hồ bơi vô cực tầng 40 cao nhất Nha Trang, buffet sáng 5 sao, trung tâm phố đi bộ"
+  },
+  {
+    "id": "RM-NT-5-RG-02",
+    "khuVuc": "Nha Trang (Đường Nguyễn Thị Minh Khai)",
+    "hotel": "Regalia Gold Hotel",
+    "sao": 5,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1350000,
+    "giaVon": 1050000,
+    "moTa": "Tầng cao hướng biển, giường nệm êm ái, bồn tắm sang trọng, view ngắm biển lộng lẫy"
+  },
+  {
+    "id": "RM-NT-5-RG-03",
+    "khuVuc": "Nha Trang (Đường Nguyễn Thị Minh Khai)",
+    "hotel": "Regalia Gold Hotel",
+    "sao": 5,
+    "hangPhong": "Senior Suite King",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1950000,
+    "giaVon": 1600000,
+    "moTa": "48m2 sofa tiếp khách, ban công riêng ngắm biển, nội thất chuẩn hoàng gia"
+  },
+  {
+    "id": "RM-NT-5-VG-01",
+    "khuVuc": "Nha Trang (Đường Nguyễn Thị Minh Khai)",
+    "hotel": "Virgo Hotel Nha Trang",
+    "sao": 5,
+    "hangPhong": "Deluxe City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1150000,
+    "giaVon": 900000,
+    "moTa": "Trung tâm phố Tây ẩm thực sầm uất, hồ bơi trong nhà tầng 28, buffet sáng phong phú"
+  },
+  {
+    "id": "RM-NT-5-VG-02",
+    "khuVuc": "Nha Trang (Đường Nguyễn Thị Minh Khai)",
+    "hotel": "Virgo Hotel Nha Trang",
+    "sao": 5,
+    "hangPhong": "Premier Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1450000,
+    "giaVon": 1150000,
+    "moTa": "Ban công rộng hướng biển, bồn tắm nằm cao cấp, ngắm biển và thành phố về đêm"
+  },
+  {
+    "id": "RM-NT-5-VG-03",
+    "khuVuc": "Nha Trang (Đường Nguyễn Thị Minh Khai)",
+    "hotel": "Virgo Hotel Nha Trang",
+    "sao": 5,
+    "hangPhong": "Executive Suite Ocean",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2100000,
+    "giaVon": 1750000,
+    "moTa": "55m2 phòng khách riêng, trang thiết bị hiện đại 5 sao, bồn tắm sục thư giãn"
+  },
+  {
+    "id": "RM-NT-5-POT-01",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Potique Hotel Nha Trang",
+    "sao": 5,
+    "hangPhong": "Classic King Indochine",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2250000,
+    "giaVon": 1850000,
+    "moTa": "Khách sạn boutique phong cách Đông Dương quý phái, bồn tắm chân rồng, hồ bơi vô cực sân thượng"
+  },
+  {
+    "id": "RM-NT-5-POT-02",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Potique Hotel Nha Trang",
+    "sao": 5,
+    "hangPhong": "Premier Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2800000,
+    "giaVon": 2350000,
+    "moTa": "Nội thất gỗ thủ công tinh xảo, ban công ngắm biển phố, thưởng trà chiều phong cách Pháp"
+  },
+  {
+    "id": "RM-NT-5-POT-03",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Potique Hotel Nha Trang",
+    "sao": 5,
+    "hangPhong": "Potique Suite Quý Tộc",
+    "serviceType": "hotel",
+    "giaBaoKhach": 4500000,
+    "giaVon": 3800000,
+    "moTa": "75m2 phong cách quý tộc Đông Dương cổ điển, phòng khách gỗ trầm, bồn tắm sứ sang trọng"
+  },
+  {
+    "id": "RM-NT-4-KT-01",
+    "khuVuc": "Nha Trang (Đường Lê Hồng Phong/Hùng Vương)",
+    "hotel": "King Town Grand Hotel",
+    "sao": 4,
+    "hangPhong": "Superior City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 950000,
+    "giaVon": 750000,
+    "moTa": "Chuẩn 4 sao, hồ bơi vô cực, gym, buffet sáng phong phú, xe đưa đón bãi biển"
+  },
+  {
+    "id": "RM-NT-4-KT-02",
+    "khuVuc": "Nha Trang (Đường Lê Hồng Phong/Hùng Vương)",
+    "hotel": "King Town Grand Hotel",
+    "sao": 4,
+    "hangPhong": "Deluxe City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1200000,
+    "giaVon": 950000,
+    "moTa": "Phòng 35m2 rộng rãi, nội thất gỗ ấm cúng, bồn tắm nằm cao cấp"
+  },
+  {
+    "id": "RM-NT-4-KT-03",
+    "khuVuc": "Nha Trang (Đường Lê Hồng Phong/Hùng Vương)",
+    "hotel": "King Town Grand Hotel",
+    "sao": 4,
+    "hangPhong": "Executive Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1600000,
+    "giaVon": 1300000,
+    "moTa": "Tầng cao ngắm trọn vịnh Nha Trang, phòng tắm kính sang trọng, trà nước miễn phí"
+  },
+  {
+    "id": "RM-NT-4-KT-04",
+    "khuVuc": "Nha Trang (Đường Lê Hồng Phong/Hùng Vương)",
+    "hotel": "King Town Grand Hotel",
+    "sao": 4,
+    "hangPhong": "Premier Suite Hướng Biển",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2100000,
+    "giaVon": 1700000,
+    "moTa": "Suite VIP 60m2 phòng khách riêng biệt view biển, miễn phí ăn sáng và cocktail hoàng hôn"
+  },
+  {
+    "id": "RM-NT-4-NVT-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Novotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Standard Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2100000,
+    "giaVon": 1750000,
+    "moTa": "Chuẩn 4 sao Accor quốc tế, ban công nhìn ra vịnh, ăn sáng buffet The Square phong phú"
+  },
+  {
+    "id": "RM-NT-4-NVT-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Novotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Superior Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2450000,
+    "giaVon": 2050000,
+    "moTa": "Tầng cao thoáng mát, nệm Novotel Live N Dream siêu êm, view toàn cảnh biển Trần Phú"
+  },
+  {
+    "id": "RM-NT-4-NVT-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Novotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Executive Suite Ocean",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3800000,
+    "giaVon": 3200000,
+    "moTa": "Phòng góc 2 mặt thoáng ngắm toàn cảnh biển và đảo Vinpearl, bồn tắm kính hướng đại dương"
+  },
+  {
+    "id": "RM-NT-4-CMD-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Comodo Nha Trang Hotel",
+    "sao": 4,
+    "hangPhong": "Deluxe City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1050000,
+    "giaVon": 850000,
+    "moTa": "Mặt tiền đường Trần Phú, hồ bơi tầng thượng vô cực, buffet sáng Á-Âu"
+  },
+  {
+    "id": "RM-NT-4-CMD-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Comodo Nha Trang Hotel",
+    "sao": 4,
+    "hangPhong": "Premier Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1350000,
+    "giaVon": 1100000,
+    "moTa": "Ban công hướng biển lộng gió, bồn tắm nằm, view trọn vịnh Nha Trang"
+  },
+  {
+    "id": "RM-NT-4-CMD-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Comodo Nha Trang Hotel",
+    "sao": 4,
+    "hangPhong": "Grand Family Suite",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2300000,
+    "giaVon": 1900000,
+    "moTa": "Phòng gia đình 2 giường King lớn cho 4 khách, ban công đôi ngắm biển"
+  },
+  {
+    "id": "RM-NT-4-LBC-01",
+    "khuVuc": "Nha Trang (Đường Biệt Thự)",
+    "hotel": "Liberty Central Nha Trang",
+    "sao": 4,
+    "hangPhong": "Deluxe King",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1550000,
+    "giaVon": 1250000,
+    "moTa": "Vị trí đắc địa phố Tây Biệt Thự, cách biển 120m, buffet Á-Âu, hồ bơi tầng 4"
+  },
+  {
+    "id": "RM-NT-4-LBC-02",
+    "khuVuc": "Nha Trang (Đường Biệt Thự)",
+    "hotel": "Liberty Central Nha Trang",
+    "sao": 4,
+    "hangPhong": "Premier Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1850000,
+    "giaVon": 1550000,
+    "moTa": "Ban công kính view biển, bồn tắm nằm cao cấp, tiện nghi hiện đại chuẩn quốc tế"
+  },
+  {
+    "id": "RM-NT-4-LBC-03",
+    "khuVuc": "Nha Trang (Đường Biệt Thự)",
+    "hotel": "Liberty Central Nha Trang",
+    "sao": 4,
+    "hangPhong": "Executive Club Ocean",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2500000,
+    "giaVon": 2100000,
+    "moTa": "Quyền lợi Executive Lounge, trà chiều, canape tối và đồ uống miễn phí"
+  },
+  {
+    "id": "RM-NT-4-TTC-01",
+    "khuVuc": "Nha Trang (Đường Pasteur)",
+    "hotel": "TTC Hotel Premium Michelia",
+    "sao": 4,
+    "hangPhong": "Superior City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1050000,
+    "giaVon": 800000,
+    "moTa": "Gần công viên Yersin và bãi biển, hồ bơi nước ngọt lớn, buffet sáng đa dạng"
+  },
+  {
+    "id": "RM-NT-4-TTC-02",
+    "khuVuc": "Nha Trang (Đường Pasteur)",
+    "hotel": "TTC Hotel Premium Michelia",
+    "sao": 4,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1350000,
+    "giaVon": 1050000,
+    "moTa": "View biển thoáng, ban công riêng, bồn tắm nằm cao cấp"
+  },
+  {
+    "id": "RM-NT-4-TTC-03",
+    "khuVuc": "Nha Trang (Đường Pasteur)",
+    "hotel": "TTC Hotel Premium Michelia",
+    "sao": 4,
+    "hangPhong": "Premier Suite",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2050000,
+    "giaVon": 1650000,
+    "moTa": "52m2 ban công góc ngắm biển và thành phố, sofa tiếp khách êm ái"
+  },
+  {
+    "id": "RM-NT-4-ALN-01",
+    "khuVuc": "Nha Trang (Đường Trần Quang Khải)",
+    "hotel": "Alana Nha Trang Beach Hotel",
+    "sao": 4,
+    "hangPhong": "Superior City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1100000,
+    "giaVon": 850000,
+    "moTa": "Phố du lịch Trần Quang Khải sầm uất, hồ bơi vô cực view biển tầng mái, spa thư giãn"
+  },
+  {
+    "id": "RM-NT-4-ALN-02",
+    "khuVuc": "Nha Trang (Đường Trần Quang Khải)",
+    "hotel": "Alana Nha Trang Beach Hotel",
+    "sao": 4,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1400000,
+    "giaVon": 1150000,
+    "moTa": "Ban công riêng đón gió biển, bồn tắm kính nhìn ra biển, buffet sáng phong phú"
+  },
+  {
+    "id": "RM-NT-4-ALN-03",
+    "khuVuc": "Nha Trang (Đường Trần Quang Khải)",
+    "hotel": "Alana Nha Trang Beach Hotel",
+    "sao": 4,
+    "hangPhong": "Club Suite King Ocean",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2100000,
+    "giaVon": 1700000,
+    "moTa": "Phòng VIP tầng cao ngắm toàn vịnh Nha Trang, tặng kèm đĩa trái cây & rượu vang"
+  },
+  {
+    "id": "RM-NT-4-MLS-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Melissa Hotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Superior Double",
+    "serviceType": "hotel",
+    "giaBaoKhach": 950000,
+    "giaVon": 750000,
+    "moTa": "Mặt biển Trần Phú, buffet sáng phong phú, hồ bơi tầng mái view toàn vịnh"
+  },
+  {
+    "id": "RM-NT-4-MLS-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Melissa Hotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1200000,
+    "giaVon": 950000,
+    "moTa": "Ban công hướng biển trực diện, bồn tắm nằm, ngắm sóng biển ngày và đêm"
+  },
+  {
+    "id": "RM-NT-4-MLS-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Melissa Hotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Senior Suite Ocean",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1850000,
+    "giaVon": 1500000,
+    "moTa": "45m2 tầng cao, ban công kính ngắm bình minh trên biển, phòng khách riêng"
+  },
+  {
+    "id": "RM-NT-4-VH-01",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "V Hotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Deluxe Double",
+    "serviceType": "hotel",
+    "giaBaoKhach": 900000,
+    "giaVon": 700000,
+    "moTa": "Trung tâm Hùng Vương, thiết kế trẻ trung sang trọng, hồ bơi vô cực ngắm phố"
+  },
+  {
+    "id": "RM-NT-4-VH-02",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "V Hotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Premier Balcony City",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1150000,
+    "giaVon": 900000,
+    "moTa": "Ban công riêng nhìn ra phố Tây lung linh về đêm, bồn tắm nằm, free buffet sáng"
+  },
+  {
+    "id": "RM-NT-4-VH-03",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "V Hotel Nha Trang",
+    "sao": 4,
+    "hangPhong": "Suite Family Ocean",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1800000,
+    "giaVon": 1450000,
+    "moTa": "2 giường lớn cho gia đình 4 người lớn, ban công thoáng ngắm biển xa xa"
+  },
+  {
+    "id": "RM-NT-4-BJ-01",
+    "khuVuc": "Nha Trang (Đường Đống Đa)",
+    "hotel": "Bonjour Nha Trang Hotel",
+    "sao": 4,
+    "hangPhong": "Superior King",
+    "serviceType": "hotel",
+    "giaBaoKhach": 880000,
+    "giaVon": 680000,
+    "moTa": "Khách sạn mới 4 sao, hồ bơi tầng thượng, buffet sáng phong phú, gần chợ Đầm"
+  },
+  {
+    "id": "RM-NT-4-BJ-02",
+    "khuVuc": "Nha Trang (Đường Đống Đa)",
+    "hotel": "Bonjour Nha Trang Hotel",
+    "sao": 4,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1100000,
+    "giaVon": 880000,
+    "moTa": "Tầng cao hướng biển, phòng tắm kính hiện đại, ăn sáng buffet miễn phí"
+  },
+  {
+    "id": "RM-NT-3-ROV-01",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Khách Sạn Rova Nha Trang",
+    "sao": 3,
+    "hangPhong": "Standard Double",
+    "serviceType": "hotel",
+    "giaBaoKhach": 600000,
+    "giaVon": 450000,
+    "moTa": "Phòng tiện nghi sạch sẽ, cách bãi biển 150m, điều hòa êm, free wifi"
+  },
+  {
+    "id": "RM-NT-3-ROV-02",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Khách Sạn Rova Nha Trang",
+    "sao": 3,
+    "hangPhong": "Superior City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 700000,
+    "giaVon": 550000,
+    "moTa": "Cửa sổ lớn ngắm phố, ăn sáng buffet, cách quảng trường 2/4 chỉ 5 phút đi bộ"
+  },
+  {
+    "id": "RM-NT-3-ROV-03",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Khách Sạn Rova Nha Trang",
+    "sao": 3,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 880000,
+    "giaVon": 700000,
+    "moTa": "Ban công hướng biển, bồn tắm đứng hiện đại, free trà cafe hàng ngày"
+  },
+  {
+    "id": "RM-NT-3-ROV-04",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Khách Sạn Rova Nha Trang",
+    "sao": 3,
+    "hangPhong": "Suite Balcony Gia Đình",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1300000,
+    "giaVon": 1050000,
+    "moTa": "40m2 phòng 2 giường đôi lớn cho 4 khách, ban công riêng, buffet sáng 4 người"
+  },
+  {
+    "id": "RM-NT-3-DND-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Dendro Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Superior Double",
+    "serviceType": "hotel",
+    "giaBaoKhach": 650000,
+    "giaVon": 480000,
+    "moTa": "Mặt đường Trần Phú, hồ bơi trong nhà tầng 15, ăn sáng buffet miễn phí"
+  },
+  {
+    "id": "RM-NT-3-DND-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Dendro Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Deluxe City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 780000,
+    "giaVon": 600000,
+    "moTa": "Cửa sổ thoáng mát, tiện nghi đầy đủ, đối diện bãi biển Trần Phú"
+  },
+  {
+    "id": "RM-NT-3-DND-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Dendro Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Premier Sea View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 950000,
+    "giaVon": 750000,
+    "moTa": "Ban công ngắm biển Trần Phú trực diện, phòng tắm hiện đại, buffet sáng"
+  },
+  {
+    "id": "RM-NT-3-SRN-01",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Siren Flower Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Standard Double",
+    "serviceType": "hotel",
+    "giaBaoKhach": 550000,
+    "giaVon": 420000,
+    "moTa": "Gần phố đi bộ và chợ đêm, phòng mới tinh tươm, nhân viên thân thiện"
+  },
+  {
+    "id": "RM-NT-3-SRN-02",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Siren Flower Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Superior City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 680000,
+    "giaVon": 520000,
+    "moTa": "Cửa sổ lớn đón ánh sáng tự nhiên, buffet sáng ngon miệng, cách biển 200m"
+  },
+  {
+    "id": "RM-NT-3-SRN-03",
+    "khuVuc": "Nha Trang (Đường Hùng Vương)",
+    "hotel": "Siren Flower Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Deluxe Balcony",
+    "serviceType": "hotel",
+    "giaBaoKhach": 820000,
+    "giaVon": 650000,
+    "moTa": "Ban công riêng thoáng đãng, trà cafe miễn phí, phòng tắm đứng kính"
+  },
+  {
+    "id": "RM-NT-3-RBY-01",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Ruby Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Superior Double",
+    "serviceType": "hotel",
+    "giaBaoKhach": 620000,
+    "giaVon": 480000,
+    "moTa": "Đối diện bãi tắm Trần Phú, hồ bơi ngoài trời tầng thượng, buffet sáng"
+  },
+  {
+    "id": "RM-NT-3-RBY-02",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Ruby Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Deluxe Hướng Biển",
+    "serviceType": "hotel",
+    "giaBaoKhach": 820000,
+    "giaVon": 650000,
+    "moTa": "Ban công trực diện biển, đón bình minh rực rỡ, bồn tắm nằm"
+  },
+  {
+    "id": "RM-NT-3-RBY-03",
+    "khuVuc": "Nha Trang (Đường Trần Phú)",
+    "hotel": "Ruby Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Family Suite",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1200000,
+    "giaVon": 950000,
+    "moTa": "2 giường đôi lớn cho gia đình 4 người lớn, không gian ấm cúng"
+  },
+  {
+    "id": "RM-NT-3-SSB-01",
+    "khuVuc": "Nha Trang (Đường Dương Hiến Tuyền)",
+    "hotel": "SeaSing Boutique Hotel",
+    "sao": 3,
+    "hangPhong": "Superior Double",
+    "serviceType": "hotel",
+    "giaBaoKhach": 590000,
+    "giaVon": 450000,
+    "moTa": "Khu Bắc Nha Trang yên tĩnh, gần biển Ba Làng và bến du thuyền Ana Marina"
+  },
+  {
+    "id": "RM-NT-3-SSB-02",
+    "khuVuc": "Nha Trang (Đường Dương Hiến Tuyền)",
+    "hotel": "SeaSing Boutique Hotel",
+    "sao": 3,
+    "hangPhong": "Deluxe Ocean View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 790000,
+    "giaVon": 620000,
+    "moTa": "Ban công ngắm trọn vịnh Bắc Nha Trang lãng mạn, hồ bơi tầng thượng"
+  },
+  {
+    "id": "RM-NT-3-SSB-03",
+    "khuVuc": "Nha Trang (Đường Dương Hiến Tuyền)",
+    "hotel": "SeaSing Boutique Hotel",
+    "sao": 3,
+    "hangPhong": "Grand Ocean Suite",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1150000,
+    "giaVon": 890000,
+    "moTa": "Bồn tắm nằm hướng biển, phòng khách riêng, hoa quả chào đón"
+  },
+  {
+    "id": "RM-NT-3-OLY-01",
+    "khuVuc": "Nha Trang (Đường Phan Bội Châu)",
+    "hotel": "Olympic Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Standard City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 550000,
+    "giaVon": 420000,
+    "moTa": "Gần chợ Đầm và khu ăn uống hải sản Tháp Bà, hồ bơi trên mái, buffet sáng"
+  },
+  {
+    "id": "RM-NT-3-OLY-02",
+    "khuVuc": "Nha Trang (Đường Phan Bội Châu)",
+    "hotel": "Olympic Hotel Nha Trang",
+    "sao": 3,
+    "hangPhong": "Superior Double",
+    "serviceType": "hotel",
+    "giaBaoKhach": 660000,
+    "giaVon": 520000,
+    "moTa": "Phòng sạch sẽ tiện nghi, ăn sáng buffet, hỗ trợ thuê xe máy giá rẻ"
+  },
+  {
+    "id": "RM-AMY-01",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Bungalow 06 - Standard Tầng Dưới (6L)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2800000,
+    "giaVon": 2350000,
+    "moTa": "1 King Bed 2mx1.8m, Free ăn sáng 2NL, bể bơi chung",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMY-02",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Bungalow 06 - Standard Tầng Trên (6U)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3000000,
+    "giaVon": 2500000,
+    "moTa": "1 King Bed 2mx1.8m, Ban công riêng view rừng thông",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMY-03",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Bungalow 07 - Standard Tầng Dưới (7L)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 2800000,
+    "giaVon": 2350000,
+    "moTa": "1 King Bed 2mx1.8m, Phụ thu người thứ 3: 1,000,000 đ",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMY-04",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Bungalow 07 - Standard Tầng Trên (7U)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3000000,
+    "giaVon": 2500000,
+    "moTa": "1 King Bed 2mx1.8m, View rừng thông thoáng đãng",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMY-05",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Bungalow 08 - Superior Bồn Tắm Riêng (8L)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3600000,
+    "giaVon": 3000000,
+    "moTa": "Bồn tắm riêng, view rừng thông, Free ăn sáng 2NL",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMY-06",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Bungalow 08 - Superior Bồn Tắm Riêng (8U)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3800000,
+    "giaVon": 3150000,
+    "moTa": "Tầng trên bồn tắm riêng, view panorama rừng thông",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMY-07",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Bungalow 09 - Superior Bồn Tắm Riêng (9L)",
+    "serviceType": "hotel",
+    "giaBaoKhach": 3600000,
+    "giaVon": 3000000,
+    "moTa": "Bồn tắm riêng khép kín, ban công riêng",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMY-08",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Forest Hill Villa 2N1Đ Full Bữa Ăn",
+    "serviceType": "hotel",
+    "giaBaoKhach": 9600000,
+    "giaVon": 8200000,
+    "moTa": "Villa nguyên căn kèm ăn 3 bữa cao cấp, view đỉnh đồi",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMY-09",
+    "khuVuc": "Hà Nội - Sóc Sơn",
+    "hotel": "Amaya Retreat",
+    "hangPhong": "Moonlight Bungalow 2N1Đ Lãng Mạn",
+    "serviceType": "hotel",
+    "giaBaoKhach": 5200000,
+    "giaVon": 4400000,
+    "moTa": "Bể bơi riêng, setup hoa & nến lãng mạn cho cặp đôi",
+    "sao": 4
+  },
+  {
+    "id": "RM-PR-01",
+    "khuVuc": "Phan Rang - Vĩnh Hy",
+    "hotel": "PR-Grand Luxury",
+    "hangPhong": "Deluxe Double City View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1400000,
+    "giaVon": 1200000,
+    "moTa": "Khách sạn trung tâm Phan Rang, Free ăn sáng",
+    "sao": 5
+  },
+  {
+    "id": "RM-TTC-01",
+    "khuVuc": "Phan Rang - Vĩnh Hy",
+    "hotel": "TTC Resort Ninh Thuận",
+    "hangPhong": "Superior Bungalow Hướng Vườn",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1750000,
+    "giaVon": 1500000,
+    "moTa": "Resort bãi biển Ninh Chử, công viên nước, xe điện đưa đón",
+    "sao": 4
+  },
+  {
+    "id": "RM-HM-01",
+    "khuVuc": "Phan Rang - Vĩnh Hy",
+    "hotel": "Hoàn Mỹ Resort Ninh Chử",
+    "hangPhong": "Deluxe Garden View",
+    "serviceType": "hotel",
+    "giaBaoKhach": 1900000,
+    "giaVon": 1650000,
+    "moTa": "Resort 4 sao sát biển Ninh Chử, hồ bơi tràn bờ",
+    "sao": 4
+  },
+  {
+    "id": "RM-AMN-01",
+    "khuVuc": "Phan Rang - Vĩnh Hy",
+    "hotel": "VH-Amanoi Resort Vĩnh Hy",
+    "hangPhong": "Ocean Pool Villa Siêu Sang",
+    "serviceType": "hotel",
+    "giaBaoKhach": 32000000,
+    "giaVon": 28500000,
+    "moTa": "Amanoi 6 sao đẳng cấp thế giới, hồ bơi vô cực riêng ngắm vịnh Vĩnh Hy",
+    "sao": 5
+  },
+  {
+    "id": "RM-VW-01",
+    "khuVuc": "Vinpearl Toàn Quốc",
+    "hotel": "VinWonders Nha Trang",
+    "hangPhong": "Vé Người Lớn Cáp Treo 2 Chiều Trọn Gói",
+    "serviceType": "ticket",
+    "giaBaoKhach": 880000,
+    "giaVon": 800000,
+    "moTa": "Vé tham quan trọn vẹn 6 phân khu VinWonders Hòn Tre"
+  },
+  {
+    "id": "RM-VW-02",
+    "khuVuc": "Vinpearl Toàn Quốc",
+    "hotel": "VinWonders Phú Quốc",
+    "hangPhong": "Vé Người Lớn Trọn Gói Công Viên Chủ Đề",
+    "serviceType": "ticket",
+    "giaBaoKhach": 950000,
+    "giaVon": 880000,
+    "moTa": "Vui chơi công viên chủ đề lớn nhất Việt Nam"
+  },
+  {
+    "id": "RM-SW-01",
+    "khuVuc": "Sun World Toàn Quốc",
+    "hotel": "Sun World Fansipan",
+    "hangPhong": "Combo Vé Cáp Treo Fansipan + Tàu Hỏa Mường Hoa",
+    "serviceType": "ticket",
+    "giaBaoKhach": 950000,
+    "giaVon": 870000,
+    "moTa": "Chinh phục nóc nhà Đông Dương, khứ hồi cáp treo + tàu hỏa leo núi"
+  },
+  {
+    "id": "RM-SW-02",
+    "khuVuc": "Sun World Toàn Quốc",
+    "hotel": "Sun World Fansipan",
+    "hangPhong": "Đoàn 24 Khách - Vé Cáp Treo + Tàu Hỏa Leo Núi",
+    "serviceType": "ticket",
+    "giaBaoKhach": 19200000,
+    "giaVon": 17500000,
+    "moTa": "Giá vé đoàn ưu đãi cho trường học, công ty"
+  },
+  {
+    "id": "RM-SW-03",
+    "khuVuc": "Sun World Toàn Quốc",
+    "hotel": "Sun World Bà Nà Hills",
+    "hangPhong": "Vé Cáp Treo + Buffet Trưa 4 Sao",
+    "serviceType": "ticket",
+    "giaBaoKhach": 1250000,
+    "giaVon": 1150000,
+    "moTa": "Check-in Cầu Vàng, Làng Pháp + Buffet quốc tế hơn 100 món"
+  },
+  {
+    "id": "RM-DL-01",
+    "khuVuc": "Đà Lạt",
+    "hotel": "Đà Lạt Villas Group",
+    "hangPhong": "Villa Nghỉ Dưỡng 4 Phòng Ngủ View Đồi Thông",
+    "serviceType": "hotel",
+    "giaBaoKhach": 14800000,
+    "giaVon": 12200000,
+    "moTa": "Nguyên căn 4 phòng ngủ sân vườn BBQ, sức chứa 10-14 khách"
+  },
+  {
+    "id": "RM-FLM-01",
+    "khuVuc": "Vĩnh Phúc - Hà Nội",
+    "hotel": "Flamingo Đại Lải",
+    "hangPhong": "Combo Flamingo 2N1Đ Villa Mặt Hồ + Bữa Tối",
+    "serviceType": "combo",
+    "giaBaoKhach": 4500000,
+    "giaVon": 3800000,
+    "moTa": "Villa mặt hồ thơ mộng, bao gồm ăn sáng + ăn tối set menu",
+    "sao": 4
+  },
+  {
+    "id": "RM-FLC-01",
+    "khuVuc": "Thanh Hóa",
+    "hotel": "FLC Sầm Sơn",
+    "hangPhong": "Tour Gala Dinner & Teambuilding 3N2Đ",
+    "serviceType": "tour",
+    "giaBaoKhach": 45000000,
+    "giaVon": 38500000,
+    "moTa": "Trọn gói xe đưa đón, resort FLC 5 sao, âm thanh ánh sáng gala",
+    "sao": 4
+  },
+  {
+    "id": "RM-TC-01",
+    "khuVuc": "Hà Nam",
+    "hotel": "Tam Chúc Travel",
+    "hangPhong": "Tour Chùa Tam Chúc 1 Ngày Thuyền VIP",
+    "serviceType": "tour",
+    "giaBaoKhach": 1800000,
+    "giaVon": 1500000,
+    "moTa": "Xe du lịch đời mới, du thuyền VIP lòng hồ Tam Chúc, ăn trưa nhà hàng"
+  }
+];
 
     let priceCatalog = [];
     let selectedCatalogRegion = 'all';
 
+    const CATALOG_VERSION = 'v4.5_nhatrang_master_106';
+
     function initPriceCatalog() {
+      const storedVer = localStorage.getItem('BOOKING_TRAVEL_CATALOG_VER');
       const stored = localStorage.getItem('BOOKING_TRAVEL_PRICE_CATALOG');
-      if (stored) {
+      
+      if (stored && storedVer === CATALOG_VERSION) {
         try {
           priceCatalog = JSON.parse(stored);
         } catch(e) {
           priceCatalog = DEFAULT_PRICE_CATALOG;
         }
       } else {
-        priceCatalog = DEFAULT_PRICE_CATALOG;
+        // Tự động đồng bộ và nạp Master 106 Khách Sạn & Hạng Phòng (26 KS Nha Trang)
+        let existing = [];
+        if (stored) {
+          try { existing = JSON.parse(stored); } catch(e) {}
+        }
+        const existingIds = new Set(existing.map(x => x.id));
+        const merged = [...existing];
+        DEFAULT_PRICE_CATALOG.forEach(item => {
+          if (!existingIds.has(item.id)) {
+            merged.push(item);
+          }
+        });
+        priceCatalog = merged.length > 0 ? merged : DEFAULT_PRICE_CATALOG;
+        localStorage.setItem('BOOKING_TRAVEL_CATALOG_VER', CATALOG_VERSION);
         savePriceCatalog();
       }
       populateRoomDatalist();
+      populateBookingHotelSelects();
+    }
+
+    // =========================================================================
+    // LOGIC BỘ CHỌN KHÁCH SẠN & HẠNG PHÒNG NHA TRANG (3-4-5 SAO) TỰ ĐỘNG ĐIỀN
+    // =========================================================================
+    let currentHotelStarFilter = 'all';
+
+    function filterHotelsByStar(star) {
+      currentHotelStarFilter = star;
+      
+      ['all', '5', '4', '3'].forEach(s => {
+        const btn = document.getElementById('btn-star-' + s);
+        if (btn) {
+          if (s === star) {
+            btn.className = 'px-2.5 py-0.5 rounded-lg font-bold bg-amber-500 text-slate-950 transition shadow cursor-pointer';
+          } else {
+            let color = 'text-slate-400 hover:text-white';
+            if (s === '5') color = 'text-amber-300 hover:text-white';
+            if (s === '4') color = 'text-sky-300 hover:text-white';
+            if (s === '3') color = 'text-emerald-300 hover:text-white';
+            btn.className = 'px-2.5 py-0.5 rounded-lg font-bold ' + color + ' hover:bg-slate-800 transition cursor-pointer';
+          }
+        }
+      });
+
+      populateBookingHotelSelects(star);
+    }
+
+    function populateBookingHotelSelects(starFilter = 'all') {
+      const selHotel = document.getElementById('sel-booking-hotel');
+      const selRoom = document.getElementById('sel-booking-room');
+      if (!selHotel || !selRoom) return;
+
+      const hotelMap = new Map();
+      priceCatalog.forEach(item => {
+        if (!hotelMap.has(item.hotel)) {
+          hotelMap.set(item.hotel, {
+            hotel: item.hotel,
+            sao: item.sao || 4,
+            khuVuc: item.khuVuc || 'Nha Trang',
+            isNhaTrang: (item.khuVuc && item.khuVuc.includes('Nha Trang')) || item.hotel.includes('Nha Trang')
+          });
+        }
+      });
+
+      const allHotels = Array.from(hotelMap.values());
+      const filteredHotels = allHotels.filter(h => {
+        if (starFilter === 'all') return true;
+        return String(h.sao) === String(starFilter);
+      });
+
+      selHotel.innerHTML = '<option value="">-- 1. Bấm Chọn Khách Sạn / Resort (' + filteredHotels.length + ' đối tác) --</option>';
+
+      const nt5 = filteredHotels.filter(h => h.isNhaTrang && h.sao === 5);
+      const nt4 = filteredHotels.filter(h => h.isNhaTrang && h.sao === 4);
+      const nt3 = filteredHotels.filter(h => h.isNhaTrang && h.sao === 3);
+      const others = filteredHotels.filter(h => !h.isNhaTrang);
+
+      if (nt5.length > 0) {
+        const grp = document.createElement('optgroup');
+        grp.label = '⭐⭐⭐⭐⭐ KHÁCH SẠN 5 SAO NHA TRANG (' + nt5.length + ' KS)';
+        nt5.forEach(h => {
+          const opt = document.createElement('option');
+          opt.value = h.hotel;
+          const subArea = h.khuVuc.replace('Nha Trang', '').replace(/[()]/g, '').trim();
+          opt.innerText = '⭐⭐⭐⭐⭐ ' + h.hotel + (subArea ? ' (' + subArea + ')' : '');
+          grp.appendChild(opt);
+        });
+        selHotel.appendChild(grp);
+      }
+
+      if (nt4.length > 0) {
+        const grp = document.createElement('optgroup');
+        grp.label = '⭐⭐⭐⭐ KHÁCH SẠN 4 SAO NHA TRANG (' + nt4.length + ' KS)';
+        nt4.forEach(h => {
+          const opt = document.createElement('option');
+          opt.value = h.hotel;
+          const subArea = h.khuVuc.replace('Nha Trang', '').replace(/[()]/g, '').trim();
+          opt.innerText = '⭐⭐⭐⭐ ' + h.hotel + (subArea ? ' (' + subArea + ')' : '');
+          grp.appendChild(opt);
+        });
+        selHotel.appendChild(grp);
+      }
+
+      if (nt3.length > 0) {
+        const grp = document.createElement('optgroup');
+        grp.label = '⭐⭐⭐ KHÁCH SẠN 3 SAO NHA TRANG (' + nt3.length + ' KS)';
+        nt3.forEach(h => {
+          const opt = document.createElement('option');
+          opt.value = h.hotel;
+          const subArea = h.khuVuc.replace('Nha Trang', '').replace(/[()]/g, '').trim();
+          opt.innerText = '⭐⭐⭐ ' + h.hotel + (subArea ? ' (' + subArea + ')' : '');
+          grp.appendChild(opt);
+        });
+        selHotel.appendChild(grp);
+      }
+
+      if (others.length > 0) {
+        const grp = document.createElement('optgroup');
+        grp.label = '🌲 RESORT & TOUR CÁC TỈNH KHÁC (' + others.length + ' điểm đến)';
+        others.forEach(h => {
+          const opt = document.createElement('option');
+          opt.value = h.hotel;
+          const stars = h.sao ? '⭐'.repeat(h.sao) + ' ' : '';
+          opt.innerText = stars + h.hotel + ' (' + h.khuVuc + ')';
+          grp.appendChild(opt);
+        });
+        selHotel.appendChild(grp);
+      }
+
+      selRoom.innerHTML = '<option value="">-- 2. Vui lòng chọn khách sạn ở ô bên trái trước --</option>';
+      selRoom.disabled = true;
+      const preview = document.getElementById('room-price-preview');
+      if (preview) preview.innerText = '';
+    }
+
+    function handleBookingHotelChange(hotelName) {
+      const selRoom = document.getElementById('sel-booking-room');
+      const starBadge = document.getElementById('selected-hotel-star-badge');
+      if (!selRoom) return;
+
+      if (!hotelName) {
+        selRoom.innerHTML = '<option value="">-- 2. Vui lòng chọn khách sạn ở ô bên trái trước --</option>';
+        selRoom.disabled = true;
+        if (starBadge) starBadge.innerText = '';
+        return;
+      }
+
+      const rooms = priceCatalog.filter(x => x.hotel === hotelName);
+      if (rooms.length === 0) {
+        selRoom.innerHTML = '<option value="">-- Khách sạn này chưa có hạng phòng trong kho --</option>';
+        selRoom.disabled = true;
+        if (starBadge) starBadge.innerText = '';
+        return;
+      }
+
+      const hotelInfo = rooms[0];
+      if (starBadge) {
+        starBadge.innerHTML = hotelInfo.sao ? '<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">' + '⭐'.repeat(hotelInfo.sao) + ' ' + hotelInfo.sao + ' Sao</span>' : '';
+      }
+
+      selRoom.disabled = false;
+      selRoom.innerHTML = '<option value="">-- Bấm chọn Hạng Phòng (' + rooms.length + ' phòng có sẵn) --</option>';
+
+      rooms.forEach(r => {
+        const profit = r.giaBaoKhach - r.giaVon;
+        const opt = document.createElement('option');
+        opt.value = r.id;
+        opt.innerText = '🏨 ' + r.hangPhong + ' | Báo: ' + r.giaBaoKhach.toLocaleString('vi-VN') + ' đ (Vốn: ' + r.giaVon.toLocaleString('vi-VN') + ' đ • Lãi: ' + profit.toLocaleString('vi-VN') + ' đ)';
+        selRoom.appendChild(opt);
+      });
+
+      if (rooms.length === 1) {
+        selRoom.value = rooms[0].id;
+        handleBookingRoomChange(rooms[0].id);
+      }
+    }
+
+    function handleBookingRoomChange(roomId) {
+      if (!roomId) return;
+      const found = priceCatalog.find(x => x.id === roomId);
+      if (found) {
+        applyRoomToForm(found);
+      }
     }
 
     function savePriceCatalog() {
@@ -4268,16 +5581,30 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const container = document.getElementById('catalog-region-filters');
       if (!container) return;
 
-      const regions = ['all', ...new Set(priceCatalog.map(x => x.khuVuc))];
+      const ntTotal = priceCatalog.filter(x => (x.khuVuc && x.khuVuc.includes('Nha Trang')) || x.hotel.includes('Nha Trang')).length;
+      const star5Total = priceCatalog.filter(x => x.sao === 5).length;
+      const star4Total = priceCatalog.filter(x => x.sao === 4).length;
+      const star3Total = priceCatalog.filter(x => x.sao === 3).length;
+      const otherTotal = priceCatalog.filter(x => !((x.khuVuc && x.khuVuc.includes('Nha Trang')) || x.hotel.includes('Nha Trang'))).length;
+
+      const filterOptions = [
+        { id: 'all', label: 'Tất Cả (' + priceCatalog.length + ')' },
+        { id: 'nha_trang_all', label: '🏖️ Toàn Bộ Nha Trang (' + ntTotal + ' phòng)' },
+        { id: 'star_5', label: '⭐⭐⭐⭐⭐ 5 Sao (' + star5Total + ' phòng)' },
+        { id: 'star_4', label: '⭐⭐⭐⭐ 4 Sao (' + star4Total + ' phòng)' },
+        { id: 'star_3', label: '⭐⭐⭐ 3 Sao (' + star3Total + ' phòng)' },
+        { id: 'other_regions', label: '🌲 Khu Vực Khác (' + otherTotal + ' phòng)' }
+      ];
+
       container.innerHTML = '';
 
-      regions.forEach(r => {
+      filterOptions.forEach(opt => {
         const btn = document.createElement('button');
-        const isSelected = selectedCatalogRegion === r;
-        btn.className = `px-2.5 py-1 rounded-lg font-bold transition cursor-pointer ${isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}`;
-        btn.innerText = r === 'all' ? 'Tất Cả Khu Vực' : r;
+        const isSelected = selectedCatalogRegion === opt.id;
+        btn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ' + (isSelected ? 'bg-emerald-600 text-white shadow' : 'bg-slate-950 text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700');
+        btn.innerText = opt.label;
         btn.onclick = () => {
-          selectedCatalogRegion = r;
+          selectedCatalogRegion = opt.id;
           renderPriceCatalogRegionFilters();
           renderPriceCatalogCards();
         };
@@ -4298,7 +5625,22 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
 
       const filtered = priceCatalog.filter(item => {
-        const matchRegion = (selectedCatalogRegion === 'all' || item.khuVuc === selectedCatalogRegion);
+        let matchRegion = true;
+        if (selectedCatalogRegion === 'all') {
+          matchRegion = true;
+        } else if (selectedCatalogRegion === 'nha_trang_all') {
+          matchRegion = (item.khuVuc && item.khuVuc.includes('Nha Trang')) || item.hotel.includes('Nha Trang');
+        } else if (selectedCatalogRegion === 'star_5') {
+          matchRegion = item.sao === 5;
+        } else if (selectedCatalogRegion === 'star_4') {
+          matchRegion = item.sao === 4;
+        } else if (selectedCatalogRegion === 'star_3') {
+          matchRegion = item.sao === 3;
+        } else if (selectedCatalogRegion === 'other_regions') {
+          matchRegion = !((item.khuVuc && item.khuVuc.includes('Nha Trang')) || item.hotel.includes('Nha Trang'));
+        } else {
+          matchRegion = item.khuVuc === selectedCatalogRegion;
+        }
         const matchQuery = !query || 
           item.hotel.toLowerCase().includes(query) || 
           item.hangPhong.toLowerCase().includes(query) || 
@@ -4333,7 +5675,12 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-900 border border-slate-700 text-emerald-400">
                   ${item.khuVuc}
                 </span>
-                <h4 class="text-xs font-bold text-white">${item.hotel} - <span class="text-amber-300">${item.hangPhong}</span></h4>
+                <h4 class="text-xs font-bold text-white flex items-center gap-1.5 flex-wrap">
+                  <span>${item.hotel}</span>
+                  ${item.sao ? `<span class="text-[10px] text-amber-300 font-mono">${'⭐'.repeat(item.sao)} ${item.sao} Sao</span>` : ''}
+                  <span class="text-slate-500 font-normal">&bull;</span>
+                  <span class="text-amber-300 font-semibold">${item.hangPhong}</span>
+                </h4>
               </div>
               <p class="text-[11px] text-slate-400 flex items-center gap-1">
                 <i class="fa-solid fa-bed text-slate-500"></i> ${item.moTa || 'Dịch vụ chuẩn Booking Travel'}
@@ -6061,6 +7408,7 @@ ${lines.join('\n')}
       document.getElementById('booking-form').reset();
       document.getElementById('modal-title').innerText = 'ĐIỀU HÀNH & HẠCH TOÁN BOOKING';
       document.getElementById('ipt-code').value = 'BK' + Date.now().toString().slice(-6);
+      filterHotelsByStar('all');
 
       // YÊU CẦU 9: Tự động gán ngày giờ tạo đơn
       const now = new Date();
@@ -6484,6 +7832,429 @@ ${lines.join('\n')}
       initAuth();
       initData();
     });
-  </script>
+  
+
+
+    // =========================================================================
+    // 1. QUẢN LÝ DANH BẠ KHÁCH HÀNG & CSKH ZALO (XUẤT SĐT MARKETING)
+    // =========================================================================
+    let cachedCustomerList = [];
+
+    function extractCustomerDirectory() {
+      const map = new Map();
+
+      bookings.forEach(b => {
+        const phone = (b.sdt || '').trim();
+        const name = (b.khachHang || '').trim();
+        if (!name && !phone) return;
+
+        const key = phone ? phone.replace(/[^0-9]/g, '') : name.toLowerCase();
+        const rev = parseFloat(b.giaBan) || 0;
+        const dateStr = b.checkIn || b.ngayTao || b.createdAt || '';
+
+        if (!map.has(key)) {
+          map.set(key, {
+            key,
+            khachHang: name || 'Khách Vãng Lai',
+            sdt: phone,
+            email: b.email || '',
+            cccd: b.cccd || '',
+            bookingCount: 0,
+            totalSpend: 0,
+            services: new Set(),
+            hotels: new Set(),
+            lastDate: dateStr
+          });
+        }
+
+        const c = map.get(key);
+        c.bookingCount += 1;
+        c.totalSpend += rev;
+        if (b.dichVu) c.services.add(b.dichVu.split('\n')[0].trim());
+        if (b.doiTac) c.hotels.add(b.doiTac.trim());
+        if (b.email && !c.email) c.email = b.email;
+        if (b.cccd && !c.cccd) c.cccd = b.cccd;
+        if (dateStr && (!c.lastDate || dateStr > c.lastDate)) {
+          c.lastDate = dateStr;
+        }
+      });
+
+      return Array.from(map.values()).map(c => {
+        let vipTier = 'moi';
+        let vipBadge = '<span class="px-1.5 py-0.2 rounded text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold">🟢 Mới</span>';
+
+        if (c.totalSpend >= 15000000 || c.bookingCount >= 3) {
+          vipTier = 'vip';
+          vipBadge = '<span class="px-1.5 py-0.2 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">🌟 VIP</span>';
+        } else if (c.bookingCount >= 2) {
+          vipTier = 'repeat';
+          vipBadge = '<span class="px-1.5 py-0.2 rounded text-[10px] bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold">💎 Thân Thiết</span>';
+        }
+
+        return {
+          ...c,
+          vipTier,
+          vipBadge,
+          servicesList: Array.from(c.services).join('; '),
+          hotelsList: Array.from(c.hotels).join(', ')
+        };
+      }).sort((a, b) => b.totalSpend - a.totalSpend);
+    }
+
+    function openCustomerDirectoryModal() {
+      cachedCustomerList = extractCustomerDirectory();
+      
+      const badgeSide = document.getElementById('badge-total-customers-sidebar');
+      if (badgeSide) badgeSide.innerText = cachedCustomerList.length;
+
+      document.getElementById('ipt-search-customer').value = '';
+      renderCustomerDirectory('');
+      document.getElementById('customer-directory-modal').classList.remove('hidden');
+    }
+
+    function closeCustomerDirectoryModal() {
+      document.getElementById('customer-directory-modal').classList.add('hidden');
+    }
+
+    function renderCustomerDirectory(query = '') {
+      const q = (query || '').toLowerCase().trim();
+      const filtered = cachedCustomerList.filter(c => {
+        if (!q) return true;
+        return c.khachHang.toLowerCase().includes(q) ||
+               c.sdt.toLowerCase().includes(q) ||
+               c.email.toLowerCase().includes(q) ||
+               c.cccd.toLowerCase().includes(q) ||
+               c.hotelsList.toLowerCase().includes(q);
+      });
+
+      const totalCount = cachedCustomerList.length;
+      const vipCount = cachedCustomerList.filter(c => c.vipTier === 'vip').length;
+      const repeatCount = cachedCustomerList.filter(c => c.vipTier === 'repeat').length;
+      const newCount = cachedCustomerList.filter(c => c.vipTier === 'moi').length;
+
+      document.getElementById('cust-stat-total').innerText = totalCount;
+      document.getElementById('cust-stat-vip').innerText = vipCount;
+      document.getElementById('cust-stat-repeat').innerText = repeatCount;
+      document.getElementById('cust-stat-new').innerText = newCount;
+      document.getElementById('cust-dir-total-badge').innerText = filtered.length + ' / ' + totalCount + ' Khách Hàng';
+
+      const tbody = document.getElementById('customer-directory-table-body');
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center py-10 text-slate-500">Không tìm thấy khách hàng nào khớp với tìm kiếm.</td></tr>';
+        return;
+      }
+
+      let html = '';
+      filtered.forEach((c, idx) => {
+        const cleanPhone = c.sdt.replace(/[^0-9]/g, '');
+        const zaloLink = cleanPhone ? 'https://zalo.me/' + cleanPhone : '#';
+
+        html += `
+          <tr class="hover:bg-slate-900/80 transition">
+            <td class="py-2.5 px-3 text-center text-slate-500 font-mono">${idx + 1}</td>
+            <td class="py-2.5 px-3">
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-white text-xs">${escapeHtml(c.khachHang)}</span>
+                ${c.vipBadge}
+              </div>
+            </td>
+            <td class="py-2.5 px-3">
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-amber-300 text-xs">${escapeHtml(c.sdt || 'Chưa có SĐT')}</span>
+                ${cleanPhone ? `
+                  <a href="${zaloLink}" target="_blank" class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 hover:bg-blue-500 hover:text-white border border-blue-500/30 text-[10px] font-bold flex items-center gap-1 transition cursor-pointer" title="Nhắn tin Zalo với khách">
+                    <i class="fa-solid fa-comment-dots text-[9px]"></i> Zalo
+                  </a>
+                ` : ''}
+              </div>
+            </td>
+            <td class="py-2.5 px-3 font-mono text-[11px] text-slate-400">
+              <div>${escapeHtml(c.email || '---')}</div>
+              ${c.cccd ? `<div class="text-[10px] text-slate-500">CCCD: ${escapeHtml(c.cccd)}</div>` : ''}
+            </td>
+            <td class="py-2.5 px-3 text-center font-mono font-bold text-indigo-300">
+              ${c.bookingCount} đơn
+            </td>
+            <td class="py-2.5 px-3 text-right font-mono font-bold text-emerald-400 text-xs">
+              ${c.totalSpend.toLocaleString('vi-VN')} đ
+            </td>
+            <td class="py-2.5 px-3 text-[11px] text-slate-400 max-w-xs truncate" title="${escapeHtml(c.hotelsList || c.servicesList)}">
+              ${escapeHtml(c.hotelsList || c.servicesList || 'Dịch vụ lữ hành')}
+            </td>
+            <td class="py-2.5 px-3 text-center">
+              <button onclick="filterTableByCustomer('${escapeHtml(c.sdt || c.khachHang)}')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 hover:text-white text-[10px] font-semibold transition cursor-pointer" title="Xem tất cả đơn đặt của khách này">
+                <i class="fa-solid fa-list-check"></i> Xem Đơn
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function filterTableByCustomer(searchKey) {
+      closeCustomerDirectoryModal();
+      const globalSearch = document.getElementById('global-search');
+      if (globalSearch) {
+        globalSearch.value = searchKey;
+        renderTable();
+      }
+    }
+
+    // Xuất file Excel/CSV Danh bạ khách hàng
+    function xuatDanhBaKhachHangExcel() {
+      const list = extractCustomerDirectory();
+      if (list.length === 0) {
+        alert('Chưa có dữ liệu khách hàng nào để xuất!');
+        return;
+      }
+
+      let csv = '\uFEFFSTT,Họ Và Tên Khách Hàng,Số Điện Thoại,Email,Số CCCD / Hộ Chiếu,Hạng Khách,Số Lần Đặt Phòng,Tổng Tiền Đã Chi Tiêu (VNĐ),Các Khách Sạn & Dịch Vụ Đã Đặt,Ngày Đặt Gần Nhất\n';
+      list.forEach((c, idx) => {
+        csv += `"${idx + 1}","${c.khachHang.replace(/"/g, '""')}","${c.sdt}","${c.email}","${c.cccd}","${c.vipTier.toUpperCase()}","${c.bookingCount}",${c.totalSpend},"${c.hotelsList.replace(/"/g, '""')}","${c.lastDate}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const now = new Date();
+      const dateStr = now.getDate() + '_' + (now.getMonth() + 1) + '_' + now.getFullYear();
+      a.href = url;
+      a.download = 'Danh_Ba_Khach_Hang_Booking_Travel_' + dateStr + '.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Sao chép toàn bộ số điện thoại khách hàng vào clipboard
+    function copyAllCustomerPhones() {
+      const list = extractCustomerDirectory();
+      const phones = list.map(c => c.sdt.replace(/[^0-9]/g, '')).filter(p => p.length >= 9);
+      const uniquePhones = Array.from(new Set(phones));
+
+      if (uniquePhones.length === 0) {
+        alert('Không tìm thấy số điện thoại hợp lệ nào trong danh sách!');
+        return;
+      }
+
+      const phoneText = uniquePhones.join(', ');
+      navigator.clipboard.writeText(phoneText).then(() => {
+        alert('🎉 ĐÃ SAO CHÉP THÀNH CÔNG ' + uniquePhones.length + ' SỐ ĐIỆN THOẠI KHÁCH HÀNG!\n\nBạn chỉ cần mở Zalo Broadcast, SMS Brandname hoặc nhóm CSKH và nhấn (Ctrl + V) để dán vào ngay!');
+      }).catch(err => {
+        prompt('Hãy copy danh sách SĐT bên dưới (Ctrl+C):', phoneText);
+      });
+    }
+
+    // =========================================================================
+    // 2. SAO LƯU (BACKUP) & PHỤC HỒI (RESTORE) TOÀN BỘ CRM
+    // =========================================================================
+    function openBackupRestoreModal() {
+      document.getElementById('backup-restore-modal').classList.remove('hidden');
+    }
+
+    function closeBackupRestoreModal() {
+      document.getElementById('backup-restore-modal').classList.add('hidden');
+    }
+
+    function backupFullCrmData() {
+      const backupData = {
+        app: "Booking Travel CRM vTour 4.0",
+        version: "4.5",
+        exportedAt: new Date().toISOString(),
+        totalBookings: bookings.length,
+        bookings: bookings,
+        priceCatalog: priceCatalog,
+        users: systemUsers
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      const now = new Date();
+      const dateStr = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate() + '_' + now.getHours() + 'h' + now.getMinutes();
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "BookingTravel_Full_Backup_" + dateStr + ".json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      alert('✅ ĐÃ XUẤT FILE SAO LƯU THÀNH CÔNG!\n\nFile chứa toàn bộ ' + bookings.length + ' đơn booking và ' + priceCatalog.length + ' hạng phòng khách sạn đã được tải về máy tính của bạn.');
+    }
+
+    function restoreFullCrmData(inputElement) {
+      const file = inputElement.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!parsed.bookings || !Array.isArray(parsed.bookings)) {
+            alert('❌ Tệp sao lưu không đúng định dạng CRM Booking Travel!');
+            return;
+          }
+
+          if (confirm('⚠️ BẠN CÓ CHẮC CHẮN MUỐN PHỤC HỒI DỮ LIỆU?\n\nDữ liệu hiện tại sẽ được cập nhật đồng bộ với ' + parsed.bookings.length + ' đơn booking từ bản sao lưu.')) {
+            bookings = parsed.bookings;
+            saveData();
+
+            if (parsed.priceCatalog && Array.isArray(parsed.priceCatalog)) {
+              priceCatalog = parsed.priceCatalog;
+              savePriceCatalog();
+            }
+
+            if (parsed.users && Array.isArray(parsed.users)) {
+              systemUsers = parsed.users;
+              localStorage.setItem('BOOKING_TRAVEL_USERS', JSON.stringify(systemUsers));
+            }
+
+            renderTable();
+            updateMetrics();
+            populateBookingHotelSelects();
+            closeBackupRestoreModal();
+            alert('🎉 PHỤC HỒI DỮ LIỆU THÀNH CÔNG! Đã nạp ' + bookings.length + ' đơn hàng vào CRM.');
+          }
+        } catch (err) {
+          alert('❌ Lỗi khi đọc file backup: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      inputElement.value = '';
+    }
+
+    // =========================================================================
+    // 3. NHẬP BẢNG GIÁ TỪ GOOGLE SHEETS / EXCEL (PASTE TABLE)
+    // =========================================================================
+    function openImportPriceModal() {
+      document.getElementById('txt-paste-sheet').value = '';
+      document.getElementById('import-price-sheet-modal').classList.remove('hidden');
+    }
+
+    function closeImportPriceModal() {
+      document.getElementById('import-price-sheet-modal').classList.add('hidden');
+    }
+
+    function downloadPriceTemplateExcel() {
+      let csv = '\uFEFFKhu Vực,Tên Khách Sạn,Số Sao (3/4/5),Tên Hạng Phòng,Giá Vốn NCC (Net),Giá Báo Khách (Bán),Tiện Ích Mô Tả\n';
+      csv += '"Nha Trang (Đường Trần Phú)","Sheraton Nha Trang Hotel & Spa",5,"Deluxe Ocean View",2200000,2650000,"100% phòng hướng biển, ăn sáng buffet"\n';
+      csv += '"Nha Trang (Đường Trần Phú)","Havana Nha Trang Hotel",5,"Deluxe Ocean View (Hầm Qua Biển)",1250000,1550000,"Có đường hầm ngầm ra biển, bồn tắm nằm"\n';
+      csv += '"Nha Trang (Đường Lê Hồng Phong)","King Town Grand Hotel",4,"Deluxe City View",950000,1200000,"Phòng 35m2 rộng rãi, buffet sáng Á-Âu"\n';
+      csv += '"Nha Trang (Đường Hùng Vương)","Khách Sạn Rova Nha Trang",3,"Deluxe Ocean View",700000,880000,"Ban công view biển, cách bãi tắm 150m"\n';
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Mau_Bang_Gia_Hang_Phong_Booking_Travel.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportPriceCatalogExcel() {
+      let csv = '\uFEFFMã Hạng Phòng,Khu Vực,Tên Khách Sạn,Số Sao,Tên Hạng Phòng,Giá Vốn NCC,Giá Báo Khách,Lợi Nhuận Dự Kiến,Tiện Ích & Ghi Chú\n';
+      priceCatalog.forEach(p => {
+        const profit = p.giaBaoKhach - p.giaVon;
+        csv += `"${p.id}","${(p.khuVuc || '').replace(/"/g, '""')}","${(p.hotel || '').replace(/"/g, '""')}","${p.sao || 4}","${(p.hangPhong || '').replace(/"/g, '""')}",${p.giaVon},${p.giaBaoKhach},${profit},"${(p.moTa || '').replace(/"/g, '""')}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Kho_Bang_Gia_Hang_Phong_Booking_Travel.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function handleImportPriceData() {
+      const text = (document.getElementById('txt-paste-sheet').value || '').trim();
+      if (!text) {
+        alert('Vui lòng dán dữ liệu bảng tính từ Google Sheets hoặc Excel vào ô trống!');
+        return;
+      }
+
+      const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+      let countAdded = 0;
+      let countUpdated = 0;
+
+      lines.forEach((line, idx) => {
+        let cols = line.includes('\t') ? line.split('\t') : line.split(',');
+        cols = cols.map(c => c.trim().replace(/^["']|["']$/g, ''));
+
+        if (cols.length >= 4) {
+          // Bỏ qua dòng tiêu đề nếu có
+          if (cols[0].toLowerCase().includes('khu vực') || cols[0].toLowerCase().includes('tên khách') || cols[1].toLowerCase().includes('tên khách')) {
+            return;
+          }
+
+          let khuVuc = 'Nha Trang';
+          let hotel = '';
+          let sao = 4;
+          let hangPhong = '';
+          let giaVon = 0;
+          let giaBaoKhach = 0;
+          let moTa = '';
+
+          if (cols.length >= 6) {
+            hotel = cols[0];
+            khuVuc = cols[1] || 'Nha Trang';
+            sao = parseInt(cols[2]) || 4;
+            hangPhong = cols[3];
+            giaVon = parseFloat(cols[4].replace(/[^0-9]/g, '')) || 0;
+            giaBaoKhach = parseFloat(cols[5].replace(/[^0-9]/g, '')) || 0;
+            moTa = cols[6] || 'Dịch vụ chuẩn Booking Travel';
+          } else {
+            hotel = cols[0];
+            hangPhong = cols[1];
+            giaVon = parseFloat(cols[2].replace(/[^0-9]/g, '')) || 0;
+            giaBaoKhach = parseFloat(cols[3].replace(/[^0-9]/g, '')) || 0;
+            moTa = cols[4] || 'Dịch vụ chuẩn Booking Travel';
+          }
+
+          if (hotel && hangPhong) {
+            const existingIdx = priceCatalog.findIndex(p => p.hotel.toLowerCase() === hotel.toLowerCase() && p.hangPhong.toLowerCase() === hangPhong.toLowerCase());
+            if (existingIdx !== -1) {
+              priceCatalog[existingIdx].giaVon = giaVon || priceCatalog[existingIdx].giaVon;
+              priceCatalog[existingIdx].giaBaoKhach = giaBaoKhach || priceCatalog[existingIdx].giaBaoKhach;
+              priceCatalog[existingIdx].moTa = moTa || priceCatalog[existingIdx].moTa;
+              priceCatalog[existingIdx].sao = sao;
+              priceCatalog[existingIdx].khuVuc = khuVuc;
+              countUpdated++;
+            } else {
+              priceCatalog.push({
+                id: 'RM-IMP-' + Date.now().toString().slice(-6) + '-' + idx,
+                khuVuc,
+                hotel,
+                sao,
+                hangPhong,
+                serviceType: 'hotel',
+                giaBaoKhach,
+                giaVon,
+                moTa
+              });
+              countAdded++;
+            }
+          }
+        }
+      });
+
+      savePriceCatalog();
+      populateRoomDatalist();
+      populateBookingHotelSelects();
+      renderPriceCatalogCards();
+      closeImportPriceModal();
+
+      alert('🎉 ĐÃ CẬP NHẬT KHO BẢNG GIÁ THÀNH CÔNG!\n\nThêm mới: ' + countAdded + ' hạng phòng\nCập nhật: ' + countUpdated + ' hạng phòng\nTổng kho hiện có: ' + priceCatalog.length + ' hạng phòng.');
+    }
+
+
+</script>
 </body>
 </html>
