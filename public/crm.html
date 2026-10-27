@@ -305,48 +305,47 @@
   <!-- ========================================================================= -->
   <!-- 1. ENTERPRISE SIDEBAR -->
   <!-- ========================================================================= -->
-  <aside class="w-64 bg-[#0b192c] border-r border-[#1a2c47] flex flex-col justify-between shrink-0 select-none z-30">
+  <aside class="w-72 bg-[#0b192c] border-r border-[#1a2c47] flex flex-col justify-between shrink-0 select-none z-30">
     <div class="overflow-y-auto">
-      <!-- Brand Logo Header -->
-      <div class="h-16 flex items-center px-4 border-b border-[#1a2c47] bg-[#07162f] gap-3">
-        <div class="bg-white rounded-lg p-1 shadow-sm flex items-center justify-center shrink-0">
-          <img src="logo.png" alt="Booking Travel" width="116" height="40" class="h-7 w-auto object-contain">
+      <!-- Brand Logo Header (Logo To Rõ Nét & Tên Doanh Nghiệp Không Bị Cắt) -->
+      <div class="h-20 flex items-center px-4 border-b border-[#1a2c47] bg-[#07162f] gap-3">
+        <div class="bg-white rounded-xl p-1.5 shadow-md flex items-center justify-center shrink-0 border border-slate-200">
+          <img src="logo.png" alt="Booking Travel" width="130" height="45" class="h-10 sm:h-11 w-auto object-contain">
         </div>
         <div class="min-w-0 flex-1">
           <div class="flex items-center gap-1.5">
-            <span class="font-extrabold text-xs text-white tracking-wide truncate">BOOKING TRAVEL</span>
-            <span class="text-[8px] font-bold px-1 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">v4.0</span>
+            <span class="font-black text-sm text-white tracking-wide whitespace-nowrap">BOOKING TRAVEL</span>
+            <span class="text-[8px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">vTour 4.0</span>
           </div>
-          <p class="text-[9.5px] font-bold text-amber-400 truncate flex items-center gap-1 mt-0.5" title="Slogan: Khách hàng là gia đình">
-            <i class="fa-solid fa-heart text-rose-500 text-[8px]"></i> Khách hàng là gia đình
+          <p class="text-[10px] font-bold text-amber-300 flex items-center gap-1 mt-0.5 whitespace-nowrap" title="Slogan: Khách hàng là gia đình">
+            <i class="fa-solid fa-heart text-rose-500 text-[9px] animate-pulse"></i> Khách hàng là gia đình
           </p>
         </div>
       </div>
-
       <!-- Navigation Modules -->
       <div class="px-3 py-4 space-y-5">
         
         <!-- BÁO CÁO & DÒNG TIỀN CÔNG TY (CHUẨN VTOUR) -->
         <div>
           <p class="px-3 text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
-            <i class="fa-solid fa-chart-pie"></i> Báo Cáo & Dòng Tiền (vTour)
+            <i class="fa-solid fa-chart-pie"></i> Tài Chính & Báo Cáo
           </p>
           <nav class="space-y-0.5">
             <button onclick="switchView('cashflow')" id="nav-cashflow" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-money-bill-transfer w-4 text-center text-emerald-400"></i>
-              <span>Dòng Tiền Cả Công Ty</span>
+              <span>Dòng Tiền Thực Tế</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Dòng Tiền</span>
             </button>
             <button onclick="switchView('reports')" id="nav-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-chart-line w-4 text-center text-blue-400"></i>
-              <span>Báo Cáo Doanh Thu (P&L)</span>
+              <span>Báo Cáo Lãi Lỗ (P&L)</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">MISA</span>
             </button>
             <!-- Báo Giá Nhanh 1 Chạm (TourWell) -->
             <button onclick="openSmartQuoteModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-sky-300 hover:text-white hover:bg-blue-600/20 transition cursor-pointer">
               <div class="flex items-center gap-2.5">
                 <i class="fa-solid fa-bolt text-amber-300 w-4 text-center"></i>
-                <span>Báo Giá Nhanh (Smart Quote)</span>
+                <span>Báo Giá Nhanh</span>
               </div>
               <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">AI</span>
             </button>
@@ -355,7 +354,7 @@
             <button onclick="openPriceCatalogModal()" id="nav-catalog" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer">
               <div class="flex items-center gap-2.5">
                 <i class="fa-solid fa-hotel text-amber-400 w-4 text-center"></i>
-                <span>Bảng Giá & Hạng Phòng</span>
+                <span>Bảng Giá Phòng</span>
               </div>
               <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">GSheet</span>
             </button>
@@ -364,19 +363,19 @@
             <button onclick="openBirthdayModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-amber-500/10 transition cursor-pointer">
               <div class="flex items-center gap-2.5">
                 <i class="fa-solid fa-cake-candles text-rose-400 w-4 text-center"></i>
-                <span>Sinh Nhật & Tri Ân Khách</span>
+                <span>Tri Ân Khách Hàng</span>
               </div>
               <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300">Gia Đình</span>
             </button>
 
         <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
-              <span>Đánh Giá & KPI Sales</span>
+              <span>Hiệu Suất Sales (KPI)</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Top Sales</span>
             </button>
             <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-hotel w-4 text-center text-emerald-400"></i>
-              <span>Đánh Giá Nhà Cung Cấp</span>
+              <span>Đối Tác Cung Ứng</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">Resort</span>
             </button>
           </nav>
@@ -390,12 +389,12 @@
           <nav class="space-y-0.5">
             <button onclick="switchView('staff')" id="nav-staff" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-id-card-clip w-4 text-center text-teal-400"></i>
-              <span>Hồ Sơ & Phân Quyền Sales</span>
+              <span>Phân Quyền Nhân Sự</span>
               <span id="badge-staff-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-teal-500/10 text-teal-400">11</span>
             </button>
             <button onclick="openProfileModal(false)" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-user-pen w-4 text-center text-amber-400"></i>
-              <span>Cập Nhật Thông Tin Cá Nhân</span>
+              <span>Hồ Sơ Cá Nhân</span>
             </button>
           </nav>
         </div>
@@ -418,17 +417,17 @@
             </button>
             <button onclick="switchView('bookings'); setFilter('ar_pending')" id="nav-ar_pending" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-hand-holding-dollar w-4 text-center text-rose-400"></i>
-              <span>Khách Còn Nợ (AR)</span>
+              <span>Phải Thu Khách (AR)</span>
               <span id="badge-ar-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('ap_pending')" id="nav-ap_pending" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-truck-ramp-box w-4 text-center text-amber-400"></i>
-              <span>Nợ Nhà Cung Cấp (AP)</span>
+              <span>Phải Trả NCC (AP)</span>
               <span id="badge-ap-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('aging_due')" id="nav-aging_due" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-clock-rotate-left w-4 text-center text-amber-400"></i>
-              <span>Tuổi Nợ & Đáo Hạn</span>
+              <span>Quản Trị Tuổi Nợ</span>
               <span id="badge-aging-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">MISA</span>
             </button>
           </nav>
@@ -442,17 +441,17 @@
           <nav class="space-y-0.5">
             <button onclick="switchView('bookings'); setFilter('doi_hd_dau_vao')" id="nav-doi_hd_dau_vao" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-300 hover:text-white bg-rose-500/10 border border-rose-500/30 transition">
               <i class="fa-solid fa-file-circle-exclamation w-4 text-center text-rose-400"></i>
-              <span>Cần Đòi HĐ Đầu Vào</span>
+              <span>HĐ Đầu Vào Cần Thu</span>
               <span id="badge-doi-hd-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500 text-white animate-pulse">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('can_xuat_hd_ra')" id="nav-can_xuat_hd_ra" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-file-invoice-dollar w-4 text-center text-indigo-400"></i>
-              <span>Cần Xuất HĐ Đầu Ra</span>
+              <span>HĐ Đầu Ra Chờ Xuất</span>
               <span id="badge-can-xuat-hd-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-400">0</span>
             </button>
             <button onclick="xuatExcelMisa()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-file-excel w-4 text-center text-emerald-500"></i>
-              <span>Xuất MISA meInvoice</span>
+              <span>Kết Xuất Kế Toán MISA</span>
             </button>
           </nav>
         </div>
@@ -490,12 +489,12 @@
       <!-- Current View Title & Search -->
       <div class="flex items-center gap-4 flex-1 max-w-xl">
         <div class="hidden sm:flex items-center gap-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400" id="current-view-title">Điều Hành Booking</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400" id="current-view-title">Điều Hành Lữ Hành</span>
           <span class="text-slate-600">/</span>
         </div>
         <div class="relative w-full">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
-          <input type="text" id="global-search" oninput="handleSearch()" placeholder="Tìm theo Mã Booking, Tên khách, SĐT, Dịch vụ, Nhân sự..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-4 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+          <input type="text" id="global-search" oninput="handleSearch()" placeholder="Tìm booking, khách hàng, số điện thoại, nhà cung cấp..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-4 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
         </div>
       </div>
 
@@ -571,18 +570,18 @@
             </div>
             <div class="mt-3">
               <div id="stat-tong-thu" class="text-xl font-bold font-mono tracking-tight text-white num-tabular">0 đ</div>
-              <p class="text-[11px] text-slate-400 mt-1">Giá bán thu từ khách/CTV</p>
+              <p class="text-[11px] text-slate-400 mt-1">Tổng doanh số bán phòng & tour</p>
             </div>
           </div>
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4.5 relative overflow-hidden">
             <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
-              <span>Giá Vốn (Trả Nhà Cung Cấp)</span>
+              <span>Giá Vốn Dịch Vụ (Net)</span>
               <span class="text-orange-400 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/20 text-xs"><i class="fa-solid fa-boxes-packing"></i></span>
             </div>
             <div class="mt-3">
               <div id="stat-tong-von" class="text-xl font-bold font-mono tracking-tight text-slate-300 num-tabular">0 đ</div>
-              <p class="text-[11px] text-slate-400 mt-1">Chi phí Vinpearl, Amaya, Xe...</p>
+              <p class="text-[11px] text-slate-400 mt-1">Chi phí net thanh toán NCC</p>
             </div>
           </div>
 
@@ -607,19 +606,19 @@
             </div>
             <div class="mt-3">
               <div id="stat-chua-co-hd-vao" class="text-xl font-bold font-mono tracking-tight text-rose-400 num-tabular">0 đơn</div>
-              <p class="text-[11px] text-rose-300 mt-1">Sale liên hệ đối tác đòi hóa đơn</p>
+              <p class="text-[11px] text-rose-300 mt-1">Đơn cần thu thập hóa đơn NCC</p>
             </div>
           </div>
 
           <!-- CẢNH BÁO: CÔNG NỢ KHÁCH -->
           <div onclick="setFilter('ar_pending')" class="bg-slate-900/80 border border-amber-900/60 bg-amber-950/10 rounded-xl p-4.5 relative overflow-hidden group hover:border-amber-700 transition cursor-pointer">
             <div class="flex items-center justify-between text-amber-400 text-xs font-medium">
-              <span class="font-bold">Khách Chưa Trả Hết</span>
+              <span class="font-bold">Công Nợ Phải Thu (AR)</span>
               <span class="text-amber-400 bg-amber-500/20 p-1.5 rounded-md border border-amber-500/30 text-xs"><i class="fa-solid fa-hand-holding-dollar"></i></span>
             </div>
             <div class="mt-3">
               <div id="stat-no-khach" class="text-xl font-bold font-mono tracking-tight text-amber-400 num-tabular">0 đ</div>
-              <p class="text-[11px] text-amber-300 mt-1"><span id="stat-so-don-no-khach" class="font-mono font-bold">0</span> booking chưa cọc đủ</p>
+              <p class="text-[11px] text-amber-300 mt-1"><span id="stat-so-don-no-khach" class="font-mono font-bold">0</span> đơn chưa thu đủ</p>
             </div>
           </div>
 
@@ -636,19 +635,19 @@
                 Tất Cả (<span id="count-all">0</span>)
               </button>
               <button onclick="setFilter('my_orders')" data-filter="my_orders" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
-                <span class="text-sky-400 font-bold">Đơn Của Tôi (<span id="count-my" class="font-mono">0</span>)</span>
+                <span class="text-sky-400 font-bold">Booking Của Tôi (<span id="count-my" class="font-mono">0</span>)</span>
               </button>
               <button onclick="setFilter('doi_hd_dau_vao')" data-filter="doi_hd_dau_vao" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
-                <span class="text-rose-400 font-bold">⚠️ Cần Đòi HĐ Đầu Vào (<span id="count-doi-hd" class="font-mono">0</span>)</span>
+                <span class="text-rose-400 font-bold">Chưa Có HĐ Đầu Vào (<span id="count-doi-hd" class="font-mono">0</span>)</span>
               </button>
               <button onclick="setFilter('can_xuat_hd_ra')" data-filter="can_xuat_hd_ra" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
-                Cần Xuất HĐ Ra (<span id="count-xuat-hd" class="text-indigo-400 font-mono">0</span>)
+                Chờ Xuất HĐ Ra (<span id="count-xuat-hd" class="text-indigo-400 font-mono">0</span>)
               </button>
               <button onclick="setFilter('ar_pending')" data-filter="ar_pending" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
-                Khách Nợ (<span id="count-ar" class="text-amber-400 font-mono">0</span>)
+                Phải Thu Khách (<span id="count-ar" class="text-amber-400 font-mono">0</span>)
               </button>
               <button onclick="setFilter('aging_due')" data-filter="aging_due" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
-                <span class="text-amber-400 font-bold"><i class="fa-solid fa-clock-rotate-left text-[10px]"></i> Tuổi Nợ (<span id="count-aging" class="font-mono">0</span>)</span>
+                <span class="text-amber-400 font-bold"><i class="fa-solid fa-clock-rotate-left text-[10px]"></i> Quản Trị Tuổi Nợ (<span id="count-aging" class="font-mono">0</span>)</span>
               </button>
             </div>
 
@@ -661,18 +660,19 @@
           <!-- Table -->
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
-              <thead class="bg-slate-950/60 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <thead class="bg-slate-950/80 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr>
-                  <th class="py-3 px-3.5">Mã Booking & Trạng Thái</th>
+                  <th class="py-3 px-3.5">Mã & Ngày Đặt</th>
+                  <th class="py-3 px-3.5 text-center">Lịch Trình (In - Out)</th>
                   <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
-                  <th class="py-3 px-3.5">Dịch Vụ & Nhà Cung Cấp</th>
+                  <th class="py-3 px-3.5">Dịch Vụ & NCC</th>
                   <th class="py-3 px-3.5 text-right">Doanh Thu</th>
                   <th class="py-3 px-3.5 text-right">Giá Vốn</th>
                   <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
                   <th class="py-3 px-3.5 text-center">Công Nợ (AR / AP)</th>
                   <th class="py-3 px-3.5 text-center">HĐ Đầu Vào (NCC)</th>
                   <th class="py-3 px-3.5 text-center">HĐ Đầu Ra (Khách)</th>
-                  <th class="py-3 px-3.5 text-center">Tài Liệu File</th>
+                  <th class="py-3 px-3.5 text-center">Tài Liệu</th>
                   <th class="py-3 px-3.5 text-right">Thao Tác</th>
                 </tr>
               </thead>
@@ -4607,7 +4607,29 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     // =========================================================================
     // RENDER VIEW 1: BẢNG BOOKING
     // =========================================================================
-    function renderTable() {
+    
+    // Helper định dạng ngày ngắn gọn chuẩn Việt Nam (DD/MM/YYYY)
+    function formatShortDateVN(dateStr) {
+      if (!dateStr) return '---';
+      const clean = dateStr.includes('T') ? dateStr.split('T')[0] : dateStr;
+      const parts = clean.split('-');
+      if (parts.length === 3) {
+        return parts[2] + '/' + parts[1] + '/' + parts[0];
+      }
+      return dateStr;
+    }
+
+    // Helper tính số đêm lưu trú giữa In và Out
+    function getStayDuration(dIn, dOut) {
+      if (!dIn || !dOut) return '';
+      const t1 = new Date(dIn).getTime();
+      const t2 = new Date(dOut).getTime();
+      if (isNaN(t1) || isNaN(t2)) return '';
+      const diffDays = Math.round((t2 - t1) / (1000 * 3600 * 24));
+      if (diffDays <= 0) return 'Trong ngày';
+      return diffDays + ' đêm';
+    }
+  function renderTable() {
       const tbody = document.getElementById('table-body');
       const query = (document.getElementById('global-search').value || '').toLowerCase().trim();
       const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
@@ -4662,19 +4684,21 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const remainAR = Math.max(0, rev - paidAR);
         const remainAP = Math.max(0, cst - paidAP);
 
+        // Trạng thái điều hành
         let tourBadge = '';
         if (b.tourStatus === 'da_xac_nhan') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Code OK</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Đã Chốt Code</span>';
         } else if (b.tourStatus === 'da_coc') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Đã Cọc</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">Đã Cọc</span>';
         } else if (b.tourStatus === 'dang_di') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">Đang Đi</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/15 text-purple-400 border border-purple-500/30">Đang Đi Tour</span>';
         } else if (b.tourStatus === 'hoan_tat') {
           tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">Hoàn Tất</span>';
         } else {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Mới Tạo</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-400 border border-blue-500/30">Chờ Cọc</span>';
         }
 
+        // YÊU CẦU: CÓ SỐ HÓA ĐƠN ĐẦU VÀO Ở NGOÀI LUÔN
         let hdVaoBadge = '';
         if (b.statusHdVao === 'chua_lay') {
           hdVaoBadge = `
@@ -4684,14 +4708,20 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
           `;
         } else if (b.statusHdVao === 'da_co') {
           hdVaoBadge = `
-            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <i class="fa-solid fa-circle-check text-[9px]"></i> Đã Có HĐ
-            </span>
+            <div class="inline-flex flex-col items-center">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <i class="fa-solid fa-circle-check text-[9px]"></i> Đã Có HĐ
+              </span>
+              ${b.soHdVao ? `<span class="text-[10px] font-mono font-bold text-emerald-300 block mt-0.5 whitespace-nowrap" title="Số hóa đơn đầu vào NCC: ${escapeHtml(b.soHdVao)}"><i class="fa-solid fa-hashtag text-[8px]"></i> ${escapeHtml(b.soHdVao)}</span>` : ''}
+            </div>
           `;
+        } else if (b.statusHdVao === 'dang_cho') {
+          hdVaoBadge = `<span class="text-[10px] font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">Chờ NCC Gửi</span>`;
         } else {
           hdVaoBadge = `<span class="text-slate-600 text-[10px]">-</span>`;
         }
 
+        // YÊU CẦU: CÓ SỐ HÓA ĐƠN ĐẦU RA Ở NGOÀI LUÔN
         let hdRaBadge = '';
         if (!b.coXuatVat) {
           hdRaBadge = `<span class="text-slate-600 text-[10px]">-</span>`;
@@ -4703,9 +4733,12 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
           `;
         } else {
           hdRaBadge = `
-            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <i class="fa-solid fa-file-circle-check text-[9px]"></i> Đã Xuất
-            </span>
+            <div class="inline-flex flex-col items-center">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <i class="fa-solid fa-file-circle-check text-[9px]"></i> Đã Xuất HĐ
+              </span>
+              ${b.soHdRa ? `<span class="text-[10px] font-mono font-bold text-indigo-300 block mt-0.5 whitespace-nowrap" title="Số hóa đơn xuất khách: ${escapeHtml(b.soHdRa)}"><i class="fa-solid fa-hashtag text-[8px]"></i> ${escapeHtml(b.soHdRa)}</span>` : ''}
+            </div>
           `;
         }
 
@@ -4717,22 +4750,45 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const costDisplay = canViewProfit ? `${cst.toLocaleString('vi-VN')} đ` : '<span class="text-slate-600">***</span>';
         const profitDisplay = canViewProfit ? `+${profit.toLocaleString('vi-VN')} đ` : '<span class="text-slate-600">***</span>';
 
+        const stayDuration = getStayDuration(b.checkIn, b.checkOut);
+        const inDateVN = formatShortDateVN(b.checkIn);
+        const outDateVN = formatShortDateVN(b.checkOut);
+        const createDateVN = formatShortDateVN(b.ngayTao || b.createdAt);
+
         html += `
           <tr class="hover:bg-slate-800/30 transition group">
-            <td class="py-3 px-3.5">
+            <!-- 1. MÃ BOOKING & NGÀY ĐẶT PHÒNG Ở NGOÀI LUÔN -->
+            <td class="py-3 px-3.5 whitespace-nowrap">
               <div class="flex items-center gap-1.5">
                 <span class="font-mono font-bold text-blue-400 text-xs">${escapeHtml(b.maBooking)}</span>
                 ${tourBadge}
               </div>
-              <div class="flex items-center gap-1.5 text-[10px] text-slate-500 font-mono mt-0.5">
-                <span>${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</span>
-                ${b.ngayTao ? `<span class="text-emerald-400/80">• Tạo: ${escapeHtml(b.ngayTao.slice(5, 10))}</span>` : ''}
+              <div class="text-[10px] text-amber-300 font-mono mt-1 flex items-center gap-1 font-semibold" title="Ngày đặt phòng">
+                <i class="fa-regular fa-calendar-check text-[9px] text-amber-400"></i>
+                <span>Đặt: ${createDateVN}</span>
+              </div>
+              <span class="text-[10px] text-slate-500 font-mono block mt-0.5">${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</span>
+            </td>
+
+            <!-- 2. LỊCH TRÌNH LƯU TRÚ (NGÀY IN - OUT & SỐ ĐÊM) Ở NGOÀI LUÔN -->
+            <td class="py-3 px-3.5 text-center whitespace-nowrap">
+              <div class="inline-flex flex-col items-center gap-1 bg-[#07162f] border border-blue-900/50 rounded-xl px-2.5 py-1.5 shadow-sm">
+                <div class="flex items-center gap-1.5 text-[11px] font-mono">
+                  <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">IN</span>
+                  <span class="text-white font-bold">${inDateVN}</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-[11px] font-mono">
+                  <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">OUT</span>
+                  <span class="text-slate-300 font-bold">${outDateVN}</span>
+                </div>
+                ${stayDuration ? `<span class="text-[9px] font-semibold text-sky-300 bg-sky-500/15 px-2 py-0.2 rounded-full border border-sky-500/30">${stayDuration}</span>` : ''}
               </div>
             </td>
 
+            <!-- 3. KHÁCH HÀNG & THÔNG TIN LIÊN HỆ -->
             <td class="py-3 px-3.5">
               <div class="flex items-center gap-1.5">
-                <span class="font-semibold text-slate-200 block text-xs">${escapeHtml(b.khachHang)}</span>
+                <span class="font-bold text-slate-200 block text-xs">${escapeHtml(b.khachHang)}</span>
                 ${b.cccd ? `<span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono border border-slate-700" title="CCCD / Hộ chiếu">CCCD: ${escapeHtml(b.cccd)}</span>` : ''}
               </div>
               <div class="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono mt-0.5">
@@ -4741,23 +4797,28 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               </div>
             </td>
 
+            <!-- 4. DỊCH VỤ & NHÀ CUNG CẤP -->
             <td class="py-3 px-3.5 max-w-xs">
-              <span class="text-slate-300 font-medium truncate block text-xs" title="${escapeHtml(b.dichVu)}">${escapeHtml(b.dichVu)}</span>
-              <span class="text-[10px] text-slate-500 block">Nhà Cung Cấp: <strong class="text-slate-300">${escapeHtml(b.doiTac || 'N/A')}</strong> • ${b.checkIn || ''}</span>
+              <span class="text-slate-200 font-semibold truncate block text-xs" title="${escapeHtml(b.dichVu)}">${escapeHtml(b.dichVu)}</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5">NCC: <strong class="text-amber-300">${escapeHtml(b.doiTac || 'N/A')}</strong></span>
             </td>
 
+            <!-- 5. DOANH THU -->
             <td class="py-3 px-3.5 text-right font-mono font-bold text-white text-xs num-tabular">
               ${rev.toLocaleString('vi-VN')} đ
             </td>
 
-            <td class="py-3 px-3.5 text-right font-mono text-slate-400 text-xs num-tabular">
+            <!-- 6. GIÁ VỐN -->
+            <td class="py-3 px-3.5 text-right font-mono text-slate-300 text-xs num-tabular">
               ${costDisplay}
             </td>
 
+            <!-- 7. LÃI GỘP -->
             <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">
               ${profitDisplay}
             </td>
 
+            <!-- 8. CÔNG NỢ (AR / AP) -->
             <td class="py-3 px-3.5 text-center font-mono text-[10px]">
               <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-semibold'} block">
                 Khách: ${remainAR > 0 ? '-' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Thu đủ'}
@@ -4766,20 +4827,23 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                 NCC: ${remainAP > 0 ? '-' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Trả đủ'}
               </span>
               ${Array.isArray(b.payments) && b.payments.length > 1 ? `
-                <span class="text-[9px] text-indigo-300 block mt-0.5 font-sans bg-indigo-500/10 px-1 py-0.2 rounded border border-indigo-500/20">
+                <span class="text-[9px] text-indigo-300 block mt-0.5 font-sans bg-indigo-500/15 px-1 py-0.2 rounded border border-indigo-500/30">
                   Đã thu ${b.payments.filter(p=>p.trangThai==='da_thu').length}/${b.payments.length} đợt
                 </span>
               ` : ''}
             </td>
 
+            <!-- 9. HÓA ĐƠN ĐẦU VÀO (NCC) - CÓ SỐ HÓA ĐƠN Ở NGOÀI LUÔN -->
             <td class="py-3 px-3.5 text-center">
               ${hdVaoBadge}
             </td>
 
+            <!-- 10. HÓA ĐƠN ĐẦU RA (KHÁCH) - CÓ SỐ HÓA ĐƠN Ở NGOÀI LUÔN -->
             <td class="py-3 px-3.5 text-center">
               ${hdRaBadge}
             </td>
 
+            <!-- 11. TÀI LIỆU FILE -->
             <td class="py-3 px-3.5 text-center">
               <button onclick="openFilesModal('${b.id}')" class="px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 mx-auto transition cursor-pointer ${fileBtnClass}">
                 <i class="fa-solid fa-paperclip text-[10px]"></i>
@@ -4787,21 +4851,20 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               </button>
             </td>
 
-            <td class="py-3 px-3.5 text-right">
-              <div class="flex items-center justify-end gap-1">
-                <button onclick="openVoucherModal('${b.id}')" title="Xuất Phiếu Bàn Giao & Voucher Đặt Phòng Gửi Resort / Khách Sạn (Chuẩn TravelMaster)" class="p-1.5 rounded-md hover:bg-emerald-500/20 text-emerald-400 transition text-xs cursor-pointer">
+            <!-- 12. THAO TÁC -->
+            <td class="py-3 px-3.5 text-right whitespace-nowrap">
+              <div class="flex items-center justify-end gap-1.5">
+                <button onclick="openVoucherModal('${b.id}')" title="In Phiếu Xác Nhận Dịch Vụ / Rooming List" class="p-1.5 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-file-invoice"></i>
                 </button>
-                <button onclick="openDoiHdDialog('${b.id}')" title="Soạn tin Zalo đòi HĐ đối tác" class="p-1.5 rounded-md hover:bg-rose-500/20 text-rose-400 transition text-xs cursor-pointer">
-                  <i class="fa-solid fa-comment-sms"></i>
-                </button>
-                <button onclick="editBooking('${b.id}')" title="Sửa thông tin" class="p-1.5 rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition text-xs cursor-pointer">
+                <button onclick="editBooking('${b.id}')" title="Chỉnh Sửa Booking" class="p-1.5 rounded-lg text-sky-400 hover:text-white hover:bg-sky-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
                 ${canDelete ? `
-                <button onclick="deleteBooking('${b.id}')" title="Xóa đơn (Chỉ quyền Admin)" class="p-1.5 rounded-md hover:bg-rose-500/20 text-slate-500 hover:text-rose-400 transition text-xs cursor-pointer">
-                  <i class="fa-solid fa-trash"></i>
-                </button>` : ''}
+                  <button onclick="deleteBooking('${b.id}')" title="Xóa Booking" class="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition text-xs cursor-pointer">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                ` : ''}
               </div>
             </td>
           </tr>
