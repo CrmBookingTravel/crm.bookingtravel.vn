@@ -1,6 +1,6 @@
 # 🏨 CÔNG TY TNHH BOOKING TRAVEL - HỆ THỐNG ERP & CRM LỮ HÀNH v4.0
 
-> **Nền Tảng Quản Trị Doanh Nghiệp Lữ Hành, Kế Toán Chuẩn MISA, Điều Hành Chuẩn vTour, Kiểm Soát Dòng Tiền & Tự Động Hóa Phát Tin 13 Nhóm Zalo**
+> **Nền Tảng Quản Trị Doanh Nghiệp Lữ Hành, Kế Toán Thuế & Hóa Đơn GTGT, Điều Hành Nghỉ Dưỡng Chuyên Nghiệp, Kiểm Soát Dòng Tiền & Tự Động Hóa Phát Tin Nhóm Zalo**
 
 [![Website](https://img.shields.io/badge/Official_Website-bookingtravel.vn-blue?style=for-the-badge&logo=googlechrome)](https://bookingtravel.vn)
 [![CRM System](https://img.shields.io/badge/CRM_System-crm.bookingtravel.vn-indigo?style=for-the-badge&logo=airplay)](https://crm.bookingtravel.vn)
@@ -17,23 +17,23 @@
 - 🚩 **Tour Ghép Đoàn & Tour Doanh Nghiệp (GIT/FIT):** Teambuilding, hội nghị khách hàng, gala dinner.
 - 🎟️ **Vé Vui Chơi & Cáp Treo:** Sun World Fansipan / Bà Nà Hills, VinWonders & Safari Nha Trang / Phú Quốc.
 
-Hệ thống **Booking Travel ERP v4.0** giải quyết triệt để bài toán: kết nối 119 Google Sheets bảng tính, kế toán hạch toán lãi lỗ tức thời, quản trị dòng tiền công ty, kiểm soát hóa đơn VAT đầu vào/đầu ra, phân quyền nhân sự chặt chẽ và tự động hóa phát tin tiếp thị đến hơn 10.000 đại lý/CTV qua Zalo.
+Hệ thống **Booking Travel ERP v4.0** giải quyết triệt để bài toán: kết nối 119 Google Sheets bảng tính, kế toán hạch toán lãi lỗ tức thời, quản trị dòng tiền công ty, kiểm soát hóa đơn VAT đầu vào/đầu ra, phân quyền nhân sự chặt chẽ và tự động hóa phát tin tiếp thị đến các đại lý/CTV qua Zalo.
 
 ---
 
 ## 🚀 2. CÁC PHÂN HỆ CỐT LÕI (CORE MODULES)
 
-### 📊 Phân hệ 1: Kế Toán Quản Trị MISA & P&L Real-time
+### 📊 Phân hệ 1: Kế Toán Quản Trị & Báo Cáo P&L Real-time
 - **Theo dõi chỉ số tài chính tức thời:** Tổng Doanh thu, Chi phí Giá vốn (COGS), Lợi nhuận gộp thực thu, Tỷ suất lợi nhuận gộp (%).
 - **Báo cáo Lãi/Lỗ theo từng dịch vụ & đối tác:** Tính toán biên độ lợi nhuận theo từng đơn hàng.
 - **Hóa Đơn Đầu Vào (NCC / Khách sạn):** Cảnh báo 🔴 `Cần Đòi HĐ!` vs 🟢 `Đã Có HĐ`. Nút 1-chạm sao chép mẫu tin nhắn Zalo gửi kế toán khách sạn đòi hóa đơn GTGT.
 - **Hóa Đơn Đầu Ra (Khách hàng / Công ty):** Quản lý trạng thái xuất hóa đơn, lưu trữ MST, tên pháp nhân và email nhận HĐĐT.
 - **Kho File Chứng Từ (File Vault):** Tải lên và lưu trữ lâu dài file PDF hóa đơn điện tử, XML, hình ảnh ủy nhiệm chi ngân hàng trên máy chủ (`upload.php`).
-- **Xuất dữ liệu chuẩn MISA meInvoice:** Xuất báo cáo bảng kê hóa đơn CSV/Excel tương thích 100% với phần mềm MISA.
+- **Xuất dữ liệu hóa đơn GTGT:** Xuất báo cáo bảng kê hóa đơn CSV/Excel tương thích 100% cho phần mềm kế toán và kê khai thuế.
 
 ---
 
-### 📈 Phân hệ 2: Báo Cáo & Điều Hành Chuẩn vTour ([vtour.vn](https://vtour.vn/))
+### 📈 Phân hệ 2: Báo Cáo & Điều Hành Lữ Hành Chuyên Nghiệp (Booking Travel)
 - **Chuẩn hóa vòng đời 5 bước của Booking:**
   `Mới tạo / Chờ cọc` ➔ `Đã cọc` ➔ `Đã chốt code phòng/vé với NCC` ➔ `Đang check-in / Đi tour` ➔ `Hoàn tất & Quyết toán`.
 - **Cơ cấu Doanh thu & Dịch vụ:** Biểu đồ thanh trực quan phân tích tỷ trọng giữa *Khách sạn/Resort*, *Combo du lịch*, *Tour trọn gói*, và *Vé vui chơi*.
