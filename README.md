@@ -148,7 +148,8 @@ npm install
 ### 3. Vận hành máy chủ XAMPP (Port 80)
 1. Đảm bảo Apache và MySQL đang chạy tại thư mục `E:\xampp_booking` (hoặc `C:\xampp`).
 2. Truy cập hệ thống CRM tại:
-   👉 **[http://localhost/CRM_Booking.html](http://localhost/CRM_Booking.html)**
+   👉 **[http://localhost/CRM_Booking.html](http://localhost/CRM_Booking.html)** (Bản Hệ Thống ERP Đầy Đủ)
+   👉 **[http://localhost/CRM_Pro.html](http://localhost/CRM_Pro.html)** (Bản Giao Diện Executive Pro Hiện Đại)
 
 ### 4. Vận hành Trạm Phát Tin Tự Động Zalo (Port 5000)
 ```bash
