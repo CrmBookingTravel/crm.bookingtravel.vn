@@ -877,6 +877,17 @@
             }
         }
 
+        // HTML Sanitize function (Chống tấn công XSS)
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         // Format Currency VND
         function fmtVND(num) {
             return (num || 0).toLocaleString('vi-VN') + ' ₫';
@@ -1081,12 +1092,12 @@
 
                 tr.innerHTML = `
                     <td class="py-4 px-4">
-                        <strong class="text-white font-semibold font-mono">${b.maBooking}</strong>
+                        <strong class="text-white font-semibold font-mono">${escapeHtml(b.maBooking)}</strong>
                         <div class="flex items-center gap-1.5 mt-1">
                             ${statusBadge}
                         </div>
                         <p class="text-[11px] text-slate-400 mt-1">Đặt: ${fmtDateVN(b.ngayDat)}</p>
-                        <p class="text-[10px] text-blue-400 mt-0.5 font-mono">${b.saleName || 'sales'}</p>
+                        <p class="text-[10px] text-blue-400 mt-0.5 font-mono">${escapeHtml(b.saleName || 'sales')}</p>
                     </td>
                     <td class="py-4 px-4 whitespace-nowrap">
                         <div class="space-y-1">
@@ -1100,13 +1111,13 @@
                         <p class="text-[10px] text-slate-400 mt-1 font-medium">${nightsText}</p>
                     </td>
                     <td class="py-4 px-4">
-                        <p class="font-semibold text-white">${b.khachHang}</p>
-                        ${b.cccd ? `<p class="text-[11px] text-slate-400 font-mono">CCCD: <span class="text-slate-300">${b.cccd}</span></p>` : ''}
-                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono">${b.sdt} ${b.email ? '• ' + b.email.substring(0, 16) + '...' : ''}</p>
+                        <p class="font-semibold text-white">${escapeHtml(b.khachHang)}</p>
+                        ${b.cccd ? `<p class="text-[11px] text-slate-400 font-mono">CCCD: <span class="text-slate-300">${escapeHtml(b.cccd)}</span></p>` : ''}
+                        <p class="text-[11px] text-slate-400 mt-0.5 font-mono">${escapeHtml(b.sdt)} ${b.email ? '• ' + escapeHtml(b.email.substring(0, 16)) + '...' : ''}</p>
                     </td>
                     <td class="py-4 px-4 max-w-xs">
-                        <p class="font-medium text-slate-200 line-clamp-2">${b.dichVu}</p>
-                        <p class="text-[11px] text-slate-400 mt-0.5">NCC: <span class="text-amber-400 font-medium">${b.doiTac}</span></p>
+                        <p class="font-medium text-slate-200 line-clamp-2">${escapeHtml(b.dichVu)}</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">NCC: <span class="text-amber-400 font-medium">${escapeHtml(b.doiTac)}</span></p>
                     </td>
                     <td class="py-4 px-4 text-right font-bold text-white font-mono num-tabular">
                         ${fmtVND(b.giaBan)}

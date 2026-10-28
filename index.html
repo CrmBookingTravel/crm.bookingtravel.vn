@@ -8173,7 +8173,13 @@ ${lines.join('\n')}
     const xuatExcelMisa = xuatExcelHoaDonGTGT;
 
     function escapeHtml(str) {
-      return (str || '').toString().replace(/"/g, '&quot;');
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
     window.addEventListener('DOMContentLoaded', () => {
