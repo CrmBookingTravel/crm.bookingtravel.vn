@@ -143,7 +143,7 @@
   <div id="login-screen" class="fixed inset-0 z-50 bg-[#07162f] flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden hidden">
     
     <!-- KHỐI BÊN TRÁI: SHOWCASE THƯƠNG HIỆU & SLOGAN CÔNG TY (HERO SECTION - 58%) -->
-    <div class="relative lg:w-[58%] min-h-[480px] lg:min-h-full bg-gradient-to-br from-[#07162f] via-[#0c6aba]/30 to-[#073e78] flex flex-col justify-between p-6 sm:p-10 lg:p-14 overflow-hidden border-b lg:border-b-0 lg:border-r border-blue-900/40">
+    <div class="relative lg:w-[58%] min-h-0 lg:min-h-full bg-gradient-to-br from-[#07162f] via-[#0c6aba]/30 to-[#073e78] flex flex-col justify-between p-4 sm:p-8 lg:p-12 overflow-hidden border-b lg:border-b-0 lg:border-r border-blue-900/40">
       
       <!-- Họa tiết trang trí nền & ánh sáng -->
       <div class="absolute -top-32 -left-32 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -162,8 +162,7 @@
               <span class="text-xs font-bold text-white uppercase tracking-wider">CÔNG TY TNHH BOOKING TRAVEL</span>
               <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">Bản Quyền v4.0</span>
             </div>
-            <p class="text-[11px] text-blue-200/80 font-mono mt-0.5">crm.bookingtravel.vn</p>
-          </div>
+                      </div>
         </div>
 
         <div class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-medium">
@@ -173,48 +172,44 @@
       </div>
 
       <!-- Thân Giữa: Slogan Doanh Nghiệp & Định Vị Thương Hiệu -->
-      <div class="relative z-10 my-8 lg:my-auto">
+      <div class="relative z-10 my-4 sm:my-6 lg:my-auto">
         
         <!-- Huy hiệu Slogan Doanh Nghiệp -->
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/10 border border-amber-400/40 text-amber-300 font-extrabold text-xs uppercase tracking-widest mb-4 shadow-lg shadow-amber-500/10">
+        <div class="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/10 border border-amber-400/40 text-amber-300 font-extrabold text-[11px] sm:text-xs uppercase tracking-widest mb-2.5 sm:mb-4 shadow-lg shadow-amber-500/10">
           <i class="fa-solid fa-heart text-rose-400 animate-pulse"></i>
           <span>Slogan Doanh Nghiệp</span>
         </div>
 
         <!-- Tiêu đề Slogan Siêu Lớn & Nổi Bật -->
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4 drop-shadow-md">
-          "KHÁCH HÀNG LÀ GIA ĐÌNH"
+        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-3 sm:mb-4 drop-shadow-md">
+          KHÁCH HÀNG LÀ GIA ĐÌNH
         </h1>
 
         <!-- Đoạn triết lý phụng sự -->
-        <p class="text-sm sm:text-base text-blue-100/90 leading-relaxed font-normal max-w-xl mb-8 drop-shadow-sm">
-          Tận tâm phục vụ từ trái tim — Mỗi hành trình và dịch vụ nghỉ dưỡng của khách hàng đều được chăm sóc chu đáo, tận tình như những người thân yêu ruột thịt trong gia đình.
+        <p class="text-xs sm:text-sm lg:text-[15px] text-blue-100/90 leading-relaxed font-normal max-w-4xl mb-4 sm:mb-8 drop-shadow-sm">
+          <span class="block">Tận tâm phục vụ từ trái tim</span>
+          <span class="block">Mỗi hành trình và dịch vụ nghỉ dưỡng của khách hàng</span>
+          <span class="block sm:whitespace-nowrap">Đều được chăm sóc chu đáo, tận tình như những người thân yêu ruột thịt trong gia đình.</span>
         </p>
 
-        <!-- 3 Khối Năng Lực Cốt Lõi Của Doanh Nghiệp -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl">
-          <div class="p-3.5 rounded-xl bg-slate-900/60 backdrop-blur border border-blue-500/20 shadow-lg hover:border-blue-500/40 transition">
-            <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-300 flex items-center justify-center mb-2 text-sm">
-              <i class="fa-solid fa-hotel"></i>
-            </div>
-            <h4 class="text-xs font-bold text-white mb-0.5">100+ Khách Sạn & Resort</h4>
-            <p class="text-[11px] text-slate-300">Tự động kết nối Google Sheets lấy hạng phòng & báo giá Net nhanh chóng.</p>
+        <!-- HÌNH ẢNH TẬP THỂ NHÂN VIÊN BOOKING TRAVEL -->
+        <div class="relative max-w-2xl rounded-2xl overflow-hidden border border-blue-400/30 shadow-2xl bg-slate-900/60 backdrop-blur group">
+          <div class="relative aspect-[16/9] sm:h-56 lg:h-64 w-full overflow-hidden">
+            <img src="team_bookingtravel.jpg" alt="Tập thể Cán Bộ Nhân Viên - Công ty TNHH Booking Travel" class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#07162f] via-transparent to-transparent opacity-80"></div>
           </div>
-
-          <div class="p-3.5 rounded-xl bg-slate-900/60 backdrop-blur border border-blue-500/20 shadow-lg hover:border-emerald-500/40 transition">
-            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center mb-2 text-sm">
-              <i class="fa-solid fa-chart-line"></i>
+          <div class="absolute bottom-0 inset-x-0 p-3 sm:p-4 flex items-center justify-between gap-3 bg-gradient-to-t from-[#07162f] via-[#07162f]/90 to-transparent">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <h4 class="text-xs sm:text-sm font-bold text-white tracking-wide uppercase">Tập Thể Cán Bộ Nhân Viên Booking Travel</h4>
+              </div>
+              <p class="text-[11px] text-blue-200/80 mt-0.5">Tận tâm phục vụ • Gắn kết vững bền • <span class="text-amber-300 font-semibold">Khách hàng là gia đình</span></p>
             </div>
-            <h4 class="text-xs font-bold text-white mb-0.5">Nghiệp Vụ Lữ Hành Chuyên Nghiệp</h4>
-            <p class="text-[11px] text-slate-300">Quản trị dòng tiền thực, kiểm soát nợ AR/AP và quản lý hóa đơn thuế GTGT.</p>
-          </div>
-
-          <div class="p-3.5 rounded-xl bg-slate-900/60 backdrop-blur border border-blue-500/20 shadow-lg hover:border-amber-500/40 transition">
-            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center mb-2 text-sm">
-              <i class="fa-solid fa-wallet"></i>
+            <div class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-[11px] font-semibold">
+              <i class="fa-solid fa-users text-amber-400"></i>
+              <span>Gia Đình Booking Travel</span>
             </div>
-            <h4 class="text-xs font-bold text-white mb-0.5">Hạn Mức Tạm Ứng 1 Triệu</h4>
-            <p class="text-[11px] text-slate-300">Sẵn sàng trong ví từng nhân sự Sales để linh hoạt phục vụ khách hàng chu đáo.</p>
           </div>
         </div>
       </div>
@@ -225,15 +220,13 @@
           <i class="fa-solid fa-shield-halved text-emerald-400"></i>
           <span>Hệ Thống Phân Quyền & Bảo Mật Dữ Liệu Nội Bộ</span>
         </div>
-        <div>
-          <span>Hotline Hỗ Trợ Điều Hành: <strong class="text-white font-mono">0901 234 000</strong></span>
-        </div>
+        
       </div>
 
     </div>
 
     <!-- KHỐI BÊN PHẢI: FORM ĐĂNG NHẬP & CHỌN NHANH TÀI KHOẢN (PORTAL - 42%) -->
-    <div class="lg:w-[42%] bg-[#0b192c] flex flex-col justify-center p-6 sm:p-10 lg:p-12 z-10 overflow-y-auto">
+    <div class="lg:w-[42%] bg-[#0b192c] flex flex-col justify-center p-4 sm:p-8 lg:p-12 z-10 overflow-y-auto">
       <div class="max-w-md w-full mx-auto space-y-6">
         
         <!-- Tiêu Đề Đăng Nhập -->
@@ -241,11 +234,11 @@
           <div class="flex items-center gap-3 mb-2">
             <img src="logof.png" alt="Booking Travel Emblem" width="40" height="40" class="w-10 h-10 rounded-xl object-contain bg-white/10 p-1 border border-white/20 shadow-md">
             <div>
-              <h2 class="text-xl font-bold text-white tracking-wide">ĐĂNG NHẬP CRM</h2>
+              <h2 class="text-xl font-bold text-white tracking-wide">ĐĂNG NHẬP</h2>
               <p class="text-xs text-blue-300">Cổng Quản Trị & Điều Hành Du Lịch Nội Bộ</p>
             </div>
           </div>
-          <p class="text-xs text-slate-400 mt-1">Vui lòng đăng nhập tài khoản nhân viên hoặc ban giám đốc được cấp để truy cập hệ thống.</p>
+          
         </div>
 
         <!-- Form Đăng Nhập -->
@@ -253,53 +246,32 @@
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
               <span>ID Đăng Nhập (Email) (*)</span>
-              <span class="text-[10px] text-blue-400 font-mono">sales1 - sales10 hoặc crm</span>
+              
             </label>
             <div class="relative">
               <i class="fa-solid fa-envelope absolute left-3.5 top-3.5 text-slate-500 text-xs"></i>
-              <input type="email" id="login-email" required placeholder="sales1@bookingtravel.vn" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl pl-10 pr-3 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition">
+              <input type="email" id="login-email" required placeholder="Nhập ID đăng nhập hoặc email..." class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl pl-10 pr-3 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition">
             </div>
           </div>
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
-              <span>Mật Khẩu Bàn Giao (*)</span>
-              <span class="text-[10px] text-slate-400">Mặc định: <strong class="text-amber-400 font-mono">123456</strong></span>
+              <span>Mật Khẩu Đăng Nhập (*)</span>
+              
             </label>
             <div class="relative">
               <i class="fa-solid fa-lock absolute left-3.5 top-3.5 text-slate-500 text-xs"></i>
-              <input type="password" id="login-password" required placeholder="Nhập mật khẩu (123456)" class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl pl-10 pr-3 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition">
+              <input type="password" id="login-password" required placeholder="Nhập mật khẩu..." class="w-full bg-[#07162f] border border-blue-900/60 rounded-xl pl-10 pr-3 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono transition">
             </div>
           </div>
 
-          <button type="submit" class="w-full py-3 bg-gradient-to-r from-[#0c6aba] to-[#075ad8] hover:from-[#0a5aa0] hover:to-[#064ab8] active:from-[#084880] active:to-[#053d96] text-white text-xs font-bold rounded-xl shadow-xl shadow-blue-600/25 transition flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider">
+          <button type="submit" class="w-full py-3.5 sm:py-3 bg-gradient-to-r from-[#0c6aba] to-[#075ad8] hover:from-[#0a5aa0] hover:to-[#064ab8] active:scale-[0.98] text-white text-sm sm:text-xs font-bold rounded-xl shadow-xl shadow-blue-600/25 transition flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider min-h-[44px]">
             <i class="fa-solid fa-arrow-right-to-bracket text-sm"></i>
-            <span>ĐĂNG NHẬP VÀO CRM</span>
+            <span>ĐĂNG NHẬP</span>
           </button>
         </form>
 
-        <!-- Danh Sách Tài Khoản Chọn Nhanh -->
-        <div class="pt-5 border-t border-[#1a2c47]">
-          <div class="flex items-center justify-between mb-2.5">
-            <span class="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-users text-blue-400 text-xs"></i> Chọn Nhanh Tài Khoản
-            </span>
-            <span class="text-[10px] font-mono text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Pass: 123456</span>
-          </div>
-          <p class="text-[11px] text-slate-400 mb-2">Bấm vào tài khoản bất kỳ để tự động điền ID và mật khẩu:</p>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-52 overflow-y-auto pr-1 text-[11px]" id="quick-accounts-list">
-            <!-- Rendered by JS -->
-          </div>
         </div>
-
-        <!-- Nhắc Nhở Slogan Dưới Cùng -->
-        <div class="p-3 rounded-xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-transparent border border-amber-500/20 flex items-center justify-center gap-2 text-center">
-          <i class="fa-solid fa-heart text-rose-500 text-xs animate-pulse"></i>
-          <span class="text-xs font-bold text-amber-300 tracking-wide">"Khách hàng là gia đình"</span>
-        </div>
-
-      </div>
     </div>
 
   </div>
@@ -770,12 +742,7 @@
           <span>"Khách hàng là gia đình"</span>
         </div>
 
-        <!-- Quỹ Tạm Ứng Nhân Viên / Hạn Mức Ví -->
-        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400" title="Quỹ tiền mặt bàn giao làm việc">
-          <i class="fa-solid fa-wallet"></i>
-          <span class="text-slate-400 hidden lg:inline" id="topbar-wallet-label">Quỹ Tạm Ứng:</span>
-          <span id="topbar-user-wallet" class="font-mono font-bold text-emerald-300">1,000,000 đ</span>
-        </div>
+        <!-- Quỹ Tạm Ứng: Đã gỡ bỏ theo yêu cầu -->
 
         <!-- Logged In User Pill -->
         <button onclick="openProfileModal(false)" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs transition cursor-pointer" title="Thông tin tài khoản Sales">
@@ -1317,7 +1284,7 @@
             <h2 class="text-base font-extrabold text-white flex items-center gap-2">
               <i class="fa-solid fa-users-gear text-teal-400"></i> DANH SÁCH NHÂN SỰ & PHÂN QUYỀN TÀI KHOẢN SALES
             </h2>
-            <p class="text-xs text-slate-400 mt-0.5">Quản lý ID (Email), Mật khẩu bàn giao (<strong class="text-white font-mono">123456</strong>), Quỹ tiền bàn giao (<strong class="text-emerald-400 font-mono">1.000.000 đ</strong>) và quyền xem dòng tiền</p>
+            <p class="text-xs text-slate-400 mt-0.5">Quản lý ID (Email), Mật khẩu bàn giao (<strong class="text-white font-mono">123456</strong>), hồ sơ nhân sự và quyền xem dòng tiền</p>
           </div>
           <div class="flex items-center gap-3">
             <div class="text-xs text-slate-400">Trạng thái hồ sơ:</div>
@@ -1341,7 +1308,7 @@
                   <th class="py-3 px-3.5">ID Đăng Nhập (Email)</th>
                   <th class="py-3 px-3.5 text-center">Ngày Sinh</th>
                   <th class="py-3 px-3.5 text-center">Số Điện Thoại</th>
-                  <th class="py-3 px-3.5 text-right">Quỹ Tiền Bàn Giao</th>
+                  
                   <th class="py-3 px-3.5 text-center">Quyền Xem Dòng Tiền</th>
                   <th class="py-3 px-3.5 text-center">Hồ Sơ</th>
                   <th class="py-3 px-3.5 text-right">Phân Quyền & Bàn Giao</th>
@@ -1489,14 +1456,7 @@
           </div>
         </div>
 
-        <!-- Quỹ Tạm Ứng Bàn Giao -->
-        <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-900/40 space-y-1.5">
-          <label class="block text-xs font-bold text-emerald-400">
-            <i class="fa-solid fa-wallet mr-1"></i> Quỹ Tiền Tạm Ứng Bàn Giao (VNĐ) (*)
-          </label>
-          <input type="number" id="perm-wallet" required class="w-full bg-slate-950 border border-emerald-800/60 rounded-lg px-3 py-2 text-xs font-mono font-bold text-emerald-300 focus:outline-none focus:border-emerald-500">
-          <p class="text-[10px] text-emerald-300/80">Mặc định bàn giao 1.000.000 đ cho nhân viên để cọc nhanh & giữ chỗ dịch vụ.</p>
-        </div>
+        <!-- Quỹ tạm ứng: Đã gỡ bỏ -->
 
         <!-- Danh sách quyền hạn chi tiết -->
         <div class="space-y-2.5">
@@ -2989,7 +2949,7 @@
           </div>
           <div class="shrink-0 text-right">
             ${roleLabel}
-            <div class="text-[9px] text-emerald-400 font-mono mt-0.5">${(u.walletBalance || 1000000).toLocaleString('vi-VN')} đ</div>
+            
           </div>
         `;
         btn.onclick = () => {
@@ -3060,12 +3020,10 @@
       document.getElementById('topbar-user-email').innerText = currentUser.email;
 
       // Hiển thị Quỹ Tạm Ứng trên Topbar
-      const walletVal = currentUser.walletBalance !== undefined ? currentUser.walletBalance : 1000000;
-      document.getElementById('topbar-user-wallet').innerText = walletVal.toLocaleString('vi-VN') + ' đ';
-      if (currentUser.role === 'admin') {
-        document.getElementById('topbar-wallet-label').innerText = 'Quỹ Công Ty:';
-      } else {
-        document.getElementById('topbar-wallet-label').innerText = 'Quỹ Tạm Ứng:';
+      const walletEl = document.getElementById('topbar-user-wallet');
+      if (walletEl) {
+        const walletVal = currentUser.walletBalance !== undefined ? currentUser.walletBalance : 0;
+        walletEl.innerText = walletVal.toLocaleString('vi-VN') + ' đ';
       }
 
       const shortName = (currentUser.name && currentUser.name.length >= 2) ? 
@@ -7371,7 +7329,7 @@ ${lines.join('\n')}
             <td class="py-3 px-3.5 text-center font-mono text-xs">
               ${u.phone ? `<a href="tel:${u.phone}" class="text-emerald-400 font-bold hover:underline">${u.phone}</a>` : '<span class="text-rose-400 font-bold">Chưa nhập</span>'}
             </td>
-            <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">${walletMoney}</td>
+            
             <td class="py-3 px-3.5 text-center">${cashflowPermBadge}</td>
             <td class="py-3 px-3.5 text-center">${statusBadge}</td>
             <td class="py-3 px-3.5 text-right">

@@ -103,6 +103,19 @@
 
         <!-- Actions: Switch to Full ERP & Add Booking -->
         <div class="flex items-center space-x-2 sm:space-x-3">
+            <!-- Chọn Nhân Sự Đang Tác Nghiệp -->
+            <div class="relative flex items-center">
+                <select id="activeStaffSelect" onchange="handleStaffChange(this.value)" class="bg-slate-800/90 hover:bg-slate-700 text-amber-300 font-semibold text-xs px-2.5 sm:px-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-blue-500 cursor-pointer transition shadow-sm">
+                    <option value="all">👑 Ban Giám Đốc</option>
+                    <option value="sales1@bookingtravel.vn">👤 Sales 1 (Hồng Ly / Mai Hương)</option>
+                    <option value="sales2@bookingtravel.vn">👤 Sales 2 (Khánh Linh / BS Toản)</option>
+                    <option value="sales3@bookingtravel.vn">👤 Sales 3 (Đoàn Vũ / Bích Ngọc)</option>
+                    <option value="sales4@bookingtravel.vn">👤 Sales 4 (Techcom VN)</option>
+                    <option value="sales5@bookingtravel.vn">👤 Sales 5 (Đoàn FTU)</option>
+                    <option value="sales6@bookingtravel.vn">👤 Sales 6 (Tam Chúc)</option>
+                </select>
+            </div>
+
             <a href="CRM_Booking.html" class="hidden sm:inline-flex items-center gap-2 bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white px-3 py-2 rounded-xl text-xs font-medium border border-slate-700 transition-all shadow-sm" title="Mở bản hệ thống ERP đầy đủ">
                 <i class="fa-solid fa-layer-group text-blue-400"></i>
                 <span>Bản ERP Đầy Đủ</span>
@@ -229,14 +242,14 @@
             <!-- User profile footer inside sidebar -->
             <div class="p-4 border-t border-cardBorder bg-slate-900/60 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-accentGold to-amber-600 flex items-center justify-center font-bold text-slate-950 text-xs shadow-md">
+                    <div id="profileAvatar" class="w-9 h-9 rounded-full bg-gradient-to-tr from-accentGold to-amber-600 flex items-center justify-center font-bold text-slate-950 text-xs shadow-md">
                         BT
                     </div>
                     <div>
                         <p class="text-xs font-bold text-white flex items-center gap-1.5">
-                            Ban Giám Đốc <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span id="profileName">Ban Giám Đốc</span> <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                         </p>
-                        <p class="text-[10px] text-slate-400 font-mono">MST: 0317894562</p>
+                        <p class="text-[10px] text-slate-400 font-mono" id="profileRole">MST: 0317894562</p>
                     </div>
                 </div>
                 <a href="CRM_Booking.html" class="text-slate-400 hover:text-blue-400 transition-colors p-1.5 rounded-lg hover:bg-blue-500/10" title="Chuyển sang bản ERP Đầy Đủ">
@@ -874,6 +887,7 @@
         let bookings = [];
         let currentFilter = 'all';
         let searchQuery = '';
+        let currentStaff = localStorage.getItem('bt_crm_active_staff') || 'all';
 
         // Load data from localStorage or initial
         function loadData() {
@@ -953,7 +967,7 @@
                     countChoHdRa++;
                 }
 
-                if (b.saleEmail === 'sales1@bookingtravel.vn') {
+                if (currentStaff === 'all' || b.saleEmail === currentStaff) {
                     countMy++;
                 }
             });
@@ -1002,7 +1016,7 @@
 
             let filtered = bookings.filter(b => {
                 // Filter tab
-                if (currentFilter === 'my' && b.saleEmail !== 'sales1@bookingtravel.vn') return false;
+                if (currentFilter === 'my' && currentStaff !== 'all' && b.saleEmail !== currentStaff) return false;
                 if (currentFilter === 'no-hd-vao' && b.statusHdVao !== 'chua_lay') return false;
                 if (currentFilter === 'cho-hd-ra' && b.statusHdRa !== 'chua_xuat') return false;
                 if (currentFilter === 'ar') {
@@ -1243,6 +1257,51 @@
             renderTable();
         }
 
+        // Staff Switcher Handlers
+        function handleStaffChange(val) {
+            currentStaff = val;
+            localStorage.setItem('bt_crm_active_staff', val);
+            updateStaffProfileUI();
+            renderAll();
+
+            const staffMap = {
+                'all': 'Ban Giám Đốc (Quản Trị)',
+                'sales1@bookingtravel.vn': 'Sales 1 (Hồng Ly / Mai Hương)',
+                'sales2@bookingtravel.vn': 'Sales 2 (Khánh Linh / BS Toản)',
+                'sales3@bookingtravel.vn': 'Sales 3 (Đoàn Vũ / Bích Ngọc)',
+                'sales4@bookingtravel.vn': 'Sales 4 (Techcom VN)',
+                'sales5@bookingtravel.vn': 'Sales 5 (Đoàn FTU)',
+                'sales6@bookingtravel.vn': 'Sales 6 (Tam Chúc)'
+            };
+            showToast("Chuyển vai trò nhân sự!", `Đang làm việc với: ${staffMap[val] || val}`);
+        }
+
+        function updateStaffProfileUI() {
+            const select = document.getElementById('activeStaffSelect');
+            if (select) select.value = currentStaff;
+
+            const nameEl = document.getElementById('profileName');
+            const roleEl = document.getElementById('profileRole');
+            const avatarEl = document.getElementById('profileAvatar');
+
+            if (currentStaff === 'all') {
+                if (nameEl) nameEl.innerText = 'Ban Giám Đốc';
+                if (roleEl) roleEl.innerText = 'MST: 0317894562';
+                if (avatarEl) {
+                    avatarEl.innerText = 'BT';
+                    avatarEl.className = 'w-9 h-9 rounded-full bg-gradient-to-tr from-accentGold to-amber-600 flex items-center justify-center font-bold text-slate-950 text-xs shadow-md';
+                }
+            } else {
+                const sName = currentStaff.split('@')[0].toUpperCase();
+                if (nameEl) nameEl.innerText = sName;
+                if (roleEl) roleEl.innerText = 'Chuyên Viên Lữ Hành';
+                if (avatarEl) {
+                    avatarEl.innerText = sName.replace('SALES', 'S');
+                    avatarEl.className = 'w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-white text-xs shadow-md';
+                }
+            }
+        }
+
         // Quick Modal Open / Close
         function openBookingModal(isEdit = false) {
             const modal = document.getElementById('bookingModal');
@@ -1265,6 +1324,11 @@
                 const tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 document.getElementById('checkOut').value = tomorrow.toISOString().split('T')[0];
+
+                if (currentStaff !== 'all') {
+                    const saleSelect = document.getElementById('saleEmail');
+                    if (saleSelect) saleSelect.value = currentStaff;
+                }
 
                 calcGrossProfit();
             }
@@ -1631,6 +1695,7 @@
 
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', () => {
+            updateStaffProfileUI();
             loadData();
             updateStorageMonitor();
         });
