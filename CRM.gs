@@ -63,8 +63,8 @@ function doPost(e) {
       params = e.parameter;
     }
 
-    // Tự động sửa lỗi sai chính tả khangHang -> khachHang và lấy đầy đủ dữ liệu
-    var maBooking = params.maBooking || "BK-" + Utilities.formatDate(new Date(), "GMT+7", "yyMMdd-HHmm");
+    // Tự động sinh mã đơn hàng chuẩn DH + timestamp theo quanly.bookingtravel.vn
+    var maBooking = params.maBooking || "DH" + new Date().getTime();
     var khachHang = params.khachHang || params.khangHang || "Khách Hàng";
     var sdt = params.sdt || params.phone || "";
     var doiTac = params.doiTac || "Khách sạn / Resort";

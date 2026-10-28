@@ -901,10 +901,10 @@
             <table class="w-full text-left text-xs border-collapse">
               <thead class="bg-slate-950/80 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr>
-                  <th class="py-3 px-3.5">Mã & Ngày Đặt</th>
+                  <th class="py-3 px-3.5">Mã Đơn / Ngày Tạo</th>
                   <th class="py-3 px-3.5 text-center">Lịch Trình (In - Out)</th>
                   <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
-                  <th class="py-3 px-3.5">Dịch Vụ & NCC</th>
+                  <th class="py-3 px-3.5">Khách Sạn / Resort</th>
                   <th class="py-3 px-3.5 text-right">Doanh Thu</th>
                   <th class="py-3 px-3.5 text-right">Giá Vốn</th>
                   <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
@@ -3212,7 +3212,7 @@
 
       const isLoggedOut = localStorage.getItem('BOOKING_TRAVEL_LOGGED_OUT');
       const urlParams = new URLSearchParams(window.location.search);
-      if (!currentUser && (!isLoggedOut || urlParams.get('autologin') === 'admin' || urlParams.get('preview') === '1')) {
+      if (urlParams.get('autologin') === 'admin' || (!currentUser && (!isLoggedOut || urlParams.get('preview') === '1'))) {
         currentUser = systemUsers.find(x => x.role === 'admin') || systemUsers[0];
         localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
       }
@@ -3546,8 +3546,8 @@
     // =========================================================================
     const INITIAL_REFINED_DATA = [
       {
-        id: "BK-2611-01",
-        maBooking: "BK-2611-01",
+        id: "DH1793116655774",
+        maBooking: "DH1793116655774",
         ngayTao: "2026-10-25T09:30",
         email: "hongly.hoang@gmail.com",
         cccd: "034195008892",
@@ -3564,7 +3564,7 @@
         saleEmail: "sales1@bookingtravel.vn",
         serviceType: "hotel",
         dichVu: "Khách Sạn Rova Nha Trang - Suite City View",
-        doiTac: "Khách Sạn Rova",
+        doiTac: "Khách Sạn Rova Nha Trang",
         checkIn: "2026-11-15",
         checkOut: "2026-11-16",
         tourStatus: "da_xac_nhan",
@@ -3583,8 +3583,8 @@
         files: []
       },
       {
-        id: "BK-2610-02",
-        maBooking: "BK-2610-02",
+        id: "DH1793116186477",
+        maBooking: "DH1793116186477",
         ngayTao: "2026-10-26T14:15",
         email: "vuong.nguyen@vinachem.com.vn",
         cccd: "001088005521",
@@ -3616,8 +3616,8 @@
         files: []
       },
       {
-        id: "BK-2611-03",
-        maBooking: "BK-2611-03",
+        id: "DH1793112726644",
+        maBooking: "DH1793112726644",
         ngayTao: "2026-10-24T10:00",
         email: "doanvu@hoangmai.vn",
         cccd: "025091004433",
@@ -3634,7 +3634,7 @@
         saleEmail: "sales3@bookingtravel.vn",
         serviceType: "combo",
         dichVu: "Combo Vinpearl Nha Trang Resort 3N2Đ + Vé Cáp Treo VinWonders",
-        doiTac: "Vinpearl Nha Trang",
+        doiTac: "Vinpearl Nha Trang Resort",
         checkIn: "2026-11-20",
         checkOut: "2026-11-23",
         tourStatus: "da_xac_nhan",
@@ -3653,14 +3653,14 @@
         files: []
       },
       {
-        id: "BK-2610-04",
-        maBooking: "BK-2610-04",
+        id: "DH1793112480848",
+        maBooking: "DH1793112480848",
         khachHang: "Gia đình chị Phạm Mai Hương",
         sdt: "0934567890",
         saleEmail: "sales1@bookingtravel.vn",
         serviceType: "hotel",
         dichVu: "Amaya Retreat Sóc Sơn - Forest Hill Villa 2N1Đ Full Bữa Ăn",
-        doiTac: "Amaya Retreat",
+        doiTac: "Amaya Retreat Sóc Sơn",
         checkIn: "2026-10-30",
         checkOut: "2026-10-31",
         tourStatus: "da_xac_nhan",
@@ -3675,14 +3675,14 @@
         files: []
       },
       {
-        id: "BK-2611-05",
-        maBooking: "BK-2611-05",
+        id: "DH1793112256202",
+        maBooking: "DH1793112256202",
         khachHang: "Công ty Cổ phần Techcom VN",
         sdt: "0982345678",
         saleEmail: "sales4@bookingtravel.vn",
         serviceType: "tour",
         dichVu: "Tour Gala Dinner & Teambuilding FLC Sầm Sơn 3N2Đ",
-        doiTac: "FLC Sầm Sơn",
+        doiTac: "FLC Sầm Sơn Resort",
         checkIn: "2026-11-08",
         checkOut: "2026-11-10",
         tourStatus: "da_coc",
@@ -3700,8 +3700,8 @@
         files: []
       },
       {
-        id: "BK-2611-06",
-        maBooking: "BK-2611-06",
+        id: "DH1793108842100",
+        maBooking: "DH1793108842100",
         khachHang: "Bác sĩ Trần Quốc Toản",
         sdt: "0912345670",
         saleEmail: "sales2@bookingtravel.vn",
@@ -3722,8 +3722,8 @@
         files: []
       },
       {
-        id: "BK-2610-07",
-        maBooking: "BK-2610-07",
+        id: "DH1793105520930",
+        maBooking: "DH1793105520930",
         khachHang: "Đoàn Sinh Viên FTU (24 Bạn)",
         sdt: "0967891234",
         saleEmail: "sales5@bookingtravel.vn",
@@ -3744,14 +3744,14 @@
         files: []
       },
       {
-        id: "BK-2610-09",
-        maBooking: "BK-2610-09",
+        id: "DH1793102194850",
+        maBooking: "DH1793102194850",
         khachHang: "Chị Đặng Thùy Trang",
         sdt: "0908776655",
         saleEmail: "sales1@bookingtravel.vn",
         serviceType: "combo",
         dichVu: "Combo Flamingo Đại Lải 2N1Đ Villa Mặt Hồ + Bữa Tối",
-        doiTac: "Flamingo Đại Lải",
+        doiTac: "Flamingo Đại Lải Resort",
         checkIn: "2026-10-27",
         checkOut: "2026-10-28",
         tourStatus: "da_xac_nhan",
@@ -3766,8 +3766,8 @@
         files: []
       },
       {
-        id: "BK-2610-10",
-        maBooking: "BK-2610-10",
+        id: "DH1793098871200",
+        maBooking: "DH1793098871200",
         khachHang: "Anh Hoàng Tuấn Minh",
         sdt: "0915667788",
         saleEmail: "sales6@bookingtravel.vn",
@@ -3778,9 +3778,9 @@
         checkOut: "2026-10-27",
         tourStatus: "da_coc",
         giaBan: 1800000,
-        khachDaCoc: 1800000,
-        giaVon: 1500000,
-        daTraDoiTac: 1500000,
+        khachDaCoc: 900000,
+        giaVon: 1450000,
+        daTraDoiTac: 1000000,
         statusHdVao: "chua_lay",
         soHdVao: "",
         coXuatVat: false,
@@ -3788,8 +3788,30 @@
         files: []
       },
       {
-        id: "BK-2611-08",
-        maBooking: "BK-2611-08",
+        id: "DH1793095548600",
+        maBooking: "DH1793095548600",
+        khachHang: "Chị Vũ Mai Lan",
+        sdt: "0945123987",
+        saleEmail: "sales7@bookingtravel.vn",
+        serviceType: "hotel",
+        dichVu: "Champa Island Nha Trang - Phòng Cham Oasis 2N1Đ",
+        doiTac: "Champa Island Nha Trang Resort",
+        checkIn: "2026-11-05",
+        checkOut: "2026-11-06",
+        tourStatus: "cho_coc",
+        giaBan: 1400000,
+        khachDaCoc: 0,
+        giaVon: 1200000,
+        daTraDoiTac: 0,
+        statusHdVao: "chua_lay",
+        soHdVao: "",
+        coXuatVat: false,
+        statusHdRa: "khong_xuat",
+        files: []
+      },
+      {
+        id: "DH1793092225800",
+        maBooking: "DH1793092225800",
         ngayTao: "2026-10-26T16:45",
         email: "bichngoc.le@gmail.com",
         cccd: "038192007744",
@@ -6331,6 +6353,15 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       if (stored) {
         try {
           bookings = JSON.parse(stored);
+          let hasMigration = false;
+          bookings.forEach((b, idx) => {
+            if (b.maBooking && b.maBooking.startsWith('BK-')) {
+              b.maBooking = b.maBooking.replace('BK-', 'DH');
+              b.id = b.id.replace('BK-', 'DH');
+              hasMigration = true;
+            }
+          });
+          if (hasMigration) saveData();
         } catch(e) {
           bookings = INITIAL_REFINED_DATA;
         }
@@ -6577,7 +6608,30 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       if (diffDays <= 0) return 'Trong ngày';
       return diffDays + ' đêm';
     }
-  function renderTable() {
+
+    // CÔNG THỨC TẠO MÃ BOOKING THEO QUANLY.BOOKINGTRAVEL.VN (DH + TIMESTAMP)
+    function generateBookingCode() {
+      return 'DH' + Date.now();
+    }
+
+    // HELPER LẤY TÊN KHÁCH SẠN / RESORT GỌN GÀNG (CHI TIẾT PHÒNG XEM TRONG MODAL)
+    function getHotelDisplayName(b) {
+      if (!b) return 'Khách sạn / Resort';
+      if (b.doiTac && b.doiTac.trim() && b.doiTac !== 'N/A' && b.doiTac.toLowerCase() !== 'khách sạn / resort') {
+        return b.doiTac.trim();
+      }
+      if (b.dichVu) {
+        const s = b.dichVu.trim();
+        const parts = s.split(/[\-\–]/);
+        if (parts.length > 1) {
+          return parts[0].trim();
+        }
+        return s;
+      }
+      return 'Khách sạn Booking Travel';
+    }
+
+    function renderTable() {
       const tbody = document.getElementById('table-body');
       const mobileCardsEl = document.getElementById('mobile-cards-container');
       const query = (document.getElementById('global-search').value || '').toLowerCase().trim();
@@ -6712,14 +6766,15 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const inDateVN = formatShortDateVN(b.checkIn);
         const outDateVN = formatShortDateVN(b.checkOut);
         const createDateVN = formatShortDateVN(b.ngayTao || b.createdAt);
+        const hotelOnlyName = getHotelDisplayName(b);
 
         // 1. RENDER ROW TRÊN MÁY TÍNH (DESKTOP TABLE)
         html += `
           <tr class="hover:bg-slate-800/30 transition group">
-            <!-- 1. MÃ BOOKING & NGÀY ĐẶT PHÒNG Ở NGOÀI LUÔN -->
+            <!-- 1. MÃ ĐƠN & NGÀY TẠO (CHUẨN QUANLY.BOOKINGTRAVEL.VN) -->
             <td class="py-3 px-3.5 whitespace-nowrap">
               <div class="flex items-center gap-1.5">
-                <span class="font-mono font-bold text-blue-400 text-xs">${escapeHtml(b.maBooking)}</span>
+                <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
                 ${tourBadge}
               </div>
               <div class="text-[10px] text-amber-300 font-mono mt-1 flex items-center gap-1 font-semibold" title="Ngày đặt phòng">
@@ -6744,22 +6799,21 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               </div>
             </td>
 
-            <!-- 3. KHÁCH HÀNG & THÔNG TIN LIÊN HỆ -->
-            <td class="py-3 px-3.5">
-              <div class="flex items-center gap-1.5">
-                <span class="font-bold text-slate-200 block text-xs">${escapeHtml(b.khachHang)}</span>
-                ${b.cccd ? `<span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono border border-slate-700" title="CCCD / Hộ chiếu">CCCD: ${escapeHtml(b.cccd)}</span>` : ''}
-              </div>
-              <div class="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono mt-0.5">
+            <!-- 3. KHÁCH HÀNG & SĐT (RÚT GỌN GỌN GÀNG THEO YÊU CẦU) -->
+            <td class="py-3 px-3.5 whitespace-nowrap">
+              <div class="font-bold text-white text-xs">${escapeHtml(b.khachHang)}</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-0.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-phone text-blue-400 text-[10px]"></i>
                 <span>${escapeHtml(b.sdt)}</span>
-                ${b.email ? `<span class="text-blue-300/80 font-sans truncate max-w-[130px]" title="${escapeHtml(b.email)}">• ${escapeHtml(b.email)}</span>` : ''}
               </div>
             </td>
 
-            <!-- 4. DỊCH VỤ & NHÀ CUNG CẤP -->
-            <td class="py-3 px-3.5 max-w-xs">
-              <span class="text-slate-200 font-semibold truncate block text-xs" title="${escapeHtml(b.dichVu)}">${escapeHtml(b.dichVu)}</span>
-              <span class="text-[10px] text-slate-400 block mt-0.5">NCC: <strong class="text-amber-300">${escapeHtml(b.doiTac || 'N/A')}</strong></span>
+            <!-- 4. KHÁCH SẠN / RESORT (CHỈ HIỂN THỊ TÊN KHÁCH SẠN - CHI TIẾT VÔ TRONG XEM) -->
+            <td class="py-3 px-3.5 whitespace-nowrap">
+              <button type="button" onclick="editBooking('${b.id}')" class="text-left font-semibold text-slate-200 hover:text-sky-300 transition flex items-center gap-1.5 group cursor-pointer" title="Bấm để xem chi tiết phòng, giá vốn & NCC">
+                <i class="fa-solid fa-hotel text-amber-400 text-xs shrink-0 group-hover:scale-110 transition-transform"></i>
+                <span class="group-hover:underline">${escapeHtml(hotelOnlyName)}</span>
+              </button>
             </td>
 
             <!-- 5. DOANH THU -->
@@ -6853,19 +6907,25 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               </div>
             </div>
 
-            <!-- Dòng 2: Khách Sạn & Lịch Trình Lưu Trú -->
-            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/40 text-xs">
-              <div class="font-bold text-amber-300 truncate mb-1" title="${escapeHtml(b.dichVu)}">
-                <i class="fa-solid fa-hotel text-amber-400 text-[11px] mr-1"></i>${escapeHtml(b.dichVu)}
+            <!-- Dòng 2: Khách Sạn (Chỉ Tên Khách Sạn - Bấm xem chi tiết) & Lịch Trình Lưu Trú -->
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/40 text-xs space-y-1.5">
+              <div onclick="editBooking('${b.id}')" class="font-bold text-amber-300 truncate flex items-center justify-between cursor-pointer hover:text-amber-200" title="Bấm xem chi tiết phòng, giá vốn & NCC">
+                <div class="flex items-center gap-1.5 truncate">
+                  <i class="fa-solid fa-hotel text-amber-400 text-[11px] shrink-0"></i>
+                  <span class="truncate">${escapeHtml(hotelOnlyName)}</span>
+                </div>
+                <span class="text-[10px] text-sky-400 font-normal hover:underline flex items-center gap-0.5 shrink-0 ml-1">
+                  Chi tiết <i class="fa-solid fa-angle-right text-[9px]"></i>
+                </span>
               </div>
-              <div class="flex items-center justify-between text-[11px] font-mono text-slate-300">
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-300 pt-1 border-t border-blue-900/40">
                 <span><b class="text-emerald-400">IN:</b> ${inDateVN}</span>
                 <span><b class="text-amber-400">OUT:</b> ${outDateVN}</span>
                 ${stayDuration ? `<span class="px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 text-[10px] font-semibold">${stayDuration}</span>` : ''}
               </div>
             </div>
 
-            <!-- Dòng 3: Khách Hàng & Nút Gọi / Zalo -->
+            <!-- Dòng 3: Khách Hàng & SĐT (Rút gọn) & Nút Gọi / Zalo -->
             <div class="flex items-center justify-between bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
               <div class="flex items-center gap-2.5 min-w-0">
                 <div class="w-8 h-8 rounded-full bg-blue-600/30 text-sky-300 border border-blue-500/40 flex items-center justify-center font-bold text-xs shrink-0">
@@ -6873,7 +6933,10 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                 </div>
                 <div class="min-w-0">
                   <div class="font-bold text-white text-xs truncate">${escapeHtml(b.khachHang)}</div>
-                  <div class="text-[11px] font-mono text-slate-400">${escapeHtml(b.sdt)}</div>
+                  <div class="text-[11px] font-mono text-slate-400 flex items-center gap-1">
+                    <i class="fa-solid fa-phone text-blue-400 text-[9px]"></i>
+                    <span>${escapeHtml(b.sdt)}</span>
+                  </div>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
@@ -8230,8 +8293,8 @@ ${lines.join('\n')}
       const priceVal = parseFloat(document.getElementById('mq-price').value.replace(/[^0-9]/g, '')) || 0;
       const qrAmountVal = parseFloat(document.getElementById('mq-qr-amount').value.replace(/[^0-9]/g, '')) || priceVal;
       
-      const newCode = 'BK' + Date.now().toString().slice(-6);
-      const newBookingId = 'BK-' + Date.now();
+      const newCode = generateBookingCode();
+      const newBookingId = newCode;
       
       const newBooking = {
         id: newBookingId,
@@ -8415,7 +8478,7 @@ ${lines.join('\n')}
       document.getElementById('edit-id').value = '';
       document.getElementById('booking-form').reset();
       document.getElementById('modal-title').innerText = 'ĐIỀU HÀNH & HẠCH TOÁN BOOKING';
-      document.getElementById('ipt-code').value = 'BK' + Date.now().toString().slice(-6);
+      document.getElementById('ipt-code').value = generateBookingCode();
       filterHotelsByStar('all');
       const alertBox = document.getElementById('room-autofill-alert');
       if (alertBox) alertBox.classList.add('hidden');
@@ -8516,9 +8579,10 @@ ${lines.join('\n')}
         .filter(p => p.trangThai === 'da_thu')
         .reduce((sum, p) => sum + (parseFloat(p.soTien) || 0), 0);
 
+      const codeVal = document.getElementById('ipt-code').value.trim().toUpperCase() || generateBookingCode();
       const item = {
-        id: editId || ('BK_' + Date.now()),
-        maBooking: document.getElementById('ipt-code').value.trim().toUpperCase(),
+        id: editId || codeVal,
+        maBooking: codeVal,
         ngayTao: document.getElementById('ipt-created-date').value,
         createdAt: document.getElementById('ipt-created-date').value,
         khachHang: document.getElementById('ipt-customer').value.trim(),
