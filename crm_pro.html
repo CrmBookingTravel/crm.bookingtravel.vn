@@ -201,6 +201,29 @@
                         <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                     </a>
                 </div>
+
+                <!-- Section 5: Quản Trị Kho Dữ Liệu Nội Bộ -->
+                <div>
+                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 flex items-center justify-between">
+                        <span>Kho Dữ Liệu & Sao Lưu</span>
+                        <i class="fa-solid fa-database text-purple-400"></i>
+                    </p>
+                    <nav class="space-y-1">
+                        <button onclick="backupDatabase()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-purple-600/10 hover:text-purple-400 transition-all">
+                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-download w-4 text-purple-400"></i> Sao Lưu (Backup JSON)</span>
+                            <span class="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded font-bold">1-Click</span>
+                        </button>
+                        <button onclick="triggerRestoreDatabase()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-cyan-600/10 hover:text-cyan-400 transition-all">
+                            <span class="flex items-center gap-2.5"><i class="fa-solid fa-upload w-4 text-cyan-400"></i> Phục Hồi (Restore)</span>
+                            <span class="text-[10px] bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded font-bold">Nạp File</span>
+                        </button>
+                        <input type="file" id="restoreFileInput" accept=".json" class="hidden" onchange="handleRestoreFile(event)">
+                        <div class="px-3 pt-1.5 text-[10px] text-slate-400 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                            <span>Dung lượng đã dùng:</span>
+                            <span id="storageUsageBadge" class="font-mono text-emerald-400 font-bold">...</span>
+                        </div>
+                    </nav>
+                </div>
             </div>
 
             <!-- User profile footer inside sidebar -->
@@ -1523,9 +1546,93 @@
             }, 4000);
         }
 
+        // =========================================================================
+        // QUẢN TRỊ KHO DỮ LIỆU NỘI BỘ (BACKUP / RESTORE / STORAGE MONITOR)
+        // =========================================================================
+        function backupDatabase() {
+            const dataToBackup = {
+                company: "CÔNG TY TNHH BOOKING TRAVEL",
+                mst: "0317894562",
+                slogan: "Khách hàng là gia đình",
+                exportedAt: new Date().toISOString(),
+                totalBookings: bookings.length,
+                bookings: bookings
+            };
+            const jsonStr = JSON.stringify(dataToBackup, null, 2);
+            const blob = new Blob([jsonStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            const dateStr = new Date().toISOString().split("T")[0];
+            a.href = url;
+            a.download = `SAO_LUU_CRM_BOOKING_TRAVEL_${dateStr}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Đã sao lưu thành công!", `Đã xuất ${bookings.length} đơn hàng ra file JSON an toàn.`);
+        }
+
+        function triggerRestoreDatabase() {
+            document.getElementById('restoreFileInput').click();
+        }
+
+        function handleRestoreFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    let importedBookings = [];
+                    if (Array.isArray(parsed)) {
+                        importedBookings = parsed;
+                    } else if (parsed && Array.isArray(parsed.bookings)) {
+                        importedBookings = parsed.bookings;
+                    }
+
+                    if (importedBookings.length > 0) {
+                        if (confirm(`Tìm thấy ${importedBookings.length} đơn hàng trong file sao lưu. Anh có muốn nạp dữ liệu này vào hệ thống không?`)) {
+                            bookings = importedBookings;
+                            saveData();
+                            renderAll();
+                            updateStorageMonitor();
+                            showToast("Phục hồi thành công!", `Đã nạp ${importedBookings.length} đơn hàng vào kho.`);
+                        }
+                    } else {
+                        showToast("File không hợp lệ", "Không tìm thấy dữ liệu đơn hàng trong file JSON.", "warning");
+                    }
+                } catch (err) {
+                    showToast("Lỗi đọc file", "File JSON bị lỗi cú pháp.", "warning");
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function updateStorageMonitor() {
+            try {
+                let totalBytes = 0;
+                for (let key in localStorage) {
+                    if (localStorage.hasOwnProperty(key)) {
+                        totalBytes += (localStorage[key].length + key.length) * 2;
+                    }
+                }
+                const kb = (totalBytes / 1024).toFixed(1);
+                const percent = Math.min(100, ((totalBytes / (5 * 1024 * 1024)) * 100)).toFixed(1);
+                const badge = document.getElementById('storageUsageBadge');
+                if (badge) {
+                    badge.innerText = `${kb} KB / 5 MB (${percent}%)`;
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', () => {
             loadData();
+            updateStorageMonitor();
         });
     </script>
 </body>
