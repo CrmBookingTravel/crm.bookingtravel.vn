@@ -896,8 +896,8 @@
 
           </div>
 
-          <!-- Table -->
-          <div class="overflow-x-auto">
+          <!-- BẢNG THEO DÕI ĐƠN HÀNG TRÊN MÁY TÍNH (DESKTOP VIEW: >= MD) -->
+          <div class="hidden md:block overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
               <thead class="bg-slate-950/80 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr>
@@ -919,6 +919,11 @@
                 <!-- Rendered by JS -->
               </tbody>
             </table>
+          </div>
+
+          <!-- DANH SÁCH DẠNG THẺ TRÊN ĐIỆN THOẠI (MOBILE CARDS VIEW: < MD - ĐƠN GIẢN, DỄ HIỂU, CÓ QR & BÁO THU) -->
+          <div id="mobile-cards-container" class="md:hidden p-3 space-y-3 bg-[#07162f]/80">
+            <!-- Rendered by JS -->
           </div>
 
         </div>
@@ -1575,8 +1580,233 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 5. SLIDE-OVER DRAWER: FORM TẠO/SỬA BOOKING -->
+  <!-- MODAL 1: TẠO BOOKING NHANH & XUẤT QR VIETQR (DÀNH CHO ĐIỆN THOẠI) -->
   <!-- ========================================================================= -->
+  <div id="mobile-quick-booking-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/85 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-black/75 transition-opacity" onclick="closeMobileQuickBooking()"></div>
+    
+    <div class="relative bg-[#07162f] border border-blue-500/40 rounded-t-3xl sm:rounded-2xl w-full max-w-lg max-h-[92vh] flex flex-col shadow-2xl z-10 overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="h-14 px-4 border-b border-slate-800 flex items-center justify-between bg-[#0a1931] shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-blue-600/20 text-sky-400 border border-blue-500/30 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-bolt text-amber-300"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-extrabold text-white uppercase tracking-wide">TẠO BOOKING NHANH</h3>
+            <p class="text-[10px] text-blue-300">Nhập nhanh & Xuất ngay mã QR VietQR chuyển khoản</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeMobileQuickBooking(); openModalTaoDon(true);" class="text-[11px] text-slate-400 hover:text-sky-300 px-2 py-1 rounded-lg border border-slate-700/60 hidden sm:inline" title="Mở bản ERP chi tiết">Bản Full ERP</button>
+          <button type="button" onclick="closeMobileQuickBooking()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition cursor-pointer">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <form id="mobile-quick-form" onsubmit="handleMobileQuickBookingSubmit(event)" class="flex-1 overflow-y-auto p-4 space-y-3.5">
+        
+        <!-- Khách sạn / Gói nghỉ dưỡng -->
+        <div>
+          <label class="block text-xs font-bold text-slate-200 mb-1 flex items-center justify-between">
+            <span>1. Chọn Khách Sạn / Gói Nghỉ Dưỡng (*)</span>
+            <span class="text-[10px] text-amber-400 font-normal">Nha Trang 3⭐ - 5⭐</span>
+          </label>
+          <select id="mq-hotel" onchange="handleMqHotelChange(this.value)" class="w-full bg-[#0b192c] border border-blue-900/60 focus:border-amber-400 rounded-xl px-3 py-2.5 text-xs text-white font-medium focus:outline-none cursor-pointer">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <!-- Hạng Phòng & Giá Bán -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs font-bold text-slate-200 mb-1">Hạng Phòng</label>
+            <select id="mq-room" onchange="handleMqRoomChange()" class="w-full bg-[#0b192c] border border-blue-900/60 focus:border-sky-400 rounded-xl px-3 py-2.5 text-xs text-white font-medium focus:outline-none cursor-pointer">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-200 mb-1">Giá Bán Khách (đ) (*)</label>
+            <input type="text" id="mq-price" required oninput="formatMqCurrencyInput(this)" placeholder="VD: 2.500.000" class="w-full bg-[#0b192c] border border-blue-900/60 focus:border-emerald-400 rounded-xl px-3 py-2.5 text-xs text-emerald-400 font-mono font-bold focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Thông Tin Khách Hàng -->
+        <div class="p-3 rounded-xl bg-blue-950/30 border border-blue-900/40 space-y-2.5">
+          <div class="text-[11px] font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-user"></i> Thông Tin Khách Hàng
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Họ Và Tên Khách (*)</label>
+            <input type="text" id="mq-customer-name" required placeholder="Nhập tên khách hàng..." class="w-full bg-[#07162f] border border-slate-700 focus:border-blue-500 rounded-xl px-3 py-2 text-xs text-white font-semibold focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Số Điện Thoại / Zalo (*)</label>
+            <input type="tel" id="mq-customer-phone" required placeholder="VD: 0901234567..." class="w-full bg-[#07162f] border border-slate-700 focus:border-blue-500 rounded-xl px-3 py-2 text-xs text-white font-mono font-bold focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Lịch Trình Lưu Trú -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs font-bold text-slate-200 mb-1 flex items-center gap-1">
+              <i class="fa-regular fa-calendar-check text-emerald-400"></i> Check-in (*)
+            </label>
+            <input type="date" id="mq-checkin" required class="w-full bg-[#0b192c] border border-slate-700 focus:border-emerald-400 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-200 mb-1 flex items-center gap-1">
+              <i class="fa-regular fa-calendar-xmark text-amber-400"></i> Check-out (*)
+            </label>
+            <input type="date" id="mq-checkout" required class="w-full bg-[#0b192c] border border-slate-700 focus:border-amber-400 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Số Tiền Cần Thu / Quét QR -->
+        <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+          <label class="block text-xs font-bold text-amber-300 mb-1 flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-qrcode text-amber-400"></i> Số Tiền Quét QR Chuyển Khoản:</span>
+            <span class="text-[10px] text-amber-200 font-normal">Tiền cọc hoặc 100%</span>
+          </label>
+          <input type="text" id="mq-qr-amount" required oninput="formatMqCurrencyInput(this)" placeholder="Nhập số tiền chuyển khoản..." class="w-full bg-[#07162f] border border-amber-500/50 focus:border-amber-400 rounded-xl px-3 py-2 text-sm text-amber-300 font-mono font-black focus:outline-none">
+          <div class="flex items-center gap-2 mt-2">
+            <button type="button" onclick="setMqQrAmountPercent(100)" class="flex-1 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-[10px] font-semibold border border-amber-500/40 transition">Thu 100%</button>
+            <button type="button" onclick="setMqQrAmountPercent(50)" class="flex-1 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-[10px] font-semibold border border-amber-500/40 transition">Cọc 50%</button>
+            <button type="button" onclick="setMqQrAmountPercent(30)" class="flex-1 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-[10px] font-semibold border border-amber-500/40 transition">Cọc 30%</button>
+          </div>
+        </div>
+
+        <!-- Nút Tạo & Xuất QR -->
+        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98] text-white text-xs font-black rounded-xl shadow-lg shadow-blue-600/30 transition flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider">
+          <i class="fa-solid fa-qrcode text-sm"></i>
+          <span>TẠO BOOKING & XUẤT MÃ QR TECHCOMBANK</span>
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: QUÉT MÃ VIETQR CHUYỂN KHOẢN (TECHCOMBANK 554479) -->
+  <!-- ========================================================================= -->
+  <div id="vietqr-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-black/75 transition-opacity" onclick="closeVietQRModal()"></div>
+    
+    <div class="relative bg-gradient-to-b from-[#0b192c] to-[#07162f] border border-blue-500/50 rounded-3xl max-w-sm w-full p-4 sm:p-5 shadow-2xl z-10 flex flex-col items-center text-center">
+      
+      <!-- Close button -->
+      <button type="button" onclick="closeVietQRModal()" class="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center transition cursor-pointer">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <!-- Techcombank Header -->
+      <div class="flex items-center gap-2 mb-1.5">
+        <span class="px-2.5 py-0.5 rounded-full bg-red-600 text-white text-[10px] font-black tracking-wider uppercase shadow-sm">TECHCOMBANK</span>
+        <span class="text-xs font-bold text-white uppercase tracking-wide">MÃ QR CHUYỂN KHOẢN</span>
+      </div>
+      
+      <p class="text-[11px] text-slate-400 mb-2.5">Quét mã bằng App Ngân Hàng hoặc Ví Điện Tử bất kỳ</p>
+
+      <!-- QR Code Image Frame -->
+      <div class="relative bg-white p-2.5 rounded-2xl shadow-2xl border-2 border-blue-500/30 w-full max-w-[270px] aspect-square flex items-center justify-center overflow-hidden">
+        <img id="vqr-image" src="" alt="Mã VietQR Chuyển Khoản Techcombank" class="w-full h-full object-contain">
+      </div>
+
+      <!-- Thông tin tài khoản chính thức -->
+      <div class="w-full mt-3 p-3 rounded-2xl bg-slate-900/90 border border-slate-800 text-left space-y-1.5 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Số tiền cần chuyển:</span>
+          <strong id="vqr-amount" class="text-emerald-400 font-mono font-extrabold text-sm">0 đ</strong>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Chủ tài khoản:</span>
+          <span class="text-white font-bold truncate text-[11px]">CONG TY TNHH BOOKING TRAVEL</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Số tài khoản:</span>
+          <div class="flex items-center gap-1.5">
+            <strong id="vqr-stk" class="text-amber-300 font-mono font-bold text-sm tracking-wider">554479</strong>
+            <button type="button" onclick="copyVqrStk()" class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-semibold hover:bg-amber-500/30 transition cursor-pointer">Copy</button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Nội dung CK:</span>
+          <div class="flex items-center gap-1.5 min-w-0">
+            <strong id="vqr-memo" class="text-sky-300 font-mono font-bold text-xs truncate max-w-[130px]"></strong>
+            <button type="button" onclick="copyVqrMemo()" class="px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 text-[10px] font-semibold hover:bg-sky-500/30 transition cursor-pointer shrink-0">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="w-full mt-3 grid grid-cols-2 gap-2">
+        <button type="button" onclick="shareVqrZalo()" class="py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-500 hover:to-sky-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-blue-600/30 transition cursor-pointer">
+          <i class="fa-solid fa-share-nodes text-xs"></i>
+          <span>Gửi Zalo Khách</span>
+        </button>
+        <button type="button" onclick="openQuickBaoThuCurrent()" class="py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/30 transition cursor-pointer">
+          <i class="fa-solid fa-circle-check text-xs"></i>
+          <span>Báo Đã Nhận Tiền</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 3: BÁO THU TIỀN KHÁCH NHANH (1-CHẠM CẬP NHẬT CÔNG NỢ) -->
+  <!-- ========================================================================= -->
+  <div id="quick-bao-thu-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-black/75 transition-opacity" onclick="closeQuickBaoThuModal()"></div>
+    
+    <div class="relative bg-[#07162f] border border-emerald-500/40 rounded-3xl max-w-md w-full p-5 shadow-2xl z-10 flex flex-col">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white uppercase">XÁC NHẬN THU TIỀN KHÁCH</h3>
+            <p class="text-[10px] text-emerald-300">Ghi nhận tiền cọc / thanh toán vào dòng tiền</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeQuickBaoThuModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleQuickBaoThuSubmit(event)" class="space-y-3">
+        <input type="hidden" id="qbt-booking-id" value="">
+
+        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-1">
+          <div class="flex justify-between"><span class="text-slate-400">Mã đơn:</span> <strong id="qbt-code" class="text-sky-300 font-mono font-bold"></strong></div>
+          <div class="flex justify-between"><span class="text-slate-400">Khách hàng:</span> <strong id="qbt-customer" class="text-white font-bold"></strong></div>
+          <div class="flex justify-between"><span class="text-slate-400">Tổng giá bán:</span> <span id="qbt-total-price" class="font-mono text-slate-200"></span></div>
+          <div class="flex justify-between"><span class="text-slate-400">Đã thu trước đó:</span> <span id="qbt-already-paid" class="font-mono text-emerald-400"></span></div>
+          <div class="flex justify-between border-t border-slate-800 pt-1 mt-1"><span class="text-amber-400 font-bold">Số tiền còn nợ:</span> <strong id="qbt-debt" class="font-mono text-amber-300 font-bold"></strong></div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-200 mb-1">Số tiền khách vừa chuyển đợt này (đ) (*)</label>
+          <input type="text" id="qbt-amount" required oninput="formatMqCurrencyInput(this)" class="w-full bg-[#0b192c] border border-emerald-500/60 focus:border-emerald-400 rounded-xl px-3.5 py-2.5 text-base text-emerald-300 font-mono font-bold focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-200 mb-1">Ghi chú giao dịch</label>
+          <input type="text" id="qbt-note" value="Khách chuyển khoản VietQR Techcombank" class="w-full bg-[#0b192c] border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black rounded-xl shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider">
+          <i class="fa-solid fa-check-double text-sm"></i>
+          <span>XÁC NHẬN ĐÃ THU TIỀN VÀO HỆ THỐNG</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- ========================================================================= -->
   <!-- MODAL: ĐIỀU HÀNH & HẠCH TOÁN BOOKING (BOOKING TRAVEL - TỐI GIẢN, RỘNG RÃI) -->
   <!-- ========================================================================= -->
@@ -6340,6 +6570,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     }
   function renderTable() {
       const tbody = document.getElementById('table-body');
+      const mobileCardsEl = document.getElementById('mobile-cards-container');
       const query = (document.getElementById('global-search').value || '').toLowerCase().trim();
       const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
       const canViewAll = currentUser && (currentUser.role === 'admin' || currentUser.permissions?.xem_tat_ca_don);
@@ -6374,16 +6605,25 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="11" class="py-12 text-center text-slate-500 font-normal">
+            <td colspan="12" class="py-12 text-center text-slate-500 font-normal">
               <i class="fa-solid fa-folder-open text-3xl mb-2 text-slate-600 block"></i>
               Không tìm thấy hồ sơ booking nào phù hợp với bộ lọc hiện tại.
             </td>
           </tr>
         `;
+        if (mobileCardsEl) {
+          mobileCardsEl.innerHTML = `
+            <div class="py-10 text-center text-slate-500 bg-[#0b192c]/60 rounded-2xl border border-slate-800">
+              <i class="fa-solid fa-folder-open text-3xl mb-2 text-slate-600 block"></i>
+              Không tìm thấy hồ sơ booking nào.
+            </div>
+          `;
+        }
         return;
       }
 
       let html = '';
+      let mobileCardsHtml = '';
       filtered.forEach((b) => {
         const rev = parseFloat(b.giaBan) || 0;
         const cst = parseFloat(b.giaVon) || 0;
@@ -6464,6 +6704,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const outDateVN = formatShortDateVN(b.checkOut);
         const createDateVN = formatShortDateVN(b.ngayTao || b.createdAt);
 
+        // 1. RENDER ROW TRÊN MÁY TÍNH (DESKTOP TABLE)
         html += `
           <tr class="hover:bg-slate-800/30 transition group">
             <!-- 1. MÃ BOOKING & NGÀY ĐẶT PHÒNG Ở NGOÀI LUÔN -->
@@ -6563,10 +6804,18 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <!-- 12. THAO TÁC -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
-                <button onclick="openVoucherModal('${b.id}')" title="In Phiếu Xác Nhận Dịch Vụ / Rooming List & Gửi Zalo" class="p-1.5 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-600/30 transition text-xs cursor-pointer">
+                <!-- Nút Xuất Mã QR VietQR Techcombank -->
+                <button onclick="openVietQRForBooking('${b.id}')" title="Xuất Mã QR Chuyển Khoản Techcombank Cho Khách" class="p-1.5 rounded-lg text-amber-400 hover:text-white hover:bg-amber-600/30 transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-qrcode"></i>
+                </button>
+                <!-- Nút Báo Thu Nhanh -->
+                <button onclick="openQuickBaoThu('${b.id}')" title="Báo Thu Tiền Khách / Cập Nhật Thanh Toán" class="p-1.5 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-600/30 transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-hand-holding-dollar"></i>
+                </button>
+                <button onclick="openVoucherModal('${b.id}')" title="In Phiếu Xác Nhận Dịch Vụ / Rooming List & Gửi Zalo" class="p-1.5 rounded-lg text-sky-400 hover:text-white hover:bg-sky-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-file-invoice"></i>
                 </button>
-                <button onclick="editBooking('${b.id}')" title="Chỉnh Sửa Booking" class="p-1.5 rounded-lg text-sky-400 hover:text-white hover:bg-sky-600/30 transition text-xs cursor-pointer">
+                <button onclick="editBooking('${b.id}')" title="Chỉnh Sửa Booking" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
                 ${canDelete ? `
@@ -6578,9 +6827,103 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             </td>
           </tr>
         `;
+
+        // 2. RENDER THẺ TRÊN ĐIỆN THOẠI (MOBILE CARD VIEW - HỌC TẬP TỪ QUANLY.BOOKINGTRAVEL.VN)
+        mobileCardsHtml += `
+          <div class="bg-[#0b192c] border border-[#1a2c47] hover:border-blue-500/50 rounded-2xl p-3.5 shadow-lg space-y-3 transition">
+            
+            <!-- Dòng 1: Mã Đơn + Ngày Đặt + Giá Bán -->
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
+                ${tourBadge}
+              </div>
+              <div class="text-right">
+                <div class="font-mono font-black text-sm text-white">${rev.toLocaleString('vi-VN')} đ</div>
+                <div class="text-[10px] text-slate-400 font-mono">Đặt: ${createDateVN}</div>
+              </div>
+            </div>
+
+            <!-- Dòng 2: Khách Sạn & Lịch Trình Lưu Trú -->
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/40 text-xs">
+              <div class="font-bold text-amber-300 truncate mb-1" title="${escapeHtml(b.dichVu)}">
+                <i class="fa-solid fa-hotel text-amber-400 text-[11px] mr-1"></i>${escapeHtml(b.dichVu)}
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-300">
+                <span><b class="text-emerald-400">IN:</b> ${inDateVN}</span>
+                <span><b class="text-amber-400">OUT:</b> ${outDateVN}</span>
+                ${stayDuration ? `<span class="px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 text-[10px] font-semibold">${stayDuration}</span>` : ''}
+              </div>
+            </div>
+
+            <!-- Dòng 3: Khách Hàng & Nút Gọi / Zalo -->
+            <div class="flex items-center justify-between bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-8 h-8 rounded-full bg-blue-600/30 text-sky-300 border border-blue-500/40 flex items-center justify-center font-bold text-xs shrink-0">
+                  ${(b.khachHang || 'K').charAt(0).toUpperCase()}
+                </div>
+                <div class="min-w-0">
+                  <div class="font-bold text-white text-xs truncate">${escapeHtml(b.khachHang)}</div>
+                  <div class="text-[11px] font-mono text-slate-400">${escapeHtml(b.sdt)}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <a href="tel:${escapeHtml(b.sdt)}" class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-xs hover:bg-emerald-500 hover:text-white transition" title="Gọi điện">
+                  <i class="fa-solid fa-phone"></i>
+                </a>
+                <a href="https://zalo.me/${escapeHtml(b.sdt)}" target="_blank" class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center text-xs hover:bg-blue-500 hover:text-white transition font-bold" title="Chat Zalo">
+                  Z
+                </a>
+              </div>
+            </div>
+
+            <!-- Dòng 4: Trạng Thái Dòng Tiền & Công Nợ -->
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                <div class="text-slate-400 text-[10px]">Tiền Khách (AR):</div>
+                <div class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-bold'} truncate">
+                  ${remainAR > 0 ? 'Còn nợ ' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Đã thu đủ 100%'}
+                </div>
+              </div>
+              <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                <div class="text-slate-400 text-[10px]">Tiền NCC (AP):</div>
+                <div class="${remainAP > 0 ? 'text-amber-400 font-bold' : 'text-slate-300 font-bold'} truncate">
+                  ${remainAP > 0 ? 'Còn nợ ' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Đã trả đủ'}
+                </div>
+              </div>
+            </div>
+
+            <!-- Dòng 5: CÁC NÚT THAO TÁC 1-CHẠM TRÊN ĐIỆN THOẠI -->
+            <div class="flex items-center justify-between pt-1 gap-1.5 border-t border-slate-800/80">
+              <!-- Nút Xuất Mã QR Chuyển Khoản Techcombank -->
+              <button onclick="openVietQRForBooking('${b.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-gradient-to-r from-blue-600/30 to-indigo-600/30 border border-blue-500/40 hover:border-blue-400 text-sky-300 hover:text-white text-[11px] font-bold flex items-center justify-center gap-1 transition cursor-pointer">
+                <i class="fa-solid fa-qrcode text-xs text-amber-400"></i>
+                <span>Mã QR</span>
+              </button>
+
+              <!-- Nút Báo Thu Tiền Khách -->
+              <button onclick="openQuickBaoThu('${b.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-300 hover:text-white text-[11px] font-bold flex items-center justify-center gap-1 transition cursor-pointer">
+                <i class="fa-solid fa-hand-holding-dollar text-xs"></i>
+                <span>Báo Thu</span>
+              </button>
+
+              <!-- Nút Phiếu Xác Nhận / Voucher -->
+              <button onclick="openVoucherModal('${b.id}')" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs border border-slate-700 transition cursor-pointer" title="In Phiếu Xác Nhận">
+                <i class="fa-solid fa-file-invoice"></i>
+              </button>
+
+              <!-- Nút Chỉnh Sửa Đơn -->
+              <button onclick="editBooking('${b.id}')" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs border border-slate-700 transition cursor-pointer" title="Sửa Đơn">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </div>
+
+          </div>
+        `;
       });
 
       tbody.innerHTML = html;
+      if (mobileCardsEl) mobileCardsEl.innerHTML = mobileCardsHtml;
     }
 
     function setFilter(filterKey) {
@@ -7765,9 +8108,301 @@ ${lines.join('\n')}
     }
     const copyVatInfoForMisa = copyVatInfo;
 
+    // =========================================================================
+    // QUY TRÌNH DI ĐỘNG: TẠO BOOKING NHANH, VIETQR TECHCOMBANK & BÁO THU 1-CHẠM
+    // =========================================================================
+    let currentQrBookingId = null;
+    let currentQrAmount = 0;
+    let currentQrMemo = '';
+
+    function openMobileQuickBooking() {
+      const modal = document.getElementById('mobile-quick-booking-modal');
+      if (!modal) return;
+      
+      const form = document.getElementById('mobile-quick-form');
+      if (form) form.reset();
+      
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      
+      document.getElementById('mq-checkin').value = today.toISOString().split('T')[0];
+      document.getElementById('mq-checkout').value = tomorrow.toISOString().split('T')[0];
+      
+      populateMqHotels();
+      modal.classList.remove('hidden');
+    }
+
+    function closeMobileQuickBooking() {
+      const modal = document.getElementById('mobile-quick-booking-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function populateMqHotels() {
+      const sel = document.getElementById('mq-hotel');
+      if (!sel) return;
+      sel.innerHTML = '<option value="">-- Chọn Khách Sạn / Resort --</option>';
+      
+      const hotelSet = new Set();
+      priceCatalog.forEach(p => {
+        if (p.hotel) hotelSet.add(p.hotel);
+      });
+      
+      hotelSet.forEach(h => {
+        const opt = document.createElement('option');
+        opt.value = h;
+        opt.innerText = h;
+        sel.appendChild(opt);
+      });
+      
+      if (hotelSet.size > 0) {
+        sel.selectedIndex = 1;
+        handleMqHotelChange(sel.value);
+      }
+    }
+
+    function handleMqHotelChange(hotelName) {
+      const roomSel = document.getElementById('mq-room');
+      if (!roomSel) return;
+      roomSel.innerHTML = '';
+      
+      const matching = priceCatalog.filter(p => p.hotel === hotelName);
+      if (matching.length === 0) {
+        roomSel.innerHTML = '<option value="Phòng tiêu chuẩn" data-price="0">Phòng tiêu chuẩn</option>';
+        return;
+      }
+      
+      matching.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.hangPhong;
+        opt.innerText = `${p.hangPhong} (${(p.giaBaoKhach || 0).toLocaleString('vi-VN')} đ)`;
+        opt.dataset.price = p.giaBaoKhach || 0;
+        roomSel.appendChild(opt);
+      });
+      
+      handleMqRoomChange();
+    }
+
+    function handleMqRoomChange() {
+      const roomSel = document.getElementById('mq-room');
+      if (!roomSel || !roomSel.selectedOptions[0]) return;
+      const price = parseFloat(roomSel.selectedOptions[0].dataset.price) || 0;
+      if (price > 0) {
+        document.getElementById('mq-price').value = price.toLocaleString('vi-VN');
+        document.getElementById('mq-qr-amount').value = price.toLocaleString('vi-VN');
+      }
+    }
+
+    function formatMqCurrencyInput(el) {
+      let val = el.value.replace(/[^0-9]/g, '');
+      if (!val) { el.value = ''; return; }
+      el.value = parseInt(val, 10).toLocaleString('vi-VN');
+    }
+
+    function setMqQrAmountPercent(pct) {
+      const priceRaw = parseFloat(document.getElementById('mq-price').value.replace(/[^0-9]/g, '')) || 0;
+      if (!priceRaw) return;
+      const targetVal = Math.round(priceRaw * (pct / 100));
+      document.getElementById('mq-qr-amount').value = targetVal.toLocaleString('vi-VN');
+    }
+
+    function handleMobileQuickBookingSubmit(e) {
+      e.preventDefault();
+      
+      const hotelSel = document.getElementById('mq-hotel');
+      const hotelName = hotelSel && hotelSel.value ? hotelSel.value : 'Khách sạn Booking Travel';
+      const roomSel = document.getElementById('mq-room');
+      const roomName = roomSel && roomSel.value ? roomSel.value : 'Phòng tiêu chuẩn';
+      const customerName = document.getElementById('mq-customer-name').value.trim();
+      const customerPhone = document.getElementById('mq-customer-phone').value.trim();
+      const checkIn = document.getElementById('mq-checkin').value;
+      const checkOut = document.getElementById('mq-checkout').value;
+      
+      const priceVal = parseFloat(document.getElementById('mq-price').value.replace(/[^0-9]/g, '')) || 0;
+      const qrAmountVal = parseFloat(document.getElementById('mq-qr-amount').value.replace(/[^0-9]/g, '')) || priceVal;
+      
+      const newCode = 'BK' + Date.now().toString().slice(-6);
+      const newBookingId = 'BK-' + Date.now();
+      
+      const newBooking = {
+        id: newBookingId,
+        maBooking: newCode,
+        ngayTao: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        khachHang: customerName,
+        sdt: customerPhone,
+        dichVu: `${hotelName} - ${roomName}`,
+        doiTac: hotelName,
+        checkIn: checkIn,
+        checkOut: checkOut,
+        giaBan: priceVal,
+        giaVon: Math.round(priceVal * 0.85),
+        khachDaCoc: 0,
+        daTraDoiTac: 0,
+        tourStatus: 'cho_coc',
+        statusHdVao: 'chua_lay',
+        coXuatVat: false,
+        statusHdRa: 'khong_xuat',
+        saleEmail: currentUser ? currentUser.email : 'sales1@bookingtravel.vn',
+        files: [],
+        serviceType: 'hotel'
+      };
+      
+      bookings.unshift(newBooking);
+      saveData();
+      renderTable();
+      updateMetrics();
+      
+      closeMobileQuickBooking();
+      
+      setTimeout(() => {
+        openVietQRForBooking(newBookingId, qrAmountVal);
+      }, 250);
+    }
+
+    // =========================================================================
+    // MODAL VIETQR TECHCOMBANK (STK 554479 - CÔNG TY TNHH BOOKING TRAVEL)
+    // =========================================================================
+    function openVietQRForBooking(bookingId, customAmount) {
+      const b = bookings.find(x => x.id === bookingId);
+      if (!b) return;
+
+      const rev = parseFloat(b.giaBan) || 0;
+      const paidAR = parseFloat(b.khachDaCoc) || 0;
+      const remainAR = Math.max(0, rev - paidAR);
+      
+      let amountToPay = customAmount !== undefined ? customAmount : (remainAR > 0 ? remainAR : rev);
+      if (amountToPay <= 0) amountToPay = rev;
+
+      const memoText = `${b.maBooking || 'BK'} ${b.khachHang || ''}`.trim();
+
+      currentQrBookingId = b.id;
+      currentQrAmount = amountToPay;
+      currentQrMemo = memoText;
+
+      document.getElementById('vqr-amount').innerText = amountToPay.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('vqr-memo').innerText = memoText;
+      
+      const cleanMemo = encodeURIComponent(memoText.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9 ]/g, ''));
+      const qrUrl = `https://img.vietqr.io/image/TCB-554479-compact2.jpg?amount=${amountToPay}&addInfo=${cleanMemo}&accountName=CONG%20TY%20TNHH%20BOOKING%20TRAVEL`;
+      
+      document.getElementById('vqr-image').src = qrUrl;
+      document.getElementById('vietqr-modal').classList.remove('hidden');
+    }
+
+    function closeVietQRModal() {
+      document.getElementById('vietqr-modal').classList.add('hidden');
+    }
+
+    function copyVqrStk() {
+      navigator.clipboard.writeText('554479').then(() => {
+        alert('📋 Đã sao chép Số Tài Khoản Techcombank: 554479');
+      });
+    }
+
+    function copyVqrMemo() {
+      const memo = document.getElementById('vqr-memo').innerText;
+      navigator.clipboard.writeText(memo).then(() => {
+        alert('📋 Đã sao chép Nội dung chuyển khoản: ' + memo);
+      });
+    }
+
+    function shareVqrZalo() {
+      const b = bookings.find(x => x.id === currentQrBookingId);
+      const amt = document.getElementById('vqr-amount').innerText;
+      const memo = document.getElementById('vqr-memo').innerText;
+      
+      const textMsg = `Kính gửi Quý khách ${b ? b.khachHang : ''},\nCông ty TNHH Booking Travel xin gửi thông tin thanh toán booking:\n- Ngân hàng: Techcombank\n- Số tài khoản: 554479\n- Chủ tài khoản: CONG TY TNHH BOOKING TRAVEL\n- Số tiền cần chuyển: ${amt}\n- Nội dung chuyển khoản: ${memo}\n\nQuý khách quét mã QR để thanh toán nhanh. Xin cảm ơn Quý khách!`;
+      
+      navigator.clipboard.writeText(textMsg).then(() => {
+        alert('🎉 ĐÃ SAO CHÉP THÔNG TIN CHUYỂN KHOẢN!\n\nBạn có thể dán (Paste) gửi ngay cho khách hàng qua Zalo hoặc tin nhắn.');
+      });
+    }
+
+    function openQuickBaoThuCurrent() {
+      if (!currentQrBookingId) return;
+      closeVietQRModal();
+      openQuickBaoThu(currentQrBookingId, currentQrAmount);
+    }
+
+    // =========================================================================
+    // MODAL BÁO THU TIỀN KHÁCH NHANH (1-CHẠM CẬP NHẬT DÒNG TIỀN & CÔNG NỢ)
+    // =========================================================================
+    function openQuickBaoThu(bookingId, suggestAmount) {
+      const b = bookings.find(x => x.id === bookingId);
+      if (!b) return;
+
+      const rev = parseFloat(b.giaBan) || 0;
+      const paidAR = parseFloat(b.khachDaCoc) || 0;
+      const remainAR = Math.max(0, rev - paidAR);
+
+      document.getElementById('qbt-booking-id').value = b.id;
+      document.getElementById('qbt-code').innerText = b.maBooking;
+      document.getElementById('qbt-customer').innerText = b.khachHang;
+      document.getElementById('qbt-total-price').innerText = rev.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('qbt-already-paid').innerText = paidAR.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('qbt-debt').innerText = remainAR.toLocaleString('vi-VN') + ' đ';
+      
+      const defAmount = suggestAmount ? suggestAmount : (remainAR > 0 ? remainAR : rev);
+      document.getElementById('qbt-amount').value = defAmount.toLocaleString('vi-VN');
+      
+      document.getElementById('quick-bao-thu-modal').classList.remove('hidden');
+    }
+
+    function closeQuickBaoThuModal() {
+      document.getElementById('quick-bao-thu-modal').classList.add('hidden');
+    }
+
+    function handleQuickBaoThuSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('qbt-booking-id').value;
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      const amountVal = parseFloat(document.getElementById('qbt-amount').value.replace(/[^0-9]/g, '')) || 0;
+      if (amountVal <= 0) {
+        alert('⚠️ Vui lòng nhập số tiền hợp lệ lớn hơn 0!');
+        return;
+      }
+
+      const prevPaid = parseFloat(b.khachDaCoc) || 0;
+      const newPaid = prevPaid + amountVal;
+      b.khachDaCoc = newPaid;
+      
+      const totalRev = parseFloat(b.giaBan) || 0;
+      if (newPaid >= totalRev) {
+        b.tourStatus = 'da_xac_nhan';
+      } else if (newPaid > 0) {
+        b.tourStatus = 'da_coc';
+      }
+
+      if (!Array.isArray(b.payments)) b.payments = [];
+      b.payments.push({
+        id: 'PAY-' + Date.now(),
+        ngay: new Date().toISOString(),
+        soTien: amountVal,
+        loai: 'thu_khach',
+        trangThai: 'da_thu',
+        ghiChu: document.getElementById('qbt-note').value || 'Khách quét mã VietQR Techcombank'
+      });
+
+      saveData();
+      renderTable();
+      updateMetrics();
+      closeQuickBaoThuModal();
+
+      alert(`🎉 ĐÃ XÁC NHẬN THU THÀNH CÔNG!\n\nĐã ghi nhận: +${amountVal.toLocaleString('vi-VN')} đ vào đơn ${b.maBooking}.\nTổng tiền khách đã thanh toán: ${newPaid.toLocaleString('vi-VN')} đ / ${totalRev.toLocaleString('vi-VN')} đ.`);
+    }
+
     // Mở Modal Tạo Đơn
-    function openModalTaoDon() {
+    function openModalTaoDon(forceFullErp = false) {
       if (window.innerWidth < 1024) toggleMobileSidebar(false);
+      
+      // Nếu thao tác trên điện thoại và không yêu cầu mở bản full ERP -> Mở Modal Tạo Nhanh & Xuất QR
+      if (window.innerWidth < 1024 && !forceFullErp) {
+        openMobileQuickBooking();
+        return;
+      }
       document.getElementById('edit-id').value = '';
       document.getElementById('booking-form').reset();
       document.getElementById('modal-title').innerText = 'ĐIỀU HÀNH & HẠCH TOÁN BOOKING';
