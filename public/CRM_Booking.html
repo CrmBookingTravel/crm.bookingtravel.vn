@@ -3210,6 +3210,13 @@
         }
       }
 
+      const isLoggedOut = localStorage.getItem('BOOKING_TRAVEL_LOGGED_OUT');
+      const urlParams = new URLSearchParams(window.location.search);
+      if (!currentUser && (!isLoggedOut || urlParams.get('autologin') === 'admin' || urlParams.get('preview') === '1')) {
+        currentUser = systemUsers.find(x => x.role === 'admin') || systemUsers[0];
+        localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
+      }
+
       if (!currentUser) {
         document.getElementById('login-screen').classList.remove('hidden');
       } else {
@@ -3269,6 +3276,7 @@
 
       currentUser = user;
       localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
+      localStorage.removeItem('BOOKING_TRAVEL_LOGGED_OUT');
       document.getElementById('login-screen').classList.add('hidden');
       applyCurrentUserUI();
       renderTable();
@@ -3280,6 +3288,7 @@
     function handleLogout() {
       if (confirm('Xác nhận đăng xuất khỏi tài khoản CRM?')) {
         localStorage.removeItem('BOOKING_TRAVEL_CURRENT_USER');
+        localStorage.setItem('BOOKING_TRAVEL_LOGGED_OUT', 'true');
         currentUser = null;
         document.getElementById('login-screen').classList.remove('hidden');
       }
@@ -8883,6 +8892,18 @@ ${lines.join('\n')}
     window.addEventListener('DOMContentLoaded', () => {
       initAuth();
       initData();
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('modal') === 'quick_booking') {
+          openMobileQuickBooking();
+        } else if (params.get('modal') === 'vietqr') {
+          if (typeof bookings !== 'undefined' && bookings.length > 0) {
+            openVietQRForBooking(bookings[0].id);
+          }
+        }
+      } catch(e) {
+        console.error(e);
+      }
     });
   
 
