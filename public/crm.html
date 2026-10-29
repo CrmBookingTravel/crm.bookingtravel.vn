@@ -466,22 +466,22 @@
             </button>
             <button onclick="switchView('bookings'); setFilter('cho_ke_toan')" id="nav-cho_ke_toan" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-hourglass-half w-4 text-center text-amber-400"></i>
-              <span>Chờ Kế Toán Duyệt (B1)</span>
+              <span>Chờ Kế Toán Duyệt</span>
               <span id="badge-cho-ke-toan" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('da_coc')" id="nav-da_coc" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-orange-400 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-money-bill-transfer w-4 text-center text-orange-400"></i>
-              <span>Đã Nhận Cọc - Giữ Chỗ (B2)</span>
+              <span>Đã Nhận Cọc - Giữ Chỗ</span>
               <span id="badge-da-coc" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('cho_bgd')" id="nav-cho_bgd" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-sky-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
-              <span>Chờ BGĐ Duyệt (B2)</span>
+              <span>Chờ BGĐ Duyệt</span>
               <span id="badge-cho-bgd" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('dang_dieu_hanh')" id="nav-dang_dieu_hanh" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-emerald-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-crown w-4 text-center text-emerald-400"></i>
-              <span>Đang Điều Hành (B3)</span>
+              <span>Đang Điều Hành</span>
               <span id="badge-dang-dieu-hanh" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('hoan_tat')" id="nav-hoan_tat" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
@@ -8362,25 +8362,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const remainAR = Math.max(0, rev - paidAR);
         const remainAP = Math.max(0, cst - paidAP);
 
-        // Trạng thái điều hành & 3 nghiệp vụ chuẩn
-        let tourBadge = '';
-        if (b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-flex items-center gap-1" title="Bước 1: Chờ Kế toán đối soát cọc/thanh toán Techcombank/MB"><i class="fa-solid fa-clock text-[8px] animate-pulse"></i> B1: Chờ Duyệt Tiền</span>';
-        } else if (b.tourStatus === 'da_coc') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-orange-500/20 text-orange-400 border border-orange-500/40 inline-flex items-center gap-1" title="Quy trình 2: Kế toán đã xác nhận cọc - Cho phép giữ phòng NCC"><i class="fa-solid fa-money-bill-transfer text-[8px]"></i> Đã Cọc - Giữ Chỗ NCC</span>';
-        } else if (b.tourStatus === 'ke_toan_duyet') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 inline-flex items-center gap-1" title="Bước 2: Kế toán đã đối soát dòng tiền & AR/AP, chờ BGĐ duyệt"><i class="fa-solid fa-user-check text-[8px]"></i> B2: Kế Toán Đã Duyệt</span>';
-        } else if (b.tourStatus === 'da_chot' || b.tourStatus === 'da_xac_nhan') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-1" title="Bước 3: BGĐ Bùi Phạm Quỳnh Chi đã duyệt chốt điều hành"><i class="fa-solid fa-crown text-[8px] text-amber-300"></i> B3: Đang Vận Hành</span>';
-        } else if (b.tourStatus === 'dang_di') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40 inline-flex items-center gap-1"><i class="fa-solid fa-route text-[8px]"></i> Đang Đi Tour</span>';
-        } else if (b.tourStatus === 'hoan_tat') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-slate-800 text-slate-300 border border-slate-700 inline-flex items-center gap-1"><i class="fa-solid fa-check-double text-[8px] text-emerald-400"></i> Đã Tất Toán P&L</span>';
-        } else if (b.tourStatus === 'da_huy') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 inline-flex items-center gap-1"><i class="fa-solid fa-ban text-[8px]"></i> Đã Hủy / Hoàn Tiền</span>';
-        } else {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">B1: Chờ Duyệt Tiền</span>';
-        }
+        // Đã xóa bỏ các nhãn B1/B3 (Đang Vận Hành, Chờ Duyệt Tiền) theo yêu cầu người dùng
 
         // Action buttons cho 3 quy trình nghiệp vụ
         let workflowActionBtn = '';
@@ -8512,10 +8494,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
           <tr class="hover:bg-slate-800/30 transition group">
             <!-- 1. MÃ ĐƠN & NGÀY TẠO (CHUẨN QUANLY.BOOKINGTRAVEL.VN) -->
             <td class="py-3 px-3.5 whitespace-nowrap">
-              <div class="flex items-center gap-1.5">
-                <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
-                ${tourBadge}
-              </div>
+              <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
               <div class="text-[10px] text-amber-300 font-mono mt-1 flex items-center gap-1 font-semibold" title="Ngày đặt phòng">
                 <i class="fa-regular fa-calendar-check text-[9px] text-amber-400"></i>
                 <span>Đặt: ${createDateVN}</span>
@@ -8654,12 +8633,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         mobileCardsHtml += `
           <div class="bg-[#0b192c] border border-[#1a2c47] hover:border-blue-500/50 rounded-2xl p-4 shadow-xl space-y-3 transition">
             
-            <!-- Dòng 1: Mã Đơn + Trạng Thái Tour + Doanh Thu -->
+            <!-- Dòng 1: Mã Đơn + Doanh Thu -->
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1.5">
-                <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
-                ${tourBadge}
-              </div>
+              <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
               <div class="text-right">
                 <div class="font-mono font-black text-base text-white">${rev.toLocaleString('vi-VN')} đ</div>
                 <div class="text-[10px] text-slate-400 font-mono">Đặt: ${createDateVN}</div>
