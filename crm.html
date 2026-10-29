@@ -857,8 +857,9 @@
           <div class="px-3 sm:px-5 py-3 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-900/90">
             
             <div class="flex items-center gap-1.5 p-1 bg-slate-950 rounded-lg border border-slate-800/80 text-xs overflow-x-auto max-w-full whitespace-nowrap scrollbar-none" id="filter-segmented">
-              <button onclick="setFilter('all')" data-filter="all" class="px-3 py-1.5 rounded-md font-medium text-white bg-slate-800 shadow-sm transition">
-                Tất Cả (<span id="count-all">0</span>)
+              <button onclick="setFilter('all')" data-filter="all" class="px-3 py-1.5 rounded-md font-medium text-white bg-slate-800 shadow-sm transition flex items-center gap-1.5">
+                <i class="fa-solid fa-layer-group text-sky-400 text-xs"></i>
+                <span class="font-bold">Tất Cả (<span id="count-all" class="font-mono">0</span>)</span>
               </button>
               <button onclick="setFilter('cho_ke_toan')" data-filter="cho_ke_toan" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-amber-300 font-bold">🟡 Chờ Kế Toán Duyệt (<span id="count-cho-ke-toan" class="font-mono">0</span>)</span>
@@ -870,7 +871,7 @@
                 <span class="text-sky-300 font-bold">🔵 Chờ BGĐ Duyệt (<span id="count-cho-bgd" class="font-mono">0</span>)</span>
               </button>
               <button onclick="setFilter('dang_dieu_hanh')" data-filter="dang_dieu_hanh" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
-                <span class="text-emerald-300 font-bold">🟢 Đang Điều Hành (<span id="count-dang-dieu-hanh" class="font-mono">0</span>)</span>
+                <span class="text-emerald-300 font-bold">🟢 Hoàn Thành (<span id="count-dang-dieu-hanh" class="font-mono">0</span>)</span>
               </button>
               <button onclick="setFilter('hoan_tat')" data-filter="hoan_tat" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-slate-300 font-bold">⚪ Đã Tất Toán P&L (<span id="count-hoan-tat" class="font-mono">0</span>)</span>
@@ -8104,12 +8105,15 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       let daHuyCount = 0;
 
       bookings.forEach(b => {
+        const isMine = b.saleEmail && b.saleEmail.toLowerCase() === myEmail;
+        if (!canViewAll && !isMine) return; // Sales chỉ đếm số lượng trên các đơn thuộc quyền quản lý của mình
+
         const st = b.tourStatus || 'cho_duyet';
         if (st === 'cho_duyet' || st === 'moi_tao' || st === 'cho_coc') choKeToanCount++;
         else if (st === 'da_coc') daCocCount++;
         else if (st === 'ke_toan_duyet') choBgdCount++;
-        else if (st === 'da_chot' || st === 'da_xac_nhan' || st === 'dang_di') dangDieuHanhCount++;
-        else if (st === 'hoan_tat') hoanTatCount++;
+        else if (st === 'da_chot' || st === 'da_xac_nhan' || st === 'dang_di' || st === 'hoan_tat') dangDieuHanhCount++;
+        else if (st === 'da_tat_toan' || st === 'tat_toan_pl') hoanTatCount++;
         else if (st === 'da_huy') daHuyCount++;
       });
 
@@ -8264,7 +8268,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         }
         if (currentFilter === 'da_coc' && b.tourStatus !== 'da_coc') return false;
         if (currentFilter === 'cho_bgd' && b.tourStatus !== 'ke_toan_duyet') return false;
-        if (currentFilter === 'dang_dieu_hanh' && b.tourStatus !== 'da_chot' && b.tourStatus !== 'da_xac_nhan' && b.tourStatus !== 'dang_di') return false;
+        if (currentFilter === 'dang_dieu_hanh' && b.tourStatus !== 'da_chot' && b.tourStatus !== 'da_xac_nhan' && b.tourStatus !== 'dang_di' && b.tourStatus !== 'hoan_tat') return false;
         if (currentFilter === 'hoan_tat' && b.tourStatus !== 'hoan_tat') return false;
         if (currentFilter === 'da_huy' && b.tourStatus !== 'da_huy') return false;
         if (currentFilter === 'doi_hd_dau_vao' && b.statusHdVao !== 'chua_lay') return false;
