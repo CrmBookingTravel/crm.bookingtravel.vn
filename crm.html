@@ -487,13 +487,6 @@
               </div>
               <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">AI</span>
             </button>
-            <button onclick="openPriceCatalogModal()" id="nav-catalog" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer">
-              <div class="flex items-center gap-2.5">
-                <i class="fa-solid fa-hotel text-amber-400 w-4 text-center"></i>
-                <span>Bảng Giá Phòng</span>
-              </div>
-              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">GSheet</span>
-            </button>
             <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-hotel w-4 text-center text-emerald-400"></i>
               <span>Đối Tác Cung Ứng</span>
@@ -749,7 +742,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: DÁN NHANH BẢNG GIÁ TỪ GOOGLE SHEETS / EXCEL (PASTE TABLE) -->
+  <!-- MODAL: DÁN NHANH BẢNG GIÁ TỪ EXCEL / CSV (PASTE TABLE) -->
   <!-- ========================================================================= -->
   <div id="import-price-sheet-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm">
     <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeImportPriceModal()"></div>
@@ -762,9 +755,9 @@
           </div>
           <div>
             <h3 class="text-sm sm:text-base font-bold text-white uppercase tracking-wide">
-              NHẬP & CẬP NHẬT KHO BẢNG GIÁ TỪ SHEET / EXCEL
+              NHẬP BẢNG GIÁ TỪ EXCEL / FILE CSV
             </h3>
-            <p class="text-[11px] text-slate-400">Copy dữ liệu từ Google Sheets hoặc Excel rồi dán (Paste) vào đây để nạp nhanh</p>
+            <p class="text-[11px] text-slate-400">Copy dữ liệu từ file Excel hoặc CSV rồi dán (Paste) vào đây</p>
           </div>
         </div>
         <button type="button" onclick="closeImportPriceModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition cursor-pointer">
@@ -775,25 +768,25 @@
       <!-- Hướng dẫn định dạng cột -->
       <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1.5 mb-3 shrink-0">
         <span class="font-bold text-amber-300 flex items-center gap-1.5">
-          <i class="fa-solid fa-table-columns"></i> Thứ tự các cột chuẩn khi copy từ Google Sheets hoặc Excel:
+          <i class="fa-solid fa-table-columns"></i> Thứ tự các cột chuẩn khi copy:
         </span>
         <div class="p-2 rounded bg-slate-900 font-mono text-[11px] text-emerald-300 border border-slate-800 overflow-x-auto whitespace-nowrap">
           [Tên Khách Sạn] &bull; [Khu Vực] &bull; [Số Sao: 3/4/5] &bull; [Tên Hạng Phòng] &bull; [Giá Vốn NCC] &bull; [Giá Báo Khách] &bull; [Tiện Ích Mô Tả]
         </div>
-        <p class="text-[10px] text-slate-400">Hệ thống chấp nhận định dạng phân cách bởi Tab (khi copy từ Sheets) hoặc dấu phẩy (CSV).</p>
+        <p class="text-[10px] text-slate-400">Hệ thống chấp nhận định dạng phân cách bởi Tab (khi copy từ bảng tính) hoặc dấu phẩy (CSV).</p>
       </div>
 
       <!-- Ô dán dữ liệu -->
       <div class="flex-1 flex flex-col mb-3">
         <label class="block text-xs font-semibold text-slate-300 mb-1">Dán (Paste) nội dung bảng tính vào đây:</label>
-        <textarea id="txt-paste-sheet" rows="8" placeholder="Dán các dòng từ Google Sheets vào đây...&#10;Ví dụ:&#10;Sheraton Nha Trang&#9;Nha Trang&#9;5&#9;Deluxe Ocean View&#9;2200000&#9;2650000&#9;Ăn sáng buffet&#10;Havana Nha Trang&#9;Nha Trang&#9;5&#9;Deluxe Ocean View&#9;1250000&#9;1550000&#9;Hầm ngầm ra biển" class="w-full flex-1 bg-[#07162f] border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-blue-500"></textarea>
+        <textarea id="txt-paste-sheet" rows="8" placeholder="Dán các dòng bảng tính vào đây...&#10;Ví dụ:&#10;Sheraton Nha Trang&#9;Nha Trang&#9;5&#9;Deluxe Ocean View&#9;2200000&#9;2650000&#9;Ăn sáng buffet&#10;Havana Nha Trang&#9;Nha Trang&#9;5&#9;Deluxe Ocean View&#9;1250000&#9;1550000&#9;Hầm ngầm ra biển" class="w-full flex-1 bg-[#07162f] border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-blue-500"></textarea>
       </div>
 
       <!-- Action buttons -->
       <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800 shrink-0">
         <div class="flex items-center gap-2">
           <button type="button" onclick="downloadPriceTemplateExcel()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer">
-            <i class="fa-solid fa-download"></i> <span>Tải Mẫu File Sheet (CSV)</span>
+            <i class="fa-solid fa-download"></i> <span>Tải Mẫu File (CSV)</span>
           </button>
         </div>
         <div class="flex items-center gap-2">
@@ -802,7 +795,7 @@
           </button>
           <button type="button" onclick="handleImportPriceData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-md shadow-blue-600/30 cursor-pointer">
             <i class="fa-solid fa-file-import"></i>
-            <span>Phân Tích & Cập Nhật Vào Kho CRM</span>
+            <span>Phân Tích & Cập Nhật Vào Hệ Thống</span>
           </button>
         </div>
       </div>
@@ -1948,60 +1941,7 @@
         <input type="hidden" id="ipt-room-lookup" value="">
 
         <!-- ========================================================================= -->
-        <!-- KHỐI 1: CHỌN KHÁCH SẠN & HẠNG PHÒNG NHA TRANG (3-4-5 SAO) -->
-        <!-- ========================================================================= -->
-        <div class="p-5 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-4">
-          
-          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
-            <div class="flex items-center gap-2.5">
-              <span class="text-amber-400 text-base"><i class="fa-solid fa-hotel"></i></span>
-              <h4 class="text-sm sm:text-base font-bold text-white uppercase tracking-wide">
-                CHỌN KHÁCH SẠN & HẠNG PHÒNG NHA TRANG (3⭐ - 4⭐ - 5⭐)
-              </h4>
-            </div>
-            
-            <!-- Tab lọc sao nhanh: Tối giản, không rườm rà -->
-            <div class="flex items-center gap-1.5 bg-[#07162f] p-1 rounded-xl border border-slate-800 text-xs">
-              <button type="button" onclick="filterHotelsByStar('all')" id="btn-star-all" class="px-3 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 transition cursor-pointer">Tất Cả</button>
-              <button type="button" onclick="filterHotelsByStar('5')" id="btn-star-5" class="px-3 py-1 rounded-lg font-semibold text-slate-300 hover:text-white transition cursor-pointer">⭐⭐⭐⭐⭐ 5 Sao</button>
-              <button type="button" onclick="filterHotelsByStar('4')" id="btn-star-4" class="px-3 py-1 rounded-lg font-semibold text-slate-300 hover:text-white transition cursor-pointer">⭐⭐⭐⭐ 4 Sao</button>
-              <button type="button" onclick="filterHotelsByStar('3')" id="btn-star-3" class="px-3 py-1 rounded-lg font-semibold text-slate-300 hover:text-white transition cursor-pointer">⭐⭐⭐ 3 Sao</button>
-            </div>
-          </div>
-
-          <!-- 2 Dropdowns Lớn, Font Chữ To Rõ, Thoáng Mắt -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5 flex items-center justify-between">
-                <span>1. Chọn Khách Sạn / Resort:</span>
-                <span id="selected-hotel-star-badge" class="text-xs text-amber-400 font-bold"></span>
-              </label>
-              <select id="sel-booking-hotel" onchange="handleBookingHotelChange(this.value)" class="w-full bg-[#07162f] border border-slate-700 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 rounded-xl px-4 py-3 text-sm sm:text-base text-white font-semibold focus:outline-none cursor-pointer">
-                <!-- Populated dynamically -->
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5 flex items-center justify-between">
-                <span>2. Chọn Hạng Phòng (Tự Điền Đơn Hàng):</span>
-                <span class="text-xs text-emerald-400 font-mono font-bold" id="room-price-preview"></span>
-              </label>
-              <select id="sel-booking-room" onchange="handleBookingRoomChange(this.value)" class="w-full bg-[#07162f] border border-slate-700 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 rounded-xl px-4 py-3 text-sm sm:text-base text-white font-semibold focus:outline-none cursor-pointer">
-                <!-- Populated dynamically -->
-              </select>
-            </div>
-          </div>
-
-          <!-- Dòng thông báo tự điền thanh lịch, nhẹ nhàng, không hoa mắt -->
-          <div id="room-autofill-alert" class="hidden p-3 rounded-xl bg-blue-950/40 border border-blue-500/30 text-xs sm:text-sm text-sky-200 flex items-center justify-between gap-2">
-            <span id="room-autofill-text"></span>
-            <button type="button" onclick="document.getElementById('room-autofill-alert').classList.add('hidden')" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-sm"></i></button>
-          </div>
-
-        </div>
-
-        <!-- ========================================================================= -->
-        <!-- KHỐI 2: THÔNG TIN ĐIỀU HÀNH & KHÁCH HÀNG -->
+        <!-- KHỐI 1: THÔNG TIN ĐIỀU HÀNH & HỒ SƠ KHÁCH HÀNG -->
         <!-- ========================================================================= -->
         <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-5">
           <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
@@ -2583,7 +2523,7 @@
   </div>
   
   <!-- ========================================================================= -->
-  <!-- MODAL: TRA CỨU BẢNG GIÁ KHÁCH SẠN, HẠNG PHÒNG & BÁO KHÁCH (GOOGLE SHEETS) -->
+  <!-- MODAL: TRA CỨU BẢNG GIÁ KHÁCH SẠN, HẠNG PHÒNG & BÁO KHÁCH -->
   <!-- ========================================================================= -->
   <div id="price-catalog-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-4">
     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closePriceCatalogModal()"></div>
@@ -2598,26 +2538,16 @@
           <div>
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
               BẢNG GIÁ HẠNG PHÒNG & BÁO KHÁCH (BOOKING TRAVEL)
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">GSheet Sync</span>
             </h3>
             <p class="text-[11px] text-slate-400">
-              Kết nối trực tiếp: 
-              <a href="https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0" target="_blank" class="text-emerald-400 hover:underline font-mono">
-                docs.google.com/spreadsheets/...yMSj4 <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-              </a>
+              Hệ thống tra cứu giá nội bộ Booking Travel
             </p>
           </div>
         </div>
         
         <div class="flex items-center gap-2">
-          <button onclick="openImportPriceModal()" class="px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Dán nhanh bảng tính từ Excel hoặc Google Sheets">
-            <i class="fa-solid fa-paste"></i> <span>Dán Từ Sheet/Excel</span>
-          </button>
           <button onclick="exportPriceCatalogExcel()" class="px-3 py-1.5 bg-amber-600/20 hover:bg-amber-600 border border-amber-500/40 text-amber-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Xuất toàn bộ kho bảng giá ra file Excel">
             <i class="fa-solid fa-file-excel"></i> <span>Xuất Excel Kho Phòng</span>
-          </button>
-          <button onclick="syncPriceCatalogFromGoogleSheets(true)" class="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer">
-            <i class="fa-solid fa-rotate"></i> <span>Làm Mới Từ GSheet</span>
           </button>
           <button onclick="closePriceCatalogModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center text-lg transition">
             <i class="fa-solid fa-xmark"></i>
@@ -2673,7 +2603,7 @@
               <span>BÁO GIÁ NHANH & CHIẾT TÍNH P&L THÔNG MINH</span>
               <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">AI Báo Giá Nhanh</span>
             </h3>
-            <p class="text-[11px] text-blue-200/80">Kết nối Google Sheets 100+ Khách Sạn & Resort • Tự động tính lãi gộp & xuất tin nhắn Zalo</p>
+            <p class="text-[11px] text-blue-200/80">Tra cứu nhanh báo giá Khách Sạn & Resort • Tự động tính lãi gộp & xuất tin nhắn Zalo</p>
           </div>
         </div>
         <button onclick="closeSmartQuoteModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition">
@@ -2752,7 +2682,7 @@
             <div class="bg-gradient-to-br from-[#07162f] to-[#073e78]/60 p-4 rounded-xl border border-blue-500/30 shadow-lg space-y-3">
               <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center justify-between">
                 <span><i class="fa-solid fa-chart-pie mr-1"></i> Bảng Chiết Tính Lãi Gộp (P&L)</span>
-                <span class="text-[10px] text-emerald-400 font-normal">Tự Động Từ GSheet</span>
+                <span class="text-[10px] text-emerald-400 font-normal">Tự Động Tính Chuẩn</span>
               </h4>
               <div class="grid grid-cols-2 gap-2 text-xs">
                 <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
@@ -3926,8 +3856,7 @@
 
     
     // =========================================================================
-    // CƠ SỞ DỮ LIỆU BẢNG GIÁ & HẠNG PHÒNG GOOGLE SHEETS
-    // Link: https://docs.google.com/spreadsheets/d/14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4/edit?gid=0#gid=0
+    // CƠ SỞ DỮ LIỆU BẢNG GIÁ & HẠNG PHÒNG NỘI BỘ (OFFLINE)
     // =========================================================================
     const DEFAULT_PRICE_CATALOG = [
   {
@@ -5352,7 +5281,7 @@
         resultsContainer.innerHTML = `
           <div class="p-3 text-xs text-rose-400 flex flex-wrap items-center justify-between gap-2">
             <span>❌ Không tìm thấy hạng phòng nào khớp với "<strong>${query}</strong>"</span>
-            <button type="button" onclick="openPriceCatalogModalForCurrentBooking()" class="underline font-bold text-amber-300 hover:text-white">Xem toàn bộ bảng giá GSheet</button>
+            <button type="button" onclick="openPriceCatalogModalForCurrentBooking()" class="underline font-bold text-amber-300 hover:text-white">Xem toàn bộ bảng giá</button>
           </div>
         `;
         resultsContainer.classList.remove('hidden');
@@ -5516,43 +5445,16 @@
         const alertBox = document.getElementById('room-autofill-alert');
         const alertText = document.getElementById('room-autofill-text');
         if (alertBox && alertText) {
-          alertText.innerHTML = `✨ <strong>Đã tự điền từ GSheet:</strong> ${found.hotel} • ${found.hangPhong} | <strong>Báo khách: ${found.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${found.giaVon.toLocaleString('vi-VN')} đ)`;
+          alertText.innerHTML = `✓ <strong>Đã tự điền thông tin:</strong> ${found.hotel} • ${found.hangPhong} | <strong>Báo khách: ${found.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${found.giaVon.toLocaleString('vi-VN')} đ)`;
           alertBox.classList.remove('hidden');
         }
       }
     }
 
-    // Đồng bộ Bảng Giá từ Google Sheets
+    // Ngắt kết nối Google Sheets hoàn toàn theo yêu cầu điều hành
     async function syncPriceCatalogFromGoogleSheets(notify = false) {
-      const gsheetId = '14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4';
       if (notify) {
-        alert('⏳ Đang kết nối Google Sheets (ID: 14nJMWVR75XOnVd_GpoE3LHELNFVok3KRc4FHk-yMSj4)... Vui lòng đợi trong giây lát!');
-      }
-
-      try {
-        // Gọi qua API backend hoặc fetch trực tiếp
-        const res = await fetch('/api/sheets/catalog');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && json.catalog && json.catalog.length > 0) {
-            priceCatalog = json.catalog;
-            savePriceCatalog();
-            populateRoomDatalist();
-            renderPriceCatalogCards();
-            if (notify) alert(`🎉 ĐỒNG BỘ THÀNH CÔNG! Đã cập nhật ${priceCatalog.length} hạng phòng & bảng giá mới nhất từ Google Sheets!`);
-            return;
-          }
-        }
-      } catch (err) {
-        console.warn('Backend sync failed, using offline verified price database:', err.message);
-      }
-
-      // Giữ nguyên database chuẩn phong phú
-      savePriceCatalog();
-      populateRoomDatalist();
-      renderPriceCatalogCards();
-      if (notify) {
-        alert(`✅ BẢNG GIÁ ĐÃ SẴN SÀNG! Đang lưu trữ ${priceCatalog.length} hạng phòng chuẩn từ Google Sheets (Amaya, Rova, King Town, Vinpearl, Sun World...)`);
+        alert('ℹ️ Hệ thống CRM hoạt động nội bộ độc lập, đã tắt toàn bộ liên kết với Google Sheets.');
       }
     }
 
@@ -6419,7 +6321,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       const alertBox = document.getElementById('room-autofill-alert');
       const alertText = document.getElementById('room-autofill-text');
       if (alertBox && alertText) {
-        alertText.innerHTML = `✨ <strong>Đã tự điền từ GSheet:</strong> ${item.hotel} • ${item.hangPhong} | <strong>Báo khách: ${item.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${item.giaVon.toLocaleString('vi-VN')} đ)`;
+        alertText.innerHTML = `✓ <strong>Đã tự điền thông tin:</strong> ${item.hotel} • ${item.hangPhong} | <strong>Báo khách: ${item.giaBaoKhach.toLocaleString('vi-VN')} đ</strong> (Vốn: ${item.giaVon.toLocaleString('vi-VN')} đ)`;
         alertBox.classList.remove('hidden');
       }
     }
@@ -8784,50 +8686,17 @@ ${lines.join('\n')}
       }
 
       saveData();
-      syncBookingToGoogleSheets(item);
       renderTable();
       if (currentView === 'cashflow') renderCashflowView();
       closeModalTaoDon();
 
-      alert('✅ ĐÃ LƯU THÀNH CÔNG BOOKING [' + item.maBooking + ']!\n• Khách: ' + item.khachHang + '\n• Doanh Thu: ' + item.giaBan.toLocaleString('vi-VN') + ' đ\n• Đã Thu: ' + item.khachDaCoc.toLocaleString('vi-VN') + ' đ\n• Đã đồng bộ Google Sheets & sẵn sàng gửi Bot Zalo (https://zalo.me/g/mtbelj694)');
+      alert('✅ ĐÃ LƯU THÀNH CÔNG BOOKING [' + item.maBooking + ']!\n• Khách: ' + item.khachHang + '\n• Doanh Thu: ' + item.giaBan.toLocaleString('vi-VN') + ' đ\n• Đã Thu: ' + item.khachDaCoc.toLocaleString('vi-VN') + ' đ');
     }
 
     // Sửa Booking
-    
     function syncBookingToGoogleSheets(b) {
-      try {
-        const scriptUrl = localStorage.getItem('bt_google_script_url') || 'https://script.google.com/macros/s/AKfycbxouSOuoxyFwsVmwEQHVyswcuUFUgG-GBt8bJcDPVtMDqjSEBcQzucuwpXrQOYBvVRR/exec';
-        if (!scriptUrl) return;
-
-        const payload = {
-          maBooking: b.maBooking,
-          khachHang: b.khachHang,
-          sdt: b.sdt,
-          doiTac: b.doiTac,
-          hangPhong: b.hangPhong || b.dichVu,
-          soLuongPhong: b.soLuongPhong || 1,
-          soKhach: b.soKhach || '2 Người lớn',
-          soDem: b.soDem || 1,
-          checkIn: b.checkIn,
-          checkOut: b.checkOut,
-          tongThu: b.giaBan,
-          giaVon: b.giaVon,
-          soTienThuDotNay: b.khachDaCoc,
-          nganHang: (b.payments && b.payments[0]) ? b.payments[0].hinhThuc : 'Chuyển khoản (Techcombank)',
-          sale: b.saleEmail || 'crm@bookingtravel.vn',
-          zaloGroupId: 'mtbelj694',
-          zaloGroupUrl: 'https://zalo.me/g/mtbelj694'
-        };
-
-        fetch(scriptUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        }).catch(function(e) { console.warn('Sync Sheets notice:', e); });
-      } catch(err) {
-        console.warn('Sync Sheets error:', err);
-      }
+      // Đã ngắt kết nối Google Sheets theo yêu cầu điều hành
+      return;
     }
 
     function editBooking(id) {
@@ -9414,7 +9283,7 @@ ${lines.join('\n')}
     }
 
     // =========================================================================
-    // 3. NHẬP BẢNG GIÁ TỪ GOOGLE SHEETS / EXCEL (PASTE TABLE)
+    // 3. NHẬP BẢNG GIÁ TỪ EXCEL / CSV (PASTE TABLE)
     // =========================================================================
     function openImportPriceModal() {
       document.getElementById('txt-paste-sheet').value = '';
@@ -9464,7 +9333,7 @@ ${lines.join('\n')}
     function handleImportPriceData() {
       const text = (document.getElementById('txt-paste-sheet').value || '').trim();
       if (!text) {
-        alert('Vui lòng dán dữ liệu bảng tính từ Google Sheets hoặc Excel vào ô trống!');
+        alert('Vui lòng dán dữ liệu bảng tính vào ô trống!');
         return;
       }
 
