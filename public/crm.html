@@ -1146,7 +1146,7 @@
       <!-- VIEW 2: DÒNG TIỀN CẢ CÔNG TY (CASH FLOW STATEMENT) -->
       <!-- ===================================================================== -->
       <!-- ===================================================================== -->
-      <!-- VIEW: QUẢN LÝ CHI PHÍ CÔNG TY (KẾ TOÁN - OPEX) -->
+      <!-- VIEW: QUẢN LÝ CHI PHÍ CÔNG TY (KẾ TOÁN TỰ NHẬP NỘI DUNG & TIỀN) -->
       <!-- ===================================================================== -->
       <div id="view-expenses" class="space-y-6 hidden">
         
@@ -1154,9 +1154,9 @@
         <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
           <div>
             <h2 class="text-base font-extrabold text-white flex items-center gap-2">
-              <i class="fa-solid fa-file-invoice-dollar text-rose-400"></i> QUẢN TRỊ CHI PHÍ CÔNG TY (KẾ TOÁN & VẬN HÀNH)
+              <i class="fa-solid fa-file-invoice-dollar text-rose-400"></i> QUẢN TRỊ CHI PHÍ CÔNG TY (KẾ TOÁN)
             </h2>
-            <p class="text-xs text-slate-400 mt-0.5">Phòng Kế Toán (Vũ Khánh Linh) ghi nhận chi phí mặt bằng, điện nước, marketing, lương thưởng & Ban Giám Đốc phê duyệt</p>
+            <p class="text-xs text-slate-400 mt-0.5">Kế toán tự do nhập nội dung và số tiền chi thực tế • Đối soát dòng tiền & In phiếu chi</p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
             <!-- Filter Kỳ chi phí -->
@@ -1166,27 +1166,15 @@
               <option value="2026-11">Tháng 11/2026</option>
               <option value="2026-09">Tháng 09/2026</option>
             </select>
-            <!-- Filter Danh mục -->
-            <select id="expense-filter-cat" onchange="renderExpensesView()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500 font-medium cursor-pointer">
-              <option value="all">Tất Cả Danh Mục</option>
-              <option value="mat_bang">🏢 Mặt Bằng & Văn Phòng</option>
-              <option value="dien_nuoc_net">⚡ Điện, Nước & Internet</option>
-              <option value="luong_nhan_su">💼 Lương & Tạm Ứng</option>
-              <option value="marketing">📢 Marketing & Quảng Cáo</option>
-              <option value="phan_mem_server">💻 Phần Mềm & CRM</option>
-              <option value="tiep_khach_vpp">☕ Tiếp Khách & VPP</option>
-              <option value="thue_phi_bank">🏦 Thuế & Phí Ngân Hàng</option>
-              <option value="chi_khac">🛠️ Chi Phí Khác</option>
-            </select>
             <!-- Nút Thêm Phiếu Chi Mới -->
             <button type="button" onclick="openModalThemChiPhi()" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 active:scale-95 text-white text-xs font-black rounded-xl shadow-md shadow-rose-600/30 transition flex items-center gap-1.5 cursor-pointer">
               <i class="fa-solid fa-plus text-xs"></i>
-              <span>+ THÊM PHIẾU CHI CÔNG TY</span>
+              <span>+ NHẬP CHI PHÍ CÔNG TY</span>
             </button>
           </div>
         </div>
 
-        <!-- 4 KPI Cards Chi Phí Vận Hành -->
+        <!-- 4 KPI Cards Thực Tế (Tổng Chi, Số Lượng, Chuyển Khoản Ngân Hàng, Tiền Mặt) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
             <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
@@ -1195,36 +1183,36 @@
             </div>
             <div id="exp-total-amount" class="text-2xl font-bold font-mono text-rose-400 mt-2 num-tabular">0 đ</div>
             <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
-              <span><b id="exp-count-paid" class="text-emerald-400 font-mono">0</b> phiếu đã thanh toán</span>
+              <span>Đã thanh toán thực tế</span>
               <span class="text-slate-500">Kế toán đã chi</span>
             </div>
           </div>
 
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
             <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
-              <span>Lương & Tạm Ứng Nhân Sự</span>
-              <span class="text-blue-400 bg-blue-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-user-group"></i></span>
+              <span>Số Khoản Chi Phí</span>
+              <span class="text-blue-400 bg-blue-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-receipt"></i></span>
             </div>
-            <div id="exp-total-salary" class="text-2xl font-bold font-mono text-blue-400 mt-2 num-tabular">0 đ</div>
-            <div class="text-[11px] text-slate-400 mt-1">Khối Sales & Vận hành lữ hành</div>
+            <div id="exp-count-paid" class="text-2xl font-bold font-mono text-blue-400 mt-2 num-tabular">0 khoản</div>
+            <div class="text-[11px] text-slate-400 mt-1">Khoản chi ghi nhận trong kỳ</div>
           </div>
 
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
             <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
-              <span>Mặt Bằng & Hạ Tầng Điện Nước</span>
-              <span class="text-amber-400 bg-amber-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-building"></i></span>
+              <span>Chi Chuyển Khoản (Bank)</span>
+              <span class="text-sky-400 bg-sky-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-building-columns"></i></span>
             </div>
-            <div id="exp-total-facility" class="text-2xl font-bold font-mono text-amber-400 mt-2 num-tabular">0 đ</div>
-            <div class="text-[11px] text-slate-400 mt-1">Trụ sở VP & Viễn thông, Điện nước</div>
+            <div id="exp-total-bank" class="text-2xl font-bold font-mono text-sky-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Techcombank 554479 & MB Bank</div>
           </div>
 
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
             <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
-              <span>Marketing & Bán Hàng</span>
-              <span class="text-pink-400 bg-pink-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-bullhorn"></i></span>
+              <span>Chi Tiền Mặt (Quỹ)</span>
+              <span class="text-amber-400 bg-amber-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-wallet"></i></span>
             </div>
-            <div id="exp-total-marketing" class="text-2xl font-bold font-mono text-pink-400 mt-2 num-tabular">0 đ</div>
-            <div class="text-[11px] text-slate-400 mt-1">Quảng cáo Facebook, Google & Tiếp khách</div>
+            <div id="exp-total-cash" class="text-2xl font-bold font-mono text-amber-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Quỹ tiền mặt thủ quỹ công ty</div>
           </div>
         </div>
 
@@ -1233,13 +1221,13 @@
           <div class="px-5 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-900/90">
             <div class="flex items-center gap-2">
               <span class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-list-check text-rose-400"></i> Bảng Kê Chứng Từ Chi Phí Vận Hành Doanh Nghiệp
+                <i class="fa-solid fa-list-check text-rose-400"></i> Bảng Kê Chi Phí Vận Hành Doanh Nghiệp
               </span>
               <span id="exp-showing-count" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-300">0 phiếu</span>
             </div>
             <div class="flex items-center gap-2">
               <div class="relative">
-                <input type="text" id="expense-search-input" oninput="renderExpensesView()" placeholder="Tìm nội dung, người nhận, HĐ..." class="bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 w-52 sm:w-64">
+                <input type="text" id="expense-search-input" oninput="renderExpensesView()" placeholder="Tìm nội dung chi, người nhận, HĐ..." class="bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 w-56 sm:w-72">
                 <i class="fa-solid fa-search absolute left-2.5 top-2.5 text-slate-500 text-xs"></i>
               </div>
             </div>
@@ -1250,12 +1238,11 @@
               <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr>
                   <th class="py-3 px-3.5 whitespace-nowrap">Mã Phiếu / Ngày Chi</th>
-                  <th class="py-3 px-3.5">Danh Mục</th>
-                  <th class="py-3 px-3.5">Nội Dung Chi & Diễn Giải</th>
+                  <th class="py-3 px-3.5">Nội Dung Chi Phí (Kế Toán Nhập)</th>
                   <th class="py-3 px-3.5">Người Nhận / Đơn Vị</th>
                   <th class="py-3 px-3.5 text-right font-bold text-rose-400">Số Tiền Chi</th>
                   <th class="py-3 px-3.5 text-center">Hình Thức</th>
-                  <th class="py-3 px-3.5 text-center">Hóa Đơn / Kế Toán</th>
+                  <th class="py-3 px-3.5 text-center">Hóa Đơn / Người Lập</th>
                   <th class="py-3 px-3.5 text-center">Trạng Thái</th>
                   <th class="py-3 px-3.5 text-right whitespace-nowrap">Thao Tác</th>
                 </tr>
@@ -1269,6 +1256,9 @@
 
       </div>
 
+      <!-- ===================================================================== -->
+      <!-- VIEW 2: DÒNG TIỀN CẢ CÔNG TY (CASH FLOW STATEMENT) -->
+      <!-- ===================================================================== -->
       <div id="view-cashflow" class="space-y-6 hidden">
         
         <!-- Header Dòng Tiền -->
@@ -3084,7 +3074,7 @@
           </div>
           <div>
             <h3 id="modal-expense-title" class="text-base font-extrabold text-white">LẬP PHIẾU CHI CÔNG TY</h3>
-            <p class="text-xs text-rose-300 font-semibold">Phòng Kế Toán lập chứng từ & đối soát tài chính</p>
+            <p class="text-xs text-rose-300 font-semibold">Kế toán tự nhập nội dung & số tiền chi phí</p>
           </div>
         </div>
         <button type="button" onclick="closeModalThemChiPhi()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
@@ -3095,32 +3085,30 @@
       <form id="form-them-chi-phi" onsubmit="luuChiPhiCongTy(event)" class="space-y-3.5 text-xs">
         <input type="hidden" id="exp-edit-id">
 
+        <!-- 1. Ngày Chi & Số Tiền Chi -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-300 mb-1">Ngày Chi (*)</label>
-            <input type="date" id="exp-ngay" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-rose-400">
+            <input type="date" id="exp-ngay" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono focus:outline-none focus:border-rose-400">
           </div>
           <div>
-            <label class="block font-bold text-slate-300 mb-1">Danh Mục Chi Phí (*)</label>
-            <select id="exp-danhmuc" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-semibold focus:outline-none focus:border-rose-400">
-              <option value="mat_bang">🏢 Mặt Bằng & Văn Phòng</option>
-              <option value="dien_nuoc_net">⚡ Điện, Nước & Internet</option>
-              <option value="luong_nhan_su">💼 Lương, Thưởng & Tạm Ứng</option>
-              <option value="marketing">📢 Marketing & Quảng Cáo</option>
-              <option value="phan_mem_server">💻 Phần Mềm, CRM & Tổng Đài</option>
-              <option value="tiep_khach_vpp">☕ Tiếp Khách & VPP</option>
-              <option value="thue_phi_bank">🏦 Thuế & Phí Ngân Hàng</option>
-              <option value="chi_khac">🛠️ Chi Phí Vận Hành Khác</option>
-            </select>
+            <label class="block font-bold text-rose-400 mb-1">Số Tiền Chi (VNĐ) (*)</label>
+            <input type="text" id="exp-sotien" oninput="handleCurrencyInput(this)" placeholder="0" required class="w-full bg-[#07162f] border border-rose-500/60 rounded-xl px-3.5 py-2 text-base font-mono font-black text-rose-400 focus:outline-none focus:border-rose-400">
           </div>
         </div>
 
+        <!-- 2. Nội Dung Chi Phí (Kế toán tự gõ tự do) -->
         <div>
-          <label class="block font-bold text-slate-300 mb-1">Số Tiền Chi (VNĐ) (*)</label>
-          <input type="text" id="exp-sotien" oninput="handleCurrencyInput(this)" placeholder="0" required class="w-full bg-[#07162f] border border-rose-500/50 rounded-xl px-3.5 py-2.5 text-base font-mono font-black text-rose-400 focus:outline-none focus:border-rose-400">
+          <label class="block font-bold text-white mb-1">Nội Dung Chi Phí (*) <span class="text-slate-400 font-normal">(Kế toán tự do nhập)</span></label>
+          <textarea id="exp-noidung" required rows="2" placeholder="VD: Tiền thuê văn phòng tháng 10, Cước Internet Viettel, Tạm ứng lương nhân viên, Mua cafe tiếp đối tác khách sạn..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-medium focus:outline-none focus:border-rose-400 placeholder-slate-500"></textarea>
         </div>
 
+        <!-- 3. Người Nhận & Hình Thức Thanh Toán -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-300 mb-1">Người Nhận / Đơn Vị Thụ Hưởng (*)</label>
+            <input type="text" id="exp-nguoinhan" required placeholder="VD: Chủ nhà VP, Viettel, EVN, Nhân viên Sales..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-rose-400">
+          </div>
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Hình Thức Thanh Toán</label>
             <select id="exp-hinhthuc" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-rose-400">
@@ -3129,28 +3117,21 @@
               <option value="Tiền mặt">Tiền mặt (Quỹ thủ quỹ)</option>
             </select>
           </div>
+        </div>
+
+        <!-- 4. Số Hóa Đơn / Chứng Từ & Trạng Thái Duyệt -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-slate-300 mb-1">Số HĐ / Chứng Từ Gốc (nếu có)</label>
-            <input type="text" id="exp-sohd" placeholder="VD: HĐ-00124 hoặc UNC-882" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-rose-400">
+            <input type="text" id="exp-sohd" placeholder="VD: HĐ-00124 hoặc UNC-882" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-white font-mono focus:outline-none focus:border-rose-400">
           </div>
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-300 mb-1">Người Nhận / Đơn Vị Thụ Hưởng (*)</label>
-          <input type="text" id="exp-nguoinhan" required placeholder="VD: Chủ nhà VP, Meta Platforms, Viettel, EVN, Nhân viên Sales..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-400">
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-300 mb-1">Nội Dung Chi Tiết / Diễn Giải (*)</label>
-          <textarea id="exp-noidung" required rows="2" placeholder="Ghi rõ lý do chi, đợt chi hoặc chi tiết nghiệp vụ..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-400"></textarea>
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-300 mb-1">Quy Trình Phê Duyệt (*)</label>
-          <select id="exp-trangthai" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-semibold focus:outline-none focus:border-rose-400">
-            <option value="da_duyet">✅ Đã Chi Thực Tế (Kế toán đã xuất tiền / chuyển khoản)</option>
-            <option value="cho_bgd_duyet">👑 Trình Ban Giám Đốc Phê Duyệt (Khoản chi lớn cần duyệt trước)</option>
-          </select>
+          <div>
+            <label class="block font-bold text-slate-300 mb-1">Quy Trình Phê Duyệt (*)</label>
+            <select id="exp-trangthai" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-semibold focus:outline-none focus:border-rose-400">
+              <option value="da_duyet">✅ Đã Chi Thực Tế (Kế toán đã xuất tiền)</option>
+              <option value="cho_bgd_duyet">👑 Trình Ban Giám Đốc Duyệt (Khoản chi lớn)</option>
+            </select>
+          </div>
         </div>
 
         <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
@@ -4415,16 +4396,14 @@
     }
 
     // =========================================================================
-    // QUẢN TRỊ CHI PHÍ CÔNG TY (KẾ TOÁN & BAN GIÁM ĐỐC)
+    // QUẢN TRỊ CHI PHÍ CÔNG TY (KẾ TOÁN TỰ NHẬP NỘI DUNG & SỐ TIỀN)
     // =========================================================================
-    const EXPENSES_STORAGE_KEY = 'BOOKING_TRAVEL_EXPENSES_V2';
+    const EXPENSES_STORAGE_KEY = 'BOOKING_TRAVEL_EXPENSES_V3';
 
     const DEFAULT_COMPANY_EXPENSES = [
       {
         id: "CP2610-01",
         ngayChi: "2026-10-05",
-        danhMuc: "mat_bang",
-        danhMucTen: "Mặt Bằng & Văn Phòng",
         noiDung: "Thanh toán tiền thuê văn phòng Công ty TNHH Booking Travel - Tháng 10/2026",
         nguoiNhan: "Chủ nhà (Tòa nhà VP Lê Hồng Phong, Nha Trang)",
         soTien: 15000000,
@@ -4439,8 +4418,6 @@
       {
         id: "CP2610-02",
         ngayChi: "2026-10-10",
-        danhMuc: "dien_nuoc_net",
-        danhMucTen: "Điện, Nước & Internet",
         noiDung: "Thanh toán cước Internet cáp quang Viettel + Tiền điện văn phòng tháng 09",
         nguoiNhan: "Viettel Nha Trang & EVN Khánh Hòa",
         soTien: 2450000,
@@ -4455,8 +4432,6 @@
       {
         id: "CP2610-03",
         ngayChi: "2026-10-15",
-        danhMuc: "marketing",
-        danhMucTen: "Marketing & Quảng Cáo",
         noiDung: "Chi phí chạy chiến dịch Facebook Ads Combo Tour Nha Trang & Vĩnh Hy tháng 10",
         nguoiNhan: "Meta Platforms / Facebook Ads",
         soTien: 8500000,
@@ -4471,8 +4446,6 @@
       {
         id: "CP2610-04",
         ngayChi: "2026-10-20",
-        danhMuc: "phan_mem_server",
-        danhMucTen: "Phần Mềm & CRM & Tổng Đài",
         noiDung: "Gia hạn phần mềm CRM Booking Travel & Cước Tổng Đài Hotline 084.84.64.77.222",
         nguoiNhan: "Đơn vị cung cấp Cloud & Tổng đài VoIP",
         soTien: 3200000,
@@ -4487,8 +4460,6 @@
       {
         id: "CP2610-05",
         ngayChi: "2026-10-25",
-        danhMuc: "tiep_khach_vpp",
-        danhMucTen: "Tiếp Khách & Văn Phòng Phẩm",
         noiDung: "Mua văn phòng phẩm, nước khoáng & chi phí tiếp đối tác Khách sạn Rova / King Town",
         nguoiNhan: "Nhà sách Phương Nam & Cửa hàng tiện lợi",
         soTien: 1850000,
@@ -4503,8 +4474,6 @@
       {
         id: "CP2610-06",
         ngayChi: "2026-10-28",
-        danhMuc: "luong_nhan_su",
-        danhMucTen: "Lương, Thưởng & Tạm Ứng",
         noiDung: "Tạm ứng lương đợt 2 tháng 10 cho khối nhân viên Sales & Điều hành tour",
         nguoiNhan: "Khối Nhân Viên Kinh Doanh (Sales)",
         soTien: 12000000,
@@ -4545,29 +4514,16 @@
 
     loadCompanyExpenses();
 
-    const EXP_CAT_MAP = {
-      mat_bang: { name: "🏢 Mặt Bằng & Văn Phòng", color: "bg-indigo-500/20 text-indigo-300 border-indigo-500/40" },
-      dien_nuoc_net: { name: "⚡ Điện, Nước & Internet", color: "bg-cyan-500/20 text-cyan-300 border-cyan-500/40" },
-      luong_nhan_su: { name: "💼 Lương & Tạm Ứng", color: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40" },
-      marketing: { name: "📢 Marketing & Quảng Cáo", color: "bg-pink-500/20 text-pink-300 border-pink-500/40" },
-      phan_mem_server: { name: "💻 Phần Mềm & CRM", color: "bg-sky-500/20 text-sky-300 border-sky-500/40" },
-      tiep_khach_vpp: { name: "☕ Tiếp Khách & VPP", color: "bg-amber-500/20 text-amber-300 border-amber-500/40" },
-      thue_phi_bank: { name: "🏦 Thuế & Phí Ngân Hàng", color: "bg-purple-500/20 text-purple-300 border-purple-500/40" },
-      chi_khac: { name: "🛠️ Chi Phí Vận Hành Khác", color: "bg-slate-700/40 text-slate-300 border-slate-600" }
-    };
-
     function renderExpensesView() {
       const periodFilter = document.getElementById('expense-filter-period')?.value || '2026-10';
-      const catFilter = document.getElementById('expense-filter-cat')?.value || 'all';
       const query = (document.getElementById('expense-search-input')?.value || '').toLowerCase().trim();
 
       const isAdmin = currentUser && currentUser.role === 'admin';
       const isAcc = currentUser && currentUser.role === 'accountant';
 
       let totalAmount = 0;
-      let totalSalary = 0;
-      let totalFacility = 0;
-      let totalMarketing = 0;
+      let totalBank = 0;
+      let totalCash = 0;
       let countPaid = 0;
 
       const filtered = companyExpenses.filter(item => {
@@ -4575,9 +4531,6 @@
         if (periodFilter !== 'all') {
           if (!item.ngayChi || !item.ngayChi.startsWith(periodFilter)) return false;
         }
-
-        // Lọc theo danh mục
-        if (catFilter !== 'all' && item.danhMuc !== catFilter) return false;
 
         // Lọc theo tìm kiếm
         if (query) {
@@ -4594,26 +4547,26 @@
         totalAmount += val;
         if (item.trangThai === 'da_duyet') countPaid++;
 
-        if (item.danhMuc === 'luong_nhan_su') totalSalary += val;
-        else if (item.danhMuc === 'mat_bang' || item.danhMuc === 'dien_nuoc_net') totalFacility += val;
-        else if (item.danhMuc === 'marketing' || item.danhMuc === 'tiep_khach_vpp') totalMarketing += val;
+        const ht = (item.hinhThuc || '').toLowerCase();
+        if (ht.includes('tiền mặt')) {
+          totalCash += val;
+        } else {
+          totalBank += val;
+        }
       });
 
-      // Render 4 KPI cards
+      // Render 4 KPI cards thực tế
       const expTotalEl = document.getElementById('exp-total-amount');
       if (expTotalEl) expTotalEl.innerText = totalAmount.toLocaleString('vi-VN') + ' đ';
 
       const expPaidCountEl = document.getElementById('exp-count-paid');
-      if (expPaidCountEl) expPaidCountEl.innerText = countPaid;
+      if (expPaidCountEl) expPaidCountEl.innerText = countPaid + ' khoản';
 
-      const expSalaryEl = document.getElementById('exp-total-salary');
-      if (expSalaryEl) expSalaryEl.innerText = totalSalary.toLocaleString('vi-VN') + ' đ';
+      const expBankEl = document.getElementById('exp-total-bank');
+      if (expBankEl) expBankEl.innerText = totalBank.toLocaleString('vi-VN') + ' đ';
 
-      const expFacilityEl = document.getElementById('exp-total-facility');
-      if (expFacilityEl) expFacilityEl.innerText = totalFacility.toLocaleString('vi-VN') + ' đ';
-
-      const expMarketingEl = document.getElementById('exp-total-marketing');
-      if (expMarketingEl) expMarketingEl.innerText = totalMarketing.toLocaleString('vi-VN') + ' đ';
+      const expCashEl = document.getElementById('exp-total-cash');
+      if (expCashEl) expCashEl.innerText = totalCash.toLocaleString('vi-VN') + ' đ';
 
       const expShowingEl = document.getElementById('exp-showing-count');
       if (expShowingEl) expShowingEl.innerText = filtered.length + ' phiếu';
@@ -4625,9 +4578,9 @@
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="9" class="py-12 text-center text-slate-500">
+            <td colspan="8" class="py-12 text-center text-slate-500">
               <i class="fa-solid fa-folder-open text-3xl mb-2 text-slate-600 block"></i>
-              Không tìm thấy phiếu chi công ty nào phù hợp với bộ lọc hiện tại.
+              Không tìm thấy khoản chi phí nào phù hợp với bộ lọc hiện tại.
             </td>
           </tr>
         `;
@@ -4636,13 +4589,12 @@
 
       let html = '';
       filtered.forEach(item => {
-        const catInfo = EXP_CAT_MAP[item.danhMuc] || { name: item.danhMucTen || item.danhMuc, color: "bg-slate-700/40 text-slate-300 border-slate-600" };
         const dateVN = formatShortDateVN(item.ngayChi);
 
         let statusBadge = '';
         let approveBtn = '';
         if (item.trangThai === 'da_duyet') {
-          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 inline-flex items-center gap-1"><i class="fa-solid fa-circle-check text-[9px]"></i> Đã Chi / Đã Duyệt</span>';
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 inline-flex items-center gap-1"><i class="fa-solid fa-circle-check text-[9px]"></i> Đã Chi</span>';
         } else {
           statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-flex items-center gap-1 animate-pulse"><i class="fa-solid fa-clock text-[9px]"></i> Chờ BGĐ Duyệt</span>';
           if (isAdmin) {
@@ -4664,16 +4616,9 @@
               </div>
             </td>
 
-            <!-- Danh Mục -->
-            <td class="py-3 px-3.5 whitespace-nowrap">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${catInfo.color}">
-                ${catInfo.name}
-              </span>
-            </td>
-
-            <!-- Nội Dung Chi -->
-            <td class="py-3 px-3.5 min-w-[200px]">
-              <div class="font-bold text-white text-xs">${escapeHtml(item.noiDung)}</div>
+            <!-- Nội Dung Chi (Kế toán tự nhập) -->
+            <td class="py-3 px-3.5 min-w-[240px]">
+              <div class="font-bold text-white text-xs leading-relaxed">${escapeHtml(item.noiDung)}</div>
               ${item.nguoiTao ? `<div class="text-[10px] text-slate-400 mt-0.5">Người lập: ${escapeHtml(item.nguoiTao)}</div>` : ''}
             </td>
 
@@ -4694,7 +4639,7 @@
               </span>
             </td>
 
-            <!-- Hóa Đơn / Chứng Từ -->
+            <!-- Hóa Đơn / Người Lập -->
             <td class="py-3 px-3.5 text-center whitespace-nowrap">
               ${item.soHd ? `<span class="font-mono font-bold text-indigo-300 text-[11px]"><i class="fa-solid fa-hashtag text-[9px]"></i> ${escapeHtml(item.soHd)}</span>` : '<span class="text-slate-500 text-[10px]">Phiếu chi nội bộ</span>'}
             </td>
@@ -4746,12 +4691,11 @@
         title.innerText = 'CHỈNH SỬA PHIẾU CHI CÔNG TY';
         document.getElementById('exp-edit-id').value = item.id;
         document.getElementById('exp-ngay').value = item.ngayChi || '';
-        document.getElementById('exp-danhmuc').value = item.danhMuc || 'mat_bang';
+        document.getElementById('exp-noidung').value = item.noiDung || '';
         document.getElementById('exp-sotien').value = formatCurrency(item.soTien || 0);
+        document.getElementById('exp-nguoinhan').value = item.nguoiNhan || '';
         document.getElementById('exp-hinhthuc').value = item.hinhThuc || 'Techcombank (STK 554479 - Booking Travel)';
         document.getElementById('exp-sohd').value = item.soHd || '';
-        document.getElementById('exp-nguoinhan').value = item.nguoiNhan || '';
-        document.getElementById('exp-noidung').value = item.noiDung || '';
         document.getElementById('exp-trangthai').value = item.trangThai || 'da_duyet';
       } else {
         title.innerText = 'LẬP PHIẾU CHI CÔNG TY';
@@ -4773,32 +4717,34 @@
       e.preventDefault();
       const editId = document.getElementById('exp-edit-id').value;
       const ngay = document.getElementById('exp-ngay').value;
-      const danhmuc = document.getElementById('exp-danhmuc').value;
+      const noidung = document.getElementById('exp-noidung').value.trim();
       const sotien = parseCurrency(document.getElementById('exp-sotien').value);
+      const nguoinhan = document.getElementById('exp-nguoinhan').value.trim();
       const hinhthuc = document.getElementById('exp-hinhthuc').value;
       const sohd = document.getElementById('exp-sohd').value.trim();
-      const nguoinhan = document.getElementById('exp-nguoinhan').value.trim();
-      const noidung = document.getElementById('exp-noidung').value.trim();
       const trangthai = document.getElementById('exp-trangthai').value;
 
-      if (sotien <= 0) {
-        alert('⚠️ Vui lòng nhập số tiền chi phí hợp lệ (> 0 VNĐ)!');
+      if (!noidung) {
+        alert('⚠️ Vui lòng nhập nội dung chi phí!');
+        document.getElementById('exp-noidung').focus();
         return;
       }
 
-      const catInfo = EXP_CAT_MAP[danhmuc] || { name: "Chi Phí Vận Hành" };
+      if (sotien <= 0) {
+        alert('⚠️ Vui lòng nhập số tiền chi phí hợp lệ (> 0 VNĐ)!');
+        document.getElementById('exp-sotien').focus();
+        return;
+      }
 
       if (editId) {
         const item = companyExpenses.find(x => x.id === editId);
         if (item) {
           item.ngayChi = ngay;
-          item.danhMuc = danhmuc;
-          item.danhMucTen = catInfo.name;
+          item.noiDung = noidung;
           item.soTien = sotien;
+          item.nguoiNhan = nguoinhan;
           item.hinhThuc = hinhthuc;
           item.soHd = sohd;
-          item.nguoiNhan = nguoinhan;
-          item.noiDung = noidung;
           item.trangThai = trangthai;
         }
       } else {
@@ -4809,11 +4755,9 @@
         const newExp = {
           id: newId,
           ngayChi: ngay,
-          danhMuc: danhmuc,
-          danhMucTen: catInfo.name,
           noiDung: noidung,
-          nguoiNhan: nguoinhan,
           soTien: sotien,
+          nguoiNhan: nguoinhan,
           hinhThuc: hinhthuc,
           soHd: sohd,
           nguoiTao: currentUser ? (currentUser.name + ' (' + (currentUser.title || currentUser.role) + ')') : 'Vũ Khánh Linh (Kế Toán)',
