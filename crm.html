@@ -551,6 +551,11 @@
             <i class="fa-solid fa-chart-pie"></i> Tài Chính & Báo Cáo
           </p>
           <nav class="space-y-0.5">
+            <button onclick="switchView('expenses')" id="nav-expenses" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-file-invoice-dollar w-4 text-center text-rose-400"></i>
+              <span>Chi Phí Công Ty</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Kế Toán</span>
+            </button>
             <button onclick="switchView('cashflow')" id="nav-cashflow" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-money-bill-transfer w-4 text-center text-emerald-400"></i>
               <span>Dòng Tiền Thực Tế</span>
@@ -963,6 +968,12 @@
           </button>
         </div>
 
+        <!-- Nút Nhanh: Chi Phí Công Ty (Kế Toán & Ban Giám Đốc) -->
+        <button onclick="switchView('expenses')" id="topbar-btn-expenses" class="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition cursor-pointer shrink-0" title="Quản lý chi phí công ty (Kế Toán & BGĐ)">
+          <i class="fa-solid fa-file-invoice-dollar text-rose-400"></i>
+          <span>Chi Phí Cty</span>
+        </button>
+
         <!-- NÚT CỐT LÕI DUY NHẤT CỦA CRM: TẠO BOOKING MỚI (ƯU TIÊN CRM - TO RÕ NỔI BẬT) -->
         <button onclick="openModalTaoDon()" class="px-3 sm:px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-95 text-white text-xs font-black rounded-xl shadow-md shadow-blue-600/30 transition flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0" title="Tạo đơn hàng booking mới vào hệ thống CRM">
           <i class="fa-solid fa-plus text-xs"></i>
@@ -1134,6 +1145,130 @@
       <!-- ===================================================================== -->
       <!-- VIEW 2: DÒNG TIỀN CẢ CÔNG TY (CASH FLOW STATEMENT) -->
       <!-- ===================================================================== -->
+      <!-- ===================================================================== -->
+      <!-- VIEW: QUẢN LÝ CHI PHÍ CÔNG TY (KẾ TOÁN - OPEX) -->
+      <!-- ===================================================================== -->
+      <div id="view-expenses" class="space-y-6 hidden">
+        
+        <!-- Header Chi Phí Công Ty -->
+        <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div>
+            <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-file-invoice-dollar text-rose-400"></i> QUẢN TRỊ CHI PHÍ CÔNG TY (KẾ TOÁN & VẬN HÀNH)
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Phòng Kế Toán (Vũ Khánh Linh) ghi nhận chi phí mặt bằng, điện nước, marketing, lương thưởng & Ban Giám Đốc phê duyệt</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Filter Kỳ chi phí -->
+            <select id="expense-filter-period" onchange="renderExpensesView()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500 font-medium cursor-pointer">
+              <option value="all">Tất Cả Năm 2026</option>
+              <option value="2026-10" selected>Tháng 10/2026</option>
+              <option value="2026-11">Tháng 11/2026</option>
+              <option value="2026-09">Tháng 09/2026</option>
+            </select>
+            <!-- Filter Danh mục -->
+            <select id="expense-filter-cat" onchange="renderExpensesView()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500 font-medium cursor-pointer">
+              <option value="all">Tất Cả Danh Mục</option>
+              <option value="mat_bang">🏢 Mặt Bằng & Văn Phòng</option>
+              <option value="dien_nuoc_net">⚡ Điện, Nước & Internet</option>
+              <option value="luong_nhan_su">💼 Lương & Tạm Ứng</option>
+              <option value="marketing">📢 Marketing & Quảng Cáo</option>
+              <option value="phan_mem_server">💻 Phần Mềm & CRM</option>
+              <option value="tiep_khach_vpp">☕ Tiếp Khách & VPP</option>
+              <option value="thue_phi_bank">🏦 Thuế & Phí Ngân Hàng</option>
+              <option value="chi_khac">🛠️ Chi Phí Khác</option>
+            </select>
+            <!-- Nút Thêm Phiếu Chi Mới -->
+            <button type="button" onclick="openModalThemChiPhi()" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 active:scale-95 text-white text-xs font-black rounded-xl shadow-md shadow-rose-600/30 transition flex items-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-plus text-xs"></i>
+              <span>+ THÊM PHIẾU CHI CÔNG TY</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Cards Chi Phí Vận Hành -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+              <span>Tổng Chi Phí Đã Chi</span>
+              <span class="text-rose-400 bg-rose-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-money-bill-wave"></i></span>
+            </div>
+            <div id="exp-total-amount" class="text-2xl font-bold font-mono text-rose-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1 flex items-center justify-between">
+              <span><b id="exp-count-paid" class="text-emerald-400 font-mono">0</b> phiếu đã thanh toán</span>
+              <span class="text-slate-500">Kế toán đã chi</span>
+            </div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+              <span>Lương & Tạm Ứng Nhân Sự</span>
+              <span class="text-blue-400 bg-blue-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-user-group"></i></span>
+            </div>
+            <div id="exp-total-salary" class="text-2xl font-bold font-mono text-blue-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Khối Sales & Vận hành lữ hành</div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+              <span>Mặt Bằng & Hạ Tầng Điện Nước</span>
+              <span class="text-amber-400 bg-amber-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-building"></i></span>
+            </div>
+            <div id="exp-total-facility" class="text-2xl font-bold font-mono text-amber-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Trụ sở VP & Viễn thông, Điện nước</div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+            <div class="text-xs font-semibold text-slate-400 flex items-center justify-between">
+              <span>Marketing & Bán Hàng</span>
+              <span class="text-pink-400 bg-pink-500/10 p-1.5 rounded-md text-xs"><i class="fa-solid fa-bullhorn"></i></span>
+            </div>
+            <div id="exp-total-marketing" class="text-2xl font-bold font-mono text-pink-400 mt-2 num-tabular">0 đ</div>
+            <div class="text-[11px] text-slate-400 mt-1">Quảng cáo Facebook, Google & Tiếp khách</div>
+          </div>
+        </div>
+
+        <!-- Bảng Nhật Ký Chi Phí Công Ty -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+          <div class="px-5 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-900/90">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-rose-400"></i> Bảng Kê Chứng Từ Chi Phí Vận Hành Doanh Nghiệp
+              </span>
+              <span id="exp-showing-count" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-300">0 phiếu</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="relative">
+                <input type="text" id="expense-search-input" oninput="renderExpensesView()" placeholder="Tìm nội dung, người nhận, HĐ..." class="bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 w-52 sm:w-64">
+                <i class="fa-solid fa-search absolute left-2.5 top-2.5 text-slate-500 text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
+              <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-3.5 whitespace-nowrap">Mã Phiếu / Ngày Chi</th>
+                  <th class="py-3 px-3.5">Danh Mục</th>
+                  <th class="py-3 px-3.5">Nội Dung Chi & Diễn Giải</th>
+                  <th class="py-3 px-3.5">Người Nhận / Đơn Vị</th>
+                  <th class="py-3 px-3.5 text-right font-bold text-rose-400">Số Tiền Chi</th>
+                  <th class="py-3 px-3.5 text-center">Hình Thức</th>
+                  <th class="py-3 px-3.5 text-center">Hóa Đơn / Kế Toán</th>
+                  <th class="py-3 px-3.5 text-center">Trạng Thái</th>
+                  <th class="py-3 px-3.5 text-right whitespace-nowrap">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="expense-table-body" class="divide-y divide-slate-800/60 font-medium">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
       <div id="view-cashflow" class="space-y-6 hidden">
         
         <!-- Header Dòng Tiền -->
@@ -2936,6 +3071,206 @@
   </div>
 
   <!-- ========================================================================= -->
+  <!-- MODAL: THÊM / SỬA PHIẾU CHI CÔNG TY (KẾ TOÁN & BAN GIÁM ĐỐC) -->
+  <!-- ========================================================================= -->
+  <div id="modal-them-chi-phi-cty" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/85 backdrop-blur-sm" onclick="closeModalThemChiPhi()"></div>
+    <div class="relative bg-slate-900 border border-rose-500/40 rounded-2xl max-w-lg w-full p-6 shadow-2xl z-10 space-y-4">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center text-lg font-bold">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+          </div>
+          <div>
+            <h3 id="modal-expense-title" class="text-base font-extrabold text-white">LẬP PHIẾU CHI CÔNG TY</h3>
+            <p class="text-xs text-rose-300 font-semibold">Phòng Kế Toán lập chứng từ & đối soát tài chính</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModalThemChiPhi()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="form-them-chi-phi" onsubmit="luuChiPhiCongTy(event)" class="space-y-3.5 text-xs">
+        <input type="hidden" id="exp-edit-id">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-300 mb-1">Ngày Chi (*)</label>
+            <input type="date" id="exp-ngay" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-rose-400">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 mb-1">Danh Mục Chi Phí (*)</label>
+            <select id="exp-danhmuc" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-semibold focus:outline-none focus:border-rose-400">
+              <option value="mat_bang">🏢 Mặt Bằng & Văn Phòng</option>
+              <option value="dien_nuoc_net">⚡ Điện, Nước & Internet</option>
+              <option value="luong_nhan_su">💼 Lương, Thưởng & Tạm Ứng</option>
+              <option value="marketing">📢 Marketing & Quảng Cáo</option>
+              <option value="phan_mem_server">💻 Phần Mềm, CRM & Tổng Đài</option>
+              <option value="tiep_khach_vpp">☕ Tiếp Khách & VPP</option>
+              <option value="thue_phi_bank">🏦 Thuế & Phí Ngân Hàng</option>
+              <option value="chi_khac">🛠️ Chi Phí Vận Hành Khác</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Số Tiền Chi (VNĐ) (*)</label>
+          <input type="text" id="exp-sotien" oninput="handleCurrencyInput(this)" placeholder="0" required class="w-full bg-[#07162f] border border-rose-500/50 rounded-xl px-3.5 py-2.5 text-base font-mono font-black text-rose-400 focus:outline-none focus:border-rose-400">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Hình Thức Thanh Toán</label>
+            <select id="exp-hinhthuc" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-rose-400">
+              <option value="Techcombank (STK 554479 - Booking Travel)">Techcombank 554479 (Cty)</option>
+              <option value="MB Bank">MB Bank (Tài khoản Cty)</option>
+              <option value="Tiền mặt">Tiền mặt (Quỹ thủ quỹ)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-300 mb-1">Số HĐ / Chứng Từ Gốc (nếu có)</label>
+            <input type="text" id="exp-sohd" placeholder="VD: HĐ-00124 hoặc UNC-882" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-rose-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Người Nhận / Đơn Vị Thụ Hưởng (*)</label>
+          <input type="text" id="exp-nguoinhan" required placeholder="VD: Chủ nhà VP, Meta Platforms, Viettel, EVN, Nhân viên Sales..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-400">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Nội Dung Chi Tiết / Diễn Giải (*)</label>
+          <textarea id="exp-noidung" required rows="2" placeholder="Ghi rõ lý do chi, đợt chi hoặc chi tiết nghiệp vụ..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-400"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Quy Trình Phê Duyệt (*)</label>
+          <select id="exp-trangthai" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-white font-semibold focus:outline-none focus:border-rose-400">
+            <option value="da_duyet">✅ Đã Chi Thực Tế (Kế toán đã xuất tiền / chuyển khoản)</option>
+            <option value="cho_bgd_duyet">👑 Trình Ban Giám Đốc Phê Duyệt (Khoản chi lớn cần duyệt trước)</option>
+          </select>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+          <button type="button" onclick="closeModalThemChiPhi()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer">
+            Đóng
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 active:scale-95 text-white text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-rose-600/30 cursor-pointer">
+            <i class="fa-solid fa-floppy-disk"></i>
+            <span>LƯU PHIẾU CHI CÔNG TY</span>
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: IN PHIẾU CHI CHUẨN KẾ TOÁN DOANH NGHIỆP -->
+  <!-- ========================================================================= -->
+  <div id="modal-in-phieu-chi" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/85 backdrop-blur-sm" onclick="closeModalInPhieuChi()"></div>
+    <div class="relative bg-slate-900 border border-slate-700 rounded-2xl max-w-xl w-full p-6 shadow-2xl z-10 space-y-4">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="text-xs font-bold text-slate-300 uppercase flex items-center gap-2">
+          <i class="fa-solid fa-print text-amber-400"></i> Xem Trước & In Phiếu Chi
+        </span>
+        <button type="button" onclick="closeModalInPhieuChi()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Khung Phiếu Chi A5/Chuẩn In -->
+      <div id="print-phieu-chi-container" class="bg-white text-slate-900 p-6 rounded-xl font-sans space-y-4 shadow-inner">
+        <!-- Header Phiếu -->
+        <div class="flex items-start justify-between border-b border-slate-300 pb-3">
+          <div>
+            <div class="font-extrabold text-sm uppercase text-blue-900 tracking-wide">CÔNG TY TNHH BOOKING TRAVEL</div>
+            <div class="text-[11px] text-slate-600">MST: 4201998888 • Hotline: 084.84.64.77.222</div>
+            <div class="text-[11px] text-slate-600">Địa chỉ: Nha Trang, Tỉnh Khánh Hòa</div>
+          </div>
+          <div class="text-right text-[11px]">
+            <div class="font-bold text-slate-700">Mẫu số: 02 - TT</div>
+            <div class="text-slate-500">(Ban hành theo TT 133/2016/TT-BTC)</div>
+          </div>
+        </div>
+
+        <div class="text-center space-y-0.5">
+          <h2 class="text-lg font-black uppercase text-slate-900 tracking-wider">PHIẾU CHI</h2>
+          <div class="text-xs text-slate-600 font-mono" id="print-pc-ngay">Ngày ... tháng ... năm ...</div>
+          <div class="text-xs font-mono font-bold text-rose-700" id="print-pc-ma">Số: PC2610-01</div>
+        </div>
+
+        <div class="text-xs space-y-2 pt-1 border-t border-slate-200">
+          <div class="flex">
+            <span class="w-40 text-slate-600 font-medium shrink-0">Họ và tên người nhận tiền:</span>
+            <span class="font-bold text-slate-900" id="print-pc-nguoinhan">---</span>
+          </div>
+          <div class="flex">
+            <span class="w-40 text-slate-600 font-medium shrink-0">Địa chỉ / Đơn vị:</span>
+            <span class="text-slate-800" id="print-pc-diachi">---</span>
+          </div>
+          <div class="flex">
+            <span class="w-40 text-slate-600 font-medium shrink-0">Lý do chi:</span>
+            <span class="text-slate-800 font-medium" id="print-pc-lydo">---</span>
+          </div>
+          <div class="flex">
+            <span class="w-40 text-slate-600 font-medium shrink-0">Số tiền:</span>
+            <span class="font-extrabold text-rose-700 text-sm font-mono" id="print-pc-sotien">0 đ</span>
+          </div>
+          <div class="flex">
+            <span class="w-40 text-slate-600 font-medium shrink-0">Viết bằng chữ:</span>
+            <span class="italic font-bold text-slate-900" id="print-pc-bangchu">---</span>
+          </div>
+          <div class="flex">
+            <span class="w-40 text-slate-600 font-medium shrink-0">Kèm theo:</span>
+            <span class="text-slate-700" id="print-pc-chungtu">Chứng từ gốc</span>
+          </div>
+        </div>
+
+        <!-- 4 Chữ ký kế toán -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs pt-4 border-t border-slate-300">
+          <div>
+            <div class="font-bold text-slate-900">Giám Đốc</div>
+            <div class="text-[10px] text-slate-500 italic">(Ký, họ tên, đóng dấu)</div>
+            <div class="h-14 flex items-end justify-center font-bold text-[11px] text-blue-900" id="print-pc-giamdoc">Bùi Phạm Quỳnh Chi</div>
+          </div>
+          <div>
+            <div class="font-bold text-slate-900">Kế Toán Trưởng</div>
+            <div class="text-[10px] text-slate-500 italic">(Ký, họ tên)</div>
+            <div class="h-14 flex items-end justify-center font-bold text-[11px] text-blue-900" id="print-pc-ketoan">Vũ Khánh Linh</div>
+          </div>
+          <div>
+            <div class="font-bold text-slate-900">Thủ Quỹ</div>
+            <div class="text-[10px] text-slate-500 italic">(Ký, họ tên)</div>
+            <div class="h-14 flex items-end justify-center font-bold text-[11px] text-slate-400">---</div>
+          </div>
+          <div>
+            <div class="font-bold text-slate-900">Người Nhận Tiền</div>
+            <div class="text-[10px] text-slate-500 italic">(Ký, họ tên)</div>
+            <div class="h-14 flex items-end justify-center font-bold text-[11px] text-slate-700" id="print-pc-sign-nhan">---</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+        <button type="button" onclick="closeModalInPhieuChi()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer">
+          Đóng
+        </button>
+        <button type="button" onclick="window.print()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-black text-xs transition flex items-center gap-1.5 shadow-lg shadow-amber-500/20 cursor-pointer">
+          <i class="fa-solid fa-print"></i>
+          <span>IN PHIẾU CHI (PRINT)</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
   <!-- MODAL: KẾ TOÁN LẬP ĐỀ XUẤT CHI TRẢ NCC & BAN GIÁM ĐỐC DUYỆT CHI -->
   <!-- ========================================================================= -->
   <div id="modal-de-xuat-chi-ncc" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
@@ -4080,6 +4415,534 @@
     }
 
     // =========================================================================
+    // QUẢN TRỊ CHI PHÍ CÔNG TY (KẾ TOÁN & BAN GIÁM ĐỐC)
+    // =========================================================================
+    const EXPENSES_STORAGE_KEY = 'BOOKING_TRAVEL_EXPENSES_V2';
+
+    const DEFAULT_COMPANY_EXPENSES = [
+      {
+        id: "CP2610-01",
+        ngayChi: "2026-10-05",
+        danhMuc: "mat_bang",
+        danhMucTen: "Mặt Bằng & Văn Phòng",
+        noiDung: "Thanh toán tiền thuê văn phòng Công ty TNHH Booking Travel - Tháng 10/2026",
+        nguoiNhan: "Chủ nhà (Tòa nhà VP Lê Hồng Phong, Nha Trang)",
+        soTien: 15000000,
+        hinhThuc: "Techcombank (STK 554479 - Booking Travel)",
+        soHd: "HĐ-VP1026",
+        nguoiTao: "Vũ Khánh Linh (Kế Toán)",
+        ngayTao: "2026-10-05T09:30:00.000Z",
+        trangThai: "da_duyet",
+        nguoiDuyet: "Bùi Phạm Quỳnh Chi (Ban Giám Đốc)",
+        ngayDuyet: "2026-10-05T10:00:00.000Z"
+      },
+      {
+        id: "CP2610-02",
+        ngayChi: "2026-10-10",
+        danhMuc: "dien_nuoc_net",
+        danhMucTen: "Điện, Nước & Internet",
+        noiDung: "Thanh toán cước Internet cáp quang Viettel + Tiền điện văn phòng tháng 09",
+        nguoiNhan: "Viettel Nha Trang & EVN Khánh Hòa",
+        soTien: 2450000,
+        hinhThuc: "Techcombank (STK 554479 - Booking Travel)",
+        soHd: "HĐ-VT-9821",
+        nguoiTao: "Vũ Khánh Linh (Kế Toán)",
+        ngayTao: "2026-10-10T14:15:00.000Z",
+        trangThai: "da_duyet",
+        nguoiDuyet: "Bùi Phạm Quỳnh Chi (Ban Giám Đốc)",
+        ngayDuyet: "2026-10-10T15:00:00.000Z"
+      },
+      {
+        id: "CP2610-03",
+        ngayChi: "2026-10-15",
+        danhMuc: "marketing",
+        danhMucTen: "Marketing & Quảng Cáo",
+        noiDung: "Chi phí chạy chiến dịch Facebook Ads Combo Tour Nha Trang & Vĩnh Hy tháng 10",
+        nguoiNhan: "Meta Platforms / Facebook Ads",
+        soTien: 8500000,
+        hinhThuc: "MB Bank",
+        soHd: "FB-ADS-1026",
+        nguoiTao: "Vũ Khánh Linh (Kế Toán)",
+        ngayTao: "2026-10-15T08:45:00.000Z",
+        trangThai: "da_duyet",
+        nguoiDuyet: "Bùi Phạm Quỳnh Chi (Ban Giám Đốc)",
+        ngayDuyet: "2026-10-15T09:30:00.000Z"
+      },
+      {
+        id: "CP2610-04",
+        ngayChi: "2026-10-20",
+        danhMuc: "phan_mem_server",
+        danhMucTen: "Phần Mềm & CRM & Tổng Đài",
+        noiDung: "Gia hạn phần mềm CRM Booking Travel & Cước Tổng Đài Hotline 084.84.64.77.222",
+        nguoiNhan: "Đơn vị cung cấp Cloud & Tổng đài VoIP",
+        soTien: 3200000,
+        hinhThuc: "Techcombank (STK 554479 - Booking Travel)",
+        soHd: "HD-CRM-447",
+        nguoiTao: "Vũ Khánh Linh (Kế Toán)",
+        ngayTao: "2026-10-20T11:20:00.000Z",
+        trangThai: "da_duyet",
+        nguoiDuyet: "Bùi Phạm Quỳnh Chi (Ban Giám Đốc)",
+        ngayDuyet: "2026-10-20T11:45:00.000Z"
+      },
+      {
+        id: "CP2610-05",
+        ngayChi: "2026-10-25",
+        danhMuc: "tiep_khach_vpp",
+        danhMucTen: "Tiếp Khách & Văn Phòng Phẩm",
+        noiDung: "Mua văn phòng phẩm, nước khoáng & chi phí tiếp đối tác Khách sạn Rova / King Town",
+        nguoiNhan: "Nhà sách Phương Nam & Cửa hàng tiện lợi",
+        soTien: 1850000,
+        hinhThuc: "Tiền mặt",
+        soHd: "PC-TK-08",
+        nguoiTao: "Vũ Khánh Linh (Kế Toán)",
+        ngayTao: "2026-10-25T16:00:00.000Z",
+        trangThai: "da_duyet",
+        nguoiDuyet: "Bùi Phạm Quỳnh Chi (Ban Giám Đốc)",
+        ngayDuyet: "2026-10-25T16:30:00.000Z"
+      },
+      {
+        id: "CP2610-06",
+        ngayChi: "2026-10-28",
+        danhMuc: "luong_nhan_su",
+        danhMucTen: "Lương, Thưởng & Tạm Ứng",
+        noiDung: "Tạm ứng lương đợt 2 tháng 10 cho khối nhân viên Sales & Điều hành tour",
+        nguoiNhan: "Khối Nhân Viên Kinh Doanh (Sales)",
+        soTien: 12000000,
+        hinhThuc: "Techcombank (STK 554479 - Booking Travel)",
+        soHd: "PC-LUONG-10",
+        nguoiTao: "Vũ Khánh Linh (Kế Toán)",
+        ngayTao: "2026-10-28T10:00:00.000Z",
+        trangThai: "da_duyet",
+        nguoiDuyet: "Bùi Phạm Quỳnh Chi (Ban Giám Đốc)",
+        ngayDuyet: "2026-10-28T10:30:00.000Z"
+      }
+    ];
+
+    let companyExpenses = [];
+
+    function loadCompanyExpenses() {
+      try {
+        const raw = localStorage.getItem(EXPENSES_STORAGE_KEY);
+        if (raw) {
+          companyExpenses = JSON.parse(raw);
+        } else {
+          companyExpenses = JSON.parse(JSON.stringify(DEFAULT_COMPANY_EXPENSES));
+          saveCompanyExpenses();
+        }
+      } catch (e) {
+        console.error('Error loading expenses:', e);
+        companyExpenses = JSON.parse(JSON.stringify(DEFAULT_COMPANY_EXPENSES));
+      }
+    }
+
+    function saveCompanyExpenses() {
+      try {
+        localStorage.setItem(EXPENSES_STORAGE_KEY, JSON.stringify(companyExpenses));
+      } catch (e) {
+        console.error('Error saving expenses:', e);
+      }
+    }
+
+    loadCompanyExpenses();
+
+    const EXP_CAT_MAP = {
+      mat_bang: { name: "🏢 Mặt Bằng & Văn Phòng", color: "bg-indigo-500/20 text-indigo-300 border-indigo-500/40" },
+      dien_nuoc_net: { name: "⚡ Điện, Nước & Internet", color: "bg-cyan-500/20 text-cyan-300 border-cyan-500/40" },
+      luong_nhan_su: { name: "💼 Lương & Tạm Ứng", color: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40" },
+      marketing: { name: "📢 Marketing & Quảng Cáo", color: "bg-pink-500/20 text-pink-300 border-pink-500/40" },
+      phan_mem_server: { name: "💻 Phần Mềm & CRM", color: "bg-sky-500/20 text-sky-300 border-sky-500/40" },
+      tiep_khach_vpp: { name: "☕ Tiếp Khách & VPP", color: "bg-amber-500/20 text-amber-300 border-amber-500/40" },
+      thue_phi_bank: { name: "🏦 Thuế & Phí Ngân Hàng", color: "bg-purple-500/20 text-purple-300 border-purple-500/40" },
+      chi_khac: { name: "🛠️ Chi Phí Vận Hành Khác", color: "bg-slate-700/40 text-slate-300 border-slate-600" }
+    };
+
+    function renderExpensesView() {
+      const periodFilter = document.getElementById('expense-filter-period')?.value || '2026-10';
+      const catFilter = document.getElementById('expense-filter-cat')?.value || 'all';
+      const query = (document.getElementById('expense-search-input')?.value || '').toLowerCase().trim();
+
+      const isAdmin = currentUser && currentUser.role === 'admin';
+      const isAcc = currentUser && currentUser.role === 'accountant';
+
+      let totalAmount = 0;
+      let totalSalary = 0;
+      let totalFacility = 0;
+      let totalMarketing = 0;
+      let countPaid = 0;
+
+      const filtered = companyExpenses.filter(item => {
+        // Lọc theo kỳ tháng
+        if (periodFilter !== 'all') {
+          if (!item.ngayChi || !item.ngayChi.startsWith(periodFilter)) return false;
+        }
+
+        // Lọc theo danh mục
+        if (catFilter !== 'all' && item.danhMuc !== catFilter) return false;
+
+        // Lọc theo tìm kiếm
+        if (query) {
+          const hay = `${item.id} ${item.noiDung} ${item.nguoiNhan} ${item.soHd || ''} ${item.hinhThuc}`.toLowerCase();
+          if (!hay.includes(query)) return false;
+        }
+
+        return true;
+      });
+
+      // Tính tổng theo kỳ hiển thị
+      filtered.forEach(item => {
+        const val = parseFloat(item.soTien) || 0;
+        totalAmount += val;
+        if (item.trangThai === 'da_duyet') countPaid++;
+
+        if (item.danhMuc === 'luong_nhan_su') totalSalary += val;
+        else if (item.danhMuc === 'mat_bang' || item.danhMuc === 'dien_nuoc_net') totalFacility += val;
+        else if (item.danhMuc === 'marketing' || item.danhMuc === 'tiep_khach_vpp') totalMarketing += val;
+      });
+
+      // Render 4 KPI cards
+      const expTotalEl = document.getElementById('exp-total-amount');
+      if (expTotalEl) expTotalEl.innerText = totalAmount.toLocaleString('vi-VN') + ' đ';
+
+      const expPaidCountEl = document.getElementById('exp-count-paid');
+      if (expPaidCountEl) expPaidCountEl.innerText = countPaid;
+
+      const expSalaryEl = document.getElementById('exp-total-salary');
+      if (expSalaryEl) expSalaryEl.innerText = totalSalary.toLocaleString('vi-VN') + ' đ';
+
+      const expFacilityEl = document.getElementById('exp-total-facility');
+      if (expFacilityEl) expFacilityEl.innerText = totalFacility.toLocaleString('vi-VN') + ' đ';
+
+      const expMarketingEl = document.getElementById('exp-total-marketing');
+      if (expMarketingEl) expMarketingEl.innerText = totalMarketing.toLocaleString('vi-VN') + ' đ';
+
+      const expShowingEl = document.getElementById('exp-showing-count');
+      if (expShowingEl) expShowingEl.innerText = filtered.length + ' phiếu';
+
+      // Render Table
+      const tbody = document.getElementById('expense-table-body');
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" class="py-12 text-center text-slate-500">
+              <i class="fa-solid fa-folder-open text-3xl mb-2 text-slate-600 block"></i>
+              Không tìm thấy phiếu chi công ty nào phù hợp với bộ lọc hiện tại.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(item => {
+        const catInfo = EXP_CAT_MAP[item.danhMuc] || { name: item.danhMucTen || item.danhMuc, color: "bg-slate-700/40 text-slate-300 border-slate-600" };
+        const dateVN = formatShortDateVN(item.ngayChi);
+
+        let statusBadge = '';
+        let approveBtn = '';
+        if (item.trangThai === 'da_duyet') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 inline-flex items-center gap-1"><i class="fa-solid fa-circle-check text-[9px]"></i> Đã Chi / Đã Duyệt</span>';
+        } else {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-flex items-center gap-1 animate-pulse"><i class="fa-solid fa-clock text-[9px]"></i> Chờ BGĐ Duyệt</span>';
+          if (isAdmin) {
+            approveBtn = `
+              <button onclick="bgdDuyetChiPhiCongTy('${item.id}')" title="Ban Giám Đốc phê duyệt phiếu chi" class="p-1.5 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-600/30 transition text-xs cursor-pointer">
+                <i class="fa-solid fa-crown text-amber-300"></i>
+              </button>
+            `;
+          }
+        }
+
+        html += `
+          <tr class="hover:bg-slate-800/30 transition">
+            <!-- Mã Phiếu / Ngày -->
+            <td class="py-3 px-3.5 whitespace-nowrap">
+              <div class="font-mono font-bold text-rose-400 text-xs">${item.id}</div>
+              <div class="text-[10px] text-slate-400 font-mono mt-0.5 flex items-center gap-1">
+                <i class="fa-regular fa-calendar text-[9px]"></i> ${dateVN}
+              </div>
+            </td>
+
+            <!-- Danh Mục -->
+            <td class="py-3 px-3.5 whitespace-nowrap">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${catInfo.color}">
+                ${catInfo.name}
+              </span>
+            </td>
+
+            <!-- Nội Dung Chi -->
+            <td class="py-3 px-3.5 min-w-[200px]">
+              <div class="font-bold text-white text-xs">${escapeHtml(item.noiDung)}</div>
+              ${item.nguoiTao ? `<div class="text-[10px] text-slate-400 mt-0.5">Người lập: ${escapeHtml(item.nguoiTao)}</div>` : ''}
+            </td>
+
+            <!-- Người Nhận -->
+            <td class="py-3 px-3.5 whitespace-nowrap">
+              <div class="font-bold text-slate-200 text-xs">${escapeHtml(item.nguoiNhan)}</div>
+            </td>
+
+            <!-- Số Tiền Chi -->
+            <td class="py-3 px-3.5 text-right whitespace-nowrap">
+              <div class="font-mono font-black text-sm text-rose-400">-${(parseFloat(item.soTien) || 0).toLocaleString('vi-VN')} đ</div>
+            </td>
+
+            <!-- Hình Thức -->
+            <td class="py-3 px-3.5 text-center whitespace-nowrap">
+              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                ${escapeHtml(item.hinhThuc || 'Techcombank')}
+              </span>
+            </td>
+
+            <!-- Hóa Đơn / Chứng Từ -->
+            <td class="py-3 px-3.5 text-center whitespace-nowrap">
+              ${item.soHd ? `<span class="font-mono font-bold text-indigo-300 text-[11px]"><i class="fa-solid fa-hashtag text-[9px]"></i> ${escapeHtml(item.soHd)}</span>` : '<span class="text-slate-500 text-[10px]">Phiếu chi nội bộ</span>'}
+            </td>
+
+            <!-- Trạng Thái -->
+            <td class="py-3 px-3.5 text-center whitespace-nowrap">
+              ${statusBadge}
+            </td>
+
+            <!-- Thao Tác -->
+            <td class="py-3 px-3.5 text-right whitespace-nowrap">
+              <div class="flex items-center justify-end gap-1.5">
+                ${approveBtn}
+                <button onclick="inPhieuChiCongTy('${item.id}')" title="In Phiếu Chi Doanh Nghiệp" class="p-1.5 rounded-lg text-amber-400 hover:text-white hover:bg-amber-500/20 transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-print"></i>
+                </button>
+                <button onclick="openModalThemChiPhi('${item.id}')" title="Chỉnh Sửa Phiếu Chi" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                ${isAdmin || isAcc ? `
+                  <button onclick="xoaChiPhiCongTy('${item.id}')" title="Xóa Phiếu Chi" class="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition text-xs cursor-pointer">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                ` : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function openModalThemChiPhi(id = null) {
+      const isSale = currentUser && currentUser.role === 'sale';
+      if (isSale) {
+        alert('⚠️ QUY ĐỊNH PHÂN QUYỀN - PHÒNG KINH DOANH\n\nChỉ Phòng Kế Toán (Vũ Khánh Linh) và Ban Giám Đốc mới có quyền lập và quản trị chi phí công ty.');
+        return;
+      }
+
+      const modal = document.getElementById('modal-them-chi-phi-cty');
+      const title = document.getElementById('modal-expense-title');
+      const form = document.getElementById('form-them-chi-phi');
+      form.reset();
+
+      if (id) {
+        const item = companyExpenses.find(x => x.id === id);
+        if (!item) return;
+        title.innerText = 'CHỈNH SỬA PHIẾU CHI CÔNG TY';
+        document.getElementById('exp-edit-id').value = item.id;
+        document.getElementById('exp-ngay').value = item.ngayChi || '';
+        document.getElementById('exp-danhmuc').value = item.danhMuc || 'mat_bang';
+        document.getElementById('exp-sotien').value = formatCurrency(item.soTien || 0);
+        document.getElementById('exp-hinhthuc').value = item.hinhThuc || 'Techcombank (STK 554479 - Booking Travel)';
+        document.getElementById('exp-sohd').value = item.soHd || '';
+        document.getElementById('exp-nguoinhan').value = item.nguoiNhan || '';
+        document.getElementById('exp-noidung').value = item.noiDung || '';
+        document.getElementById('exp-trangthai').value = item.trangThai || 'da_duyet';
+      } else {
+        title.innerText = 'LẬP PHIẾU CHI CÔNG TY';
+        document.getElementById('exp-edit-id').value = '';
+        document.getElementById('exp-ngay').value = new Date().toISOString().substring(0, 10);
+        document.getElementById('exp-hinhthuc').value = 'Techcombank (STK 554479 - Booking Travel)';
+        document.getElementById('exp-trangthai').value = 'da_duyet';
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeModalThemChiPhi() {
+      const modal = document.getElementById('modal-them-chi-phi-cty');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function luuChiPhiCongTy(e) {
+      e.preventDefault();
+      const editId = document.getElementById('exp-edit-id').value;
+      const ngay = document.getElementById('exp-ngay').value;
+      const danhmuc = document.getElementById('exp-danhmuc').value;
+      const sotien = parseCurrency(document.getElementById('exp-sotien').value);
+      const hinhthuc = document.getElementById('exp-hinhthuc').value;
+      const sohd = document.getElementById('exp-sohd').value.trim();
+      const nguoinhan = document.getElementById('exp-nguoinhan').value.trim();
+      const noidung = document.getElementById('exp-noidung').value.trim();
+      const trangthai = document.getElementById('exp-trangthai').value;
+
+      if (sotien <= 0) {
+        alert('⚠️ Vui lòng nhập số tiền chi phí hợp lệ (> 0 VNĐ)!');
+        return;
+      }
+
+      const catInfo = EXP_CAT_MAP[danhmuc] || { name: "Chi Phí Vận Hành" };
+
+      if (editId) {
+        const item = companyExpenses.find(x => x.id === editId);
+        if (item) {
+          item.ngayChi = ngay;
+          item.danhMuc = danhmuc;
+          item.danhMucTen = catInfo.name;
+          item.soTien = sotien;
+          item.hinhThuc = hinhthuc;
+          item.soHd = sohd;
+          item.nguoiNhan = nguoinhan;
+          item.noiDung = noidung;
+          item.trangThai = trangthai;
+        }
+      } else {
+        const prefix = 'CP' + ngay.replace(/-/g, '').substring(2, 6); // CP2610
+        const randomNum = Math.floor(10 + Math.random() * 90);
+        const newId = prefix + '-' + randomNum;
+
+        const newExp = {
+          id: newId,
+          ngayChi: ngay,
+          danhMuc: danhmuc,
+          danhMucTen: catInfo.name,
+          noiDung: noidung,
+          nguoiNhan: nguoinhan,
+          soTien: sotien,
+          hinhThuc: hinhthuc,
+          soHd: sohd,
+          nguoiTao: currentUser ? (currentUser.name + ' (' + (currentUser.title || currentUser.role) + ')') : 'Vũ Khánh Linh (Kế Toán)',
+          ngayTao: new Date().toISOString(),
+          trangThai: trangthai,
+          nguoiDuyet: trangthai === 'da_duyet' ? (currentUser ? currentUser.name : 'Vũ Khánh Linh') : null,
+          ngayDuyet: trangthai === 'da_duyet' ? new Date().toISOString() : null
+        };
+        companyExpenses.unshift(newExp);
+      }
+
+      saveCompanyExpenses();
+      renderExpensesView();
+      if (currentView === 'cashflow') renderCashflowView();
+      if (currentView === 'reports') renderReportsView();
+      closeModalThemChiPhi();
+
+      alert('✅ ĐÃ LƯU PHIẾU CHI CÔNG TY THÀNH CÔNG!\n\n• Khoản chi: ' + noidung + '\n• Số tiền: ' + sotien.toLocaleString('vi-VN') + ' đ\n• Người nhận: ' + nguoinhan + '\n• Hình thức: ' + hinhthuc);
+    }
+
+    function xoaChiPhiCongTy(id) {
+      const idx = companyExpenses.findIndex(x => x.id === id);
+      if (idx === -1) return;
+      const item = companyExpenses[idx];
+      if (confirm('🗑️ Bạn có chắc chắn muốn xóa phiếu chi ' + item.id + ' (' + (item.soTien || 0).toLocaleString('vi-VN') + ' đ) không?')) {
+        companyExpenses.splice(idx, 1);
+        saveCompanyExpenses();
+        renderExpensesView();
+        if (currentView === 'cashflow') renderCashflowView();
+        if (currentView === 'reports') renderReportsView();
+      }
+    }
+
+    function bgdDuyetChiPhiCongTy(id) {
+      const item = companyExpenses.find(x => x.id === id);
+      if (!item) return;
+      if (confirm('👑 BAN GIÁM ĐỐC PHÊ DUYỆT LỆNH CHI?\n\n• Khoản chi: ' + item.noiDung + '\n• Số tiền: ' + (item.soTien || 0).toLocaleString('vi-VN') + ' đ\n• Đơn vị thụ hưởng: ' + item.nguoiNhan)) {
+        item.trangThai = 'da_duyet';
+        item.nguoiDuyet = currentUser ? currentUser.name : 'Bùi Phạm Quỳnh Chi (Ban Giám Đốc)';
+        item.ngayDuyet = new Date().toISOString();
+        saveCompanyExpenses();
+        renderExpensesView();
+        if (currentView === 'cashflow') renderCashflowView();
+        if (currentView === 'reports') renderReportsView();
+        alert('👑 ĐÃ PHÊ DUYỆT LỆNH CHI THÀNH CÔNG!\n\nKế toán thực hiện chi qua ' + (item.hinhThuc || 'Techcombank'));
+      }
+    }
+
+    function inPhieuChiCongTy(id) {
+      const item = companyExpenses.find(x => x.id === id);
+      if (!item) return;
+
+      const dateParts = (item.ngayChi || '').split('-');
+      let dateStr = 'Ngày ... tháng ... năm ...';
+      if (dateParts.length === 3) {
+        dateStr = `Ngày ${dateParts[2]} tháng ${dateParts[1]} năm ${dateParts[0]}`;
+      }
+
+      document.getElementById('print-pc-ngay').innerText = dateStr;
+      document.getElementById('print-pc-ma').innerText = 'Số: ' + item.id;
+      document.getElementById('print-pc-nguoinhan').innerText = item.nguoiNhan || '---';
+      document.getElementById('print-pc-diachi').innerText = item.hinhThuc || 'Công ty TNHH Booking Travel';
+      document.getElementById('print-pc-lydo').innerText = item.noiDung || 'Chi phí hoạt động công ty';
+      document.getElementById('print-pc-sotien').innerText = (parseFloat(item.soTien) || 0).toLocaleString('vi-VN') + ' đ';
+      document.getElementById('print-pc-bangchu').innerText = readVietnameseCurrency(parseFloat(item.soTien) || 0);
+      document.getElementById('print-pc-chungtu').innerText = item.soHd ? (`Kèm theo hóa đơn/chứng từ: ${item.soHd}`) : 'Chứng từ gốc kèm theo';
+      document.getElementById('print-pc-sign-nhan').innerText = item.nguoiNhan || '---';
+
+      document.getElementById('modal-in-phieu-chi').classList.remove('hidden');
+    }
+
+    function closeModalInPhieuChi() {
+      const modal = document.getElementById('modal-in-phieu-chi');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Helper đọc số tiền thành chữ tiếng Việt chuẩn kế toán
+    function readVietnameseCurrency(number) {
+      if (isNaN(number) || number === 0) return "Không đồng";
+      const digits = ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+      const scales = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ"];
+
+      function readGroup(n) {
+        let h = Math.floor(n / 100);
+        let t = Math.floor((n % 100) / 10);
+        let o = n % 10;
+        let res = "";
+        if (h > 0 || n >= 100) {
+          res += digits[h] + " trăm ";
+        }
+        if (t === 0 && o > 0 && h > 0) {
+          res += "lẻ ";
+        } else if (t === 1) {
+          res += "mười ";
+        } else if (t > 1) {
+          res += digits[t] + " mươi ";
+        }
+        if (o === 1 && t > 1) {
+          res += "mốt";
+        } else if (o === 5 && t > 0) {
+          res += "lăm";
+        } else if (o > 0) {
+          res += digits[o];
+        }
+        return res.trim();
+      }
+
+      let strNum = Math.round(number).toString();
+      let groups = [];
+      while (strNum.length > 0) {
+        groups.push(parseInt(strNum.slice(-3), 10));
+        strNum = strNum.slice(0, -3);
+      }
+
+      let words = [];
+      for (let i = 0; i < groups.length; i++) {
+        let g = groups[i];
+        if (g > 0) {
+          let gWords = readGroup(g);
+          let scale = scales[i];
+          words.unshift((gWords + (scale ? " " + scale : "")).trim());
+        }
+      }
+
+      let res = words.join(" ") + " đồng chẵn";
+      return res.charAt(0).toUpperCase() + res.slice(1);
+    }
+
+    // =========================================================================
     // QUẢN LÝ CHUYỂN ĐỔI VAI TRÒ & PHÂN QUYỀN
     // =========================================================================
     function openModalChuyenTaiKhoan() {
@@ -4107,8 +4970,8 @@
       updateMetrics();
       renderTable();
 
-      // Nếu đang ở view tài chính mà chuyển sang Sales -> quay về view bookings
-      if ((currentView === 'cashflow' || currentView === 'reports' || currentView === 'staff') && u.role === 'sale') {
+      // Nếu đang ở view tài chính hoặc chi phí mà chuyển sang Sales -> quay về view bookings
+      if ((currentView === 'cashflow' || currentView === 'reports' || currentView === 'expenses' || currentView === 'staff') && u.role === 'sale') {
         switchView('bookings');
       } else if (currentView === 'staff' && u.role !== 'admin') {
         switchView('bookings');
@@ -4157,6 +5020,17 @@
       if (walletEl) {
         const walletVal = currentUser.walletBalance !== undefined ? currentUser.walletBalance : 0;
         walletEl.innerText = walletVal.toLocaleString('vi-VN') + ' đ';
+      }
+
+      const topbarExpBtn = document.getElementById('topbar-btn-expenses');
+      if (topbarExpBtn) {
+        if (currentUser.role === 'sale') {
+          topbarExpBtn.classList.add('hidden');
+          topbarExpBtn.classList.remove('md:flex');
+        } else {
+          topbarExpBtn.classList.remove('hidden');
+          topbarExpBtn.classList.add('md:flex');
+        }
       }
 
       const avatarText = document.getElementById('user-avatar-text');
@@ -7331,7 +8205,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       const isAcc = currentUser && currentUser.role === 'accountant';
 
       // 1. Phòng Kinh Doanh (Sales): Không thấy dữ liệu tài chính tổng quát
-      if ((viewName === 'cashflow' || viewName === 'reports') && isSale) {
+      if ((viewName === 'cashflow' || viewName === 'reports' || viewName === 'expenses') && isSale) {
         alert('⚠️ QUY ĐỊNH PHÂN QUYỀN - PHÒNG KINH DOANH (SALES)\n\nPhòng Kinh Doanh tập trung 100% vào việc chăm sóc khách hàng, khai thác nguồn khách và chốt đơn.\n\nQuyền hạn hệ thống: Dữ liệu tài chính tổng quát (Dòng Tiền Công Ty, Báo Cáo Lãi Lỗ P&L) do Phòng Kế Toán và Ban Giám Đốc quản lý.');
         return;
       }
@@ -7346,6 +8220,8 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
       // Ẩn tất cả view
       document.getElementById('view-bookings').classList.add('hidden');
+      const expViewEl = document.getElementById('view-expenses');
+      if (expViewEl) expViewEl.classList.add('hidden');
       document.getElementById('view-cashflow').classList.add('hidden');
       document.getElementById('view-reports').classList.add('hidden');
       document.getElementById('view-kpi-sales').classList.add('hidden');
@@ -7360,7 +8236,14 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
       const titleEl = document.getElementById('current-view-title');
 
-      if (viewName === 'bookings') {
+      if (viewName === 'expenses') {
+        const expEl = document.getElementById('view-expenses');
+        if (expEl) expEl.classList.remove('hidden');
+        titleEl.innerText = 'Quản Lý Chi Phí Công Ty (Kế Toán)';
+        const btn = document.getElementById('nav-expenses');
+        if (btn) btn.classList.add('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
+        renderExpensesView();
+      } else if (viewName === 'bookings') {
         document.getElementById('view-bookings').classList.remove('hidden');
         const isSale = currentUser && currentUser.role === 'sale';
         const isAcc = currentUser && currentUser.role === 'accountant';
@@ -7408,6 +8291,8 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     function handleSearch() {
       if (currentView === 'bookings') {
         renderTable();
+      } else if (currentView === 'expenses') {
+        renderExpensesView();
       } else if (currentView === 'cashflow') {
         renderCashflowView();
       } else if (currentView === 'reports') {
@@ -8102,10 +8987,25 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         totalOutflow += parseFloat(b.daTraDoiTac) || 0;
       });
 
-      const netCashflow = totalInflow - totalOutflow;
+      // Tổng chi phí công ty đã thực chi (Kế toán chi)
+      let totalCompanyOpExPaid = 0;
+      if (typeof companyExpenses !== 'undefined') {
+        companyExpenses.forEach(exp => {
+          if (exp.trangThai === 'da_duyet') {
+            totalCompanyOpExPaid += parseFloat(exp.soTien) || 0;
+          }
+        });
+      }
+
+      const totalAllOutflow = totalOutflow + totalCompanyOpExPaid;
+      const netCashflow = totalInflow - totalAllOutflow;
 
       document.getElementById('cf-total-inflow').innerText = totalInflow.toLocaleString('vi-VN') + ' đ';
-      document.getElementById('cf-total-outflow').innerText = totalOutflow.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('cf-total-outflow').innerText = totalAllOutflow.toLocaleString('vi-VN') + ' đ';
+      const cfOutflowSub = document.querySelector('#cf-total-outflow + div');
+      if (cfOutflowSub) {
+        cfOutflowSub.innerText = `NCC: ${totalOutflow.toLocaleString('vi-VN')} đ | Chi phí Cty: ${totalCompanyOpExPaid.toLocaleString('vi-VN')} đ`;
+      }
       document.getElementById('cf-net-cashflow').innerText = (netCashflow >= 0 ? '+' : '') + netCashflow.toLocaleString('vi-VN') + ' đ';
 
       // Render Bảng Kê Thu - Chi
@@ -8189,11 +9089,21 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       const profit = rev - cst;
       const margin = rev > 0 ? ((profit / rev) * 100).toFixed(1) : 0;
 
+      // Tổng chi phí vận hành công ty (OpEx do Kế toán quản lý)
+      let totalCompanyOpEx = 0;
+      if (typeof companyExpenses !== 'undefined') {
+        companyExpenses.forEach(exp => {
+          totalCompanyOpEx += parseFloat(exp.soTien) || 0;
+        });
+      }
+      const netProfit = profit - totalCompanyOpEx;
+      const netMargin = rev > 0 ? ((netProfit / rev) * 100).toFixed(1) : 0;
+
       document.getElementById('rpt-total-rev').innerText = rev.toLocaleString('vi-VN') + ' đ';
       document.getElementById('rpt-booking-count').innerText = bookings.length;
       document.getElementById('rpt-total-cost').innerText = cst.toLocaleString('vi-VN') + ' đ';
       document.getElementById('rpt-total-profit').innerText = '+' + profit.toLocaleString('vi-VN') + ' đ';
-      document.getElementById('rpt-profit-margin').innerText = `Biên độ lợi nhuận gộp: ${margin}%`;
+      document.getElementById('rpt-profit-margin').innerHTML = `Lợi nhuận gộp: ${margin}% | Chi phí Cty: <strong class="text-rose-400">-${totalCompanyOpEx.toLocaleString('vi-VN')} đ</strong> ➔ Lợi nhuận ròng: <strong class="${netProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${(netProfit >= 0 ? '+' : '') + netProfit.toLocaleString('vi-VN')} đ</strong> (${netMargin}%)`;
 
       document.getElementById('rpt-net-debt').innerText = Math.abs(arDebt - apDebt).toLocaleString('vi-VN') + ' đ';
       document.getElementById('rpt-debt-breakdown').innerText = `Phải thu: ${arDebt.toLocaleString('vi-VN')} đ | Phải trả: ${apDebt.toLocaleString('vi-VN')} đ`;
