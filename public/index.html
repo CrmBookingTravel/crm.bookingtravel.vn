@@ -469,6 +469,11 @@
               <span>Chờ Kế Toán Duyệt (B1)</span>
               <span id="badge-cho-ke-toan" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
             </button>
+            <button onclick="switchView('bookings'); setFilter('da_coc')" id="nav-da_coc" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-orange-400 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-money-bill-transfer w-4 text-center text-orange-400"></i>
+              <span>Đã Nhận Cọc - Giữ Chỗ (B2)</span>
+              <span id="badge-da-coc" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">0</span>
+            </button>
             <button onclick="switchView('bookings'); setFilter('cho_bgd')" id="nav-cho_bgd" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-sky-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
               <span>Chờ BGĐ Duyệt (B2)</span>
@@ -478,6 +483,16 @@
               <i class="fa-solid fa-crown w-4 text-center text-emerald-400"></i>
               <span>Đang Điều Hành (B3)</span>
               <span id="badge-dang-dieu-hanh" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">0</span>
+            </button>
+            <button onclick="switchView('bookings'); setFilter('hoan_tat')" id="nav-hoan_tat" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-check-double w-4 text-center text-slate-400"></i>
+              <span>Đã Tất Toán P&L</span>
+              <span id="badge-hoan-tat" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">0</span>
+            </button>
+            <button onclick="switchView('bookings'); setFilter('da_huy')" id="nav-da_huy" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-400 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-ban w-4 text-center text-rose-400"></i>
+              <span>Đã Hủy / Hoàn Tiền</span>
+              <span id="badge-da-huy" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('my_orders')" id="nav-my_orders" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
@@ -1038,11 +1053,20 @@
               <button onclick="setFilter('cho_ke_toan')" data-filter="cho_ke_toan" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-amber-300 font-bold">🟡 Chờ Kế Toán Duyệt (<span id="count-cho-ke-toan" class="font-mono">0</span>)</span>
               </button>
+              <button onclick="setFilter('da_coc')" data-filter="da_coc" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-orange-400 font-bold">🟠 Đã Cọc / Giữ Chỗ (<span id="count-da-coc" class="font-mono">0</span>)</span>
+              </button>
               <button onclick="setFilter('cho_bgd')" data-filter="cho_bgd" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-sky-300 font-bold">🔵 Chờ BGĐ Duyệt (<span id="count-cho-bgd" class="font-mono">0</span>)</span>
               </button>
               <button onclick="setFilter('dang_dieu_hanh')" data-filter="dang_dieu_hanh" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-emerald-300 font-bold">🟢 Đang Điều Hành (<span id="count-dang-dieu-hanh" class="font-mono">0</span>)</span>
+              </button>
+              <button onclick="setFilter('hoan_tat')" data-filter="hoan_tat" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-slate-300 font-bold">⚪ Đã Tất Toán P&L (<span id="count-hoan-tat" class="font-mono">0</span>)</span>
+              </button>
+              <button onclick="setFilter('da_huy')" data-filter="da_huy" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-rose-400 font-bold">🔴 Đã Hủy / Hoàn Tiền (<span id="count-da-huy" class="font-mono">0</span>)</span>
               </button>
               <button onclick="setFilter('my_orders')" data-filter="my_orders" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-sky-400 font-bold">Booking Của Tôi (<span id="count-my" class="font-mono">0</span>)</span>
@@ -1886,6 +1910,14 @@
         <img id="vqr-image" src="" alt="Mã VietQR Chuyển Khoản Techcombank" class="w-full h-full object-contain">
       </div>
 
+      <!-- CÁC NÚT CHỌN NHANH TIỀN CỌC (QUY TRÌNH 2: SALES NHẬN CỌC) -->
+      <div class="w-full mt-2.5 grid grid-cols-4 gap-1.5 text-[11px] font-bold">
+        <button type="button" onclick="setVietQrDepositRatio(0.3)" class="py-1.5 px-1 rounded-lg bg-blue-600/30 hover:bg-blue-600 text-sky-200 border border-blue-500/40 transition cursor-pointer" title="Xuất QR Cọc 30%">Cọc 30%</button>
+        <button type="button" onclick="setVietQrDepositRatio(0.5)" class="py-1.5 px-1 rounded-lg bg-amber-600/30 hover:bg-amber-600 text-amber-200 border border-amber-500/40 transition cursor-pointer" title="Xuất QR Cọc 50%">Cọc 50%</button>
+        <button type="button" onclick="setVietQrDepositRatio('remain')" class="py-1.5 px-1 rounded-lg bg-rose-600/30 hover:bg-rose-600 text-rose-200 border border-rose-500/40 transition cursor-pointer" title="Thu nốt phần còn thiếu (AR)">Còn Thiếu</button>
+        <button type="button" onclick="setVietQrDepositRatio(1.0)" class="py-1.5 px-1 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 border border-emerald-500/40 transition cursor-pointer" title="Thu đủ 100% tổng tiền">Đủ 100%</button>
+      </div>
+
       <!-- Thông tin tài khoản chính thức -->
       <div class="w-full mt-3 p-3 rounded-2xl bg-slate-900/90 border border-slate-800 text-left space-y-1.5 text-xs">
         <div class="flex items-center justify-between">
@@ -2620,6 +2652,267 @@
         <button type="button" onclick="xacNhanDuyetBgd()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 active:bg-amber-700 text-white text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-amber-600/30 cursor-pointer">
           <i class="fa-solid fa-crown text-amber-200"></i>
           <span>PHÊ DUYỆT HOÀN TẤT & CHỐT ĐIỀU HÀNH (BƯỚC 3)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL QUY TRÌNH 1: HOÀN / HỦY BOOKING & KHÓA DỮ LIỆU TÀI CHÍNH -->
+  <!-- ========================================================================= -->
+  <div id="modal-hoan-huy-booking" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/85 backdrop-blur-sm" onclick="closeModalHuyDon()"></div>
+    <div class="relative bg-slate-900 border border-rose-600/40 rounded-2xl max-w-xl w-full p-6 shadow-2xl z-10 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center text-lg font-bold">
+            <i class="fa-solid fa-ban"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white uppercase">1. QUY TRÌNH HOÀN / HỦY BOOKING</h3>
+            <p class="text-xs text-rose-300 font-semibold">Đối soát phí phạt NCC, tính tiền hoàn khách & khóa dữ liệu</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModalHuyDon()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="hh-booking-id">
+
+      <!-- Thông tin đơn -->
+      <div class="p-3.5 rounded-xl bg-[#07162f] border border-blue-900/50 space-y-1.5 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Mã đơn: <b id="hh-code" class="text-sky-300 font-mono text-sm"></b></span>
+          <span class="text-slate-400">Khách hàng: <b id="hh-customer" class="text-white"></b></span>
+        </div>
+        <div class="text-slate-300" id="hh-service"></div>
+        <div class="flex items-center justify-between pt-1 border-t border-blue-900/40 font-mono">
+          <span class="text-slate-400">Giá bán báo khách: <b id="hh-gia-ban" class="text-white">0 đ</b></span>
+          <span class="text-slate-400">Khách đã trả/cọc: <b id="hh-da-coc" class="text-emerald-400 font-black">0 đ</b></span>
+        </div>
+      </div>
+
+      <!-- BƯỚC 1: SALES TIẾP NHẬN YÊU CẦU & KIỂM TRA CHÍNH SÁCH NCC -->
+      <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/30 space-y-2 text-xs">
+        <div class="font-bold text-amber-300 flex items-center gap-1.5">
+          <span class="w-4 h-4 rounded-full bg-amber-500 text-slate-950 font-black text-[9px] flex items-center justify-center">1</span>
+          <span>BƯỚC 1: SALES TIẾP NHẬN & KIỂM TRA CHÍNH SÁCH ĐỐI TÁC</span>
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-300 font-semibold mb-1">Lý do khách hàng yêu cầu hoàn / hủy (*)</label>
+          <input type="text" id="hh-ly-do" placeholder="VD: Khách bận việc gia đình đột xuất xin hủy tour..." class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-300 font-semibold mb-1">Chính sách hủy phòng/tour của đối tác cung cấp (Resort, Khách sạn, Nhà xe)</label>
+          <input type="text" id="hh-chinh-sach-ncc" placeholder="VD: Hủy trước 7 ngày phạt 30%, trong vòng 3 ngày phạt 100% tiền phòng..." class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <!-- BƯỚC 2: KẾ TOÁN & QUẢN LÝ ĐỐI SOÁT PHÍ PHẠT NCC & KHÁCH -->
+      <div class="p-3.5 rounded-xl bg-sky-950/20 border border-sky-500/30 space-y-2 text-xs">
+        <div class="font-bold text-sky-300 flex items-center gap-1.5">
+          <span class="w-4 h-4 rounded-full bg-sky-500 text-slate-950 font-black text-[9px] flex items-center justify-center">2</span>
+          <span>BƯỚC 2: KẾ TOÁN ĐỐI SOÁT PHÍ PHẠT AP & AR</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11px] text-slate-300 font-semibold mb-1">Phí phạt thực tế từ NCC (AP Phạt - đ)</label>
+            <input type="text" id="hh-phat-ncc" oninput="handleCurrencyInput(this); tinhToanHoanHuy();" placeholder="0" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-mono text-amber-300 focus:outline-none focus:border-sky-400 font-bold">
+          </div>
+          <div>
+            <label class="block text-[11px] text-slate-300 font-semibold mb-1">Phí phạt hủy thu từ khách (đ)</label>
+            <input type="text" id="hh-phat-khach" oninput="handleCurrencyInput(this); tinhToanHoanHuy();" placeholder="0" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-mono text-rose-300 focus:outline-none focus:border-sky-400 font-bold">
+          </div>
+        </div>
+        <div class="flex items-center justify-between pt-1 border-t border-sky-900/40 text-[11px]">
+          <span class="text-slate-400">Khoản chênh lệch công ty giữ lại (P&L):</span>
+          <span id="hh-chenh-lech" class="font-mono font-bold text-emerald-400">+0 đ</span>
+        </div>
+      </div>
+
+      <!-- BƯỚC 3: XỬ LÝ HOÀN TIỀN & ĐÓNG ĐƠN KHÓA DỮ LIỆU -->
+      <div class="p-3.5 rounded-xl bg-rose-950/30 border border-rose-500/40 space-y-2.5 text-xs">
+        <div class="font-bold text-rose-300 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="w-4 h-4 rounded-full bg-rose-500 text-white font-black text-[9px] flex items-center justify-center">3</span>
+            <span>BƯỚC 3: SỐ TIỀN THỰC HOÀN LẠI CHO KHÁCH</span>
+          </div>
+          <span class="text-[10px] text-slate-400">(Sau khi trừ phí phạt hủy)</span>
+        </div>
+
+        <div class="flex items-baseline justify-between p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
+          <span class="text-slate-300 text-xs font-bold uppercase">Số tiền Kế toán cần hoàn khách:</span>
+          <span id="hh-tien-hoan-khach" class="text-lg font-mono font-black text-rose-400">0 đ</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Ngân hàng nhận của khách</label>
+            <input type="text" id="hh-stk-bank" placeholder="VD: Vietcombank" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-rose-400">
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Số tài khoản khách</label>
+            <input type="text" id="hh-stk-num" placeholder="Số TK nhận" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-rose-400">
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Tên chủ tài khoản</label>
+            <input type="text" id="hh-stk-name" placeholder="Tên chủ TK" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white uppercase focus:outline-none focus:border-rose-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] text-slate-400 mb-0.5">Mã giao dịch chuyển hoàn (Ủy nhiệm chi / Techcombank 554479 - MB Bank)</label>
+          <input type="text" id="hh-unc-code" placeholder="VD: UNC Hoàn Tiền FT26102988..." class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-emerald-300 font-mono focus:outline-none focus:border-emerald-400">
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+        <button type="button" onclick="closeModalHuyDon()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer">
+          Đóng
+        </button>
+        <button type="button" onclick="xacNhanHoanHuyBooking()" class="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-rose-600/30 cursor-pointer">
+          <i class="fa-solid fa-ban"></i>
+          <span>XÁC NHẬN HOÀN TIỀN & KHÓA ĐƠN HỦY</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL QUY TRÌNH 3: ĐỐI SOÁT PHÒNG NCC, THU HỒI CÔNG NỢ & CHỐT SỔ P&L -->
+  <!-- ========================================================================= -->
+  <div id="modal-doi-soat-tat-toan" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/85 backdrop-blur-sm" onclick="closeDoiSoatTatToanModal()"></div>
+    <div class="relative bg-slate-900 border border-emerald-500/40 rounded-2xl max-w-xl w-full p-6 shadow-2xl z-10 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-lg font-bold">
+            <i class="fa-solid fa-scale-balanced"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white uppercase">3. ĐỐI SOÁT HẾT PHÒNG & CHỐT SỔ P&L</h3>
+            <p class="text-xs text-emerald-300 font-semibold">Khớp phòng thực tế ➔ Thu hồi AR/AP ➔ Quyết toán chu kỳ đơn</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeDoiSoatTatToanModal()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="ds-booking-id">
+
+      <!-- Thông tin đơn -->
+      <div class="p-3.5 rounded-xl bg-[#07162f] border border-blue-900/50 space-y-1.5 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Mã đơn: <b id="ds-code" class="text-sky-300 font-mono text-sm"></b></span>
+          <span class="text-slate-400">Khách: <b id="ds-customer" class="text-white"></b></span>
+        </div>
+        <div class="text-slate-300 font-semibold" id="ds-service"></div>
+        <div class="flex items-center justify-between pt-1 border-t border-blue-900/40 font-mono text-[11px]">
+          <span class="text-slate-400">Nhà cung cấp: <b id="ds-supplier" class="text-amber-300"></b></span>
+          <span class="text-slate-400">Lịch trình: <b id="ds-dates" class="text-sky-300"></b></span>
+        </div>
+      </div>
+
+      <!-- BƯỚC 1: ĐỐI SOÁT SỐ LƯỢNG PHÒNG THỰC TẾ VỚI NCC -->
+      <div class="p-3.5 rounded-xl bg-sky-950/20 border border-sky-500/30 space-y-2 text-xs">
+        <div class="font-bold text-sky-300 flex items-center gap-1.5">
+          <span class="w-4 h-4 rounded-full bg-sky-500 text-slate-950 font-black text-[9px] flex items-center justify-center">1</span>
+          <span>BƯỚC 1: ĐỐI SOÁT SỐ LƯỢNG PHÒNG & DỊCH VỤ VỚI NHÀ CUNG CẤP</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11px] text-slate-300 font-semibold mb-1">Phát sinh phụ thu từ NCC (Extra bed/đổi phòng - đ)</label>
+            <input type="text" id="ds-phat-sinh-ncc" oninput="handleCurrencyInput(this); recalcReconciliation();" placeholder="0" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-mono text-amber-300 focus:outline-none focus:border-sky-400 font-bold">
+          </div>
+          <div>
+            <label class="block text-[11px] text-slate-300 font-semibold mb-1">Phát sinh thu thêm khách (nếu có - đ)</label>
+            <input type="text" id="ds-phat-sinh-khach" oninput="handleCurrencyInput(this); recalcReconciliation();" placeholder="0" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-mono text-emerald-300 focus:outline-none focus:border-sky-400 font-bold">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 mb-0.5">Ghi chú đối soát với bộ phận lễ tân / đặt phòng đối tác (*)</label>
+          <input type="text" id="ds-ghi-chu-ncc" placeholder="VD: Khớp 2 phòng 2 đêm với đặt phòng khách sạn, phụ thu extra bed 300.000 đ..." class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-sky-400">
+        </div>
+      </div>
+
+      <!-- BƯỚC 2 & 3: KIỂM SOÁT CÔNG NỢ PHẢI TRẢ (AP) VÀ PHẢI THU (AR) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+        <!-- Cột AP -->
+        <div class="p-3 rounded-xl bg-amber-950/30 border border-amber-500/30 space-y-1">
+          <div class="text-[10px] font-bold text-amber-300 uppercase font-sans flex items-center justify-between">
+            <span>2. Phải Trả NCC (AP)</span>
+            <span id="ds-ap-badge" class="px-1.5 py-0.2 rounded text-[9px]"></span>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>Giá vốn NCC:</span>
+            <b id="ds-cost-total">0 đ</b>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>Đã trả NCC:</span>
+            <span id="ds-cost-paid">0 đ</span>
+          </div>
+          <div class="flex justify-between text-amber-400 font-bold pt-1 border-t border-amber-500/30">
+            <span>Còn nợ NCC:</span>
+            <span id="ds-cost-remain">0 đ</span>
+          </div>
+        </div>
+
+        <!-- Cột AR -->
+        <div class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-1">
+          <div class="text-[10px] font-bold text-emerald-300 uppercase font-sans flex items-center justify-between">
+            <span>3. Phải Thu Khách (AR)</span>
+            <span id="ds-ar-badge" class="px-1.5 py-0.2 rounded text-[9px]"></span>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>Doanh thu khách:</span>
+            <b id="ds-rev-total">0 đ</b>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>Khách đã trả:</span>
+            <span id="ds-rev-paid">0 đ</span>
+          </div>
+          <div class="flex justify-between text-rose-400 font-bold pt-1 border-t border-emerald-500/30">
+            <span>Khách còn nợ:</span>
+            <span id="ds-rev-remain">0 đ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BƯỚC 4: KHỚP LỆNH TÀI CHÍNH & CHỐT SỔ P&L CHO BAN GIÁM ĐỐC -->
+      <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/50 space-y-2 text-xs">
+        <div class="font-bold text-emerald-300 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="w-4 h-4 rounded-full bg-emerald-500 text-slate-950 font-black text-[9px] flex items-center justify-center">4</span>
+            <span>BƯỚC 4: KHỚP LỆNH TÀI CHÍNH & CHỐT SỔ P&L</span>
+          </div>
+          <span class="text-amber-300 font-sans text-[11px]">BGĐ: Bùi Phạm Quỳnh Chi</span>
+        </div>
+
+        <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-950/80 border border-slate-800 font-mono">
+          <div>
+            <div class="text-[10px] text-slate-400 uppercase font-sans">Lợi Nhuận Gộp Chốt Sổ:</div>
+            <div id="ds-profit-final" class="text-lg font-black text-emerald-400">+0 đ</div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px] text-slate-400 uppercase font-sans">Biên Độ LN:</div>
+            <div id="ds-margin-final" class="text-sm font-bold text-emerald-300">0%</div>
+          </div>
+        </div>
+
+        <div id="ds-warning-box" class="hidden p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px]">
+          ⚠️ <b>Lưu ý:</b> Đơn hàng vẫn còn công nợ chưa thu hết hoặc chưa trả hết đối tác. Khi tất toán, hệ thống sẽ chốt sổ lợi nhuận thực tế theo dòng tiền.
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+        <button type="button" onclick="closeDoiSoatTatToanModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer">
+          Đóng
+        </button>
+        <button type="button" onclick="xacNhanTatToanChotSo()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:bg-emerald-700 text-white text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-emerald-600/30 cursor-pointer">
+          <i class="fa-solid fa-trophy text-amber-300"></i>
+          <span>TẤT TOÁN CÔNG NỢ & CHỐT SỔ P&L HOÀN TẤT CHU KỲ</span>
         </button>
       </div>
     </div>
@@ -6924,29 +7217,40 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       document.getElementById('count-ar').innerText = arCount;
 
       let choKeToanCount = 0;
+      let daCocCount = 0;
       let choBgdCount = 0;
       let dangDieuHanhCount = 0;
+      let hoanTatCount = 0;
+      let daHuyCount = 0;
 
       bookings.forEach(b => {
         const st = b.tourStatus || 'cho_duyet';
         if (st === 'cho_duyet' || st === 'moi_tao' || st === 'cho_coc') choKeToanCount++;
+        else if (st === 'da_coc') daCocCount++;
         else if (st === 'ke_toan_duyet') choBgdCount++;
-        else if (st === 'da_chot' || st === 'da_xac_nhan' || st === 'da_coc') dangDieuHanhCount++;
+        else if (st === 'da_chot' || st === 'da_xac_nhan' || st === 'dang_di') dangDieuHanhCount++;
+        else if (st === 'hoan_tat') hoanTatCount++;
+        else if (st === 'da_huy') daHuyCount++;
       });
 
-      const elChoKT = document.getElementById('count-cho-ke-toan');
-      if (elChoKT) elChoKT.innerText = choKeToanCount;
-      const elChoBGD = document.getElementById('count-cho-bgd');
-      if (elChoBGD) elChoBGD.innerText = choBgdCount;
-      const elDDH = document.getElementById('count-dang-dieu-hanh');
-      if (elDDH) elDDH.innerText = dangDieuHanhCount;
+      const setBadge = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val;
+      };
 
-      const sideChoKT = document.getElementById('badge-cho-ke-toan');
-      if (sideChoKT) sideChoKT.innerText = choKeToanCount;
-      const sideChoBGD = document.getElementById('badge-cho-bgd');
-      if (sideChoBGD) sideChoBGD.innerText = choBgdCount;
-      const sideDDH = document.getElementById('badge-dang-dieu-hanh');
-      if (sideDDH) sideDDH.innerText = dangDieuHanhCount;
+      setBadge('count-cho-ke-toan', choKeToanCount);
+      setBadge('count-da-coc', daCocCount);
+      setBadge('count-cho-bgd', choBgdCount);
+      setBadge('count-dang-dieu-hanh', dangDieuHanhCount);
+      setBadge('count-hoan-tat', hoanTatCount);
+      setBadge('count-da-huy', daHuyCount);
+
+      setBadge('badge-cho-ke-toan', choKeToanCount);
+      setBadge('badge-da-coc', daCocCount);
+      setBadge('badge-cho-bgd', choBgdCount);
+      setBadge('badge-dang-dieu-hanh', dangDieuHanhCount);
+      setBadge('badge-hoan-tat', hoanTatCount);
+      setBadge('badge-da-huy', daHuyCount);
     }
 
     // =========================================================================
@@ -7019,8 +7323,11 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
           const st = b.tourStatus || 'cho_duyet';
           if (st !== 'cho_duyet' && st !== 'moi_tao' && st !== 'cho_coc') return false;
         }
+        if (currentFilter === 'da_coc' && b.tourStatus !== 'da_coc') return false;
         if (currentFilter === 'cho_bgd' && b.tourStatus !== 'ke_toan_duyet') return false;
-        if (currentFilter === 'dang_dieu_hanh' && b.tourStatus !== 'da_chot' && b.tourStatus !== 'da_xac_nhan' && b.tourStatus !== 'da_coc') return false;
+        if (currentFilter === 'dang_dieu_hanh' && b.tourStatus !== 'da_chot' && b.tourStatus !== 'da_xac_nhan' && b.tourStatus !== 'dang_di') return false;
+        if (currentFilter === 'hoan_tat' && b.tourStatus !== 'hoan_tat') return false;
+        if (currentFilter === 'da_huy' && b.tourStatus !== 'da_huy') return false;
         if (currentFilter === 'doi_hd_dau_vao' && b.statusHdVao !== 'chua_lay') return false;
         if (currentFilter === 'can_xuat_hd_ra' && (!b.coXuatVat || b.statusHdRa !== 'chua_xuat')) return false;
         if (currentFilter === 'ar_pending' && remainAR <= 0) return false;
@@ -7068,27 +7375,40 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const remainAR = Math.max(0, rev - paidAR);
         const remainAP = Math.max(0, cst - paidAP);
 
-        // Trạng thái điều hành quy trình 3 bước chuẩn
+        // Trạng thái điều hành & 3 nghiệp vụ chuẩn
         let tourBadge = '';
         if (b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-flex items-center gap-1" title="Bước 1: Chờ Kế toán đối soát tiền Techcombank/MB Bank"><i class="fa-solid fa-clock text-[8px] animate-pulse"></i> B1: Chờ Duyệt Tiền</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-flex items-center gap-1" title="Bước 1: Chờ Kế toán đối soát cọc/thanh toán Techcombank/MB"><i class="fa-solid fa-clock text-[8px] animate-pulse"></i> B1: Chờ Duyệt Tiền</span>';
+        } else if (b.tourStatus === 'da_coc') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-orange-500/20 text-orange-400 border border-orange-500/40 inline-flex items-center gap-1" title="Quy trình 2: Kế toán đã xác nhận cọc - Cho phép giữ phòng NCC"><i class="fa-solid fa-money-bill-transfer text-[8px]"></i> Đã Cọc - Giữ Chỗ NCC</span>';
         } else if (b.tourStatus === 'ke_toan_duyet') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 inline-flex items-center gap-1" title="Bước 2: Kế toán đã xác nhận tiền vào TK, chờ BGĐ phê duyệt điều hành"><i class="fa-solid fa-user-check text-[8px]"></i> B2: Kế Toán Đã Duyệt</span>';
-        } else if (b.tourStatus === 'da_chot' || b.tourStatus === 'da_xac_nhan' || b.tourStatus === 'da_coc') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-1" title="Bước 3: Ban Giám Đốc đã phê duyệt chốt điều hành tour"><i class="fa-solid fa-crown text-[8px] text-amber-300"></i> B3: Đang Điều Hành</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 inline-flex items-center gap-1" title="Bước 2: Kế toán đã đối soát dòng tiền & AR/AP, chờ BGĐ duyệt"><i class="fa-solid fa-user-check text-[8px]"></i> B2: Kế Toán Đã Duyệt</span>';
+        } else if (b.tourStatus === 'da_chot' || b.tourStatus === 'da_xac_nhan') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-1" title="Bước 3: BGĐ Bùi Phạm Quỳnh Chi đã duyệt chốt điều hành"><i class="fa-solid fa-crown text-[8px] text-amber-300"></i> B3: Đang Vận Hành</span>';
         } else if (b.tourStatus === 'dang_di') {
           tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40 inline-flex items-center gap-1"><i class="fa-solid fa-route text-[8px]"></i> Đang Đi Tour</span>';
         } else if (b.tourStatus === 'hoan_tat') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-slate-800 text-slate-400 border border-slate-700">Hoàn Tất</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-slate-800 text-slate-300 border border-slate-700 inline-flex items-center gap-1"><i class="fa-solid fa-check-double text-[8px] text-emerald-400"></i> Đã Tất Toán P&L</span>';
+        } else if (b.tourStatus === 'da_huy') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 inline-flex items-center gap-1"><i class="fa-solid fa-ban text-[8px]"></i> Đã Hủy / Hoàn Tiền</span>';
         } else {
           tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">B1: Chờ Duyệt Tiền</span>';
         }
 
-        // Action buttons workflow
+        // Action buttons cho 3 quy trình nghiệp vụ
         let workflowActionBtn = '';
         if (b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') {
           workflowActionBtn = `
+            <button onclick="xacNhanDaNhanCoc('${b.id}')" title="Quy trình 2: Kế toán bấm 'Đã nhận cọc' để kích hoạt giữ phòng/giữ chỗ NCC" class="px-2 py-1 rounded-lg bg-orange-600/30 hover:bg-orange-500 hover:text-white border border-orange-500/50 text-orange-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-hand-holding-dollar text-[10px]"></i> Xác Nhận Cọc
+            </button>
             <button onclick="openDuyetKeToanModal('${b.id}')" title="Kế toán đối soát tiền Techcombank/MB Bank & Duyệt dòng tiền" class="px-2 py-1 rounded-lg bg-sky-600/30 hover:bg-sky-500 hover:text-white border border-sky-500/50 text-sky-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-check-to-slot text-[10px]"></i> Duyệt Tiền (Acc)
+            </button>
+          `;
+        } else if (b.tourStatus === 'da_coc') {
+          workflowActionBtn = `
+            <button onclick="openDuyetKeToanModal('${b.id}')" title="Kế toán duyệt dòng tiền & chuẩn bị chuyển BGĐ phê duyệt" class="px-2 py-1 rounded-lg bg-sky-600/30 hover:bg-sky-500 hover:text-white border border-sky-500/50 text-sky-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
               <i class="fa-solid fa-check-to-slot text-[10px]"></i> Duyệt Tiền (Acc)
             </button>
           `;
@@ -7096,6 +7416,34 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
           workflowActionBtn = `
             <button onclick="openDuyetBgdModal('${b.id}')" title="Ban Giám Đốc duyệt chốt điều hành & tự động đẩy HĐ VAT" class="px-2 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500 hover:text-white border border-amber-500/50 text-amber-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm">
               <i class="fa-solid fa-crown text-[10px] text-amber-400"></i> BGĐ Duyệt
+            </button>
+          `;
+        } else if (b.tourStatus === 'da_chot' || b.tourStatus === 'dang_di') {
+          workflowActionBtn = `
+            <button onclick="openDoiSoatTatToanModal('${b.id}')" title="Quy trình 3: Đối soát số phòng NCC, thu AR/AP và chốt sổ P&L" class="px-2 py-1 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 hover:text-white border border-emerald-500/50 text-emerald-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm">
+              <i class="fa-solid fa-scale-balanced text-[10px]"></i> Đối Soát & Chốt P&L
+            </button>
+          `;
+        } else if (b.tourStatus === 'hoan_tat') {
+          workflowActionBtn = `
+            <button onclick="openDoiSoatTatToanModal('${b.id}')" title="Xem hồ sơ chốt sổ P&L & quyết toán đơn" class="px-2 py-1 rounded-lg bg-slate-800 text-slate-400 hover:text-white text-xs font-semibold transition flex items-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-file-shield text-[10px]"></i> Đã Chốt Sổ
+            </button>
+          `;
+        }
+
+        // Nút Hoàn / Hủy (Quy trình 1)
+        let cancelBtn = '';
+        if (b.tourStatus !== 'da_huy' && b.tourStatus !== 'hoan_tat') {
+          cancelBtn = `
+            <button onclick="openModalHuyDon('${b.id}')" title="Quy trình 1: Khách yêu cầu hoàn / hủy phòng - Tính phạt NCC & Hoàn tiền khách" class="p-1.5 rounded-lg text-rose-400/80 hover:text-rose-300 hover:bg-rose-500/20 transition text-xs cursor-pointer">
+              <i class="fa-solid fa-ban"></i>
+            </button>
+          `;
+        } else if (b.tourStatus === 'da_huy') {
+          cancelBtn = `
+            <button onclick="openModalHuyDon('${b.id}')" title="Xem hồ sơ hoàn tiền & lý do hủy đơn" class="p-1.5 rounded-lg text-rose-400 hover:bg-rose-500/20 transition text-xs cursor-pointer">
+              <i class="fa-solid fa-file-circle-xmark"></i>
             </button>
           `;
         }
@@ -7258,6 +7606,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
                 ${workflowActionBtn}
+                ${cancelBtn}
                 <!-- Nút Xuất Mã QR VietQR Techcombank -->
                 <button onclick="openVietQRForBooking('${b.id}')" title="Xuất Mã QR Chuyển Khoản Techcombank Cho Khách" class="p-1.5 rounded-lg text-amber-400 hover:text-white hover:bg-amber-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-qrcode"></i>
@@ -7360,14 +7709,30 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
             <!-- Dòng 5: CÁC NÚT THAO TÁC 1-CHẠM TO TRÊN ĐIỆN THOẠI (>= 46px) -->
             ${(b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') ? `
-              <button onclick="openDuyetKeToanModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-sky-600/30 transition cursor-pointer">
-                <i class="fa-solid fa-check-to-slot text-sm text-sky-200"></i>
-                <span>BƯỚC 2: KẾ TOÁN DUYỆT TIỀN (TECHCOMBANK / MB)</span>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="xacNhanDaNhanCoc('${b.id}')" class="min-h-[46px] py-2.5 px-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold flex items-center justify-center gap-1 shadow-md transition cursor-pointer">
+                  <i class="fa-solid fa-hand-holding-dollar text-sm"></i>
+                  <span>Xác Nhận Cọc</span>
+                </button>
+                <button onclick="openDuyetKeToanModal('${b.id}')" class="min-h-[46px] py-2.5 px-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold flex items-center justify-center gap-1 shadow-md transition cursor-pointer">
+                  <i class="fa-solid fa-check-to-slot text-sm"></i>
+                  <span>Duyệt Tiền Acc</span>
+                </button>
+              </div>
+            ` : (b.tourStatus === 'da_coc') ? `
+              <button onclick="openDuyetKeToanModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-sky-600/30 transition cursor-pointer">
+                <i class="fa-solid fa-check-to-slot text-sm"></i>
+                <span>KẾ TOÁN DUYỆT TIỀN (CHUYỂN BAN GIÁM ĐỐC)</span>
               </button>
             ` : (b.tourStatus === 'ke_toan_duyet') ? `
-              <button onclick="openDuyetBgdModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 active:bg-amber-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-amber-600/30 transition cursor-pointer">
+              <button onclick="openDuyetBgdModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-amber-600/30 transition cursor-pointer">
                 <i class="fa-solid fa-crown text-sm text-amber-200"></i>
                 <span>BƯỚC 3: BAN GIÁM ĐỐC PHÊ DUYỆT ĐIỀU HÀNH</span>
+              </button>
+            ` : (b.tourStatus === 'da_chot' || b.tourStatus === 'dang_di') ? `
+              <button onclick="openDoiSoatTatToanModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/30 transition cursor-pointer">
+                <i class="fa-solid fa-scale-balanced text-sm"></i>
+                <span>QUY TRÌNH 3: ĐỐI SOÁT PHÒNG & TẤT TOÁN P&L</span>
               </button>
             ` : ''}
 
@@ -7389,6 +7754,10 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                 <i class="fa-solid fa-file-invoice"></i>
               </button>
 
+              <!-- Nút Hoàn / Hủy Đơn -->
+              <button onclick="openModalHuyDon('${b.id}')" class="min-w-[46px] min-h-[46px] rounded-xl bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 flex items-center justify-center transition cursor-pointer active:scale-95" title="Quy trình 1: Hoàn / Hủy Booking">
+                <i class="fa-solid fa-ban text-sm"></i>
+              </button>
               <!-- Nút Chỉnh Sửa Đơn -->
               <button onclick="editBooking('${b.id}')" class="min-w-[46px] min-h-[46px] rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm border border-slate-700 flex items-center justify-center transition cursor-pointer active:scale-95" title="Sửa Đơn">
                 <i class="fa-solid fa-pen-to-square"></i>
@@ -8864,6 +9233,280 @@ ${lines.join('\n')}
       closeDuyetBgdModal();
 
       alert('👑 BAN GIÁM ĐỐC ĐÃ PHÊ DUYỆT CHỐT ĐIỀU HÀNH THÀNH CÔNG!\n\n• Đơn hàng: ' + b.maBooking + '\n• Trạng thái mới: 🟢 BƯỚC 3: BGĐ ĐÃ DUYỆT - ĐANG ĐIỀU HÀNH TOUR\n• Phê duyệt bởi: ' + approverName + (b.coXuatVat ? '\n• Đã tự động ghi nhận vào mục: HĐ Đầu Ra Chờ Xuất' : ''));
+    }
+
+    // =========================================================================
+    // 1. QUY TRÌNH HOÀN / HỦY BOOKING (CANCELLATION & REFUND)
+    // =========================================================================
+    let activeCancelBooking = null;
+
+    function openModalHuyDon(id) {
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      activeCancelBooking = b;
+      document.getElementById('hh-booking-id').value = b.id;
+      document.getElementById('hh-code').innerText = b.maBooking;
+      document.getElementById('hh-customer').innerText = (b.khachHang || 'Khách hàng') + ' - ' + (b.sdt || '');
+      document.getElementById('hh-service').innerText = b.dichVu || b.doiTac || 'Dịch vụ phòng / tour';
+      
+      const rev = parseFloat(b.giaBan) || 0;
+      const paid = parseFloat(b.khachDaCoc) || 0;
+      document.getElementById('hh-gia-ban').innerText = rev.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('hh-da-coc').innerText = paid.toLocaleString('vi-VN') + ' đ';
+
+      document.getElementById('hh-ly-do').value = b.lyDoHuy || '';
+      document.getElementById('hh-chinh-sach-ncc').value = b.chinhSachHuyNCC || 'Phạt hủy theo quy định đối tác cung ứng';
+      document.getElementById('hh-phat-ncc').value = formatCurrency(b.phiPhatNCC || 0);
+      document.getElementById('hh-phat-khach').value = formatCurrency(b.phiPhatKhach || 0);
+
+      document.getElementById('hh-stk-bank').value = b.stkKhachBank || '';
+      document.getElementById('hh-stk-num').value = b.stkKhachNum || '';
+      document.getElementById('hh-stk-name').value = b.stkKhachName || '';
+      document.getElementById('hh-unc-code').value = b.uncRefund || '';
+
+      tinhToanHoanHuy();
+      document.getElementById('modal-hoan-huy-booking').classList.remove('hidden');
+    }
+
+    function closeModalHuyDon() {
+      document.getElementById('modal-hoan-huy-booking').classList.add('hidden');
+    }
+
+    function tinhToanHoanHuy() {
+      if (!activeCancelBooking) return;
+      const paid = parseFloat(activeCancelBooking.khachDaCoc) || 0;
+      const phatKhach = parseCurrency(document.getElementById('hh-phat-khach').value);
+      const phatNCC = parseCurrency(document.getElementById('hh-phat-ncc').value);
+
+      const soTienHoan = Math.max(0, paid - phatKhach);
+      const chenhLech = Math.max(0, phatKhach - phatNCC);
+
+      document.getElementById('hh-tien-hoan-khach').innerText = soTienHoan.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('hh-chenh-lech').innerText = (chenhLech >= 0 ? '+' : '') + chenhLech.toLocaleString('vi-VN') + ' đ';
+    }
+
+    function xacNhanHoanHuyBooking() {
+      if (!activeCancelBooking) return;
+
+      const phatKhach = parseCurrency(document.getElementById('hh-phat-khach').value);
+      const phatNCC = parseCurrency(document.getElementById('hh-phat-ncc').value);
+      const paid = parseFloat(activeCancelBooking.khachDaCoc) || 0;
+      const soTienHoan = Math.max(0, paid - phatKhach);
+
+      const lyDo = document.getElementById('hh-ly-do').value.trim() || 'Khách yêu cầu hủy dịch vụ';
+      const chinhSach = document.getElementById('hh-chinh-sach-ncc').value.trim();
+      const bank = document.getElementById('hh-stk-bank').value.trim();
+      const stk = document.getElementById('hh-stk-num').value.trim();
+      const name = document.getElementById('hh-stk-name').value.trim();
+      const unc = document.getElementById('hh-unc-code').value.trim();
+
+      const userName = currentUser ? (currentUser.name || currentUser.email) : 'Kế Toán / Quản Lý';
+
+      activeCancelBooking.tourStatus = 'da_huy';
+      activeCancelBooking.isLocked = true;
+      activeCancelBooking.lyDoHuy = lyDo;
+      activeCancelBooking.chinhSachHuyNCC = chinhSach;
+      activeCancelBooking.phiPhatKhach = phatKhach;
+      activeCancelBooking.phiPhatNCC = phatNCC;
+      activeCancelBooking.tienHoanKhach = soTienHoan;
+      activeCancelBooking.stkKhachBank = bank;
+      activeCancelBooking.stkKhachNum = stk;
+      activeCancelBooking.stkKhachName = name;
+      activeCancelBooking.uncRefund = unc;
+      activeCancelBooking.ngayHuy = new Date().toISOString();
+      activeCancelBooking.nguoiHuy = userName;
+
+      saveData();
+      updateMetrics();
+      renderTable();
+      closeModalHuyDon();
+
+      alert('🔴 ĐÃ XÁC NHẬN HOÀN TIỀN & ĐÓNG ĐƠN HỦY THÀNH CÔNG!\n\n• Đơn hàng: ' + activeCancelBooking.maBooking + '\n• Trạng thái mới: Đã Hủy / Hoàn Tiền\n• Số tiền hoàn khách: ' + soTienHoan.toLocaleString('vi-VN') + ' đ\n• Phí phạt NCC: ' + phatNCC.toLocaleString('vi-VN') + ' đ\n• Người duyệt: ' + userName + '\n\n(Dữ liệu đơn hàng đã được khóa để bảo vệ an toàn tài chính)');
+    }
+
+    // =========================================================================
+    // 2. QUY TRÌNH QUẢN LÝ TIỀN CỌC (DEPOSIT MANAGEMENT)
+    // =========================================================================
+    function setVietQrDepositRatio(ratio) {
+      if (!currentQrBookingId) return;
+      const b = bookings.find(x => x.id === currentQrBookingId);
+      if (!b) return;
+
+      const rev = parseFloat(b.giaBan) || 0;
+      const paid = parseFloat(b.khachDaCoc) || 0;
+      const remain = Math.max(0, rev - paid);
+
+      let newAmount = rev;
+      if (ratio === 'remain') {
+        newAmount = remain > 0 ? remain : rev;
+      } else if (typeof ratio === 'number') {
+        newAmount = Math.round(rev * ratio);
+      }
+
+      openVietQRForBooking(b.id, newAmount);
+    }
+
+    function xacNhanDaNhanCoc(id) {
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      // Phân quyền: Kế toán hoặc Ban Giám Đốc
+      if (currentUser && currentUser.role === 'sale') {
+        alert('⚠️ QUY TRÌNH 2: XÁC NHẬN TIỀN CỌC (KẾ TOÁN)\n\nThao tác này do Bộ phận Kế toán (Vũ Khánh Linh - ketoan@bookingtravel.vn) hoặc Ban Giám Đốc kiểm tra tài khoản Techcombank 554479 / MB Bank và bấm xác nhận!\n\nBạn đang đăng nhập tài khoản Sales (' + (currentUser.name || currentUser.email) + ').');
+        return;
+      }
+
+      const rev = parseFloat(b.giaBan) || 0;
+      const currentPaid = parseFloat(b.khachDaCoc) || 0;
+      const depositDefault = currentPaid > 0 ? currentPaid : Math.round(rev * 0.5);
+
+      const confirmStr = prompt('XÁC NHẬN ĐÃ NHẬN TIỀN CỌC (TECHCOMBANK 554479 / MB BANK):\n\n• Đơn hàng: ' + b.maBooking + '\n• Khách: ' + b.khachHang + '\n• Nhập số tiền cọc thực tế đã về tài khoản công ty:', depositDefault);
+      if (confirmStr === null) return;
+
+      const depAmount = parseFloat(confirmStr.replace(/[^0-9]/g, '')) || depositDefault;
+      if (depAmount <= 0) {
+        alert('Số tiền cọc không hợp lệ!');
+        return;
+      }
+
+      b.khachDaCoc = depAmount;
+      b.tourStatus = 'da_coc';
+      b.daNhanCocAt = new Date().toISOString();
+      b.daNhanCocBy = currentUser ? (currentUser.name || currentUser.email) : 'Vũ Khánh Linh (Kế Toán)';
+      b.kichHoatGiuCho = true;
+
+      if (!Array.isArray(b.payments)) b.payments = [];
+      b.payments.unshift({
+        id: 'pm_coc_' + Date.now(),
+        dot: 'Đợt 1 - Tiền cọc giữ chỗ (Kế toán đã duyệt)',
+        soTien: depAmount,
+        ngay: new Date().toISOString().slice(0, 10),
+        hinhThuc: 'Chuyển khoản (Techcombank 554479 / MB Bank)',
+        trangThai: 'da_thu',
+        ghiChu: 'Kế toán xác nhận cọc đã nổi trong tài khoản công ty'
+      });
+
+      saveData();
+      updateMetrics();
+      renderTable();
+
+      alert('✅ KẾ TOÁN ĐÃ XÁC NHẬN NHẬN CỌC THÀNH CÔNG!\n\n• Đơn hàng: ' + b.maBooking + '\n• Tiền cọc đã khớp: ' + depAmount.toLocaleString('vi-VN') + ' đ\n• TRẠNG THÁI: 🟠 ĐÃ NHẬN CỌC - ĐANG GIỮ CHỖ\n\n➔ ĐÃ KÍCH HOẠT LỆNH: Cho phép Sales và Bộ phận Vận hành tiến hành liên hệ đối tác (' + (b.doiTac || 'NCC') + ') để GIỮ PHÒNG / GIỮ CHỖ ngay lập tức!');
+    }
+
+    // =========================================================================
+    // 3. QUY TRÌNH THU HỒI CÔNG NỢ & ĐỐI SOÁT HẾT PHÒNG (SETTLEMENT & RECONCILIATION)
+    // =========================================================================
+    let activeReconciliationBooking = null;
+
+    function openDoiSoatTatToanModal(id) {
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      activeReconciliationBooking = b;
+      document.getElementById('ds-booking-id').value = b.id;
+      document.getElementById('ds-code').innerText = b.maBooking;
+      document.getElementById('ds-customer').innerText = b.khachHang;
+      document.getElementById('ds-service').innerText = b.dichVu || b.doiTac || 'Dịch vụ phòng / tour';
+      document.getElementById('ds-supplier').innerText = b.doiTac || 'Nhà cung cấp';
+      document.getElementById('ds-dates').innerText = `${formatShortDateVN(b.checkIn)} ➔ ${formatShortDateVN(b.checkOut)}`;
+
+      document.getElementById('ds-phat-sinh-ncc').value = formatCurrency(b.phatSinhNCC || 0);
+      document.getElementById('ds-phat-sinh-khach').value = formatCurrency(b.phatSinhKhach || 0);
+      document.getElementById('ds-ghi-chu-ncc').value = b.ghiChuDoiSoatPhong || 'Đã khớp số lượng phòng và đêm nghỉ thực tế với đặt phòng đối tác.';
+
+      recalcReconciliation();
+      document.getElementById('modal-doi-soat-tat-toan').classList.remove('hidden');
+    }
+
+    function closeDoiSoatTatToanModal() {
+      document.getElementById('modal-doi-soat-tat-toan').classList.add('hidden');
+    }
+
+    function recalcReconciliation() {
+      if (!activeReconciliationBooking) return;
+      const b = activeReconciliationBooking;
+
+      const baseRev = parseFloat(b.giaBan) || 0;
+      const baseCost = parseFloat(b.giaVon) || 0;
+      const paidAR = parseFloat(b.khachDaCoc) || 0;
+      const paidAP = parseFloat(b.daTraDoiTac) || 0;
+
+      const psNCC = parseCurrency(document.getElementById('ds-phat-sinh-ncc').value);
+      const psKhach = parseCurrency(document.getElementById('ds-phat-sinh-khach').value);
+
+      const totalRev = baseRev + psKhach;
+      const totalCost = baseCost + psNCC;
+
+      const remainAR = Math.max(0, totalRev - paidAR);
+      const remainAP = Math.max(0, totalCost - paidAP);
+
+      const finalProfit = totalRev - totalCost;
+      const finalMargin = totalRev > 0 ? ((finalProfit / totalRev) * 100).toFixed(1) : 0;
+
+      document.getElementById('ds-cost-total').innerText = totalCost.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('ds-cost-paid').innerText = paidAP.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('ds-cost-remain').innerText = remainAP > 0 ? '-' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Đã thanh toán đủ';
+
+      document.getElementById('ds-rev-total').innerText = totalRev.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('ds-rev-paid').innerText = paidAR.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('ds-rev-remain').innerText = remainAR > 0 ? '-' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Đã thu đủ 100%';
+
+      const apBadge = document.getElementById('ds-ap-badge');
+      if (remainAP <= 0) {
+        apBadge.className = 'px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-400';
+        apBadge.innerText = 'ĐÃ TRẢ HẾT';
+      } else {
+        apBadge.className = 'px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-400';
+        apBadge.innerText = 'CÒN NỢ NCC';
+      }
+
+      const arBadge = document.getElementById('ds-ar-badge');
+      if (remainAR <= 0) {
+        arBadge.className = 'px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-400';
+        arBadge.innerText = 'ĐÃ THU ĐỦ';
+      } else {
+        arBadge.className = 'px-1.5 py-0.2 rounded text-[9px] font-bold bg-rose-500/20 text-rose-400';
+        arBadge.innerText = 'CÒN THIẾU AR';
+      }
+
+      document.getElementById('ds-profit-final').innerText = (finalProfit >= 0 ? '+' : '') + finalProfit.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('ds-margin-final').innerText = finalMargin + '%';
+
+      const warningBox = document.getElementById('ds-warning-box');
+      if (remainAR > 0 || remainAP > 0) {
+        warningBox.classList.remove('hidden');
+      } else {
+        warningBox.classList.add('hidden');
+      }
+    }
+
+    function xacNhanTatToanChotSo() {
+      if (!activeReconciliationBooking) return;
+      const b = activeReconciliationBooking;
+
+      const psNCC = parseCurrency(document.getElementById('ds-phat-sinh-ncc').value);
+      const psKhach = parseCurrency(document.getElementById('ds-phat-sinh-khach').value);
+      const note = document.getElementById('ds-ghi-chu-ncc').value.trim();
+
+      const userName = currentUser ? (currentUser.name || currentUser.email) : 'Ban Giám Đốc (Bùi Phạm Quỳnh Chi)';
+
+      b.phatSinhNCC = psNCC;
+      b.phatSinhKhach = psKhach;
+      b.giaBan = (parseFloat(b.giaBan) || 0) + psKhach;
+      b.giaVon = (parseFloat(b.giaVon) || 0) + psNCC;
+      b.ghiChuDoiSoatPhong = note;
+
+      b.tourStatus = 'hoan_tat';
+      b.tatToanAt = new Date().toISOString();
+      b.tatToanBy = userName;
+
+      saveData();
+      updateMetrics();
+      renderTable();
+      closeDoiSoatTatToanModal();
+
+      alert('🏆 ĐÃ TẤT TOÁN CÔNG NỢ & CHỐT SỔ P&L THÀNH CÔNG!\n\n• Đơn hàng: ' + b.maBooking + '\n• Trạng thái: ⚪ ĐÃ HOÀN TẤT & CHỐT SỔ P&L\n• Người duyệt: ' + userName + '\n\n➔ Dữ liệu chuẩn xác 100% đã được ghi nhận vào Báo cáo Lãi Lỗ (P&L) và Hiệu suất Công ty!');
     }
 
     // =========================================================================
