@@ -1104,19 +1104,16 @@
           <!-- BẢNG THEO DÕI ĐƠN HÀNG TRÊN MÁY TÍNH (DESKTOP VIEW: >= MD) -->
           <div class="hidden md:block overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
-              <thead class="bg-slate-950/80 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-800">
-                <tr>
+              <thead id="table-head" class="bg-slate-950/80 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr id="table-head-row">
                   <th class="py-3 px-3.5">Mã Đơn / Ngày Tạo</th>
                   <th class="py-3 px-3.5 text-center">Lịch Trình (In - Out)</th>
                   <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
                   <th class="py-3 px-3.5">Khách Sạn / Resort</th>
                   <th class="py-3 px-3.5 text-right">Doanh Thu</th>
-                  <th class="py-3 px-3.5 text-right">Giá Vốn</th>
-                  <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
-                  <th class="py-3 px-3.5 text-center">Công Nợ (AR / AP)</th>
-                  <th class="py-3 px-3.5 text-center">HĐ Đầu Vào (NCC)</th>
-                  <th class="py-3 px-3.5 text-center">HĐ Đầu Ra (Khách)</th>
-                  <th class="py-3 px-3.5 text-center">Tài Liệu</th>
+                  <th class="py-3 px-3.5 text-right">Giá Vốn Net</th>
+                  <th class="py-3 px-3.5 text-right">Lợi Nhuận & Hoa Hồng</th>
+                  <th class="py-3 px-3.5 text-center">Phải Thu Khách (AR)</th>
                   <th class="py-3 px-3.5 text-right">Thao Tác</th>
                 </tr>
               </thead>
@@ -2568,7 +2565,7 @@
         <!-- ========================================================================= -->
         <!-- KHỐI 6: HÓA ĐƠN ĐẦU VÀO TỪ NHÀ CUNG CẤP -->
         <!-- ========================================================================= -->
-        <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-4">
+        <div id="modal-sec-hd-vao" class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
             <h4 class="text-sm sm:text-base font-bold text-sky-400 uppercase tracking-wide flex items-center gap-2">
               <i class="fa-solid fa-receipt"></i>
@@ -4922,6 +4919,13 @@
 
       // 6. CẬP NHẬT GIAO DIỆN THẺ METRIC CARD 4
       updateCard4UI(role);
+
+      // 7. ẨN PHẦN HÓA ĐƠN ĐẦU VÀO TRONG MODAL ĐỐI VỚI SALES (DO KẾ TOÁN QUẢN LÝ)
+      const modalSecHdVao = document.getElementById('modal-sec-hd-vao');
+      if (modalSecHdVao) {
+        if (isSale) modalSecHdVao.classList.add('hidden');
+        else modalSecHdVao.classList.remove('hidden');
+      }
     }
 
     function applyCurrentUserUI() {
@@ -8293,10 +8297,44 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
       document.getElementById('showing-count').innerText = filtered.length;
 
+      // CẬP NHẬT TIÊU ĐỀ CỘT BẢNG (KINH DOANH SALES KHÔNG CẦN: HĐ Đầu Vào, HĐ Đầu Ra, Tài Liệu)
+      const tableHeadRow = document.getElementById('table-head-row');
+      if (tableHeadRow) {
+        if (isSale) {
+          tableHeadRow.innerHTML = `
+            <th class="py-3 px-3.5">Mã Đơn / Ngày Tạo</th>
+            <th class="py-3 px-3.5 text-center">Lịch Trình (In - Out)</th>
+            <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
+            <th class="py-3 px-3.5">Khách Sạn / Resort</th>
+            <th class="py-3 px-3.5 text-right">Doanh Thu</th>
+            <th class="py-3 px-3.5 text-right">Giá Vốn Net</th>
+            <th class="py-3 px-3.5 text-right">Lợi Nhuận & Hoa Hồng</th>
+            <th class="py-3 px-3.5 text-center">Phải Thu Khách (AR)</th>
+            <th class="py-3 px-3.5 text-right">Thao Tác</th>
+          `;
+        } else {
+          tableHeadRow.innerHTML = `
+            <th class="py-3 px-3.5">Mã Đơn / Ngày Tạo</th>
+            <th class="py-3 px-3.5 text-center">Lịch Trình (In - Out)</th>
+            <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
+            <th class="py-3 px-3.5">Khách Sạn / Resort</th>
+            <th class="py-3 px-3.5 text-right">Doanh Thu</th>
+            <th class="py-3 px-3.5 text-right">Giá Vốn</th>
+            <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
+            <th class="py-3 px-3.5 text-center">Công Nợ (AR / AP)</th>
+            <th class="py-3 px-3.5 text-center">HĐ Đầu Vào (NCC)</th>
+            <th class="py-3 px-3.5 text-center">HĐ Đầu Ra (Khách)</th>
+            <th class="py-3 px-3.5 text-center">Tài Liệu</th>
+            <th class="py-3 px-3.5 text-right">Thao Tác</th>
+          `;
+        }
+      }
+
       if (filtered.length === 0) {
+        const colSpan = isSale ? 9 : 12;
         tbody.innerHTML = `
           <tr>
-            <td colspan="12" class="py-12 text-center text-slate-500 font-normal">
+            <td colspan="${colSpan}" class="py-12 text-center text-slate-500 font-normal">
               <i class="fa-solid fa-folder-open text-3xl mb-2 text-slate-600 block"></i>
               Không tìm thấy hồ sơ booking nào phù hợp với bộ lọc hiện tại.
             </td>
@@ -8532,38 +8570,51 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               ${profitDisplay}
             </td>
 
-            <!-- 8. CÔNG NỢ (AR / AP) -->
-            <td class="py-3 px-3.5 text-center font-mono text-[10px]">
-              <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-semibold'} block">
-                Khách: ${remainAR > 0 ? '-' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Thu đủ'}
-              </span>
-              <span class="${remainAP > 0 ? 'text-amber-400 font-bold' : 'text-slate-500'} block mt-0.5">
-                NCC: ${remainAP > 0 ? '-' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Trả đủ'}
-              </span>
-              ${Array.isArray(b.payments) && b.payments.length > 1 ? `
-                <span class="text-[9px] text-indigo-300 block mt-0.5 font-sans bg-indigo-500/15 px-1 py-0.2 rounded border border-indigo-500/30">
-                  Đã thu ${b.payments.filter(p=>p.trangThai==='da_thu').length}/${b.payments.length} đợt
+            <!-- 8. CÔNG NỢ: SALES CHỈ XEM NỢ PHẢI THU KHÁCH (AR), KẾ TOÁN/BGĐ XEM CẢ KHÁCH VÀ NCC -->
+            ${isSale ? `
+              <td class="py-3 px-3.5 text-center font-mono text-[10px]">
+                <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-semibold'} block">
+                  ${remainAR > 0 ? 'Còn nợ: -' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Đã thu đủ 100%'}
                 </span>
-              ` : ''}
-            </td>
+                ${Array.isArray(b.payments) && b.payments.length > 1 ? `
+                  <span class="text-[9px] text-indigo-300 block mt-0.5 font-sans bg-indigo-500/15 px-1 py-0.2 rounded border border-indigo-500/30">
+                    Đã thu ${b.payments.filter(p=>p.trangThai==='da_thu').length}/${b.payments.length} đợt
+                  </span>
+                ` : ''}
+              </td>
+            ` : `
+              <td class="py-3 px-3.5 text-center font-mono text-[10px]">
+                <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-semibold'} block">
+                  Khách: ${remainAR > 0 ? '-' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Thu đủ'}
+                </span>
+                <span class="${remainAP > 0 ? 'text-amber-400 font-bold' : 'text-slate-500'} block mt-0.5">
+                  NCC: ${remainAP > 0 ? '-' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Trả đủ'}
+                </span>
+                ${Array.isArray(b.payments) && b.payments.length > 1 ? `
+                  <span class="text-[9px] text-indigo-300 block mt-0.5 font-sans bg-indigo-500/15 px-1 py-0.2 rounded border border-indigo-500/30">
+                    Đã thu ${b.payments.filter(p=>p.trangThai==='da_thu').length}/${b.payments.length} đợt
+                  </span>
+                ` : ''}
+              </td>
 
-            <!-- 9. HÓA ĐƠN ĐẦU VÀO (NCC) - CÓ SỐ HÓA ĐƠN Ở NGOÀI LUÔN -->
-            <td class="py-3 px-3.5 text-center">
-              ${hdVaoBadge}
-            </td>
+              <!-- 9. HÓA ĐƠN ĐẦU VÀO (NCC) - KẾ TOÁN & BAN GIÁM ĐỐC -->
+              <td class="py-3 px-3.5 text-center">
+                ${hdVaoBadge}
+              </td>
 
-            <!-- 10. HÓA ĐƠN ĐẦU RA (KHÁCH) - CÓ SỐ HÓA ĐƠN Ở NGOÀI LUÔN -->
-            <td class="py-3 px-3.5 text-center">
-              ${hdRaBadge}
-            </td>
+              <!-- 10. HÓA ĐƠN ĐẦU RA (KHÁCH) - KẾ TOÁN & BAN GIÁM ĐỐC -->
+              <td class="py-3 px-3.5 text-center">
+                ${hdRaBadge}
+              </td>
 
-            <!-- 11. TÀI LIỆU FILE -->
-            <td class="py-3 px-3.5 text-center">
-              <button onclick="openFilesModal('${b.id}')" class="px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 mx-auto transition cursor-pointer ${fileBtnClass}">
-                <i class="fa-solid fa-paperclip text-[10px]"></i>
-                <span class="font-mono text-[10px]">${filesCount} file</span>
-              </button>
-            </td>
+              <!-- 11. TÀI LIỆU FILE - KẾ TOÁN & BAN GIÁM ĐỐC -->
+              <td class="py-3 px-3.5 text-center">
+                <button onclick="openFilesModal('${b.id}')" class="px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 mx-auto transition cursor-pointer ${fileBtnClass}">
+                  <i class="fa-solid fa-paperclip text-[10px]"></i>
+                  <span class="font-mono text-[10px]">${filesCount} file</span>
+                </button>
+              </td>
+            `}
 
             <!-- 12. THAO TÁC -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
