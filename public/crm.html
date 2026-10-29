@@ -428,201 +428,8 @@
   </div>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- 1. ENTERPRISE SIDEBAR -->
-  <!-- ========================================================================= -->
-  <!-- BACKDROP OVERLAY CHO SIDEBAR TRÊN ĐIỆN THOẠI -->
-  <div id="mobile-sidebar-backdrop" onclick="toggleMobileSidebar(false)" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity"></div>
-
-  <aside id="sidebar-main" class="fixed lg:static inset-y-0 left-0 z-50 w-72 sm:w-80 bg-[#0b192c] border-r border-[#1a2c47] flex flex-col justify-between shrink-0 select-none transform -translate-x-full lg:translate-x-0 shadow-2xl lg:shadow-none">
-    <div class="overflow-y-auto">
-      <!-- Brand Logo Header: Toàn bộ khu vực dành trọn cho Logo Doanh Nghiệp to, rộng, sắc nét, sang trọng, không bị cắt góc -->
-      <div class="h-28 sm:h-32 px-3 py-2.5 border-b border-[#1a2c47] bg-[#07162f] flex items-center justify-between gap-2 shrink-0">
-        <a href="javascript:void(0)" onclick="location.reload()" class="flex-1 h-full bg-white rounded-2xl p-2.5 shadow-lg flex items-center justify-center border border-slate-200 hover:border-sky-400 hover:shadow-xl transition-all duration-200 group" title="Booking Travel - Khách hàng là gia đình">
-          <img src="logo.png?v=4.0" alt="Booking Travel - Khách hàng là gia đình" class="h-full w-full object-contain select-none transform group-hover:scale-[1.02] transition-transform duration-200">
-        </a>
-        <!-- Nút Kéo Thu Gọn Sidebar trên Máy Tính (Kéo ẩn qua trái để mở rộng màn hình) -->
-        <button type="button" onclick="toggleSidebarDesktop(false)" class="hidden lg:flex w-9 h-9 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white items-center justify-center transition cursor-pointer shrink-0" title="Kéo ẩn menu qua trái (Ctrl+B)">
-          <i class="fa-solid fa-chevron-left text-sm"></i>
-        </button>
-        <!-- Nút Đóng Sidebar trên Điện Thoại -->
-        <button type="button" onclick="toggleMobileSidebar(false)" class="lg:hidden w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition cursor-pointer shrink-0" title="Đóng menu">
-          <i class="fa-solid fa-xmark text-base"></i>
-        </button>
-      </div>
-      <!-- Navigation Modules (Phiên Bản Điều Hành Thống Nhất) -->
-      <div class="px-3 py-4 space-y-5">
-        
-        <!-- NHÓM 1: ĐIỀU HÀNH & BOOKING (ƯU TIÊN CỐT LÕI) -->
-        <div id="sidebar-sec-bookings">
-          <p class="px-3 text-[10px] font-bold text-sky-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i class="fa-solid fa-compass"></i> Điều Hành & Booking
-          </p>
-          <nav class="space-y-0.5">
-            <button onclick="switchView('bookings'); setFilter('all')" id="nav-all" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-white bg-blue-600/15 border border-blue-500/30 text-blue-400 transition">
-              <i class="fa-solid fa-receipt w-4 text-center"></i>
-              <span id="nav-all-text">Tất Cả Booking</span>
-              <span id="badge-total-orders" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('cho_ke_toan')" id="nav-cho_ke_toan" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-hourglass-half w-4 text-center text-amber-400"></i>
-              <span>Chờ Kế Toán Duyệt</span>
-              <span id="badge-cho-ke-toan" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('da_coc')" id="nav-da_coc" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-orange-400 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-money-bill-transfer w-4 text-center text-orange-400"></i>
-              <span>Đã Nhận Cọc - Giữ Chỗ</span>
-              <span id="badge-da-coc" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('cho_bgd')" id="nav-cho_bgd" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-sky-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
-              <span>Chờ BGĐ Duyệt</span>
-              <span id="badge-cho-bgd" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('dang_dieu_hanh')" id="nav-dang_dieu_hanh" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-emerald-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-crown w-4 text-center text-emerald-400"></i>
-              <span>Đang Điều Hành</span>
-              <span id="badge-dang-dieu-hanh" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('hoan_tat')" id="nav-hoan_tat" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-check-double w-4 text-center text-slate-400"></i>
-              <span>Đã Tất Toán P&L</span>
-              <span id="badge-hoan-tat" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('da_huy')" id="nav-da_huy" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-400 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-ban w-4 text-center text-rose-400"></i>
-              <span>Đã Hủy / Hoàn Tiền</span>
-              <span id="badge-da-huy" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('my_orders')" id="nav-my_orders" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
-              <span>Booking Của Tôi</span>
-              <span id="badge-my-orders-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('ar_pending')" id="nav-ar_pending" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-hand-holding-dollar w-4 text-center text-rose-400"></i>
-              <span>Phải Thu Khách (AR)</span>
-              <span id="badge-ar-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('ap_pending')" id="nav-ap_pending" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-truck-ramp-box w-4 text-center text-amber-400"></i>
-              <span>Phải Trả NCC (AP)</span>
-              <span id="badge-ap-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('aging_due')" id="nav-aging_due" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-clock-rotate-left w-4 text-center text-amber-400"></i>
-              <span>Quản Trị Tuổi Nợ</span>
-              <span id="badge-aging-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
-            </button>
-          </nav>
-        </div>
-
-        <!-- NHÓM 2: ĐỐI TÁC & KHÁCH HÀNG -->
-        <div id="sidebar-sec-partners">
-          <p class="px-3 text-[10px] font-bold text-sky-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i class="fa-solid fa-handshake"></i> Đối Tác & Khách Hàng
-          </p>
-          <nav class="space-y-0.5">
-            <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-hotel w-4 text-center text-emerald-400"></i>
-              <span>Đối Tác Cung Ứng</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">Resort</span>
-            </button>
-            <button id="nav-birthdays" onclick="openBirthdayModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-amber-500/10 transition cursor-pointer">
-              <div class="flex items-center gap-2.5">
-                <i class="fa-solid fa-cake-candles text-rose-400 w-4 text-center"></i>
-                <span>Tri Ân Khách Hàng</span>
-              </div>
-              <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300">Gia Đình</span>
-            </button>
-          </nav>
-        </div>
-
-        <!-- NHÓM 3: TÀI CHÍNH & DÒNG TIỀN (TOÀN CÔNG TY) -->
-        <div id="sidebar-sec-finance">
-          <p id="sidebar-title-finance" class="px-3 text-[10px] font-bold text-emerald-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i class="fa-solid fa-chart-pie"></i> <span>Tài Chính & Báo Cáo</span>
-          </p>
-          <nav class="space-y-0.5">
-            <button onclick="switchView('expenses')" id="nav-expenses" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-file-invoice-dollar w-4 text-center text-rose-400"></i>
-              <span>Chi Phí Công Ty</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Kế Toán</span>
-            </button>
-            <button onclick="switchView('cashflow')" id="nav-cashflow" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-money-bill-transfer w-4 text-center text-emerald-400"></i>
-              <span>Dòng Tiền Thực Tế</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Thu-Chi</span>
-            </button>
-            <button onclick="switchView('reports')" id="nav-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-chart-line w-4 text-center text-blue-400"></i>
-              <span>Báo Cáo Lãi Lỗ (P&L)</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">P&L</span>
-            </button>
-            <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
-              <span id="nav-kpi-text">Hiệu Suất Sales (KPI)</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Thi Đua</span>
-            </button>
-          </nav>
-        </div>
-
-        <!-- NHÓM 4: NHÂN SỰ & PHÂN QUYỀN (ADMIN, SALES 1 - 4...) -->
-        <div id="sidebar-sec-staff">
-          <p id="sidebar-title-staff" class="px-3 text-[10px] font-bold text-teal-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i class="fa-solid fa-users-gear"></i> <span>Nhân Sự & Phân Quyền</span>
-          </p>
-          <nav class="space-y-0.5">
-            <button onclick="switchView('staff')" id="nav-staff" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
-              <i class="fa-solid fa-user-shield w-4 text-center text-teal-400"></i>
-              <span>Phân Quyền Nhân Sự</span>
-              <span id="staff-completed-badge" class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">Admin - Sales</span>
-            </button>
-            <button id="nav-profile" onclick="openProfileModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
-              <i class="fa-solid fa-id-card w-4 text-center text-sky-400"></i>
-              <span>Hồ Sơ Cá Nhân</span>
-            </button>
-          </nav>
-        </div>
-
-        <!-- NHÓM 5: HÓA ĐƠN & KHÁCH HÀNG (KẾ TOÁN & BAN GIÁM ĐỐC) -->
-        <div id="sidebar-sec-invoices">
-          <p id="sidebar-title-invoices" class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i class="fa-solid fa-file-invoice"></i> <span>Quản Lý Hóa Đơn & CSKH</span>
-          </p>
-          <nav class="space-y-0.5">
-            <button onclick="switchView('bookings'); setFilter('doi_hd_dau_vao')" id="nav-doi_hd_dau_vao" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-300 hover:text-white bg-rose-500/10 border border-rose-500/30 transition">
-              <i class="fa-solid fa-file-circle-exclamation w-4 text-center text-rose-400"></i>
-              <span>HĐ Đầu Vào Cần Thu</span>
-              <span id="badge-doi-hd-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500 text-white animate-pulse">0</span>
-            </button>
-            <button onclick="switchView('bookings'); setFilter('can_xuat_hd_ra')" id="nav-can_xuat_hd_ra" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-file-invoice-dollar w-4 text-center text-indigo-400"></i>
-              <span>HĐ Đầu Ra Chờ Xuất</span>
-              <span id="badge-can-xuat-hd-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-400">0</span>
-            </button>
-            <button id="nav-xuat_hd_gtgt" onclick="xuatExcelHoaDonGTGT()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
-              <i class="fa-solid fa-file-excel w-4 text-center text-emerald-500"></i>
-              <span>Kết Xuất Hóa Đơn Thuế GTGT</span>
-            </button>
-            <button id="nav-customer_dir" onclick="openCustomerDirectoryModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-amber-300 hover:text-white hover:bg-amber-600/20 transition cursor-pointer">
-              <i class="fa-solid fa-address-book w-4 text-center text-amber-400"></i>
-              <span>Danh Bạ Khách Hàng (SĐT)</span>
-              <span id="badge-total-customers-sidebar" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300">0</span>
-            </button>
-            <button id="nav-backup_restore" onclick="openBackupRestoreModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
-              <i class="fa-solid fa-cloud-arrow-down w-4 text-center text-cyan-400"></i>
-              <span>Sao Lưu & Phục Hồi CRM</span>
-            </button>
-          </nav>
-        </div>
-
-      </div>
-    </div>
-
-    
-  <!-- ========================================================================= -->
-  <!-- MODAL: DANH BẠ KHÁCH HÀNG & CSKH ZALO (XUẤT SĐT MARKETING) -->
+  
+<!-- MODAL: DANH BẠ KHÁCH HÀNG & CSKH ZALO (XUẤT SĐT MARKETING) -->
   <!-- ========================================================================= -->
   <div id="customer-directory-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm">
     <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeCustomerDirectoryModal()"></div>
@@ -862,88 +669,41 @@
     </div>
   </div>
 
-
-    <!-- Chân Sidebar: Tài Khoản & Nút Thoát CRM Bảo Mật -->
-    <div class="p-3 border-t border-slate-800/80 bg-[#07162f] space-y-2">
-      <!-- Khối Tài Khoản Hiện Tại & Nút Thoát CRM -->
-      <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between gap-2 shadow-inner">
-        <div class="flex items-center gap-2.5 min-w-0">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-xs font-black uppercase shrink-0 shadow">
-            <span id="user-avatar-text">AD</span>
-          </div>
-          <div class="min-w-0">
-            <div id="sidebar-user-name" class="text-xs font-bold text-white truncate">Ban Giám Đốc</div>
-            <div id="sidebar-user-info" class="text-[10px] text-slate-400 font-mono truncate">0846477222</div>
-          </div>
-        </div>
-
-        <!-- NÚT THOÁT CRM (ĐĂNG XUẤT / KHÓA MÀN HÌNH BẢO MẬT) -->
-        <button type="button" onclick="handleLogout()" class="px-2.5 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0 shadow-sm" title="Đăng xuất / Khóa màn hình CRM để bảo mật">
-          <i class="fa-solid fa-power-off text-rose-400 group-hover:text-white"></i>
-          <span>Thoát</span>
-        </button>
-      </div>
-
-      <!-- Hotline Điều Hành Doanh Nghiệp -->
-      <div class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs">
-        <span class="text-slate-400 flex items-center gap-1.5 text-[11px]">
-          <i class="fa-solid fa-headset text-amber-400"></i> Hotline 24/7:
-        </span>
-        <a href="tel:084846477222" class="font-mono text-amber-300 hover:text-amber-200 font-black tracking-wide text-xs">084.84.64.77.222</a>
-      </div>
-
-      <!-- Đơn Vị Điều Hành -->
-      <div class="text-center text-[10px] text-slate-500 font-mono">
-        Booking Travel • MST: 0317894562
-      </div>
-    </div>
-  </aside>
-
-  <!-- Nút Floating Tab mở rộng Sidebar khi đang ẩn trên Máy Tính -->
-  <button id="sidebar-floating-toggle" onclick="toggleSidebarDesktop(true)" class="hidden fixed top-24 left-0 z-40 w-7 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-r-xl shadow-xl border border-l-0 border-blue-400/40 flex items-center justify-center cursor-pointer transition-all duration-200 group active:scale-95" title="Mở rộng menu (Phím tắt: Ctrl + B)">
-    <i class="fa-solid fa-chevron-right text-xs group-hover:translate-x-0.5 transition-transform"></i>
-  </button>
-
-  <!-- ========================================================================= -->
   <!-- 2. MAIN APPLICATION WORKSPACE -->
-  <!-- ========================================================================= -->
-  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-950">
-    
-    <!-- TOP TOOLBAR -->
-    <header class="h-16 border-b border-slate-800 bg-slate-900/40 backdrop-blur px-3 sm:px-6 flex items-center justify-between shrink-0 z-20 gap-2 sm:gap-4">
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-950 w-full">
+
+    <!-- TOP TOOLBAR / HEADER (LOGO, HOTLINE, SEARCH & USER ACCOUNT) -->
+    <header class="h-16 border-b border-slate-800 bg-[#07162f] px-3 sm:px-6 flex items-center justify-between shrink-0 z-20 gap-2 sm:gap-4 shadow-sm">
       
-      <!-- Current View Title & Search -->
-      <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0 max-w-xl">
-        <!-- Nút Hamburger Ẩn/Hiện Sidebar trên Cả Máy Tính & Điện Thoại -->
-        <button type="button" onclick="toggleSidebar()" id="btn-sidebar-toggle-top" class="p-2 rounded-xl bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 border border-slate-700/60 shadow-sm shrink-0 flex items-center justify-center cursor-pointer transition active:scale-95" title="Ẩn/Hiện menu (Ctrl + B)">
-          <i id="btn-sidebar-toggle-icon" class="fa-solid fa-bars-staggered text-base"></i>
-        </button>
-        <div class="hidden sm:flex items-center gap-2 shrink-0">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400" id="current-view-title">Điều Hành Lữ Hành</span>
-          <span class="text-slate-600">/</span>
-        </div>
-        <div class="relative flex-1 min-w-0">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
-          <input type="text" id="global-search" oninput="handleSearch()" placeholder="🔍 Tìm khách, SĐT, Khách sạn, Tour, Mã DH..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
-        </div>
-      </div>
-
-      <!-- Cột Phải: Ưu Tiên Hotline Doanh Nghiệp, Quỹ & Nút Tạo Đơn CRM Chính -->
-      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-        
-        <!-- NỔI BẬT HOTLINE ĐIỀU HÀNH DOANH NGHIỆP (ƯU TIÊN HOTLINE) -->
-        <a href="tel:084846477222" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold shadow-sm shrink-0 hover:bg-amber-500/20 transition" title="Hotline Điều Hành & Hỗ Trợ 24/7 của Booking Travel">
-          <i class="fa-solid fa-phone-volume text-amber-400 animate-pulse text-xs"></i>
-          <span class="text-amber-200/80 font-normal hidden md:inline">Hotline:</span>
-          <span class="font-mono text-amber-300 font-black tracking-wide hidden sm:inline">084.84.64.77.222</span>
-          <span class="sm:hidden font-mono text-[11px] font-bold">Hotline</span>
+      <!-- Cột Trái: Logo Doanh Nghiệp & Slogan -->
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="javascript:void(0)" onclick="switchView('bookings'); setFilter('all');" class="h-10 bg-white rounded-xl px-2.5 py-1 shadow flex items-center justify-center border border-slate-200 hover:border-sky-400 shrink-0 group transition" title="Booking Travel - Khách hàng là gia đình">
+          <img src="logo.png?v=4.0" alt="Booking Travel" class="h-full w-auto object-contain select-none group-hover:scale-105 transition-transform">
         </a>
-
-        <!-- Slogan Doanh Nghiệp (Gọn gàng, tinh tế) -->
-        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold shadow-sm" title="Slogan: Khách hàng là gia đình">
+        <div class="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold shadow-sm" title="Slogan: Khách hàng là gia đình">
           <i class="fa-solid fa-heart text-rose-400 text-xs animate-pulse"></i>
           <span>"Khách hàng là gia đình"</span>
         </div>
+      </div>
+
+      <!-- Giữa: Ô Tìm Kiếm Toàn Cầu Nhanh (Booking, Khách hàng, SĐT, NCC) -->
+      <div class="flex-1 max-w-md min-w-[180px] mx-1 sm:mx-4">
+        <div class="relative w-full">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+          <input type="text" id="global-search" oninput="handleSearch()" placeholder="🔍 Tìm khách, SĐT, Resort, Tour, Mã Đơn..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+        </div>
+      </div>
+
+      <!-- Cột Phải: Hotline Điều Hành, Tài Khoản Đang Nhập & Nút Tạo Booking Mới -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        
+        <!-- Hotline Điều Hành 24/7 Nổi Bật -->
+        <a href="tel:084846477222" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold shadow-sm shrink-0 hover:bg-amber-500/20 transition" title="Hotline Điều Hành & Hỗ Trợ 24/7 của Booking Travel">
+          <i class="fa-solid fa-phone-volume text-amber-400 animate-pulse text-xs"></i>
+          <span class="text-amber-200/80 font-normal hidden lg:inline">Hotline:</span>
+          <span class="font-mono text-amber-300 font-black tracking-wide hidden sm:inline">084.84.64.77.222</span>
+          <span class="sm:hidden font-mono text-[11px] font-bold">Hotline</span>
+        </a>
 
         <!-- Tài Khoản Đang Đăng Nhập & Nút Đổi Vai Trò / Thoát CRM -->
         <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs shadow-sm">
@@ -952,7 +712,7 @@
             <span id="topbar-user-role-badge" class="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30">
               <i class="fa-solid fa-crown text-[9px] mr-1"></i>BGĐ
             </span>
-            <span id="topbar-user-email" class="font-bold text-white max-w-[100px] sm:max-w-[150px] truncate">Bùi Phạm Quỳnh Chi</span>
+            <span id="topbar-user-email" class="font-bold text-white max-w-[90px] sm:max-w-[140px] truncate">Bùi Phạm Quỳnh Chi</span>
             <i class="fa-solid fa-caret-down text-slate-400 text-[10px]"></i>
           </button>
           <button type="button" onclick="handleLogout()" class="ml-1 px-2 py-0.5 bg-rose-500/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 rounded text-[11px] font-bold transition flex items-center gap-1 cursor-pointer" title="Đăng xuất / Khóa CRM bảo mật">
@@ -961,22 +721,86 @@
           </button>
         </div>
 
-        <!-- Nút Nhanh: Chi Phí Công Ty (Kế Toán & Ban Giám Đốc) -->
-        <button onclick="switchView('expenses')" id="topbar-btn-expenses" class="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition cursor-pointer shrink-0" title="Quản lý chi phí công ty (Kế Toán & BGĐ)">
-          <i class="fa-solid fa-file-invoice-dollar text-rose-400"></i>
-          <span>Chi Phí Cty</span>
-        </button>
-
         <!-- NÚT CỐT LÕI DUY NHẤT CỦA CRM: TẠO BOOKING MỚI (ƯU TIÊN CRM - TO RÕ NỔI BẬT) -->
-        <button onclick="openModalTaoDon()" class="px-3 sm:px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-95 text-white text-xs font-black rounded-xl shadow-md shadow-blue-600/30 transition flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0" title="Tạo đơn hàng booking mới vào hệ thống CRM">
+        <button onclick="openModalTaoDon()" class="px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-95 text-white text-xs font-black rounded-xl shadow-md shadow-blue-600/30 transition flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0" title="Tạo đơn hàng booking mới vào hệ thống CRM">
           <i class="fa-solid fa-plus text-xs"></i>
-          <span class="hidden sm:inline uppercase tracking-wider">Tạo Booking Mới</span>
+          <span class="hidden sm:inline uppercase tracking-wider">Tạo Booking</span>
           <span class="sm:hidden font-bold uppercase text-[11px]">Tạo Đơn</span>
         </button>
 
       </div>
-
     </header>
+
+    <!-- ========================================================================= -->
+    <!-- CỘT NGANG ĐIỀU HÀNH & ĐIỀU HƯỚNG CRM (TOP HORIZONTAL NAVIGATION BAR) -->
+    <!-- ========================================================================= -->
+    <nav id="top-navbar-horizontal" class="bg-[#0b192c] border-b border-[#1a2c47] px-3 sm:px-6 py-2 flex items-center justify-between gap-2 overflow-x-auto scrollbar-none shrink-0 z-10 shadow-md">
+      <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none whitespace-nowrap">
+        
+        <!-- 1. ĐIỀU HÀNH & BOOKING (TẤT CẢ BOOKING / ĐƠN HÀNG CỦA TÔI) -->
+        <button onclick="switchView('bookings'); setFilter('all')" id="nav-all" class="nav-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer bg-blue-600/20 text-white border border-blue-500/40 shadow-sm">
+          <i class="fa-solid fa-receipt text-blue-400 text-xs"></i>
+          <span id="nav-all-text">Tất Cả Booking</span>
+          <span id="badge-total-orders" class="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">0</span>
+        </button>
+
+        <!-- 2. HOA HỒNG & DOANH SỐ CỦA TÔI / HIỆU SUẤT SALES (KPI) -->
+        <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
+          <i class="fa-solid fa-trophy text-amber-400 text-xs"></i>
+          <span id="nav-kpi-text">Hoa Hồng & Doanh Số Của Tôi</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Thi Đua</span>
+        </button>
+
+        <!-- 3. TRI ÂN KHÁCH HÀNG (SINH NHẬT & CSKH) -->
+        <button onclick="openBirthdayModal()" id="nav-birthdays" class="nav-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
+          <i class="fa-solid fa-cake-candles text-rose-400 text-xs"></i>
+          <span>Tri Ân Khách Hàng</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Gia Đình</span>
+        </button>
+
+        <!-- 4. ĐỐI TÁC CUNG ỨNG (RESORT / KHÁCH SẠN) -->
+        <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
+          <i class="fa-solid fa-hotel text-emerald-400 text-xs"></i>
+          <span>Đối Tác Resort</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Resort</span>
+        </button>
+
+        <!-- 5. CHI PHÍ CÔNG TY (Kế Toán & Ban Giám Đốc) -->
+        <button onclick="switchView('expenses')" id="nav-expenses" class="nav-btn hidden flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
+          <i class="fa-solid fa-file-invoice-dollar text-rose-400 text-xs"></i>
+          <span>Chi Phí Cty</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Kế Toán</span>
+        </button>
+
+        <!-- 6. DÒNG TIỀN THỰC TẾ (Kế Toán & Ban Giám Đốc) -->
+        <button onclick="switchView('cashflow')" id="nav-cashflow" class="nav-btn hidden flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
+          <i class="fa-solid fa-money-bill-transfer text-emerald-400 text-xs"></i>
+          <span>Dòng Tiền</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Thu-Chi</span>
+        </button>
+
+        <!-- 7. BÁO CÁO LÃI LỖ P&L (Kế Toán & Ban Giám Đốc) -->
+        <button onclick="switchView('reports')" id="nav-reports" class="nav-btn hidden flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
+          <i class="fa-solid fa-chart-line text-sky-400 text-xs"></i>
+          <span>Báo Cáo P&L</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">P&L</span>
+        </button>
+
+        <!-- 8. PHÂN QUYỀN NHÂN SỰ (Chỉ Ban Giám Đốc) -->
+        <button onclick="switchView('staff')" id="nav-staff" class="nav-btn hidden flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
+          <i class="fa-solid fa-users-gear text-teal-400 text-xs"></i>
+          <span>Phân Quyền</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">Admin</span>
+        </button>
+
+      </div>
+
+      <!-- Trạng thái vai trò / quy định trên cột ngang -->
+      <div class="hidden md:flex items-center gap-2 text-[11px] text-slate-400 shrink-0 font-mono">
+        <span class="text-slate-400 font-semibold" id="current-view-title">Điều Hành Lữ Hành</span>
+      </div>
+    </nav>
+
 
     <!-- WORKSPACE BODY (CONTAINER CHO CÁC VIEW) -->
     <main class="flex-1 overflow-y-auto p-3 sm:p-6 pb-20 lg:pb-6 space-y-4 sm:space-y-6 w-full min-w-0 overflow-x-hidden">
@@ -1112,7 +936,7 @@
                   <th class="py-3 px-3.5">Khách Sạn / Resort</th>
                   <th class="py-3 px-3.5 text-right">Doanh Thu</th>
                   <th class="py-3 px-3.5 text-right">Giá Vốn Net</th>
-                  <th class="py-3 px-3.5 text-right">Lợi Nhuận & Hoa Hồng</th>
+                  <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
                   <th class="py-3 px-3.5 text-center">Phải Thu Khách (AR)</th>
                   <th class="py-3 px-3.5 text-right">Thao Tác</th>
                 </tr>
@@ -1677,10 +1501,10 @@
 
     <!-- MOBILE QUICK BOTTOM ACTION BAR (Dành riêng cho Điện Thoại - Chuẩn Công Thái Học Chạm 1-Tay) -->
     <div class="lg:hidden fixed bottom-0 left-0 right-0 h-16 mobile-bottom-bar-fixed bg-[#0b192c]/95 backdrop-blur-md border-t border-[#1a2c47] flex items-center justify-around z-30 px-2 shadow-2xl">
-      <!-- 1. Menu Tổng -->
-      <button type="button" onclick="toggleMobileSidebar()" class="flex flex-col items-center justify-center text-slate-300 hover:text-white transition py-1 px-3 cursor-pointer min-h-[48px]">
-        <i class="fa-solid fa-bars text-lg text-sky-400"></i>
-        <span class="text-[11px] font-medium mt-0.5">Danh Mục</span>
+      <!-- 1. Hoa Hồng & KPI -->
+      <button type="button" onclick="switchView('kpi_sales')" class="flex flex-col items-center justify-center text-slate-300 hover:text-white transition py-1 px-3 cursor-pointer min-h-[48px]">
+        <i class="fa-solid fa-trophy text-lg text-amber-400"></i>
+        <span class="text-[11px] font-medium mt-0.5">Hoa Hồng</span>
       </button>
 
       <!-- 2. Đơn Của Tôi -->
@@ -8019,6 +7843,8 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const isSale = currentUser && currentUser.role === 'sale';
         const isAcc = currentUser && currentUser.role === 'accountant';
         titleEl.innerText = isSale ? 'Phòng Kinh Doanh (Đơn Hàng Của Tôi)' : (isAcc ? 'Phòng Kế Toán (Đối Soát Dòng Tiền & Công Nợ)' : 'Ban Giám Đốc (Điều Hành & Quản Trị Doanh Nghiệp)');
+        const btn = document.getElementById('nav-all');
+        if (btn) btn.classList.add('bg-blue-600/15', 'border', 'border-blue-500/30', 'text-white');
         renderTable();
         updateMetrics();
       } else if (viewName === 'cashflow') {
@@ -8143,22 +7969,25 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       document.getElementById('stat-no-khach').innerText = arDebt.toLocaleString('vi-VN') + ' đ';
       document.getElementById('stat-so-don-no-khach').innerText = arCount;
 
-      document.getElementById('badge-total-orders').innerText = canViewAll ? bookings.length : myOrdersCount;
-      document.getElementById('badge-my-orders-count').innerText = myOrdersCount;
-      document.getElementById('badge-ar-count').innerText = arCount;
-      document.getElementById('badge-ap-count').innerText = apCount;
-      const bAging = document.getElementById('badge-aging-count');
-      if (bAging) bAging.innerText = agingCount;
-      const cAging = document.getElementById('count-aging');
-      if (cAging) cAging.innerText = agingCount;
-      document.getElementById('badge-doi-hd-count').innerText = doiHdCount;
-      document.getElementById('badge-can-xuat-hd-count').innerText = canXuatHdCount;
+      const setBadge = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val;
+      };
 
-      document.getElementById('count-all').innerText = canViewAll ? bookings.length : myOrdersCount;
-      document.getElementById('count-my').innerText = myOrdersCount;
-      document.getElementById('count-doi-hd').innerText = doiHdCount;
-      document.getElementById('count-xuat-hd').innerText = canXuatHdCount;
-      document.getElementById('count-ar').innerText = arCount;
+      setBadge('badge-total-orders', canViewAll ? bookings.length : myOrdersCount);
+      setBadge('badge-my-orders-count', myOrdersCount);
+      setBadge('badge-ar-count', arCount);
+      setBadge('badge-ap-count', apCount);
+      setBadge('badge-aging-count', agingCount);
+      setBadge('count-aging', agingCount);
+      setBadge('badge-doi-hd-count', doiHdCount);
+      setBadge('badge-can-xuat-hd-count', canXuatHdCount);
+
+      setBadge('count-all', canViewAll ? bookings.length : myOrdersCount);
+      setBadge('count-my', myOrdersCount);
+      setBadge('count-doi-hd', doiHdCount);
+      setBadge('count-xuat-hd', canXuatHdCount);
+      setBadge('count-ar', arCount);
 
       let choKeToanCount = 0;
       let daCocCount = 0;
@@ -8176,11 +8005,6 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         else if (st === 'hoan_tat') hoanTatCount++;
         else if (st === 'da_huy') daHuyCount++;
       });
-
-      const setBadge = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.innerText = val;
-      };
 
       setBadge('count-cho-ke-toan', choKeToanCount);
       setBadge('count-da-coc', daCocCount);
@@ -8308,7 +8132,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <th class="py-3 px-3.5">Khách Sạn / Resort</th>
             <th class="py-3 px-3.5 text-right">Doanh Thu</th>
             <th class="py-3 px-3.5 text-right">Giá Vốn Net</th>
-            <th class="py-3 px-3.5 text-right">Lợi Nhuận & Hoa Hồng</th>
+            <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
             <th class="py-3 px-3.5 text-center">Phải Thu Khách (AR)</th>
             <th class="py-3 px-3.5 text-right">Thao Tác</th>
           `;
@@ -8477,10 +8301,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const commission = Math.round(profit * 0.1);
         let profitDisplay = '<span class="text-slate-600">***</span>';
         if (canViewThisProfit) {
-          profitDisplay = `
-            <div>+${profit.toLocaleString('vi-VN')} đ</div>
-            <div class="text-[9px] text-amber-300 font-semibold font-mono" title="Hoa hồng tạm tính 10% lãi gộp">HH: +${commission.toLocaleString('vi-VN')} đ</div>
-          `;
+          profitDisplay = `<span class="text-emerald-400 font-bold">+${profit.toLocaleString('vi-VN')} đ</span>`;
         }
 
         const stayDuration = getStayDuration(b.checkIn, b.checkOut);
@@ -8639,7 +8460,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               <div class="text-right">
                 <div class="font-mono font-black text-base text-white">${rev.toLocaleString('vi-VN')} đ</div>
                 <div class="text-[10px] text-slate-400 font-mono">Đặt: ${createDateVN}</div>
-                ${canViewThisProfit ? `<div class="text-[10px] font-mono text-emerald-400 font-semibold mt-0.5">Lãi: +${profit.toLocaleString('vi-VN')} đ • <span class="text-amber-300">HH: +${commission.toLocaleString('vi-VN')} đ</span></div>` : ''}
+                ${canViewThisProfit ? `<div class="text-[10px] font-mono text-emerald-400 font-semibold mt-0.5">Lãi: +${profit.toLocaleString('vi-VN')} đ</div>` : ''}
               </div>
             </div>
 
