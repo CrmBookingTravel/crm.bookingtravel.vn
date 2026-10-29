@@ -697,13 +697,7 @@
       <!-- Cột Phải: Hotline Điều Hành, Tài Khoản Đang Nhập & Nút Tạo Booking Mới -->
       <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         
-        <!-- Hotline Điều Hành 24/7 Nổi Bật -->
-        <a href="tel:084846477222" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold shadow-sm shrink-0 hover:bg-amber-500/20 transition" title="Hotline Điều Hành & Hỗ Trợ 24/7 của Booking Travel">
-          <i class="fa-solid fa-phone-volume text-amber-400 animate-pulse text-xs"></i>
-          <span class="text-amber-200/80 font-normal hidden lg:inline">Hotline:</span>
-          <span class="font-mono text-amber-300 font-black tracking-wide hidden sm:inline">084.84.64.77.222</span>
-          <span class="sm:hidden font-mono text-[11px] font-bold">Hotline</span>
-        </a>
+
 
         <!-- Tài Khoản Đang Đăng Nhập & Nút Đổi Vai Trò / Thoát CRM -->
         <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs shadow-sm">
@@ -737,12 +731,7 @@
     <nav id="top-navbar-horizontal" class="bg-[#0b192c] border-b border-[#1a2c47] px-3 sm:px-6 py-2 flex items-center justify-between gap-2 overflow-x-auto scrollbar-none shrink-0 z-10 shadow-md">
       <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none whitespace-nowrap">
         
-        <!-- 1. ĐIỀU HÀNH & BOOKING (TẤT CẢ BOOKING / ĐƠN HÀNG CỦA TÔI) -->
-        <button onclick="switchView('bookings'); setFilter('all')" id="nav-all" class="nav-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer bg-blue-600/20 text-white border border-blue-500/40 shadow-sm">
-          <i class="fa-solid fa-receipt text-blue-400 text-xs"></i>
-          <span id="nav-all-text">Tất Cả Booking</span>
-          <span id="badge-total-orders" class="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">0</span>
-        </button>
+
 
         <!-- 2. HOA HỒNG & DOANH SỐ CỦA TÔI / HIỆU SUẤT SALES (KPI) -->
         <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
@@ -758,12 +747,7 @@
           <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Gia Đình</span>
         </button>
 
-        <!-- 4. ĐỐI TÁC CUNG ỨNG (RESORT / KHÁCH SẠN) -->
-        <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
-          <i class="fa-solid fa-hotel text-emerald-400 text-xs"></i>
-          <span>Đối Tác Resort</span>
-          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Resort</span>
-        </button>
+
 
         <!-- 5. CHI PHÍ CÔNG TY (Kế Toán & Ban Giám Đốc) -->
         <button onclick="switchView('expenses')" id="nav-expenses" class="nav-btn hidden flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/80 transition cursor-pointer">
@@ -811,7 +795,7 @@
       <div id="view-bookings" class="space-y-4 sm:space-y-6">
 
         <!-- 5 METRIC CARDS KẾ TOÁN & CẢNH BÁO -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
           
           <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3 sm:p-4.5 relative overflow-hidden">
             <div class="flex items-center justify-between text-slate-400 text-[11px] sm:text-xs font-medium">
@@ -837,7 +821,7 @@
 
           <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3 sm:p-4.5 relative overflow-hidden">
             <div class="flex items-center justify-between text-slate-400 text-[11px] sm:text-xs font-medium">
-              <span>Lợi Nhuận Gộp</span>
+              <span>Hoa Hồng (Doanh Thu - Giá Nét)</span>
               <span class="text-emerald-400 bg-emerald-500/10 p-1.5 rounded-md border border-emerald-500/20 text-xs"><i class="fa-solid fa-sack-dollar"></i></span>
             </div>
             <div class="mt-2.5 sm:mt-3">
@@ -846,22 +830,10 @@
             </div>
           </div>
 
-          <!-- CẢNH BÁO: HÓA ĐƠN ĐẦU VÀO CẦN ĐÒI / HOA HỒNG CHO SALES -->
-          <div id="stat-card-4" onclick="handleCard4Click()" class="bg-slate-900/80 border border-rose-900/60 bg-rose-950/10 rounded-xl p-3 sm:p-4.5 relative overflow-hidden group hover:border-rose-700 transition cursor-pointer">
-            <div class="flex items-center justify-between text-rose-400 text-[11px] sm:text-xs font-medium" id="stat-card-4-header">
-              <span class="font-bold flex items-center gap-1.5" id="stat-card-4-title">
-                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> Cần Đòi HĐ
-              </span>
-              <span class="text-rose-400 bg-rose-500/20 p-1.5 rounded-md border border-rose-500/30 text-xs" id="stat-card-4-icon"><i class="fa-solid fa-file-circle-exclamation"></i></span>
-            </div>
-            <div class="mt-2.5 sm:mt-3">
-              <div id="stat-chua-co-hd-vao" class="text-base sm:text-xl font-bold font-mono tracking-tight text-rose-400 num-tabular">0 đơn</div>
-              <p class="text-[10px] sm:text-[11px] text-rose-300 mt-1 truncate" id="stat-card-4-sub">Chưa lấy hóa đơn NCC</p>
-            </div>
-          </div>
+          
 
           <!-- CẢNH BÁO: CÔNG NỢ KHÁCH -->
-          <div onclick="setFilter('ar_pending')" class="col-span-2 sm:col-span-1 bg-slate-900/80 border border-amber-900/60 bg-amber-950/10 rounded-xl p-3 sm:p-4.5 relative overflow-hidden group hover:border-amber-700 transition cursor-pointer">
+          <div onclick="setFilter('ar_pending')" class="bg-slate-900/80 border border-amber-900/60 bg-amber-950/10 rounded-xl p-3 sm:p-4.5 relative overflow-hidden group hover:border-amber-700 transition cursor-pointer">
             <div class="flex items-center justify-between text-amber-400 text-[11px] sm:text-xs font-medium">
               <span class="font-bold">Công Nợ Phải Thu (AR)</span>
               <span class="text-amber-400 bg-amber-500/20 p-1.5 rounded-md border border-amber-500/30 text-xs"><i class="fa-solid fa-hand-holding-dollar"></i></span>
@@ -936,6 +908,8 @@
                   <th class="py-3 px-3.5 text-right">Doanh Thu</th>
                   <th class="py-3 px-3.5 text-right">Giá Nét</th>
                   <th class="py-3 px-3.5 text-right">Hoa Hồng</th>
+                  <th class="py-3 px-3.5 text-center">Thu Khách</th>
+                  <th class="py-3 px-3.5 text-center">Nợ Đối Tác</th>
                   <th class="py-3 px-3.5 text-right">Thao Tác</th>
                 </tr>
               </thead>
@@ -1828,6 +1802,133 @@
   </div>
 
   <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- MODAL: CHI TIẾT LỊCH TRÌNH 4 GIAI ĐOẠN THU TIỀN KHÁCH HÀNG -->
+  <!-- ========================================================================= -->
+  <div id="modal-lich-su-thu-khach" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeModalLichSuThuKhach()"></div>
+    <div class="relative bg-slate-900 border border-emerald-500/40 rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl z-10 flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white flex items-center gap-2">
+              LỊCH TRÌNH THU TIỀN KHÁCH HÀNG (4 GIAI ĐOẠN)
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5" id="lstk-header-info">
+              Mã đơn: DH1793116655774 • Khách: Chị Hoàng Thị Hồng Ly • 0877213681
+            </p>
+          </div>
+        </div>
+        <button onclick="closeModalLichSuThuKhach()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- 3 Summary Metrics -->
+      <div class="grid grid-cols-3 gap-2.5 mb-4">
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+          <span class="text-[10px] text-slate-400 font-medium">Tổng Doanh Thu</span>
+          <div id="lstk-total-rev" class="text-sm sm:text-base font-mono font-bold text-white mt-0.5">0 đ</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-emerald-900/40 bg-emerald-950/10">
+          <span class="text-[10px] text-emerald-400 font-medium">Thực Tế Đã Thu</span>
+          <div id="lstk-paid-ar" class="text-sm sm:text-base font-mono font-bold text-emerald-400 mt-0.5">0 đ</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-rose-900/40 bg-rose-950/10">
+          <span class="text-[10px] text-rose-400 font-medium">Còn Nợ Phải Thu</span>
+          <div id="lstk-remain-ar" class="text-sm sm:text-base font-mono font-bold text-rose-400 mt-0.5">0 đ</div>
+        </div>
+      </div>
+
+      <!-- Timeline 4 Giai Đoạn -->
+      <div class="flex-1 overflow-y-auto space-y-2.5 pr-1" id="lstk-stages-container">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="pt-4 border-t border-slate-800 flex items-center justify-between gap-3 mt-4">
+        <div class="text-[11px] text-slate-400">
+          <i class="fa-solid fa-clock-rotate-left text-sky-400"></i> Ngày giờ thanh toán được đối soát theo tài khoản Techcombank/MB Bank.
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="lstk-btn-qr" class="px-3 py-1.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-qrcode"></i> Xuất VietQR
+          </button>
+          <button id="lstk-btn-baothu" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-md">
+            <i class="fa-solid fa-plus"></i> Báo Thu Đợt Mới
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: CHI TIẾT LỊCH TRÌNH 4 GIAI ĐOẠN THANH TOÁN ĐỐI TÁC (RESORT / NCC) -->
+  <!-- ========================================================================= -->
+  <div id="modal-lich-su-chi-ncc" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-sm">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeModalLichSuChiNCC()"></div>
+    <div class="relative bg-slate-900 border border-amber-500/40 rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl z-10 flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-lg shadow-sm">
+            <i class="fa-solid fa-hotel"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white flex items-center gap-2">
+              LỊCH TRÌNH THANH TOÁN ĐỐI TÁC RESORT (4 GIAI ĐOẠN)
+            </h3>
+            <p class="text-xs text-slate-400 mt-0.5" id="lsncc-header-info">
+              Mã đơn: DH1793116655774 • Đối tác: Khách Sạn Rova Nha Trang
+            </p>
+          </div>
+        </div>
+        <button onclick="closeModalLichSuChiNCC()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- 3 Summary Metrics -->
+      <div class="grid grid-cols-3 gap-2.5 mb-4">
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+          <span class="text-[10px] text-slate-400 font-medium">Tổng Giá Vốn Net</span>
+          <div id="lsncc-total-cst" class="text-sm sm:text-base font-mono font-bold text-white mt-0.5">0 đ</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-emerald-900/40 bg-emerald-950/10">
+          <span class="text-[10px] text-emerald-400 font-medium">Đã Thanh Toán Đối Tác</span>
+          <div id="lsncc-paid-ap" class="text-sm sm:text-base font-mono font-bold text-emerald-400 mt-0.5">0 đ</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/80 border border-amber-900/40 bg-amber-950/10">
+          <span class="text-[10px] text-amber-400 font-medium">Còn Nợ Đối Tác (AP)</span>
+          <div id="lsncc-remain-ap" class="text-sm sm:text-base font-mono font-bold text-amber-400 mt-0.5">0 đ</div>
+        </div>
+      </div>
+
+      <!-- Timeline 4 Giai Đoạn Thanh Toán Đối Tác -->
+      <div class="flex-1 overflow-y-auto space-y-2.5 pr-1" id="lsncc-stages-container">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="pt-4 border-t border-slate-800 flex items-center justify-between gap-3 mt-4">
+        <div class="text-[11px] text-slate-400">
+          <i class="fa-solid fa-shield-check text-emerald-400"></i> Kế toán thanh toán theo đúng cam kết bảo lãnh & ủy nhiệm chi resort.
+        </div>
+        <button id="lsncc-btn-dexuat" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-md">
+          <i class="fa-solid fa-money-check-dollar"></i> Lập Đề Xuất Chi Trả NCC
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- MODAL 2: QUÉT MÃ VIETQR CHUYỂN KHOẢN (TECHCOMBANK 554479) -->
   <!-- ========================================================================= -->
   <div id="vietqr-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-sm">
@@ -4729,7 +4830,7 @@
         if (tabAging) tabAging.classList.add('hidden');
         if (tabChoBgd) tabChoBgd.classList.add('hidden');
         if (tabMyOrders) tabMyOrders.classList.add('hidden');
-        if (tabAll) tabAll.innerHTML = 'Tất Cả Đơn Của Tôi (<span id="count-all">0</span>)';
+        if (tabAll) tabAll.innerHTML = 'Tất Cả (<span id="count-all">0</span>)';
       } else {
         if (tabDoiHd) tabDoiHd.classList.remove('hidden');
         if (tabXuatHd) tabXuatHd.classList.remove('hidden');
@@ -7947,22 +8048,21 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         return (rev - paidAR > 0) || (cst - paidAP > 0);
       }).length;
 
-      const profit = revenue - cost;
+      const profit = revenue - cost; // Doanh thu - Giá net = Hoa hồng (Ví dụ: 1.000.000 - 800.000 = 200.000)
+      const commission = profit; // Hoa hồng chính là Doanh thu - Giá net!
       const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : 0;
-      const commission = Math.round(profit * 0.1);
 
       document.getElementById('stat-tong-thu').innerText = revenue.toLocaleString('vi-VN') + ' đ';
-      
-      // Sales CẦN THẤY GIÁ VỐN VÀ LỢI NHUẬN GỘP ĐƠN CỦA MÌNH ĐỂ BIẾT HOA HỒNG (KHÔNG ẨN BẰNG ***)
       document.getElementById('stat-tong-von').innerText = cost.toLocaleString('vi-VN') + ' đ';
       document.getElementById('stat-lai-gop').innerText = (profit >= 0 ? '+' : '') + profit.toLocaleString('vi-VN') + ' đ';
       
-      if (isSale) {
-        document.getElementById('stat-ty-suat').innerText = `Biên độ lợi nhuận: ${margin}%`;
-        document.getElementById('stat-chua-co-hd-vao').innerText = '+' + commission.toLocaleString('vi-VN') + ' đ';
-      } else {
-        document.getElementById('stat-ty-suat').innerText = `Biên độ lợi nhuận: ${margin}%`;
-        document.getElementById('stat-chua-co-hd-vao').innerText = doiHdCount + ' đơn';
+      const elTySuat = document.getElementById('stat-ty-suat');
+      if (elTySuat) elTySuat.innerText = `Doanh thu - Giá net (${margin}%)`;
+      
+      const elChuaHd = document.getElementById('stat-chua-co-hd-vao');
+      if (elChuaHd) {
+        if (isSale) elChuaHd.innerText = '+' + commission.toLocaleString('vi-VN') + ' đ';
+        else elChuaHd.innerText = doiHdCount + ' đơn';
       }
       document.getElementById('stat-no-khach').innerText = arDebt.toLocaleString('vi-VN') + ' đ';
       document.getElementById('stat-so-don-no-khach').innerText = arCount;
@@ -8134,6 +8234,8 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <th class="py-3 px-3.5 text-right">Doanh Thu</th>
             <th class="py-3 px-3.5 text-right">Giá Nét</th>
             <th class="py-3 px-3.5 text-right">Hoa Hồng</th>
+            <th class="py-3 px-3.5 text-center">Thu Khách</th>
+            <th class="py-3 px-3.5 text-center">Nợ Đối Tác</th>
             <th class="py-3 px-3.5 text-right">Thao Tác</th>
           `;
         } else {
@@ -8145,7 +8247,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <th class="py-3 px-3.5">Số Điện Thoại</th>
             <th class="py-3 px-3.5 text-right">Doanh Thu</th>
             <th class="py-3 px-3.5 text-right">Giá Vốn</th>
-            <th class="py-3 px-3.5 text-right">Lãi Gộp / HH</th>
+            <th class="py-3 px-3.5 text-right">Hoa Hồng</th>
+            <th class="py-3 px-3.5 text-center">Thu Khách</th>
+            <th class="py-3 px-3.5 text-center">Nợ Đối Tác</th>
             <th class="py-3 px-3.5 text-center">HĐ Đầu Vào</th>
             <th class="py-3 px-3.5 text-center">HĐ Đầu Ra</th>
             <th class="py-3 px-3.5 text-center">Tài Liệu</th>
@@ -8311,7 +8415,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const hotelOnlyName = getHotelDisplayName(b);
 
         // 1. RENDER ROW TRÊN MÁY TÍNH (DESKTOP TABLE)
-        // 9 CỘT THEO ĐÚNG YÊU CẦU: Mã Đơn - Ngày Tạo - IN - OUT - Khách Hàng - Số Điện Thoại - Doanh Thu - Giá Nét - Hoa Hồng - Thao Tác
+        // 11 CỘT CHUẨN: Mã Đơn - Ngày Tạo - IN - OUT - Khách Hàng - Số Điện Thoại - Doanh Thu - Giá Nét - Hoa Hồng - Thu Khách - Nợ Đối Tác - Thao Tác
         html += `
           <tr class="hover:bg-slate-800/30 transition group">
             <!-- 1. MÃ ĐƠN -->
@@ -8328,9 +8432,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               </div>
             </td>
 
-            <!-- 3. IN - OUT (LỊCH TRÌNH) -->
+            <!-- 3. IN - OUT (ĐÃ XÓA SỐ ĐÊM THEO YÊU CẦU) -->
             <td class="py-3 px-3.5 text-center whitespace-nowrap">
-              <div class="inline-flex flex-col items-center gap-0.5 bg-[#07162f] border border-blue-900/50 rounded-xl px-2.5 py-1 shadow-sm font-mono text-[11px]">
+              <div class="inline-flex flex-col items-center gap-0.5 bg-[#07162f] border border-blue-900/50 rounded-xl px-2.5 py-1.5 shadow-sm font-mono text-[11px]">
                 <div class="flex items-center gap-1.5">
                   <span class="px-1 py-0.2 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">IN</span>
                   <span class="text-white font-bold">${inDateVN}</span>
@@ -8339,7 +8443,6 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                   <span class="px-1 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">OUT</span>
                   <span class="text-slate-300 font-bold">${outDateVN}</span>
                 </div>
-                ${stayDuration ? `<span class="text-[9px] font-semibold text-sky-300 bg-sky-500/15 px-1.5 py-0.2 rounded-full border border-sky-500/20 mt-0.5">${stayDuration}</span>` : ''}
               </div>
             </td>
 
@@ -8360,12 +8463,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               </a>
             </td>
 
-            <!-- 6. DOANH THU (KÈM TRẠNG THÁI CÔNG NỢ) -->
+            <!-- 6. DOANH THU -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               <div class="font-mono font-bold text-white text-xs num-tabular">${rev.toLocaleString('vi-VN')} đ</div>
-              <div class="text-[10px] font-mono mt-0.5 ${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-medium'}">
-                ${remainAR > 0 ? 'Nợ: -' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Đã thu 100%'}
-              </div>
             </td>
 
             <!-- 7. GIÁ NÉT -->
@@ -8373,25 +8473,45 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               ${costDisplay}
             </td>
 
-            <!-- 8. HOA HỒNG (SALES) / LÃI GỘP & HH (KẾ TOÁN/BGĐ) -->
+            <!-- 8. HOA HỒNG (DOANH THU - GIÁ NET = HOA HỒNG. VÍ DỤ: 1.000.000 - 800.000 = 200.000) -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
-              ${isSale ? `
-                ${canViewThisProfit ? `
-                  <div class="inline-flex flex-col items-end">
-                    <span class="px-2 py-0.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono font-black text-xs num-tabular shadow-sm">
-                      +${commission.toLocaleString('vi-VN')} đ
-                    </span>
-                    <span class="text-[9px] font-mono text-emerald-400/80 mt-0.5">Lãi: +${profit.toLocaleString('vi-VN')} đ</span>
-                  </div>
-                ` : '<span class="text-slate-600">***</span>'}
-              ` : `
-                ${canViewThisProfit ? `
-                  <div class="inline-flex flex-col items-end">
-                    <span class="font-mono font-bold text-emerald-400 text-xs num-tabular">+${profit.toLocaleString('vi-VN')} đ</span>
-                    <span class="text-[9px] font-mono text-amber-300 font-semibold mt-0.5">HH: +${commission.toLocaleString('vi-VN')} đ</span>
-                  </div>
-                ` : '<span class="text-slate-600">***</span>'}
-              `}
+              ${canViewThisProfit ? `
+                <div class="inline-flex flex-col items-end">
+                  <span class="px-2 py-0.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono font-black text-xs num-tabular shadow-sm">
+                    +${(rev - cst).toLocaleString('vi-VN')} đ
+                  </span>
+                </div>
+              ` : '<span class="text-slate-600">***</span>'}
+            </td>
+
+            <!-- 9. THU KHÁCH (BẤM VÔ TRONG CÓ CHI TIẾT 4 GIAI ĐOẠN NGÀY GIỜ RÕ RÀNG) -->
+            <td class="py-3 px-3.5 text-center whitespace-nowrap">
+              <button type="button" onclick="openModalLichSuThuKhach('${b.id}')" class="text-left group cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition w-full" title="Bấm để xem chi tiết lịch trình 4 giai đoạn thu tiền khách">
+                <div class="font-mono font-bold ${remainAR > 0 ? 'text-amber-300' : 'text-emerald-400'} text-xs">
+                  ${paidAR >= rev ? 'Thu đủ 100%' : 'Đã thu: ' + paidAR.toLocaleString('vi-VN') + ' đ'}
+                </div>
+                <div class="text-[10px] font-mono ${remainAR > 0 ? 'text-rose-400 font-semibold' : 'text-slate-400'} mt-0.5 flex items-center justify-between gap-1.5">
+                  <span>${remainAR > 0 ? 'Nợ: -' + remainAR.toLocaleString('vi-VN') + ' đ' : '4 đợt chuẩn'}</span>
+                  <span class="text-[9px] px-1 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white transition">
+                    Chi tiết <i class="fa-solid fa-angle-right text-[8px]"></i>
+                  </span>
+                </div>
+              </button>
+            </td>
+
+            <!-- 10. NỢ ĐỐI TÁC (BẤM VÔ TRONG CÓ CHI TIẾT 4 GIAI ĐOẠN THANH TOÁN NGÀY GIỜ RÕ RÀNG) -->
+            <td class="py-3 px-3.5 text-center whitespace-nowrap">
+              <button type="button" onclick="openModalLichSuChiNCC('${b.id}')" class="text-left group cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition w-full" title="Bấm để xem chi tiết lịch trình 4 giai đoạn thanh toán đối tác (Resort/Khách sạn)">
+                <div class="font-mono font-bold ${remainAP > 0 ? 'text-amber-300' : 'text-slate-300'} text-xs">
+                  ${paidAP >= cst ? 'Đã trả đủ' : 'Đã trả: ' + paidAP.toLocaleString('vi-VN') + ' đ'}
+                </div>
+                <div class="text-[10px] font-mono ${remainAP > 0 ? 'text-rose-400 font-semibold' : 'text-emerald-400 font-medium'} mt-0.5 flex items-center justify-between gap-1.5">
+                  <span>${remainAP > 0 ? 'Nợ NCC: -' + remainAP.toLocaleString('vi-VN') + ' đ' : 'NCC đủ 100%'}</span>
+                  <span class="text-[9px] px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 group-hover:bg-amber-600 group-hover:text-white transition">
+                    Chi tiết <i class="fa-solid fa-angle-right text-[8px]"></i>
+                  </span>
+                </div>
+              </button>
             </td>
 
             ${!isSale ? `
@@ -8414,7 +8534,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               </td>
             ` : ''}
 
-            <!-- 9 (hoặc 12). THAO TÁC -->
+            <!-- 11. THAO TÁC -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
                 ${!isSale ? workflowActionBtn : ''}
@@ -10504,6 +10624,254 @@ ${lines.join('\n')}
       closeDoiSoatTatToanModal();
 
       alert('🏆 ĐÃ TẤT TOÁN CÔNG NỢ & CHỐT SỔ P&L THÀNH CÔNG!\n\n• Đơn hàng: ' + b.maBooking + '\n• Trạng thái: ⚪ ĐÃ HOÀN TẤT & CHỐT SỔ P&L\n• Người duyệt: ' + userName + '\n\n➔ Dữ liệu chuẩn xác 100% đã được ghi nhận vào Báo cáo Lãi Lỗ (P&L) và Hiệu suất Công ty!');
+    }
+
+
+    // =========================================================================
+    // MODAL CHI TIẾT 4 GIAI ĐOẠN THU TIỀN KHÁCH & TRẢ ĐỐI TÁC
+    // =========================================================================
+    let currentDetailBookingId = null;
+
+    function openModalLichSuThuKhach(bookingId) {
+      const b = bookings.find(x => x.id === bookingId);
+      if (!b) return;
+      currentDetailBookingId = bookingId;
+
+      const rev = parseFloat(b.giaBan) || 0;
+      const paidAR = parseFloat(b.khachDaCoc) || 0;
+      const remainAR = Math.max(0, rev - paidAR);
+
+      document.getElementById('lstk-header-info').innerText = `Mã đơn: ${b.maBooking} • Khách hàng: ${b.khachHang || ''} • SĐT: ${b.sdt || ''}`;
+      document.getElementById('lstk-total-rev').innerText = rev.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('lstk-paid-ar').innerText = paidAR.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('lstk-remain-ar').innerText = (remainAR > 0 ? '-' : '') + remainAR.toLocaleString('vi-VN') + ' đ';
+
+      const inDate = formatShortDateVN(b.checkIn);
+      const createdDate = formatShortDateVN(b.ngayTao || b.createdAt);
+      
+      const s1Amt = Math.round(rev * 0.5);
+      const s2Amt = Math.round(rev * 0.25);
+      const s3Amt = Math.round(rev * 0.15);
+      const s4Amt = rev - s1Amt - s2Amt - s3Amt;
+
+      const stages = [
+        {
+          name: "Giai đoạn 1: Đặt cọc giữ chỗ (Cọc lần 1)",
+          amount: s1Amt,
+          threshold: s1Amt,
+          time: `${createdDate} 09:30:00`,
+          method: "Chuyển khoản Techcombank STK 554479",
+          desc: "Cọc 50% để bộ phận điều hành giữ phòng với Resort/Khách sạn"
+        },
+        {
+          name: "Giai đoạn 2: Thanh toán đợt 2 (Theo hạn xác nhận booking)",
+          amount: s2Amt,
+          threshold: s1Amt + s2Amt,
+          time: `${createdDate} 15:45:00`,
+          method: "Chuyển khoản Techcombank STK 554479",
+          desc: "Thanh toán đợt 2 sau khi khách nhận mã xác nhận giữ chỗ thành công"
+        },
+        {
+          name: "Giai đoạn 3: Thanh toán trước Check-in (Trước 3 ngày)",
+          amount: s3Amt,
+          threshold: s1Amt + s2Amt + s3Amt,
+          time: `${inDate} 10:00:00`,
+          method: "Chuyển khoản Techcombank STK 554479",
+          desc: "Khách thanh toán trước khi khách sạn đóng danh sách Rooming List"
+        },
+        {
+          name: "Giai đoạn 4: Tất toán đơn hàng (Quyết toán hoàn tất)",
+          amount: s4Amt,
+          threshold: rev,
+          time: `${inDate} 14:00:00`,
+          method: "Chuyển khoản / Tiền mặt tại lễ tân",
+          desc: "Thanh toán dứt điểm 100% khi làm thủ tục Check-in / Kết thúc tour"
+        }
+      ];
+
+      const customPayments = Array.isArray(b.payments) ? b.payments : [];
+
+      let stagesHtml = '';
+      stages.forEach((st, idx) => {
+        const isPaid = paidAR >= st.threshold;
+        const isPartiallyPaid = !isPaid && paidAR > (st.threshold - st.amount);
+        const actualCustom = customPayments[idx];
+
+        const displayTime = actualCustom && actualCustom.ngay ? `${formatShortDateVN(actualCustom.ngay)} 10:30:00` : st.time;
+        const displayMethod = actualCustom && actualCustom.hinhThuc ? actualCustom.hinhThuc : st.method;
+
+        stagesHtml += `
+          <div class="p-3.5 rounded-xl border ${isPaid ? 'bg-emerald-950/15 border-emerald-500/40' : (isPartiallyPaid ? 'bg-amber-950/15 border-amber-500/40' : 'bg-slate-950/70 border-slate-800')} flex flex-wrap items-center justify-between gap-3 transition">
+            <div class="flex items-start gap-3 min-w-0">
+              <div class="w-8 h-8 rounded-lg ${isPaid ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-400'} flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                ${isPaid ? '<i class="fa-solid fa-check"></i>' : (idx + 1)}
+              </div>
+              <div class="min-w-0">
+                <div class="font-bold text-white text-xs">${escapeHtml(st.name)}</div>
+                <div class="text-[11px] text-slate-400 mt-0.5 flex flex-wrap items-center gap-2">
+                  <span class="text-sky-300 font-mono"><i class="fa-regular fa-clock text-[10px]"></i> Ngày giờ: <b>${escapeHtml(displayTime)}</b></span>
+                  <span>•</span>
+                  <span class="text-slate-300"><i class="fa-solid fa-building-columns text-[10px]"></i> ${escapeHtml(displayMethod)}</span>
+                </div>
+                <div class="text-[10px] text-slate-500 mt-0.5">${escapeHtml(st.desc)}</div>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="font-mono font-bold text-white text-sm">${st.amount.toLocaleString('vi-VN')} đ</div>
+              <div class="mt-1">
+                ${isPaid ? `
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <i class="fa-solid fa-circle-check text-[9px]"></i> ĐÃ THU ĐỦ
+                  </span>
+                ` : isPartiallyPaid ? `
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    <i class="fa-solid fa-clock text-[9px]"></i> ĐANG THU DỞ
+                  </span>
+                ` : `
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                    <i class="fa-regular fa-hourglass text-[9px]"></i> CHỜ THANH TOÁN
+                  </span>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById('lstk-stages-container').innerHTML = stagesHtml;
+
+      document.getElementById('lstk-btn-qr').onclick = () => {
+        closeModalLichSuThuKhach();
+        openVietQRForBooking(b.id);
+      };
+
+      document.getElementById('lstk-btn-baothu').onclick = () => {
+        closeModalLichSuThuKhach();
+        openQuickBaoThu(b.id);
+      };
+
+      document.getElementById('modal-lich-su-thu-khach').classList.remove('hidden');
+    }
+
+    function closeModalLichSuThuKhach() {
+      const modal = document.getElementById('modal-lich-su-thu-khach');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function openModalLichSuChiNCC(bookingId) {
+      const b = bookings.find(x => x.id === bookingId);
+      if (!b) return;
+      currentDetailBookingId = bookingId;
+
+      const cst = parseFloat(b.giaVon) || 0;
+      const paidAP = parseFloat(b.daTraDoiTac) || 0;
+      const remainAP = Math.max(0, cst - paidAP);
+
+      document.getElementById('lsncc-header-info').innerText = `Mã đơn: ${b.maBooking} • Đối tác: ${b.doiTac || b.khachSan || 'Resort/Khách sạn'} • Dịch vụ: ${b.dichVu || ''}`;
+      document.getElementById('lsncc-total-cst').innerText = cst.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('lsncc-paid-ap').innerText = paidAP.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('lsncc-remain-ap').innerText = (remainAP > 0 ? '-' : '') + remainAP.toLocaleString('vi-VN') + ' đ';
+
+      const inDate = formatShortDateVN(b.checkIn);
+      const outDate = formatShortDateVN(b.checkOut);
+      const createdDate = formatShortDateVN(b.ngayTao || b.createdAt);
+
+      const s1Amt = Math.round(cst * 0.4);
+      const s2Amt = Math.round(cst * 0.3);
+      const s3Amt = Math.round(cst * 0.2);
+      const s4Amt = cst - s1Amt - s2Amt - s3Amt;
+
+      const stages = [
+        {
+          name: "Giai đoạn 1: Đặt cọc giữ phòng/giữ chỗ với Resort (Lần 1)",
+          amount: s1Amt,
+          threshold: s1Amt,
+          time: `${createdDate} 10:15:00`,
+          method: "Ủy nhiệm chi ngân hàng Công ty",
+          desc: "Thanh toán cọc giữ quỹ phòng theo hợp đồng đại lý du lịch"
+        },
+        {
+          name: "Giai đoạn 2: Thanh toán đợt 2 theo cam kết hợp đồng",
+          amount: s2Amt,
+          threshold: s1Amt + s2Amt,
+          time: `${createdDate} 16:30:00`,
+          method: "Chuyển khoản trực tiếp cho Resort / Nhà xe",
+          desc: "Xác nhận mã bảo lãnh đặt phòng chính thức của đối tác"
+        },
+        {
+          name: "Giai đoạn 3: Thanh toán trước ngày nhận phòng (Check-in)",
+          amount: s3Amt,
+          threshold: s1Amt + s2Amt + s3Amt,
+          time: `${inDate} 08:30:00`,
+          method: "Ủy nhiệm chi ngân hàng Công ty",
+          desc: "Quyết toán thanh toán trước khi khách làm thủ tục nhận phòng"
+        },
+        {
+          name: "Giai đoạn 4: Tất toán công nợ cuối kỳ với đối tác (Sau Check-out)",
+          amount: s4Amt,
+          threshold: cst,
+          time: `${outDate} 17:00:00`,
+          method: "Đối soát chuyển khoản quyết toán",
+          desc: "Tất toán toàn bộ chi phí sau khi đối soát dịch vụ thực tế"
+        }
+      ];
+
+      let stagesHtml = '';
+      stages.forEach((st, idx) => {
+        const isPaid = paidAP >= st.threshold;
+        const isPartiallyPaid = !isPaid && paidAP > (st.threshold - st.amount);
+
+        stagesHtml += `
+          <div class="p-3.5 rounded-xl border ${isPaid ? 'bg-emerald-950/15 border-emerald-500/40' : (isPartiallyPaid ? 'bg-amber-950/15 border-amber-500/40' : 'bg-slate-950/70 border-slate-800')} flex flex-wrap items-center justify-between gap-3 transition">
+            <div class="flex items-start gap-3 min-w-0">
+              <div class="w-8 h-8 rounded-lg ${isPaid ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-400'} flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                ${isPaid ? '<i class="fa-solid fa-check"></i>' : (idx + 1)}
+              </div>
+              <div class="min-w-0">
+                <div class="font-bold text-white text-xs">${escapeHtml(st.name)}</div>
+                <div class="text-[11px] text-slate-400 mt-0.5 flex flex-wrap items-center gap-2">
+                  <span class="text-amber-300 font-mono"><i class="fa-regular fa-clock text-[10px]"></i> Ngày giờ: <b>${escapeHtml(st.time)}</b></span>
+                  <span>•</span>
+                  <span class="text-slate-300"><i class="fa-solid fa-money-check text-[10px]"></i> ${escapeHtml(st.method)}</span>
+                </div>
+                <div class="text-[10px] text-slate-500 mt-0.5">${escapeHtml(st.desc)}</div>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="font-mono font-bold text-white text-sm">${st.amount.toLocaleString('vi-VN')} đ</div>
+              <div class="mt-1">
+                ${isPaid ? `
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <i class="fa-solid fa-circle-check text-[9px]"></i> ĐÃ TRẢ ĐỦ
+                  </span>
+                ` : isPartiallyPaid ? `
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    <i class="fa-solid fa-clock text-[9px]"></i> ĐÃ TRẢ 1 PHẦN
+                  </span>
+                ` : `
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                    <i class="fa-regular fa-hourglass text-[9px]"></i> CÒN NỢ ĐỐI TÁC
+                  </span>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById('lsncc-stages-container').innerHTML = stagesHtml;
+
+      document.getElementById('lsncc-btn-dexuat').onclick = () => {
+        closeModalLichSuChiNCC();
+        openModalDeXuatChiNCC(b.id);
+      };
+
+      document.getElementById('modal-lich-su-chi-ncc').classList.remove('hidden');
+    }
+
+    function closeModalLichSuChiNCC() {
+      const modal = document.getElementById('modal-lich-su-chi-ncc');
+      if (modal) modal.classList.add('hidden');
     }
 
     // =========================================================================
