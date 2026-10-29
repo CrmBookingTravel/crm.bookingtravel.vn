@@ -464,6 +464,21 @@
               <span>Tất Cả Booking</span>
               <span id="badge-total-orders" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">0</span>
             </button>
+            <button onclick="switchView('bookings'); setFilter('cho_ke_toan')" id="nav-cho_ke_toan" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-hourglass-half w-4 text-center text-amber-400"></i>
+              <span>Chờ Kế Toán Duyệt (B1)</span>
+              <span id="badge-cho-ke-toan" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
+            </button>
+            <button onclick="switchView('bookings'); setFilter('cho_bgd')" id="nav-cho_bgd" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-sky-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
+              <span>Chờ BGĐ Duyệt (B2)</span>
+              <span id="badge-cho-bgd" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">0</span>
+            </button>
+            <button onclick="switchView('bookings'); setFilter('dang_dieu_hanh')" id="nav-dang_dieu_hanh" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-emerald-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-crown w-4 text-center text-emerald-400"></i>
+              <span>Đang Điều Hành (B3)</span>
+              <span id="badge-dang-dieu-hanh" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">0</span>
+            </button>
             <button onclick="switchView('bookings'); setFilter('my_orders')" id="nav-my_orders" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
               <span>Booking Của Tôi</span>
@@ -1019,6 +1034,15 @@
             <div class="flex items-center gap-1.5 p-1 bg-slate-950 rounded-lg border border-slate-800/80 text-xs overflow-x-auto max-w-full whitespace-nowrap scrollbar-none" id="filter-segmented">
               <button onclick="setFilter('all')" data-filter="all" class="px-3 py-1.5 rounded-md font-medium text-white bg-slate-800 shadow-sm transition">
                 Tất Cả (<span id="count-all">0</span>)
+              </button>
+              <button onclick="setFilter('cho_ke_toan')" data-filter="cho_ke_toan" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-amber-300 font-bold">🟡 Chờ Kế Toán Duyệt (<span id="count-cho-ke-toan" class="font-mono">0</span>)</span>
+              </button>
+              <button onclick="setFilter('cho_bgd')" data-filter="cho_bgd" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-sky-300 font-bold">🔵 Chờ BGĐ Duyệt (<span id="count-cho-bgd" class="font-mono">0</span>)</span>
+              </button>
+              <button onclick="setFilter('dang_dieu_hanh')" data-filter="dang_dieu_hanh" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
+                <span class="text-emerald-300 font-bold">🟢 Đang Điều Hành (<span id="count-dang-dieu-hanh" class="font-mono">0</span>)</span>
               </button>
               <button onclick="setFilter('my_orders')" data-filter="my_orders" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-sky-400 font-bold">Booking Của Tôi (<span id="count-my" class="font-mono">0</span>)</span>
@@ -1997,10 +2021,41 @@
         <!-- ========================================================================= -->
         <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-5">
           <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
-            <h4 class="text-sm sm:text-base font-bold text-sky-400 uppercase tracking-wide flex items-center gap-2">
-              <i class="fa-solid fa-address-card text-sky-400"></i>
-              <span>1. Thông Tin Điều Hành & Hồ Sơ Khách Hàng</span>
-            </h4>
+            <!-- QUY TRÌNH 3 BƯỚC CHUẨN CÔNG TY BOOKING TRAVEL -->
+          <div class="p-3 sm:p-4 rounded-xl bg-slate-950/80 border border-blue-900/60 mb-3">
+            <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
+              <span>Quy Trình Phê Duyệt 3 Bước Chuẩn</span>
+              <span class="text-sky-400 font-mono">Sales ➔ Kế Toán ➔ Ban Giám Đốc</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
+                <div class="font-bold text-amber-300 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-amber-500 text-slate-950 font-black text-[10px] flex items-center justify-center">1</span>
+                  <span>B1: Sales Tạo Đơn</span>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1">Kiều, Thắng, Linh chọn dịch vụ, nhập tiền & tải UNC/QR</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-sky-500/10 border border-sky-500/30 text-xs">
+                <div class="font-bold text-sky-300 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-sky-500 text-slate-950 font-black text-[10px] flex items-center justify-center">2</span>
+                  <span>B2: Kế Toán Duyệt Tiền</span>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1">Linh đối soát AR/AP & sao kê Techcombank 554479/MB</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-xs">
+                <div class="font-bold text-emerald-300 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-emerald-500 text-slate-950 font-black text-[10px] flex items-center justify-center">3</span>
+                  <span>B3: BGĐ Phê Duyệt</span>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1">Quỳnh Chi duyệt P&L, chốt điều hành & tự động đẩy HĐ VAT</div>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="text-sm sm:text-base font-bold text-sky-400 uppercase tracking-wide flex items-center gap-2">
+            <i class="fa-solid fa-address-card text-sky-400"></i>
+            <span>1. Thông Tin Điều Hành & Hồ Sơ Khách Hàng</span>
+          </h4>
           </div>
 
           <!-- Dòng 1: Mã Đơn, Ngày Tạo, Sale, Phân Loại, Trạng Thái -->
@@ -2038,11 +2093,11 @@
             <div>
               <label class="block text-sm font-bold text-slate-200 mb-1.5">Trạng Thái Điều Hành (*)</label>
               <select id="ipt-tour-status" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-amber-300 font-bold focus:outline-none focus:border-amber-400">
-                <option value="moi_tao">🔵 Mới Tạo / Chờ Cọc</option>
-                <option value="da_coc">🟡 Khách Đã Đặt Cọc</option>
-                <option value="da_xac_nhan">🟢 Đã Chốt Code Phòng Với Nhà Cung Cấp</option>
-                <option value="dang_di">🟣 Đang Check-in / Đi Tour</option>
-                <option value="hoan_tat">⚪ Đã Check-out & Quyết Toán</option>
+                <option value="cho_duyet">🟡 Bước 1: Chờ Kế Toán Duyệt Tiền</option>
+                <option value="ke_toan_duyet">🔵 Bước 2: Kế Toán Đã Duyệt Tiền - Chờ BGĐ</option>
+                <option value="da_chot">🟢 Bước 3: BGĐ Đã Duyệt - Chốt Điều Hành</option>
+                <option value="dang_di">🟣 Bước 4: Đang Check-in / Đi Tour</option>
+                <option value="hoan_tat">⚪ Bước 5: Đã Check-out & Quyết Toán</option>
               </select>
             </div>
 
@@ -2407,6 +2462,166 @@
         </div>
 
       </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL BƯỚC 2: KẾ TOÁN ĐỐI SOÁT & DUYỆT DÒNG TIỀN (ACC) -->
+  <!-- ========================================================================= -->
+  <div id="modal-duyet-ke-toan" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeDuyetKeToanModal()"></div>
+    <div class="relative bg-slate-900 border border-sky-600/40 rounded-2xl max-w-xl w-full p-6 shadow-2xl z-10 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/40 flex items-center justify-center text-lg font-bold">
+            <i class="fa-solid fa-check-to-slot"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white">BƯỚC 2: KẾ TOÁN DUYỆT DÒNG TIỀN</h3>
+            <p class="text-xs text-sky-300 font-semibold">Đối soát tiền khách chuyển khoản & công nợ AR/AP</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeDuyetKeToanModal()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="duyet-kt-booking-id">
+
+      <!-- Thông tin đơn -->
+      <div class="p-3.5 rounded-xl bg-[#07162f] border border-blue-900/50 space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400">Mã đơn: <b id="duyet-kt-code" class="text-sky-300 font-mono text-sm"></b></span>
+          <span class="text-slate-400">Sales phụ trách: <b id="duyet-kt-sale" class="text-amber-300"></b></span>
+        </div>
+        <div class="text-white font-bold" id="duyet-kt-customer"></div>
+        <div class="text-slate-300" id="duyet-kt-service"></div>
+      </div>
+
+      <!-- Khối đối soát tiền & tài khoản ngân hàng -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div class="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-1.5">
+          <div class="text-slate-400 font-semibold uppercase text-[10px]">Phải Thu Khách (AR):</div>
+          <div class="text-base font-black text-emerald-400 font-mono" id="duyet-kt-paid">0 đ</div>
+          <div class="text-[11px] text-slate-300" id="duyet-kt-rev-info">Doanh thu: 0 đ</div>
+          <div class="text-[11px] text-amber-300 font-mono" id="duyet-kt-remain-ar">Còn thiếu: 0 đ</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-blue-950/30 border border-blue-500/30 space-y-1.5">
+          <div class="text-slate-400 font-semibold uppercase text-[10px]">Tài Khoản Công Ty Nhận Tiền:</div>
+          <div class="font-bold text-white text-xs">Techcombank: STK 554479</div>
+          <div class="text-[11px] text-sky-300">CÔNG TY TNHH BOOKING TRAVEL</div>
+          <div class="text-[11px] text-slate-400">Hoặc App MB Bank doanh nghiệp</div>
+        </div>
+      </div>
+
+      <!-- Đối soát nhà cung cấp (AP) -->
+      <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-xs flex items-center justify-between">
+        <div>
+          <span class="text-slate-400 block text-[10px] uppercase">Phải Trả NCC (AP):</span>
+          <span id="duyet-kt-cost" class="font-bold text-slate-200 font-mono">0 đ</span>
+        </div>
+        <div class="text-right">
+          <span class="text-slate-400 block text-[10px] uppercase">NCC / Resort:</span>
+          <span id="duyet-kt-supplier" class="font-semibold text-amber-300 truncate max-w-[200px] block"></span>
+        </div>
+      </div>
+
+      <!-- Ghi chú của kế toán -->
+      <div>
+        <label class="block text-xs font-bold text-slate-300 mb-1">Ghi Chú Đối Soát Của Kế Toán (*)</label>
+        <input type="text" id="duyet-kt-note" value="Đã khớp tiền về tài khoản Techcombank 554479 chính xác, công nợ hợp lệ." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-sky-400">
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+        <button type="button" onclick="closeDuyetKeToanModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer">
+          Hủy Bỏ
+        </button>
+        <button type="button" onclick="xacNhanDuyetKeToan()" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-lg shadow-sky-600/30 cursor-pointer">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>XÁC NHẬN TIỀN ĐÃ VỀ TK & DUYỆT BƯỚC 2</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL BƯỚC 3: BAN GIÁM ĐỐC PHÊ DUYỆT CHỐT ĐIỀU HÀNH & ĐẨY HĐ VAT -->
+  <!-- ========================================================================= -->
+  <div id="modal-duyet-bgd" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeDuyetBgdModal()"></div>
+    <div class="relative bg-slate-900 border border-amber-500/40 rounded-2xl max-w-xl w-full p-6 shadow-2xl z-10 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-lg font-bold">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white">BƯỚC 3: BAN GIÁM ĐỐC PHÊ DUYỆT</h3>
+            <p class="text-xs text-amber-300 font-semibold">Theo dõi P&L, chốt điều hành tour & tự động đẩy HĐ VAT</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeDuyetBgdModal()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="duyet-bgd-booking-id">
+
+      <!-- Thông tin P&L Đơn Hàng -->
+      <div class="p-4 rounded-xl bg-[#07162f] border border-blue-900/50 space-y-3">
+        <div class="flex items-center justify-between border-b border-blue-900/40 pb-2 text-xs">
+          <span class="text-slate-400">Mã đơn: <b id="duyet-bgd-code" class="text-sky-300 font-mono text-sm"></b></span>
+          <span class="text-slate-400">Khách: <b id="duyet-bgd-customer" class="text-white"></b></span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="p-2 rounded-lg bg-slate-950/60 border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Doanh Thu</div>
+            <div id="duyet-bgd-rev" class="font-mono font-bold text-white text-xs mt-0.5">0 đ</div>
+          </div>
+          <div class="p-2 rounded-lg bg-slate-950/60 border border-slate-800">
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Giá Vốn NCC</div>
+            <div id="duyet-bgd-cost" class="font-mono text-slate-300 text-xs mt-0.5">0 đ</div>
+          </div>
+          <div class="p-2 rounded-lg bg-emerald-950/30 border border-emerald-500/30">
+            <div class="text-[10px] text-emerald-300 uppercase font-bold">Lãi Gộp (P&L)</div>
+            <div id="duyet-bgd-profit" class="font-mono font-black text-emerald-400 text-xs mt-0.5">+0 đ</div>
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-300 flex items-center justify-between pt-1">
+          <span>Biên lợi nhuận đơn hàng: <b id="duyet-bgd-margin" class="text-emerald-400 font-mono font-bold">0%</b></span>
+          <span class="text-sky-300 text-[11px]"><i class="fa-solid fa-circle-check text-emerald-400"></i> Kế toán đã duyệt tiền</span>
+        </div>
+      </div>
+
+      <!-- Tự động xử lý Hóa Đơn Thuế GTGT -->
+      <div id="duyet-bgd-vat-box" class="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-500/40 text-xs space-y-1.5">
+        <div class="font-bold text-indigo-300 flex items-center gap-1.5">
+          <i class="fa-solid fa-file-invoice text-indigo-400"></i>
+          <span>HÓA ĐƠN THUẾ GTGT ĐẦU RA</span>
+        </div>
+        <div class="text-slate-300" id="duyet-bgd-vat-msg">
+          Khách yêu cầu hóa đơn VAT ➔ Hệ thống sẽ <b class="text-amber-300">TỰ ĐỘNG đưa vào danh sách 'HĐ Đầu Ra Chờ Xuất'</b> để kế toán xuất hóa đơn.
+        </div>
+      </div>
+
+      <!-- Lệnh điều hành của BGĐ -->
+      <div>
+        <label class="block text-xs font-bold text-slate-300 mb-1">Chỉ Đạo Điều Hành Của Ban Giám Đốc (*)</label>
+        <input type="text" id="duyet-bgd-note" value="Phê duyệt điều hành tour. Chuyển bộ phận vận hành tiến hành dịch vụ cho khách chu đáo." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2.5">
+        <button type="button" onclick="closeDuyetBgdModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer">
+          Hủy Bỏ
+        </button>
+        <button type="button" onclick="xacNhanDuyetBgd()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 active:bg-amber-700 text-white text-xs font-black transition flex items-center gap-1.5 shadow-lg shadow-amber-600/30 cursor-pointer">
+          <i class="fa-solid fa-crown text-amber-200"></i>
+          <span>PHÊ DUYỆT HOÀN TẤT & CHỐT ĐIỀU HÀNH (BƯỚC 3)</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -3075,31 +3290,56 @@
       {
         email: "crm@bookingtravel.vn",
         pass: "123456",
-        name: "Ban Giám Đốc",
-        phone: "0846477222",
+        name: "Bùi Phạm Quỳnh Chi",
+        phone: "084.84.64.77.222",
         dob: "1988-06-15",
         role: "admin",
+        title: "Ban Giám Đốc",
         target: 500000000,
         walletBalance: 247800000, // Quỹ cty
         permissions: {
           xem_tat_ca_don: true,
           xem_dong_tien: true,
+          duyet_ke_toan: true,
+          duyet_bgd: true,
           xem_lai_gop: true,
           xoa_don: true
         }
       },
       {
+        email: "ketoan@bookingtravel.vn",
+        pass: "123456",
+        name: "Vũ Khánh Linh",
+        phone: "0901234000",
+        dob: "1994-08-20",
+        role: "accountant",
+        title: "Kế Toán / Online Accounting",
+        target: 0,
+        walletBalance: 50000000,
+        permissions: {
+          xem_tat_ca_don: true,
+          xem_dong_tien: true,
+          duyet_ke_toan: true,
+          duyet_bgd: false,
+          xem_lai_gop: true,
+          xoa_don: false
+        }
+      },
+      {
         email: "sales1@bookingtravel.vn",
         pass: "123456",
-        name: "Nguyễn Thị Kiều",
+        name: "Ngô Thị Băng Kiều",
         phone: "0901234001",
         dob: "1998-05-15",
         role: "sale",
+        title: "Nhân Viên Sales",
         target: 200000000,
-        walletBalance: 1000000, // 1.000.000 đ mặc định
+        walletBalance: 1000000,
         permissions: {
-          xem_tat_ca_don: false,
+          xem_tat_ca_don: true,
           xem_dong_tien: false,
+          duyet_ke_toan: false,
+          duyet_bgd: false,
           xem_lai_gop: true,
           xoa_don: false
         }
@@ -3107,15 +3347,18 @@
       {
         email: "sales2@bookingtravel.vn",
         pass: "123456",
-        name: "Trần Thu Hồng",
+        name: "Phạm Đức Thắng",
         phone: "0901234002",
-        dob: "1999-10-22",
+        dob: "1995-12-04",
         role: "sale",
+        title: "Nhân Viên Sales",
         target: 200000000,
         walletBalance: 1000000,
         permissions: {
-          xem_tat_ca_don: false,
+          xem_tat_ca_don: true,
           xem_dong_tien: false,
+          duyet_ke_toan: false,
+          duyet_bgd: false,
           xem_lai_gop: true,
           xoa_don: false
         }
@@ -3123,15 +3366,18 @@
       {
         email: "sales3@bookingtravel.vn",
         pass: "123456",
-        name: "Lê Nhật Quang",
+        name: "Vũ Khánh Linh",
         phone: "0901234003",
-        dob: "1996-03-08",
+        dob: "2000-11-12",
         role: "sale",
+        title: "Nhân Viên Sales",
         target: 200000000,
         walletBalance: 1000000,
         permissions: {
-          xem_tat_ca_don: false,
+          xem_tat_ca_don: true,
           xem_dong_tien: false,
+          duyet_ke_toan: false,
+          duyet_bgd: false,
           xem_lai_gop: true,
           xoa_don: false
         }
@@ -3139,15 +3385,18 @@
       {
         email: "sales4@bookingtravel.vn",
         pass: "123456",
-        name: "Vũ Khánh Linh",
+        name: "Lê Nhật Quang",
         phone: "0901234004",
-        dob: "2000-11-12",
+        dob: "1996-03-08",
         role: "sale",
+        title: "Nhân Viên Sales",
         target: 200000000,
         walletBalance: 1000000,
         permissions: {
-          xem_tat_ca_don: false,
+          xem_tat_ca_don: true,
           xem_dong_tien: false,
+          duyet_ke_toan: false,
+          duyet_bgd: false,
           xem_lai_gop: true,
           xoa_don: false
         }
@@ -3155,95 +3404,18 @@
       {
         email: "sales5@bookingtravel.vn",
         pass: "123456",
-        name: "Đặng Thị Hảo",
+        name: "Trần Thu Hồng",
         phone: "0901234005",
-        dob: "1997-07-19",
+        dob: "1999-10-22",
         role: "sale",
+        title: "Nhân Viên Sales",
         target: 200000000,
         walletBalance: 1000000,
         permissions: {
-          xem_tat_ca_don: false,
+          xem_tat_ca_don: true,
           xem_dong_tien: false,
-          xem_lai_gop: true,
-          xoa_don: false
-        }
-      },
-      {
-        email: "sales6@bookingtravel.vn",
-        pass: "123456",
-        name: "Phạm Đức Thắng",
-        phone: "0901234006",
-        dob: "1995-12-04",
-        role: "sale",
-        target: 200000000,
-        walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: true,
-          xoa_don: false
-        }
-      },
-      {
-        email: "sales7@bookingtravel.vn",
-        pass: "123456",
-        name: "",
-        phone: "",
-        dob: "",
-        role: "sale",
-        target: 200000000,
-        walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: true,
-          xoa_don: false
-        }
-      },
-      {
-        email: "sales8@bookingtravel.vn",
-        pass: "123456",
-        name: "",
-        phone: "",
-        dob: "",
-        role: "sale",
-        target: 200000000,
-        walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: true,
-          xoa_don: false
-        }
-      },
-      {
-        email: "sales9@bookingtravel.vn",
-        pass: "123456",
-        name: "",
-        phone: "",
-        dob: "",
-        role: "sale",
-        target: 200000000,
-        walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: true,
-          xoa_don: false
-        }
-      },
-      {
-        email: "sales10@bookingtravel.vn",
-        pass: "123456",
-        name: "",
-        phone: "",
-        dob: "",
-        role: "sale",
-        target: 200000000,
-        walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
+          duyet_ke_toan: false,
+          duyet_bgd: false,
           xem_lai_gop: true,
           xoa_don: false
         }
@@ -3256,17 +3428,25 @@
     let isProfileForced = false;
 
     function initAuth() {
-      // 1. Tải danh sách 11 tài khoản (Ban Giám Đốc và Sales 1 - Sales 10)
+      // 1. Tải danh sách tài khoản chuẩn quy trình 3 bước (BGĐ Bùi Phạm Quỳnh Chi, Kế Toán Vũ Khánh Linh, Sales Kiều/Thắng/Linh...)
+      const usersVer = localStorage.getItem('BOOKING_TRAVEL_USERS_VER_7');
       const storedUsers = localStorage.getItem('BOOKING_TRAVEL_USERS');
-      if (storedUsers) {
+      if (usersVer !== '7.0' || !storedUsers) {
+        systemUsers = DEFAULT_SYSTEM_USERS;
+        localStorage.setItem('BOOKING_TRAVEL_USERS', JSON.stringify(systemUsers));
+        localStorage.setItem('BOOKING_TRAVEL_USERS_VER_7', '7.0');
+      } else {
         try {
           systemUsers = JSON.parse(storedUsers);
+          if (!systemUsers.some(u => u.email === 'ketoan@bookingtravel.vn') || !systemUsers.some(u => u.name && u.name.includes('Quỳnh Chi'))) {
+            systemUsers = DEFAULT_SYSTEM_USERS;
+            localStorage.setItem('BOOKING_TRAVEL_USERS', JSON.stringify(systemUsers));
+            localStorage.setItem('BOOKING_TRAVEL_USERS_VER_7', '7.0');
+          }
         } catch(e) {
           systemUsers = DEFAULT_SYSTEM_USERS;
+          saveUsers();
         }
-      } else {
-        systemUsers = DEFAULT_SYSTEM_USERS;
-        saveUsers();
       }
 
       renderQuickAccounts();
@@ -3277,7 +3457,6 @@
       const loginScreen = document.getElementById('login-screen');
 
       if (isLoggedOut) {
-        // Đã chủ động bấm Thoát CRM -> Khóa màn hình, bắt buộc đăng nhập để bảo mật
         currentUser = null;
         if (loginScreen) {
           loginScreen.classList.remove('hidden');
@@ -3285,14 +3464,16 @@
         }
       } else if (storedUser) {
         try {
-          currentUser = JSON.parse(storedUser);
+          const parsed = JSON.parse(storedUser);
+          const matched = systemUsers.find(u => u.email.toLowerCase() === (parsed.email || '').toLowerCase());
+          currentUser = matched || parsed;
+          localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
         } catch(e) {
           currentUser = systemUsers.find(u => u.role === 'admin') || systemUsers[0];
         }
         if (loginScreen) loginScreen.classList.add('hidden');
         applyCurrentUserUI();
       } else {
-        // Mặc định đăng nhập Ban Giám Đốc (Admin)
         currentUser = systemUsers.find(u => u.role === 'admin') || systemUsers[0];
         localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
         if (loginScreen) loginScreen.classList.add('hidden');
@@ -3313,14 +3494,28 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'text-left p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-blue-400 hover:bg-blue-950/60 text-slate-300 transition flex items-center justify-between group cursor-pointer shadow-sm';
-        const roleLabel = u.role === 'admin' 
-          ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Ban Giám Đốc</span>' 
-          : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">${u.email.split('@')[0].toUpperCase()}</span>`;
+        
+        let roleLabel = '';
+        if (u.role === 'admin') {
+          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Ban Giám Đốc</span>';
+        } else if (u.role === 'accountant') {
+          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Kế Toán (Acc)</span>';
+        } else {
+          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">Nhân Viên Sales</span>';
+        }
+        
         const displayName = u.name || u.email.split('@')[0].toUpperCase();
+        const shortInitials = u.name ? u.name.split(' ').pop().slice(0, 2).toUpperCase() : u.email.slice(0, 2).toUpperCase();
+        
         btn.innerHTML = `
-          <div class="min-w-0 pr-1 truncate">
-            <div class="font-bold text-xs text-white group-hover:text-blue-300 truncate">${displayName}</div>
-            <div class="text-[10px] text-slate-400 font-mono truncate">${u.email}</div>
+          <div class="min-w-0 pr-1 truncate flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-blue-900/40 border border-blue-700/50 flex items-center justify-center font-bold text-xs text-sky-300 shrink-0">
+              ${shortInitials}
+            </div>
+            <div class="min-w-0 truncate">
+              <div class="font-bold text-xs text-white group-hover:text-blue-300 truncate">${displayName}</div>
+              <div class="text-[10px] text-slate-400 font-mono truncate">${u.email} • Pass: ${u.pass}</div>
+            </div>
           </div>
           <div class="shrink-0 text-right">
             ${roleLabel}
@@ -3391,12 +3586,12 @@
       
       const sidebarName = document.getElementById('sidebar-user-name');
       if (sidebarName) {
-        sidebarName.innerText = currentUser.name || (currentUser.role === 'admin' ? 'Ban Giám Đốc' : currentUser.email.split('@')[0].toUpperCase());
+        sidebarName.innerText = currentUser.name || (currentUser.role === 'admin' ? 'Bùi Phạm Quỳnh Chi' : currentUser.email.split('@')[0].toUpperCase());
       }
       
       const sidebarInfo = document.getElementById('sidebar-user-info');
       if (sidebarInfo) {
-        const roleLabel = currentUser.role === 'admin' ? 'Ban Giám Đốc' : currentUser.email.split('@')[0].toUpperCase();
+        const roleLabel = currentUser.title || (currentUser.role === 'admin' ? 'Ban Giám Đốc' : (currentUser.role === 'accountant' ? 'Kế Toán / Online Acc' : 'Nhân Viên Sales'));
         sidebarInfo.innerText = `${roleLabel} • ${currentUser.phone || currentUser.email}`;
       }
 
@@ -3659,7 +3854,11 @@
         doiTac: "Khách Sạn Rova Nha Trang",
         checkIn: "2026-11-15",
         checkOut: "2026-11-16",
-        tourStatus: "da_xac_nhan",
+        tourStatus: "da_chot",
+        keToanDuyetBy: "Vũ Khánh Linh (Kế Toán)",
+        keToanDuyetAt: "2026-10-25T10:00",
+        bgdDuyetBy: "Bùi Phạm Quỳnh Chi (Ban Giám Đốc)",
+        bgdDuyetAt: "2026-10-25T14:30",
         giaBan: 800000,
         khachDaCoc: 800000,
         giaVon: 750000,
@@ -3696,7 +3895,9 @@
         doiTac: "King Town Grand Hotel",
         checkIn: "2026-10-29",
         checkOut: "2026-10-31",
-        tourStatus: "da_coc",
+        tourStatus: "ke_toan_duyet",
+        keToanDuyetBy: "Vũ Khánh Linh (Kế Toán)",
+        keToanDuyetAt: "2026-10-27T10:15",
         giaBan: 3732000,
         khachDaCoc: 1866000,
         giaVon: 3200000,
@@ -3729,7 +3930,7 @@
         doiTac: "Vinpearl Nha Trang Resort",
         checkIn: "2026-11-20",
         checkOut: "2026-11-23",
-        tourStatus: "da_xac_nhan",
+        tourStatus: "cho_duyet",
         giaBan: 28500000,
         khachDaCoc: 15000000,
         giaVon: 24200000,
@@ -3884,13 +4085,13 @@
         maBooking: "DH1793095548600",
         khachHang: "Chị Vũ Mai Lan",
         sdt: "0945123987",
-        saleEmail: "sales7@bookingtravel.vn",
+        saleEmail: "sales1@bookingtravel.vn",
         serviceType: "hotel",
         dichVu: "Champa Island Nha Trang - Phòng Cham Oasis 2N1Đ",
         doiTac: "Champa Island Nha Trang Resort",
         checkIn: "2026-11-05",
         checkOut: "2026-11-06",
-        tourStatus: "cho_coc",
+        tourStatus: "cho_duyet",
         giaBan: 1400000,
         khachDaCoc: 0,
         giaVon: 1200000,
@@ -6413,7 +6614,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     }
 
     function initData() {
-      const stored = localStorage.getItem('BOOKING_TRAVEL_UNIFIED_DATA_V5');
+      const stored = localStorage.getItem('BOOKING_TRAVEL_UNIFIED_DATA_V7');
       if (stored) {
         try {
           bookings = JSON.parse(stored);
@@ -6440,7 +6641,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     }
 
     function saveData() {
-      localStorage.setItem('BOOKING_TRAVEL_UNIFIED_DATA_V5', JSON.stringify(bookings));
+      localStorage.setItem('BOOKING_TRAVEL_UNIFIED_DATA_V7', JSON.stringify(bookings));
       localStorage.setItem('BOOKING_TRAVEL_DATA_V4', JSON.stringify(bookings));
       updateMetrics();
     }
@@ -6721,6 +6922,31 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       document.getElementById('count-doi-hd').innerText = doiHdCount;
       document.getElementById('count-xuat-hd').innerText = canXuatHdCount;
       document.getElementById('count-ar').innerText = arCount;
+
+      let choKeToanCount = 0;
+      let choBgdCount = 0;
+      let dangDieuHanhCount = 0;
+
+      bookings.forEach(b => {
+        const st = b.tourStatus || 'cho_duyet';
+        if (st === 'cho_duyet' || st === 'moi_tao' || st === 'cho_coc') choKeToanCount++;
+        else if (st === 'ke_toan_duyet') choBgdCount++;
+        else if (st === 'da_chot' || st === 'da_xac_nhan' || st === 'da_coc') dangDieuHanhCount++;
+      });
+
+      const elChoKT = document.getElementById('count-cho-ke-toan');
+      if (elChoKT) elChoKT.innerText = choKeToanCount;
+      const elChoBGD = document.getElementById('count-cho-bgd');
+      if (elChoBGD) elChoBGD.innerText = choBgdCount;
+      const elDDH = document.getElementById('count-dang-dieu-hanh');
+      if (elDDH) elDDH.innerText = dangDieuHanhCount;
+
+      const sideChoKT = document.getElementById('badge-cho-ke-toan');
+      if (sideChoKT) sideChoKT.innerText = choKeToanCount;
+      const sideChoBGD = document.getElementById('badge-cho-bgd');
+      if (sideChoBGD) sideChoBGD.innerText = choBgdCount;
+      const sideDDH = document.getElementById('badge-dang-dieu-hanh');
+      if (sideDDH) sideDDH.innerText = dangDieuHanhCount;
     }
 
     // =========================================================================
@@ -6789,6 +7015,12 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const remainAR = Math.max(0, rev - paidAR);
 
         if (currentFilter === 'my_orders' && !isMine) return false;
+        if (currentFilter === 'cho_ke_toan') {
+          const st = b.tourStatus || 'cho_duyet';
+          if (st !== 'cho_duyet' && st !== 'moi_tao' && st !== 'cho_coc') return false;
+        }
+        if (currentFilter === 'cho_bgd' && b.tourStatus !== 'ke_toan_duyet') return false;
+        if (currentFilter === 'dang_dieu_hanh' && b.tourStatus !== 'da_chot' && b.tourStatus !== 'da_xac_nhan' && b.tourStatus !== 'da_coc') return false;
         if (currentFilter === 'doi_hd_dau_vao' && b.statusHdVao !== 'chua_lay') return false;
         if (currentFilter === 'can_xuat_hd_ra' && (!b.coXuatVat || b.statusHdRa !== 'chua_xuat')) return false;
         if (currentFilter === 'ar_pending' && remainAR <= 0) return false;
@@ -6836,18 +7068,36 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const remainAR = Math.max(0, rev - paidAR);
         const remainAP = Math.max(0, cst - paidAP);
 
-        // Trạng thái điều hành
+        // Trạng thái điều hành quy trình 3 bước chuẩn
         let tourBadge = '';
-        if (b.tourStatus === 'da_xac_nhan') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Đã Chốt Code</span>';
-        } else if (b.tourStatus === 'da_coc') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">Đã Cọc</span>';
+        if (b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-flex items-center gap-1" title="Bước 1: Chờ Kế toán đối soát tiền Techcombank/MB Bank"><i class="fa-solid fa-clock text-[8px] animate-pulse"></i> B1: Chờ Duyệt Tiền</span>';
+        } else if (b.tourStatus === 'ke_toan_duyet') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 inline-flex items-center gap-1" title="Bước 2: Kế toán đã xác nhận tiền vào TK, chờ BGĐ phê duyệt điều hành"><i class="fa-solid fa-user-check text-[8px]"></i> B2: Kế Toán Đã Duyệt</span>';
+        } else if (b.tourStatus === 'da_chot' || b.tourStatus === 'da_xac_nhan' || b.tourStatus === 'da_coc') {
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-1" title="Bước 3: Ban Giám Đốc đã phê duyệt chốt điều hành tour"><i class="fa-solid fa-crown text-[8px] text-amber-300"></i> B3: Đang Điều Hành</span>';
         } else if (b.tourStatus === 'dang_di') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/15 text-purple-400 border border-purple-500/30">Đang Đi Tour</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40 inline-flex items-center gap-1"><i class="fa-solid fa-route text-[8px]"></i> Đang Đi Tour</span>';
         } else if (b.tourStatus === 'hoan_tat') {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">Hoàn Tất</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-slate-800 text-slate-400 border border-slate-700">Hoàn Tất</span>';
         } else {
-          tourBadge = '<span class="text-[9px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-400 border border-blue-500/30">Chờ Cọc</span>';
+          tourBadge = '<span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">B1: Chờ Duyệt Tiền</span>';
+        }
+
+        // Action buttons workflow
+        let workflowActionBtn = '';
+        if (b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') {
+          workflowActionBtn = `
+            <button onclick="openDuyetKeToanModal('${b.id}')" title="Kế toán đối soát tiền Techcombank/MB Bank & Duyệt dòng tiền" class="px-2 py-1 rounded-lg bg-sky-600/30 hover:bg-sky-500 hover:text-white border border-sky-500/50 text-sky-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+              <i class="fa-solid fa-check-to-slot text-[10px]"></i> Duyệt Tiền (Acc)
+            </button>
+          `;
+        } else if (b.tourStatus === 'ke_toan_duyet') {
+          workflowActionBtn = `
+            <button onclick="openDuyetBgdModal('${b.id}')" title="Ban Giám Đốc duyệt chốt điều hành & tự động đẩy HĐ VAT" class="px-2 py-1 rounded-lg bg-amber-500/25 hover:bg-amber-500 hover:text-white border border-amber-500/50 text-amber-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm">
+              <i class="fa-solid fa-crown text-[10px] text-amber-400"></i> BGĐ Duyệt
+            </button>
+          `;
         }
 
         // YÊU CẦU: CÓ SỐ HÓA ĐƠN ĐẦU VÀO Ở NGOÀI LUÔN
@@ -7007,6 +7257,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <!-- 12. THAO TÁC -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
+                ${workflowActionBtn}
                 <!-- Nút Xuất Mã QR VietQR Techcombank -->
                 <button onclick="openVietQRForBooking('${b.id}')" title="Xuất Mã QR Chuyển Khoản Techcombank Cho Khách" class="p-1.5 rounded-lg text-amber-400 hover:text-white hover:bg-amber-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-qrcode"></i>
@@ -7108,6 +7359,18 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             </div>
 
             <!-- Dòng 5: CÁC NÚT THAO TÁC 1-CHẠM TO TRÊN ĐIỆN THOẠI (>= 46px) -->
+            ${(b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') ? `
+              <button onclick="openDuyetKeToanModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-sky-600/30 transition cursor-pointer">
+                <i class="fa-solid fa-check-to-slot text-sm text-sky-200"></i>
+                <span>BƯỚC 2: KẾ TOÁN DUYỆT TIỀN (TECHCOMBANK / MB)</span>
+              </button>
+            ` : (b.tourStatus === 'ke_toan_duyet') ? `
+              <button onclick="openDuyetBgdModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 active:bg-amber-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-amber-600/30 transition cursor-pointer">
+                <i class="fa-solid fa-crown text-sm text-amber-200"></i>
+                <span>BƯỚC 3: BAN GIÁM ĐỐC PHÊ DUYỆT ĐIỀU HÀNH</span>
+              </button>
+            ` : ''}
+
             <div class="flex items-center justify-between pt-1.5 gap-2 border-t border-slate-800/80">
               <!-- Nút Xuất Mã QR Chuyển Khoản Techcombank (To, Nổi bật) -->
               <button onclick="openVietQRForBooking('${b.id}')" class="flex-1 min-h-[46px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-blue-600/30 transition cursor-pointer active:scale-95">
@@ -8475,6 +8738,135 @@ ${lines.join('\n')}
     }
 
     // =========================================================================
+    // QUY TRÌNH 3 BƯỚC: B2 KẾ TOÁN DUYỆT TIỀN & B3 BAN GIÁM ĐỐC PHÊ DUYỆT
+    // =========================================================================
+
+    // Mở modal Kế Toán duyệt tiền (Bước 2)
+    function openDuyetKeToanModal(id) {
+      // Kiểm tra phân quyền: Chỉ Kế Toán (accountant) hoặc Ban Giám Đốc (admin)
+      if (currentUser && currentUser.role === 'sale') {
+        alert('⚠️ BƯỚC 2: KẾ TOÁN KIỂM TRA DÒNG TIỀN VÀ CÔNG NỢ\n\nNgười thực hiện quy định: Bộ phận Kế toán / Online Accounting (Vũ Khánh Linh - ketoan@bookingtravel.vn) hoặc Ban Giám Đốc.\n\nTài khoản hiện tại của bạn là Sales (' + (currentUser.name || currentUser.email) + '). Vui lòng gửi ảnh ủy nhiệm chi / sao kê cho Kế toán duyệt dòng tiền!');
+        return;
+      }
+
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      document.getElementById('duyet-kt-booking-id').value = b.id;
+      document.getElementById('duyet-kt-code').innerText = b.maBooking;
+      document.getElementById('duyet-kt-sale').innerText = b.saleEmail ? b.saleEmail.split('@')[0] : 'sales';
+      document.getElementById('duyet-kt-customer').innerText = (b.khachHang || 'Khách hàng') + ' - ' + (b.sdt || '');
+      document.getElementById('duyet-kt-service').innerText = b.dichVu || b.doiTac || 'Dịch vụ tour / phòng';
+
+      const rev = parseFloat(b.giaBan) || 0;
+      const paid = parseFloat(b.khachDaCoc) || 0;
+      const cst = parseFloat(b.giaVon) || 0;
+      const remainAR = Math.max(0, rev - paid);
+
+      document.getElementById('duyet-kt-paid').innerText = paid.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('duyet-kt-rev-info').innerText = 'Tổng giá bán: ' + rev.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('duyet-kt-remain-ar').innerText = remainAR > 0 ? 'Khách còn thiếu: ' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Khách đã thanh toán đủ 100%';
+      document.getElementById('duyet-kt-cost').innerText = cst.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('duyet-kt-supplier').innerText = b.doiTac || 'Nhà cung cấp';
+
+      document.getElementById('modal-duyet-ke-toan').classList.remove('hidden');
+    }
+
+    function closeDuyetKeToanModal() {
+      document.getElementById('modal-duyet-ke-toan').classList.add('hidden');
+    }
+
+    // Kế toán xác nhận duyệt dòng tiền
+    function xacNhanDuyetKeToan() {
+      const id = document.getElementById('duyet-kt-booking-id').value;
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      const note = document.getElementById('duyet-kt-note').value.trim();
+      const approverName = currentUser ? (currentUser.name || currentUser.email) : 'Vũ Khánh Linh (Kế Toán)';
+
+      b.tourStatus = 'ke_toan_duyet';
+      b.keToanDuyetBy = approverName;
+      b.keToanDuyetAt = new Date().toISOString();
+      b.keToanNote = note;
+
+      saveData();
+      updateMetrics();
+      renderTable();
+      closeDuyetKeToanModal();
+
+      alert('✅ KẾ TOÁN ĐÃ DUYỆT DÒNG TIỀN THÀNH CÔNG!\n\n• Đơn hàng: ' + b.maBooking + '\n• Trạng thái mới: 🔵 BƯỚC 2: KẾ TOÁN ĐÃ DUYỆT (Chờ BGĐ Phê Duyệt)\n• Người duyệt: ' + approverName);
+    }
+
+    // Mở modal Ban Giám Đốc duyệt chốt cuối & điều hành (Bước 3)
+    function openDuyetBgdModal(id) {
+      // Kiểm tra phân quyền: Chỉ Ban Giám Đốc (admin)
+      if (currentUser && currentUser.role !== 'admin') {
+        alert('⚠️ BƯỚC 3: BAN GIÁM ĐỐC PHÊ DUYỆT CHỐT CUỐI & ĐIỀU HÀNH\n\nNgười thực hiện quy định: Ban Giám Đốc (Bùi Phạm Quỳnh Chi - crm@bookingtravel.vn) hoặc Quản lý hệ thống.\n\nTài khoản hiện tại của bạn không có thẩm quyền phê duyệt bước này!');
+        return;
+      }
+
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      document.getElementById('duyet-bgd-booking-id').value = b.id;
+      document.getElementById('duyet-bgd-code').innerText = b.maBooking;
+      document.getElementById('duyet-bgd-customer').innerText = b.khachHang || 'Khách hàng';
+
+      const rev = parseFloat(b.giaBan) || 0;
+      const cst = parseFloat(b.giaVon) || 0;
+      const profit = rev - cst;
+      const margin = rev > 0 ? ((profit / rev) * 100).toFixed(1) : 0;
+
+      document.getElementById('duyet-bgd-rev').innerText = rev.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('duyet-bgd-cost').innerText = cst.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('duyet-bgd-profit').innerText = (profit >= 0 ? '+' : '') + profit.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('duyet-bgd-margin').innerText = margin + '%';
+
+      const vatBox = document.getElementById('duyet-bgd-vat-box');
+      const vatMsg = document.getElementById('duyet-bgd-vat-msg');
+      if (b.coXuatVat) {
+        vatBox.classList.remove('hidden');
+        vatMsg.innerHTML = 'Khách có yêu cầu hóa đơn VAT (Công ty: <b>' + (b.tenCongTy || 'Chưa nhập tên cty') + '</b> - MST: <b>' + (b.mst || '---') + '</b>).<br>➔ Hệ thống sẽ <b class="text-amber-300">TỰ ĐỘNG đưa vào danh sách "HĐ Đầu Ra Chờ Xuất"</b> để kế toán xuất hóa đơn.';
+      } else {
+        vatBox.classList.add('hidden');
+      }
+
+      document.getElementById('modal-duyet-bgd').classList.remove('hidden');
+    }
+
+    function closeDuyetBgdModal() {
+      document.getElementById('modal-duyet-bgd').classList.add('hidden');
+    }
+
+    // Ban Giám Đốc xác nhận phê duyệt hoàn tất & chốt điều hành
+    function xacNhanDuyetBgd() {
+      const id = document.getElementById('duyet-bgd-booking-id').value;
+      const b = bookings.find(x => x.id === id);
+      if (!b) return;
+
+      const note = document.getElementById('duyet-bgd-note').value.trim();
+      const approverName = currentUser ? (currentUser.name || 'Bùi Phạm Quỳnh Chi') : 'Bùi Phạm Quỳnh Chi (Ban Giám Đốc)';
+
+      b.tourStatus = 'da_chot';
+      b.bgdDuyetBy = approverName;
+      b.bgdDuyetAt = new Date().toISOString();
+      b.bgdNote = note;
+
+      // YÊU CẦU: TỰ ĐỘNG GHI NHẬN VÀO MỤC "HĐ ĐẦU RA CHỜ XUẤT" NẾU KHÁCH CÓ YÊU CẦU HÓA ĐƠN
+      if (b.coXuatVat) {
+        b.statusHdRa = 'chua_xuat';
+      }
+
+      saveData();
+      updateMetrics();
+      renderTable();
+      closeDuyetBgdModal();
+
+      alert('👑 BAN GIÁM ĐỐC ĐÃ PHÊ DUYỆT CHỐT ĐIỀU HÀNH THÀNH CÔNG!\n\n• Đơn hàng: ' + b.maBooking + '\n• Trạng thái mới: 🟢 BƯỚC 3: BGĐ ĐÃ DUYỆT - ĐANG ĐIỀU HÀNH TOUR\n• Phê duyệt bởi: ' + approverName + (b.coXuatVat ? '\n• Đã tự động ghi nhận vào mục: HĐ Đầu Ra Chờ Xuất' : ''));
+    }
+
+    // =========================================================================
     // MODAL VIETQR TECHCOMBANK (STK 554479 - CÔNG TY TNHH BOOKING TRAVEL)
     // =========================================================================
     function openVietQRForBooking(bookingId, customAmount) {
@@ -8677,6 +9069,7 @@ ${lines.join('\n')}
       calculateFormFinancials();
       toggleVatOutputSection();
 
+      document.getElementById('ipt-tour-status').value = 'cho_duyet';
       document.getElementById('booking-modal').classList.remove('hidden');
     }
 
