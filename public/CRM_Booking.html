@@ -437,86 +437,12 @@
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
-      <!-- Navigation Modules -->
+      <!-- Navigation Modules (Phiên Bản Điều Hành Thống Nhất) -->
       <div class="px-3 py-4 space-y-5">
         
-        <!-- BÁO CÁO & DÒNG TIỀN CÔNG TY (BOOKING TRAVEL) -->
+        <!-- NHÓM 1: ĐIỀU HÀNH & BOOKING (ƯU TIÊN CỐT LÕI) -->
         <div>
-          <p class="px-3 text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
-            <i class="fa-solid fa-chart-pie"></i> Tài Chính & Báo Cáo
-          </p>
-          <nav class="space-y-0.5">
-            <button onclick="switchView('cashflow')" id="nav-cashflow" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-money-bill-transfer w-4 text-center text-emerald-400"></i>
-              <span>Dòng Tiền Thực Tế</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Dòng Tiền</span>
-            </button>
-            <button onclick="switchView('reports')" id="nav-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-chart-line w-4 text-center text-blue-400"></i>
-              <span>Báo Cáo Lãi Lỗ (P&L)</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">P&L</span>
-            </button>
-            <!-- Báo Giá Nhanh 1 Chạm (Booking Travel) -->
-            <button onclick="openSmartQuoteModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-sky-300 hover:text-white hover:bg-blue-600/20 transition cursor-pointer">
-              <div class="flex items-center gap-2.5">
-                <i class="fa-solid fa-bolt text-amber-300 w-4 text-center"></i>
-                <span>Báo Giá Nhanh</span>
-              </div>
-              <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">AI</span>
-            </button>
-
-            <!-- Bảng Giá GSheet -->
-            <button onclick="openPriceCatalogModal()" id="nav-catalog" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer">
-              <div class="flex items-center gap-2.5">
-                <i class="fa-solid fa-hotel text-amber-400 w-4 text-center"></i>
-                <span>Bảng Giá Phòng</span>
-              </div>
-              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">GSheet</span>
-            </button>
-
-            <!-- Lịch Nhắc Sinh Nhật & Tri Ân Gia Đình -->
-            <button onclick="openBirthdayModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-amber-500/10 transition cursor-pointer">
-              <div class="flex items-center gap-2.5">
-                <i class="fa-solid fa-cake-candles text-rose-400 w-4 text-center"></i>
-                <span>Tri Ân Khách Hàng</span>
-              </div>
-              <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300">Gia Đình</span>
-            </button>
-
-        <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
-              <span>Hiệu Suất Sales (KPI)</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Top Sales</span>
-            </button>
-            <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-hotel w-4 text-center text-emerald-400"></i>
-              <span>Đối Tác Cung Ứng</span>
-              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">Resort</span>
-            </button>
-          </nav>
-        </div>
-
-        <!-- QUẢN TRỊ NHÂN SỰ & PHÂN QUYỀN (MỚI) -->
-        <div>
-          <p class="px-3 text-[10px] font-bold text-teal-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
-            <i class="fa-solid fa-users-gear"></i> Nhân Sự & Phân Quyền
-          </p>
-          <nav class="space-y-0.5">
-            <button onclick="switchView('staff')" id="nav-staff" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-id-card-clip w-4 text-center text-teal-400"></i>
-              <span>Phân Quyền Nhân Sự</span>
-              <span id="badge-staff-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-teal-500/10 text-teal-400">11</span>
-            </button>
-            <button onclick="openProfileModal(false)" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
-              <i class="fa-solid fa-user-pen w-4 text-center text-amber-400"></i>
-              <span>Hồ Sơ Cá Nhân</span>
-            </button>
-          </nav>
-        </div>
-
-        <!-- NGHIỆP VỤ ĐIỀU HÀNH LỮ HÀNH -->
-        <div>
-          <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+          <p class="px-3 text-[10px] font-bold text-sky-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
             <i class="fa-solid fa-compass"></i> Điều Hành & Booking
           </p>
           <nav class="space-y-0.5">
@@ -527,7 +453,7 @@
             </button>
             <button onclick="switchView('bookings'); setFilter('my_orders')" id="nav-my_orders" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-user-check w-4 text-center text-sky-400"></i>
-              <span>Đơn Của Tôi</span>
+              <span>Booking Của Tôi</span>
               <span id="badge-my-orders-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('ar_pending')" id="nav-ar_pending" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
@@ -543,15 +469,74 @@
             <button onclick="switchView('bookings'); setFilter('aging_due')" id="nav-aging_due" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-clock-rotate-left w-4 text-center text-amber-400"></i>
               <span>Quản Trị Tuổi Nợ</span>
-              <span id="badge-aging-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Thuế GTGT</span>
+              <span id="badge-aging-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">0</span>
             </button>
           </nav>
         </div>
 
-        <!-- HÓA ĐƠN & KẾ TOÁN THUẾ GTGT -->
+        <!-- NHÓM 2: TRA CỨU & BÁO GIÁ NHANH -->
         <div>
-          <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
-            <i class="fa-solid fa-file-invoice"></i> Quản Lý Hóa Đơn
+          <p class="px-3 text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-bolt"></i> Tra Cứu & Báo Giá
+          </p>
+          <nav class="space-y-0.5">
+            <button onclick="openSmartQuoteModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-sky-300 hover:text-white hover:bg-blue-600/20 transition cursor-pointer">
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-bolt text-amber-300 w-4 text-center"></i>
+                <span>Báo Giá Nhanh</span>
+              </div>
+              <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">AI</span>
+            </button>
+            <button onclick="openPriceCatalogModal()" id="nav-catalog" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer">
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-hotel text-amber-400 w-4 text-center"></i>
+                <span>Bảng Giá Phòng</span>
+              </div>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">GSheet</span>
+            </button>
+            <button onclick="switchView('suppliers')" id="nav-suppliers" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-hotel w-4 text-center text-emerald-400"></i>
+              <span>Đối Tác Cung Ứng</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">Resort</span>
+            </button>
+            <button onclick="openBirthdayModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-amber-500/10 transition cursor-pointer">
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-cake-candles text-rose-400 w-4 text-center"></i>
+                <span>Tri Ân Khách Hàng</span>
+              </div>
+              <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300">Gia Đình</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- NHÓM 3: TÀI CHÍNH & DÒNG TIỀN (TOÀN CÔNG TY) -->
+        <div>
+          <p class="px-3 text-[10px] font-bold text-emerald-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-chart-pie"></i> Tài Chính & Báo Cáo
+          </p>
+          <nav class="space-y-0.5">
+            <button onclick="switchView('cashflow')" id="nav-cashflow" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-money-bill-transfer w-4 text-center text-emerald-400"></i>
+              <span>Dòng Tiền Thực Tế</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Thu-Chi</span>
+            </button>
+            <button onclick="switchView('reports')" id="nav-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-chart-line w-4 text-center text-blue-400"></i>
+              <span>Báo Cáo Lãi Lỗ (P&L)</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">P&L</span>
+            </button>
+            <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+              <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
+              <span>Hiệu Suất Sales (KPI)</span>
+              <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Thi Đua</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- NHÓM 4: HÓA ĐƠN & KHÁCH HÀNG -->
+        <div>
+          <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-file-invoice"></i> Quản Lý Hóa Đơn & CSKH
           </p>
           <nav class="space-y-0.5">
             <button onclick="switchView('bookings'); setFilter('doi_hd_dau_vao')" id="nav-doi_hd_dau_vao" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-300 hover:text-white bg-rose-500/10 border border-rose-500/30 transition">
@@ -826,29 +811,20 @@
   </div>
 
 
-  <!-- Hotline Hỗ Trợ & User Profile Section -->
-    <div class="p-3 border-t border-slate-800/80 bg-slate-900/60 space-y-2">
+    <!-- Chân Sidebar: Hotline & Thông Tin Đơn Vị Điều Hành Chung -->
+    <div class="p-3.5 border-t border-slate-800/80 bg-slate-900/80 space-y-2">
       <!-- Hotline Điều Hành Doanh Nghiệp -->
-      <div class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs">
+      <div class="px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs">
         <span class="text-slate-400 flex items-center gap-1.5 text-[11px]">
-          <i class="fa-solid fa-headset text-amber-400"></i> Hotline:
+          <i class="fa-solid fa-headset text-amber-400"></i> Hotline 24/7:
         </span>
         <a href="tel:084846477222" class="font-mono text-amber-300 hover:text-amber-200 font-black tracking-wide">084.84.64.77.222</a>
       </div>
 
-      <div class="flex items-center justify-between p-2 rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-slate-600 transition">
-        <div class="flex items-center gap-2.5 min-w-0 flex-1 cursor-pointer" onclick="openProfileModal(false)" title="Bấm để cập nhật họ tên, ngày sinh, SĐT và đổi mật khẩu">
-          <div class="w-8 h-8 rounded-full bg-blue-600/30 text-blue-300 flex items-center justify-center font-bold text-xs border border-blue-500/30 shrink-0" id="user-avatar-text">
-            S1
-          </div>
-          <div class="min-w-0 flex-1">
-            <p class="text-xs font-bold text-white truncate" id="sidebar-user-name">Đang tải...</p>
-            <p class="text-[10px] text-slate-400 truncate font-mono" id="sidebar-user-info">0901234001</p>
-          </div>
-        </div>
-        <button onclick="handleLogout()" title="Đăng Xuất Khỏi CRM" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition text-xs shrink-0 cursor-pointer">
-          <i class="fa-solid fa-power-off"></i>
-        </button>
+      <!-- Đơn Vị Điều Hành Thống Nhất -->
+      <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 text-center">
+        <div class="text-[11px] font-bold text-white uppercase tracking-wider">Công Ty TNHH Booking Travel</div>
+        <div class="text-[10px] text-slate-400 font-mono mt-0.5">MST: 0317894562 • Điều Hành Thống Nhất</div>
       </div>
     </div>
   </aside>
@@ -893,25 +869,18 @@
           <span class="sm:hidden font-mono text-[11px] font-bold">Hotline</span>
         </a>
 
-        <!-- NÚT CHUYỂN GIAO DIỆN CRM PRO EXECUTIVE -->
-        <a href="CRM_Pro.html" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-blue-500/20 border border-amber-500/30 hover:border-amber-500/60 text-xs font-semibold text-amber-300 hover:text-white transition shadow-sm" title="Mở Giao Diện Executive Pro (Hiện Đại)">
-          <i class="fa-solid fa-crown text-amber-400 text-xs"></i>
-          <span class="hidden lg:inline">Giao Diện Pro</span>
-        </a>
-
         <!-- Slogan Doanh Nghiệp (Gọn gàng, tinh tế) -->
-        <div class="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold shadow-sm" title="Slogan: Khách hàng là gia đình">
+        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold shadow-sm" title="Slogan: Khách hàng là gia đình">
           <i class="fa-solid fa-heart text-rose-400 text-xs animate-pulse"></i>
           <span>"Khách hàng là gia đình"</span>
         </div>
 
-        <!-- Logged In User Pill -->
-        <button onclick="openProfileModal(false)" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs transition cursor-pointer" title="Thông tin tài khoản Sales">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span class="text-slate-400 hidden 2xl:inline">ID:</span>
-          <span id="topbar-user-email" class="font-mono font-bold text-white hidden sm:inline">sales1@bookingtravel.vn</span>
-          <i class="fa-solid fa-user-pen text-[10px] text-slate-500 ml-1"></i>
-        </button>
+        <!-- Trạng Thái Phiên Bản Điều Hành Thống Nhất (Dành cho toàn bộ Công ty) -->
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="font-bold text-white">Booking Travel</span>
+          <span class="text-[10px] text-sky-400 font-semibold px-1.5 py-0.2 rounded bg-sky-500/10 border border-sky-500/20">Điều Hành Chung</span>
+        </div>
 
         <!-- NÚT CỐT LÕI DUY NHẤT CỦA CRM: TẠO BOOKING MỚI (ƯU TIÊN CRM - TO RÕ NỔI BẬT) -->
         <button onclick="openModalTaoDon()" class="px-3 sm:px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-95 text-white text-xs font-black rounded-xl shadow-md shadow-blue-600/30 transition flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0" title="Tạo đơn hàng booking mới vào hệ thống CRM">
@@ -1074,7 +1043,7 @@
             <h2 class="text-base font-extrabold text-white flex items-center gap-2">
               <i class="fa-solid fa-money-bill-transfer text-emerald-400"></i> QUẢN TRỊ DÒNG TIỀN THỰC TẾ TOÀN CÔNG TY (CASH FLOW)
             </h2>
-            <p class="text-xs text-slate-400 mt-0.5">Dành riêng cho Ban Giám Đốc (<span class="font-mono text-emerald-400 font-bold">crm@bookingtravel.vn</span>) và nhân sự được phân quyền</p>
+            <p class="text-xs text-slate-400 mt-0.5">Báo cáo quản trị dòng tiền thực thu - thực chi toàn công ty Booking Travel</p>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-xs text-slate-400">Tài khoản thanh toán:</span>
@@ -1520,11 +1489,11 @@
         <span class="text-[11px] font-medium mt-0.5">Hotline</span>
       </a>
 
-      <!-- 5. Bản Pro Hiện Đại -->
-      <a href="CRM_Pro.html" class="flex flex-col items-center justify-center text-slate-300 hover:text-amber-300 transition py-1 px-3 min-h-[48px]">
-        <i class="fa-solid fa-crown text-lg text-amber-400"></i>
-        <span class="text-[11px] font-medium mt-0.5">CRM Pro</span>
-      </a>
+      <!-- 5. Báo Giá Nhanh -->
+      <button type="button" onclick="openSmartQuoteModal()" class="flex flex-col items-center justify-center text-slate-300 hover:text-amber-300 transition py-1 px-3 min-h-[48px] cursor-pointer">
+        <i class="fa-solid fa-bolt text-lg text-amber-400"></i>
+        <span class="text-[11px] font-medium mt-0.5">Báo Giá</span>
+      </button>
     </div>
 
   </div>
@@ -3305,58 +3274,26 @@
     let isProfileForced = false;
 
     function initAuth() {
-      const storedUsers = localStorage.getItem('BOOKING_TRAVEL_USERS');
-      if (storedUsers) {
-        try {
-          const parsed = JSON.parse(storedUsers);
-          systemUsers = DEFAULT_SYSTEM_USERS.map(def => {
-            const found = parsed.find(x => x.email.toLowerCase() === def.email.toLowerCase());
-            if (found) {
-              return {
-                ...def,
-                ...found,
-                walletBalance: found.walletBalance !== undefined ? found.walletBalance : def.walletBalance,
-                permissions: found.permissions ? { ...def.permissions, ...found.permissions } : def.permissions
-              };
-            }
-            return def;
-          });
-        } catch(e) {
-          systemUsers = DEFAULT_SYSTEM_USERS;
+      // DÙNG 1 PHIÊN BẢN ĐIỀU HÀNH THỐNG NHẤT CHO TẤT CẢ MỌI NGƯỜI (NHÂN VIÊN VÀ BAN GIÁM ĐỐC)
+      currentUser = {
+        id: "crm-all",
+        name: "Điều Hành Booking Travel",
+        email: "crm@bookingtravel.vn",
+        role: "admin",
+        phone: "084846477222",
+        permissions: {
+          xem_dong_tien: true,
+          xem_lai_gop: true,
+          xem_tat_ca_don: true,
+          xoa_don: true
         }
-      } else {
-        systemUsers = DEFAULT_SYSTEM_USERS;
-      }
-      saveUsers();
+      };
+      localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
+      localStorage.removeItem('BOOKING_TRAVEL_LOGGED_OUT');
 
-      renderQuickAccounts();
-
-      const storedSession = localStorage.getItem('BOOKING_TRAVEL_CURRENT_USER');
-      if (storedSession) {
-        try {
-          const u = JSON.parse(storedSession);
-          const found = systemUsers.find(x => x.email.toLowerCase() === u.email.toLowerCase());
-          if (found) currentUser = found;
-          else currentUser = u;
-        } catch(e) {
-          currentUser = null;
-        }
-      }
-
-      const isLoggedOut = localStorage.getItem('BOOKING_TRAVEL_LOGGED_OUT');
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('autologin') === 'admin' || (!currentUser && (!isLoggedOut || urlParams.get('preview') === '1'))) {
-        currentUser = systemUsers.find(x => x.role === 'admin') || systemUsers[0];
-        localStorage.setItem('BOOKING_TRAVEL_CURRENT_USER', JSON.stringify(currentUser));
-      }
-
-      if (!currentUser) {
-        document.getElementById('login-screen').classList.remove('hidden');
-      } else {
-        document.getElementById('login-screen').classList.add('hidden');
-        applyCurrentUserUI();
-        checkProfileCompletion();
-      }
+      const loginScreen = document.getElementById('login-screen');
+      if (loginScreen) loginScreen.classList.add('hidden');
+      applyCurrentUserUI();
     }
 
     function saveUsers() {
@@ -3428,14 +3365,8 @@
     }
 
     function checkProfileCompletion() {
-      if (!currentUser) return;
-      const isNameMissing = !currentUser.name || currentUser.name.trim() === '' || currentUser.name.toLowerCase().startsWith('sales ');
-      const isDobMissing = !currentUser.dob || currentUser.dob.trim() === '';
-      const isPhoneMissing = !currentUser.phone || currentUser.phone.trim() === '' || currentUser.phone.trim().length < 9;
-
-      if (isNameMissing || isDobMissing || isPhoneMissing) {
-        openProfileModal(true);
-      }
+      // Dùng 1 phiên bản điều hành thống nhất: Không bắt buộc popup cản trở công việc
+      return;
     }
 
     function formatDob(dateStr) {
@@ -3449,11 +3380,18 @@
 
     function applyCurrentUserUI() {
       if (!currentUser) return;
-      document.getElementById('sidebar-user-name').innerText = currentUser.name || currentUser.email.split('@')[0];
       
-      const dobDisplay = currentUser.dob ? ` • ${formatDob(currentUser.dob)}` : '';
-      document.getElementById('sidebar-user-info').innerHTML = (currentUser.phone || '<span class="text-rose-400">Chưa có SĐT</span>') + dobDisplay;
-      document.getElementById('topbar-user-email').innerText = currentUser.email;
+      const sidebarName = document.getElementById('sidebar-user-name');
+      if (sidebarName) sidebarName.innerText = currentUser.name || (currentUser.email ? currentUser.email.split('@')[0] : 'Điều Hành');
+      
+      const sidebarInfo = document.getElementById('sidebar-user-info');
+      if (sidebarInfo) {
+        const dobDisplay = currentUser.dob ? ` • ${formatDob(currentUser.dob)}` : '';
+        sidebarInfo.innerHTML = (currentUser.phone || '<span class="text-rose-400">Chưa có SĐT</span>') + dobDisplay;
+      }
+
+      const topbarEmail = document.getElementById('topbar-user-email');
+      if (topbarEmail) topbarEmail.innerText = currentUser.email || 'crm@bookingtravel.vn';
 
       // Hiển thị Quỹ Tạm Ứng trên Topbar
       const walletEl = document.getElementById('topbar-user-wallet');
@@ -3462,24 +3400,29 @@
         walletEl.innerText = walletVal.toLocaleString('vi-VN') + ' đ';
       }
 
-      const shortName = (currentUser.name && currentUser.name.length >= 2) ? 
-        currentUser.name.split(' ').pop().slice(0, 2).toUpperCase() : 
-        currentUser.email.slice(0, 2).toUpperCase();
-      document.getElementById('user-avatar-text').innerText = shortName;
+      const avatarText = document.getElementById('user-avatar-text');
+      if (avatarText) {
+        const shortName = (currentUser.name && currentUser.name.length >= 2) ? 
+          currentUser.name.split(' ').pop().slice(0, 2).toUpperCase() : 
+          (currentUser.email ? currentUser.email.slice(0, 2).toUpperCase() : 'BT');
+        avatarText.innerText = shortName;
+      }
 
       // Populate dropdown sale
       const saleSelect = document.getElementById('ipt-sale');
-      saleSelect.innerHTML = '';
-      systemUsers.filter(u => u.role === 'sale' || u.role === 'admin').forEach(u => {
-        const opt = document.createElement('option');
-        opt.value = u.email;
-        const uLabel = u.name ? `${u.name} (${u.email.split('@')[0]})` : u.email;
-        opt.innerText = uLabel;
-        if (u.email.toLowerCase() === currentUser.email.toLowerCase()) {
-          opt.selected = true;
-        }
-        saleSelect.appendChild(opt);
-      });
+      if (saleSelect && typeof systemUsers !== 'undefined') {
+        saleSelect.innerHTML = '';
+        systemUsers.filter(u => u.role === 'sale' || u.role === 'admin').forEach(u => {
+          const opt = document.createElement('option');
+          opt.value = u.email;
+          const uLabel = u.name ? `${u.name} (${u.email.split('@')[0]})` : u.email;
+          opt.innerText = uLabel;
+          if (currentUser.email && u.email.toLowerCase() === currentUser.email.toLowerCase()) {
+            opt.selected = true;
+          }
+          saleSelect.appendChild(opt);
+        });
+      }
 
       updateStaffBadge();
     }
@@ -6482,19 +6425,10 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     }
 
     function initData() {
-      const stored = localStorage.getItem('BOOKING_TRAVEL_DATA_V4') || localStorage.getItem('BOOKING_TRAVEL_MISA_V30');
+      const stored = localStorage.getItem('BOOKING_TRAVEL_UNIFIED_DATA_V5');
       if (stored) {
         try {
           bookings = JSON.parse(stored);
-          let hasMigration = false;
-          bookings.forEach((b, idx) => {
-            if (b.maBooking && b.maBooking.startsWith('BK-')) {
-              b.maBooking = b.maBooking.replace('BK-', 'DH');
-              b.id = b.id.replace('BK-', 'DH');
-              hasMigration = true;
-            }
-          });
-          if (hasMigration) saveData();
         } catch(e) {
           bookings = INITIAL_REFINED_DATA;
         }
@@ -6502,13 +6436,24 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         bookings = INITIAL_REFINED_DATA;
         saveData();
       }
+
+      // Tự động làm sạch dữ liệu: Nếu trình duyệt còn lưu mã cũ dạng DH2611-01 hoặc BK-... -> Nạp dữ liệu chuẩn DH timestamp từ quanly.bookingtravel.vn
+      let hasOldCode = false;
+      if (Array.isArray(bookings)) {
+        hasOldCode = bookings.some(b => b.maBooking && (b.maBooking.includes('-') || b.maBooking.startsWith('BK-')));
+      }
+      if (hasOldCode || !bookings || bookings.length === 0) {
+        bookings = INITIAL_REFINED_DATA;
+        saveData();
+      }
+
       updateMetrics();
       renderTable();
     }
 
     function saveData() {
+      localStorage.setItem('BOOKING_TRAVEL_UNIFIED_DATA_V5', JSON.stringify(bookings));
       localStorage.setItem('BOOKING_TRAVEL_DATA_V4', JSON.stringify(bookings));
-      localStorage.setItem('BOOKING_TRAVEL_MISA_V30', JSON.stringify(bookings));
       updateMetrics();
     }
 
@@ -6643,12 +6588,6 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     // CHUYỂN ĐỔI GIAO DIỆN / VIEWS
     // =========================================================================
     function switchView(viewName) {
-      // Kiểm tra quyền truy cập Dòng tiền công ty
-      if (viewName === 'cashflow' && currentUser.role !== 'admin' && !currentUser.permissions?.xem_dong_tien) {
-        alert('⛔ BẢO MẬT: Bạn không có quyền truy cập Dòng Tiền Công Ty! Vui lòng liên hệ crm@bookingtravel.vn để được phân quyền.');
-        return;
-      }
-
       currentView = viewName;
 
       // Ẩn tất cả view
@@ -6849,9 +6788,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       const mobileCardsEl = document.getElementById('mobile-cards-container');
       const query = (document.getElementById('global-search').value || '').toLowerCase().trim();
       const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
-      const canViewAll = currentUser && (currentUser.role === 'admin' || currentUser.permissions?.xem_tat_ca_don);
-      const canDelete = currentUser && (currentUser.role === 'admin' || currentUser.permissions?.xoa_don);
-      const canViewProfit = currentUser && (currentUser.role === 'admin' || currentUser.permissions?.xem_lai_gop !== false);
+      const canViewAll = true; // Phiên bản điều hành thống nhất: ai cũng xem được toàn bộ đơn
+      const canDelete = true;
+      const canViewProfit = true; // Cả nhân viên và ban giám đốc đều xem được doanh thu, giá vốn, lãi gộp minh bạch
 
       const filtered = bookings.filter(b => {
         const isMine = b.saleEmail && b.saleEmail.toLowerCase() === myEmail;
@@ -8974,11 +8913,8 @@ ${lines.join('\n')}
     }
 
     function deleteBooking(id) {
-      if (!currentUser || (currentUser.role !== 'admin' && !currentUser.permissions?.xoa_don)) {
-        alert('⛔ Bạn không có quyền xóa booking! Chỉ Ban Giám Đốc mới có quyền xóa dữ liệu.');
-        return;
-      }
-      if (confirm('Xác nhận xóa booking này khỏi hệ thống?')) {
+      const b = bookings.find(x => x.id === id);
+      if (confirm('Xác nhận xóa booking [' + (b ? b.maBooking : id) + '] khỏi hệ thống?')) {
         bookings = bookings.filter(x => x.id !== id);
         saveData();
         renderTable();
