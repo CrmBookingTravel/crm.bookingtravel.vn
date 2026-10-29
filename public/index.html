@@ -902,9 +902,7 @@
               <button onclick="setFilter('da_huy')" data-filter="da_huy" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-rose-400 font-bold">🔴 Đã Hủy / Hoàn Tiền (<span id="count-da-huy" class="font-mono">0</span>)</span>
               </button>
-              <button onclick="setFilter('my_orders')" data-filter="my_orders" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
-                <span class="text-sky-400 font-bold">Booking Của Tôi (<span id="count-my" class="font-mono">0</span>)</span>
-              </button>
+
               <button onclick="setFilter('doi_hd_dau_vao')" data-filter="doi_hd_dau_vao" class="px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition">
                 <span class="text-rose-400 font-bold">Chưa Có HĐ Đầu Vào (<span id="count-doi-hd" class="font-mono">0</span>)</span>
               </button>
@@ -930,14 +928,14 @@
             <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
               <thead id="table-head" class="bg-slate-950/80 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr id="table-head-row">
-                  <th class="py-3 px-3.5">Mã Đơn / Ngày Tạo</th>
-                  <th class="py-3 px-3.5 text-center">Lịch Trình (In - Out)</th>
-                  <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
-                  <th class="py-3 px-3.5">Khách Sạn / Resort</th>
+                  <th class="py-3 px-3.5">Mã Đơn</th>
+                  <th class="py-3 px-3.5">Ngày Tạo</th>
+                  <th class="py-3 px-3.5 text-center">IN - OUT</th>
+                  <th class="py-3 px-3.5">Khách Hàng</th>
+                  <th class="py-3 px-3.5">Số Điện Thoại</th>
                   <th class="py-3 px-3.5 text-right">Doanh Thu</th>
-                  <th class="py-3 px-3.5 text-right">Giá Vốn Net</th>
-                  <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
-                  <th class="py-3 px-3.5 text-center">Phải Thu Khách (AR)</th>
+                  <th class="py-3 px-3.5 text-right">Giá Nét</th>
+                  <th class="py-3 px-3.5 text-right">Hoa Hồng</th>
                   <th class="py-3 px-3.5 text-right">Thao Tác</th>
                 </tr>
               </thead>
@@ -7960,7 +7958,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       document.getElementById('stat-lai-gop').innerText = (profit >= 0 ? '+' : '') + profit.toLocaleString('vi-VN') + ' đ';
       
       if (isSale) {
-        document.getElementById('stat-ty-suat').innerText = `Biên độ: ${margin}% • Hoa hồng: +${commission.toLocaleString('vi-VN')} đ`;
+        document.getElementById('stat-ty-suat').innerText = `Biên độ lợi nhuận: ${margin}%`;
         document.getElementById('stat-chua-co-hd-vao').innerText = '+' + commission.toLocaleString('vi-VN') + ' đ';
       } else {
         document.getElementById('stat-ty-suat').innerText = `Biên độ lợi nhuận: ${margin}%`;
@@ -8122,32 +8120,34 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       document.getElementById('showing-count').innerText = filtered.length;
 
       // CẬP NHẬT TIÊU ĐỀ CỘT BẢNG (KINH DOANH SALES KHÔNG CẦN: HĐ Đầu Vào, HĐ Đầu Ra, Tài Liệu)
+            // CẬP NHẬT TIÊU ĐỀ CỘT BẢNG THEO YÊU CẦU:
+      // Mã Đơn - Ngày Tạo - IN - OUT - Khách Hàng - Số Điện Thoại - Doanh Thu - Giá Nét - Hoa Hồng - Thao Tác
       const tableHeadRow = document.getElementById('table-head-row');
       if (tableHeadRow) {
         if (isSale) {
           tableHeadRow.innerHTML = `
-            <th class="py-3 px-3.5">Mã Đơn / Ngày Tạo</th>
-            <th class="py-3 px-3.5 text-center">Lịch Trình (In - Out)</th>
-            <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
-            <th class="py-3 px-3.5">Khách Sạn / Resort</th>
+            <th class="py-3 px-3.5">Mã Đơn</th>
+            <th class="py-3 px-3.5">Ngày Tạo</th>
+            <th class="py-3 px-3.5 text-center">IN - OUT</th>
+            <th class="py-3 px-3.5">Khách Hàng</th>
+            <th class="py-3 px-3.5">Số Điện Thoại</th>
             <th class="py-3 px-3.5 text-right">Doanh Thu</th>
-            <th class="py-3 px-3.5 text-right">Giá Vốn Net</th>
-            <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
-            <th class="py-3 px-3.5 text-center">Phải Thu Khách (AR)</th>
+            <th class="py-3 px-3.5 text-right">Giá Nét</th>
+            <th class="py-3 px-3.5 text-right">Hoa Hồng</th>
             <th class="py-3 px-3.5 text-right">Thao Tác</th>
           `;
         } else {
           tableHeadRow.innerHTML = `
-            <th class="py-3 px-3.5">Mã Đơn / Ngày Tạo</th>
-            <th class="py-3 px-3.5 text-center">Lịch Trình (In - Out)</th>
-            <th class="py-3 px-3.5">Khách Hàng & SĐT</th>
-            <th class="py-3 px-3.5">Khách Sạn / Resort</th>
+            <th class="py-3 px-3.5">Mã Đơn</th>
+            <th class="py-3 px-3.5">Ngày Tạo</th>
+            <th class="py-3 px-3.5 text-center">IN - OUT</th>
+            <th class="py-3 px-3.5">Khách Hàng</th>
+            <th class="py-3 px-3.5">Số Điện Thoại</th>
             <th class="py-3 px-3.5 text-right">Doanh Thu</th>
             <th class="py-3 px-3.5 text-right">Giá Vốn</th>
-            <th class="py-3 px-3.5 text-right">Lãi Gộp</th>
-            <th class="py-3 px-3.5 text-center">Công Nợ (AR / AP)</th>
-            <th class="py-3 px-3.5 text-center">HĐ Đầu Vào (NCC)</th>
-            <th class="py-3 px-3.5 text-center">HĐ Đầu Ra (Khách)</th>
+            <th class="py-3 px-3.5 text-right">Lãi Gộp / HH</th>
+            <th class="py-3 px-3.5 text-center">HĐ Đầu Vào</th>
+            <th class="py-3 px-3.5 text-center">HĐ Đầu Ra</th>
             <th class="py-3 px-3.5 text-center">Tài Liệu</th>
             <th class="py-3 px-3.5 text-right">Thao Tác</th>
           `;
@@ -8311,115 +8311,113 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         const hotelOnlyName = getHotelDisplayName(b);
 
         // 1. RENDER ROW TRÊN MÁY TÍNH (DESKTOP TABLE)
+        // 9 CỘT THEO ĐÚNG YÊU CẦU: Mã Đơn - Ngày Tạo - IN - OUT - Khách Hàng - Số Điện Thoại - Doanh Thu - Giá Nét - Hoa Hồng - Thao Tác
         html += `
           <tr class="hover:bg-slate-800/30 transition group">
-            <!-- 1. MÃ ĐƠN & NGÀY TẠO (CHUẨN QUANLY.BOOKINGTRAVEL.VN) -->
+            <!-- 1. MÃ ĐƠN -->
             <td class="py-3 px-3.5 whitespace-nowrap">
               <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
-              <div class="text-[10px] text-amber-300 font-mono mt-1 flex items-center gap-1 font-semibold" title="Ngày đặt phòng">
-                <i class="fa-regular fa-calendar-check text-[9px] text-amber-400"></i>
-                <span>Đặt: ${createDateVN}</span>
-              </div>
               <span class="text-[10px] text-slate-500 font-mono block mt-0.5">${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</span>
             </td>
 
-            <!-- 2. LỊCH TRÌNH LƯU TRÚ (NGÀY IN - OUT & SỐ ĐÊM) Ở NGOÀI LUÔN -->
+            <!-- 2. NGÀY TẠO -->
+            <td class="py-3 px-3.5 whitespace-nowrap font-mono text-xs text-slate-300">
+              <div class="flex items-center gap-1 font-semibold text-amber-300/90">
+                <i class="fa-regular fa-calendar text-[10px] text-amber-400"></i>
+                <span>${createDateVN}</span>
+              </div>
+            </td>
+
+            <!-- 3. IN - OUT (LỊCH TRÌNH) -->
             <td class="py-3 px-3.5 text-center whitespace-nowrap">
-              <div class="inline-flex flex-col items-center gap-1 bg-[#07162f] border border-blue-900/50 rounded-xl px-2.5 py-1.5 shadow-sm">
-                <div class="flex items-center gap-1.5 text-[11px] font-mono">
-                  <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">IN</span>
+              <div class="inline-flex flex-col items-center gap-0.5 bg-[#07162f] border border-blue-900/50 rounded-xl px-2.5 py-1 shadow-sm font-mono text-[11px]">
+                <div class="flex items-center gap-1.5">
+                  <span class="px-1 py-0.2 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">IN</span>
                   <span class="text-white font-bold">${inDateVN}</span>
                 </div>
-                <div class="flex items-center gap-1.5 text-[11px] font-mono">
-                  <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">OUT</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="px-1 py-0.2 rounded text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">OUT</span>
                   <span class="text-slate-300 font-bold">${outDateVN}</span>
                 </div>
-                ${stayDuration ? `<span class="text-[9px] font-semibold text-sky-300 bg-sky-500/15 px-2 py-0.2 rounded-full border border-sky-500/30">${stayDuration}</span>` : ''}
+                ${stayDuration ? `<span class="text-[9px] font-semibold text-sky-300 bg-sky-500/15 px-1.5 py-0.2 rounded-full border border-sky-500/20 mt-0.5">${stayDuration}</span>` : ''}
               </div>
             </td>
 
-            <!-- 3. KHÁCH HÀNG & SĐT (RÚT GỌN GỌN GÀNG THEO YÊU CẦU) -->
+            <!-- 4. KHÁCH HÀNG (KÈM KHÁCH SẠN / RESORT Ở DƯỚI) -->
             <td class="py-3 px-3.5 whitespace-nowrap">
               <div class="font-bold text-white text-xs">${escapeHtml(b.khachHang)}</div>
-              <div class="text-[11px] text-slate-400 font-mono mt-0.5 flex items-center gap-1.5">
-                <i class="fa-solid fa-phone text-blue-400 text-[10px]"></i>
-                <span>${escapeHtml(b.sdt)}</span>
+              <div class="text-[11px] text-amber-300/90 font-medium truncate flex items-center gap-1.5 mt-0.5" title="${escapeHtml(hotelOnlyName)}">
+                <i class="fa-solid fa-hotel text-amber-400 text-[10px] shrink-0"></i>
+                <span class="truncate max-w-[170px]">${escapeHtml(hotelOnlyName)}</span>
               </div>
             </td>
 
-            <!-- 4. KHÁCH SẠN / RESORT (CHỈ HIỂN THỊ TÊN KHÁCH SẠN - CHI TIẾT VÔ TRONG XEM) -->
-            <td class="py-3 px-3.5 whitespace-nowrap">
-              <button type="button" onclick="editBooking('${b.id}')" class="text-left font-semibold text-slate-200 hover:text-sky-300 transition flex items-center gap-1.5 group cursor-pointer" title="Bấm để xem chi tiết phòng, giá vốn & NCC">
-                <i class="fa-solid fa-hotel text-amber-400 text-xs shrink-0 group-hover:scale-110 transition-transform"></i>
-                <span class="group-hover:underline">${escapeHtml(hotelOnlyName)}</span>
-              </button>
+            <!-- 5. SỐ ĐIỆN THOẠI -->
+            <td class="py-3 px-3.5 whitespace-nowrap font-mono text-xs">
+              <a href="tel:${escapeHtml(b.sdt)}" class="text-slate-300 hover:text-sky-400 transition flex items-center gap-1.5 font-semibold">
+                <i class="fa-solid fa-phone text-blue-400 text-[10px]"></i>
+                <span>${escapeHtml(b.sdt)}</span>
+              </a>
             </td>
 
-            <!-- 5. DOANH THU -->
-            <td class="py-3 px-3.5 text-right font-mono font-bold text-white text-xs num-tabular">
-              ${rev.toLocaleString('vi-VN')} đ
+            <!-- 6. DOANH THU (KÈM TRẠNG THÁI CÔNG NỢ) -->
+            <td class="py-3 px-3.5 text-right whitespace-nowrap">
+              <div class="font-mono font-bold text-white text-xs num-tabular">${rev.toLocaleString('vi-VN')} đ</div>
+              <div class="text-[10px] font-mono mt-0.5 ${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-medium'}">
+                ${remainAR > 0 ? 'Nợ: -' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Đã thu 100%'}
+              </div>
             </td>
 
-            <!-- 6. GIÁ VỐN -->
-            <td class="py-3 px-3.5 text-right font-mono text-slate-300 text-xs num-tabular">
+            <!-- 7. GIÁ NÉT -->
+            <td class="py-3 px-3.5 text-right font-mono text-slate-300 text-xs num-tabular whitespace-nowrap">
               ${costDisplay}
             </td>
 
-            <!-- 7. LÃI GỘP -->
-            <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">
-              ${profitDisplay}
+            <!-- 8. HOA HỒNG (SALES) / LÃI GỘP & HH (KẾ TOÁN/BGĐ) -->
+            <td class="py-3 px-3.5 text-right whitespace-nowrap">
+              ${isSale ? `
+                ${canViewThisProfit ? `
+                  <div class="inline-flex flex-col items-end">
+                    <span class="px-2 py-0.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono font-black text-xs num-tabular shadow-sm">
+                      +${commission.toLocaleString('vi-VN')} đ
+                    </span>
+                    <span class="text-[9px] font-mono text-emerald-400/80 mt-0.5">Lãi: +${profit.toLocaleString('vi-VN')} đ</span>
+                  </div>
+                ` : '<span class="text-slate-600">***</span>'}
+              ` : `
+                ${canViewThisProfit ? `
+                  <div class="inline-flex flex-col items-end">
+                    <span class="font-mono font-bold text-emerald-400 text-xs num-tabular">+${profit.toLocaleString('vi-VN')} đ</span>
+                    <span class="text-[9px] font-mono text-amber-300 font-semibold mt-0.5">HH: +${commission.toLocaleString('vi-VN')} đ</span>
+                  </div>
+                ` : '<span class="text-slate-600">***</span>'}
+              `}
             </td>
 
-            <!-- 8. CÔNG NỢ: SALES CHỈ XEM NỢ PHẢI THU KHÁCH (AR), KẾ TOÁN/BGĐ XEM CẢ KHÁCH VÀ NCC -->
-            ${isSale ? `
-              <td class="py-3 px-3.5 text-center font-mono text-[10px]">
-                <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-semibold'} block">
-                  ${remainAR > 0 ? 'Còn nợ: -' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Đã thu đủ 100%'}
-                </span>
-                ${Array.isArray(b.payments) && b.payments.length > 1 ? `
-                  <span class="text-[9px] text-indigo-300 block mt-0.5 font-sans bg-indigo-500/15 px-1 py-0.2 rounded border border-indigo-500/30">
-                    Đã thu ${b.payments.filter(p=>p.trangThai==='da_thu').length}/${b.payments.length} đợt
-                  </span>
-                ` : ''}
-              </td>
-            ` : `
-              <td class="py-3 px-3.5 text-center font-mono text-[10px]">
-                <span class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-semibold'} block">
-                  Khách: ${remainAR > 0 ? '-' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Thu đủ'}
-                </span>
-                <span class="${remainAP > 0 ? 'text-amber-400 font-bold' : 'text-slate-500'} block mt-0.5">
-                  NCC: ${remainAP > 0 ? '-' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Trả đủ'}
-                </span>
-                ${Array.isArray(b.payments) && b.payments.length > 1 ? `
-                  <span class="text-[9px] text-indigo-300 block mt-0.5 font-sans bg-indigo-500/15 px-1 py-0.2 rounded border border-indigo-500/30">
-                    Đã thu ${b.payments.filter(p=>p.trangThai==='da_thu').length}/${b.payments.length} đợt
-                  </span>
-                ` : ''}
-              </td>
-
-              <!-- 9. HÓA ĐƠN ĐẦU VÀO (NCC) - KẾ TOÁN & BAN GIÁM ĐỐC -->
+            ${!isSale ? `
+              <!-- HÓA ĐƠN ĐẦU VÀO (NCC) - KẾ TOÁN & BAN GIÁM ĐỐC -->
               <td class="py-3 px-3.5 text-center">
                 ${hdVaoBadge}
               </td>
 
-              <!-- 10. HÓA ĐƠN ĐẦU RA (KHÁCH) - KẾ TOÁN & BAN GIÁM ĐỐC -->
+              <!-- HÓA ĐƠN ĐẦU RA (KHÁCH) - KẾ TOÁN & BAN GIÁM ĐỐC -->
               <td class="py-3 px-3.5 text-center">
                 ${hdRaBadge}
               </td>
 
-              <!-- 11. TÀI LIỆU FILE - KẾ TOÁN & BAN GIÁM ĐỐC -->
+              <!-- TÀI LIỆU FILE - KẾ TOÁN & BAN GIÁM ĐỐC -->
               <td class="py-3 px-3.5 text-center">
                 <button onclick="openFilesModal('${b.id}')" class="px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 mx-auto transition cursor-pointer ${fileBtnClass}">
                   <i class="fa-solid fa-paperclip text-[10px]"></i>
                   <span class="font-mono text-[10px]">${filesCount} file</span>
                 </button>
               </td>
-            `}
+            ` : ''}
 
-            <!-- 12. THAO TÁC -->
+            <!-- 9 (hoặc 12). THAO TÁC -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1.5">
-                ${workflowActionBtn}
+                ${!isSale ? workflowActionBtn : ''}
                 ${cancelBtn}
                 ${(isAdmin || isAccountant) && remainAP > 0 ? `
                   <button onclick="openModalDeXuatChiNCC('${b.id}')" title="Kế toán lập đề xuất chi trả khách sạn / BGĐ duyệt chi" class="p-1.5 rounded-lg text-amber-400 hover:text-white hover:bg-amber-500/20 transition text-xs cursor-pointer">
@@ -8460,7 +8458,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               <div class="text-right">
                 <div class="font-mono font-black text-base text-white">${rev.toLocaleString('vi-VN')} đ</div>
                 <div class="text-[10px] text-slate-400 font-mono">Đặt: ${createDateVN}</div>
-                ${canViewThisProfit ? `<div class="text-[10px] font-mono text-emerald-400 font-semibold mt-0.5">Lãi: +${profit.toLocaleString('vi-VN')} đ</div>` : ''}
+                ${canViewThisProfit ? (isSale ? `<div class="text-[10px] font-mono text-amber-300 font-bold mt-0.5">Hoa hồng: +${commission.toLocaleString('vi-VN')} đ</div>` : `<div class="text-[10px] font-mono text-emerald-400 font-semibold mt-0.5">Lãi: +${profit.toLocaleString('vi-VN')} đ • <span class="text-amber-300">HH: +${commission.toLocaleString('vi-VN')} đ</span></div>`) : ''}
               </div>
             </div>
 
@@ -8525,7 +8523,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             </div>
 
             <!-- Dòng 5: CÁC NÚT THAO TÁC 1-CHẠM TO TRÊN ĐIỆN THOẠI (>= 46px) -->
-            ${(b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') ? `
+            ${!isSale && (b.tourStatus === 'cho_duyet' || b.tourStatus === 'moi_tao' || b.tourStatus === 'cho_coc') ? `
               <div class="grid grid-cols-2 gap-2">
                 <button onclick="xacNhanDaNhanCoc('${b.id}')" class="min-h-[46px] py-2.5 px-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold flex items-center justify-center gap-1 shadow-md transition cursor-pointer">
                   <i class="fa-solid fa-hand-holding-dollar text-sm"></i>
@@ -8536,17 +8534,17 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                   <span>Duyệt Tiền Acc</span>
                 </button>
               </div>
-            ` : (b.tourStatus === 'da_coc') ? `
+            ` : (!isSale && b.tourStatus === 'da_coc') ? `
               <button onclick="openDuyetKeToanModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-sky-600/30 transition cursor-pointer">
                 <i class="fa-solid fa-check-to-slot text-sm"></i>
                 <span>KẾ TOÁN DUYỆT TIỀN (CHUYỂN BAN GIÁM ĐỐC)</span>
               </button>
-            ` : (b.tourStatus === 'ke_toan_duyet') ? `
+            ` : (!isSale && b.tourStatus === 'ke_toan_duyet') ? `
               <button onclick="openDuyetBgdModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-amber-600/30 transition cursor-pointer">
                 <i class="fa-solid fa-crown text-sm text-amber-200"></i>
                 <span>BƯỚC 3: BAN GIÁM ĐỐC PHÊ DUYỆT ĐIỀU HÀNH</span>
               </button>
-            ` : (b.tourStatus === 'da_chot' || b.tourStatus === 'dang_di') ? `
+            ` : (!isSale && (b.tourStatus === 'da_chot' || b.tourStatus === 'dang_di')) ? `
               <button onclick="openDoiSoatTatToanModal('${b.id}')" class="w-full min-h-[46px] py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/30 transition cursor-pointer">
                 <i class="fa-solid fa-scale-balanced text-sm"></i>
                 <span>QUY TRÌNH 3: ĐỐI SOÁT PHÒNG & TẤT TOÁN P&L</span>
@@ -8598,9 +8596,11 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       currentFilter = filterKey;
       document.querySelectorAll('#filter-segmented button').forEach(btn => {
         if (btn.dataset.filter === filterKey) {
-          btn.className = 'px-3 py-1.5 rounded-md font-medium text-white bg-slate-800 shadow-sm transition';
+          btn.classList.add('text-white', 'bg-slate-800', 'shadow-sm');
+          btn.classList.remove('text-slate-400');
         } else {
-          btn.className = 'px-3 py-1.5 rounded-md font-medium text-slate-400 hover:text-white transition';
+          btn.classList.remove('text-white', 'bg-slate-800', 'shadow-sm');
+          btn.classList.add('text-slate-400');
         }
       });
       renderTable();
