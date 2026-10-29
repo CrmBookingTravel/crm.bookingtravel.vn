@@ -145,6 +145,118 @@
         pointer-events: none;
       }
     }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DI ĐỘNG (@MEDIA MAX-WIDTH: 768PX): TỰ ĐỘNG CO GIÃN THÀNH DANH SÁCH DỌC, NÚT TO DỄ CHẠM */
+    /* ========================================================================= */
+    @media (max-width: 768px) {
+      /* 1. Nút bấm to ra tối thiểu 44px - 48px, chuẩn công thái học ngón tay chạm */
+      button, 
+      a.btn,
+      input, 
+      select {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* 2. Thanh tìm kiếm trên điện thoại to, cao 44px, dễ gõ tra cứu nhanh tour & đơn hàng */
+      #global-search {
+        height: 44px !important;
+        font-size: 13.5px !important;
+        border-radius: 12px !important;
+        padding-left: 38px !important;
+        background-color: rgba(11, 25, 44, 0.95) !important;
+      }
+
+      /* 3. Thanh bộ lọc danh mục cuộn ngang mượt mà, nút to dễ bấm bằng ngón cái */
+      #filter-segmented {
+        padding: 4px !important;
+        gap: 8px !important;
+        border-radius: 12px !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+      #filter-segmented button {
+        min-height: 40px !important;
+        padding: 8px 14px !important;
+        font-size: 12px !important;
+        border-radius: 10px !important;
+        white-space: nowrap !important;
+      }
+
+      /* 4. Tự động chuyển các bảng dữ liệu rộng thành dạng danh sách dọc (Vertical Card Stack) */
+      .responsive-mobile-table {
+        display: block !important;
+        width: 100% !important;
+        border: none !important;
+      }
+      .responsive-mobile-table thead {
+        display: none !important; /* Ẩn dòng tiêu đề ngang trên điện thoại */
+      }
+      .responsive-mobile-table tbody {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        width: 100% !important;
+      }
+      .responsive-mobile-table tr {
+        display: flex !important;
+        flex-direction: column !important;
+        background: #0b192c !important;
+        border: 1px solid #1a2c47 !important;
+        border-radius: 16px !important;
+        padding: 14px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+      }
+      .responsive-mobile-table td {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 8px 0 !important;
+        border: none !important;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.08) !important;
+        font-size: 12.5px !important;
+        white-space: normal !important;
+        text-align: right !important;
+      }
+      .responsive-mobile-table td:last-child {
+        border-bottom: none !important;
+        padding-top: 10px !important;
+        justify-content: flex-end !important;
+      }
+      .responsive-mobile-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: #94a3b8;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: left;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+
+      /* 5. Khối danh sách dọc thẻ Mobile Booking Cards rộng rãi, thoáng mát */
+      #mobile-cards-container {
+        padding: 12px !important;
+        gap: 14px !important;
+      }
+
+      /* 6. Thanh Bottom Navigation Bar cao 64px, dễ dùng 1 tay khi đi thị trường */
+      .mobile-bottom-bar-fixed {
+        height: 64px !important;
+        padding-bottom: env(safe-area-inset-bottom, 8px) !important;
+      }
+      .mobile-bottom-bar-fixed button,
+      .mobile-bottom-bar-fixed a {
+        min-height: 48px !important;
+        min-width: 52px !important;
+      }
+
+      /* 7. Khoảng đệm đáy màn hình để không bị thanh Bottom Bar che khuất */
+      main {
+        padding-bottom: 84px !important;
+      }
+    }
   </style>
 </head>
 <body class="h-full flex overflow-hidden text-slate-200 antialiased bg-[#07162f] font-sans">
@@ -766,7 +878,7 @@
         </div>
         <div class="relative flex-1 min-w-0">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
-          <input type="text" id="global-search" oninput="handleSearch()" placeholder="Tìm booking, khách hàng, số điện thoại, nhà cung cấp..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+          <input type="text" id="global-search" oninput="handleSearch()" placeholder="🔍 Tìm khách, SĐT, Khách sạn, Tour, Mã DH..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
         </div>
       </div>
 
@@ -919,7 +1031,7 @@
 
           <!-- BẢNG THEO DÕI ĐƠN HÀNG TRÊN MÁY TÍNH (DESKTOP VIEW: >= MD) -->
           <div class="hidden md:block overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
+            <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
               <thead class="bg-slate-950/80 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr>
                   <th class="py-3 px-3.5">Mã Đơn / Ngày Tạo</th>
@@ -1019,7 +1131,7 @@
           </div>
 
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
+            <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
               <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr>
                   <th class="py-3 px-3.5">Mã Booking</th>
@@ -1276,7 +1388,7 @@
           </div>
 
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
+            <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
               <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800" id="sales-kpi-thead">
                 <!-- Rendered dynamically -->
               </thead>
@@ -1307,7 +1419,7 @@
         <!-- BẢNG ĐÁNH GIÁ ĐỐI TÁC -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
+            <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
               <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr>
                   <th class="py-3 px-3.5">Đối Tác / Khách Sạn / Resort</th>
@@ -1355,7 +1467,7 @@
         <!-- BẢNG HỒ SƠ & PHÂN QUYỀN 11 TÀI KHOẢN -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
+            <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
               <thead class="bg-slate-950/70 text-slate-400 font-semibold uppercase text-[10px] tracking-wider border-b border-slate-800">
                 <tr>
                   <th class="py-3 px-3.5 text-center">STT</th>
@@ -1380,38 +1492,38 @@
 
     </main>
 
-    <!-- MOBILE QUICK BOTTOM ACTION BAR (Dành riêng cho Điện Thoại) -->
-    <div class="lg:hidden fixed bottom-0 left-0 right-0 h-14 bg-[#0b192c]/95 backdrop-blur-md border-t border-[#1a2c47] flex items-center justify-around z-30 px-2 shadow-2xl">
+    <!-- MOBILE QUICK BOTTOM ACTION BAR (Dành riêng cho Điện Thoại - Chuẩn Công Thái Học Chạm 1-Tay) -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 h-16 mobile-bottom-bar-fixed bg-[#0b192c]/95 backdrop-blur-md border-t border-[#1a2c47] flex items-center justify-around z-30 px-2 shadow-2xl">
       <!-- 1. Menu Tổng -->
-      <button type="button" onclick="toggleMobileSidebar()" class="flex flex-col items-center justify-center text-slate-300 hover:text-white transition py-1 px-2 cursor-pointer">
-        <i class="fa-solid fa-bars text-base text-sky-400"></i>
-        <span class="text-[10px] font-medium mt-0.5">Danh Mục</span>
+      <button type="button" onclick="toggleMobileSidebar()" class="flex flex-col items-center justify-center text-slate-300 hover:text-white transition py-1 px-3 cursor-pointer min-h-[48px]">
+        <i class="fa-solid fa-bars text-lg text-sky-400"></i>
+        <span class="text-[11px] font-medium mt-0.5">Danh Mục</span>
       </button>
 
       <!-- 2. Đơn Của Tôi -->
-      <button type="button" onclick="switchView('bookings'); setFilter('my_orders')" class="flex flex-col items-center justify-center text-slate-300 hover:text-white transition py-1 px-2 cursor-pointer">
-        <i class="fa-solid fa-user-check text-base text-emerald-400"></i>
-        <span class="text-[10px] font-medium mt-0.5">Đơn Của Tôi</span>
+      <button type="button" onclick="switchView('bookings'); setFilter('my_orders')" class="flex flex-col items-center justify-center text-slate-300 hover:text-white transition py-1 px-3 cursor-pointer min-h-[48px]">
+        <i class="fa-solid fa-user-check text-lg text-emerald-400"></i>
+        <span class="text-[11px] font-medium mt-0.5">Đơn Của Tôi</span>
       </button>
 
-      <!-- 3. Tạo Đơn Mới (Nổi bật ở giữa) -->
-      <button type="button" onclick="openModalTaoDon()" class="flex flex-col items-center justify-center -mt-5 cursor-pointer">
-        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-lg shadow-lg shadow-blue-600/40 border-2 border-slate-900 active:scale-95 transition">
+      <!-- 3. Tạo Đơn Mới (Nổi bật ở giữa, to tròn dễ bấm) -->
+      <button type="button" onclick="openModalTaoDon()" class="flex flex-col items-center justify-center -mt-6 cursor-pointer">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-xl shadow-xl shadow-blue-600/50 border-2 border-slate-900 active:scale-95 transition">
           <i class="fa-solid fa-plus"></i>
         </div>
-        <span class="text-[10px] font-bold text-sky-300 mt-0.5">Tạo Đơn</span>
+        <span class="text-[11px] font-bold text-sky-300 mt-0.5">Tạo Đơn</span>
       </button>
 
       <!-- 4. Hotline 24/7 -->
-      <a href="tel:084846477222" class="flex flex-col items-center justify-center text-slate-300 hover:text-amber-300 transition py-1 px-2">
-        <i class="fa-solid fa-headset text-base text-amber-400"></i>
-        <span class="text-[10px] font-medium mt-0.5">Hotline</span>
+      <a href="tel:084846477222" class="flex flex-col items-center justify-center text-slate-300 hover:text-amber-300 transition py-1 px-3 min-h-[48px]">
+        <i class="fa-solid fa-headset text-lg text-amber-400"></i>
+        <span class="text-[11px] font-medium mt-0.5">Hotline</span>
       </a>
 
       <!-- 5. Bản Pro Hiện Đại -->
-      <a href="CRM_Pro.html" class="flex flex-col items-center justify-center text-slate-300 hover:text-amber-300 transition py-1 px-2">
-        <i class="fa-solid fa-crown text-base text-amber-400"></i>
-        <span class="text-[10px] font-medium mt-0.5">CRM Pro</span>
+      <a href="CRM_Pro.html" class="flex flex-col items-center justify-center text-slate-300 hover:text-amber-300 transition py-1 px-3 min-h-[48px]">
+        <i class="fa-solid fa-crown text-lg text-amber-400"></i>
+        <span class="text-[11px] font-medium mt-0.5">CRM Pro</span>
       </a>
     </div>
 
@@ -6992,101 +7104,103 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
           </tr>
         `;
 
-        // 2. RENDER THẺ TRÊN ĐIỆN THOẠI (MOBILE CARD VIEW - HỌC TẬP TỪ QUANLY.BOOKINGTRAVEL.VN)
+        // 2. RENDER THẺ TRÊN ĐIỆN THOẠI (DANH SÁCH DỌC, NÚT TO DỄ CHẠM KHI ĐI THỊ TRƯỜNG)
         mobileCardsHtml += `
-          <div class="bg-[#0b192c] border border-[#1a2c47] hover:border-blue-500/50 rounded-2xl p-3.5 shadow-lg space-y-3 transition">
+          <div class="bg-[#0b192c] border border-[#1a2c47] hover:border-blue-500/50 rounded-2xl p-4 shadow-xl space-y-3 transition">
             
-            <!-- Dòng 1: Mã Đơn + Ngày Đặt + Giá Bán -->
+            <!-- Dòng 1: Mã Đơn + Trạng Thái Tour + Doanh Thu -->
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-1.5">
                 <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
                 ${tourBadge}
               </div>
               <div class="text-right">
-                <div class="font-mono font-black text-sm text-white">${rev.toLocaleString('vi-VN')} đ</div>
+                <div class="font-mono font-black text-base text-white">${rev.toLocaleString('vi-VN')} đ</div>
                 <div class="text-[10px] text-slate-400 font-mono">Đặt: ${createDateVN}</div>
               </div>
             </div>
 
-            <!-- Dòng 2: Khách Sạn (Chỉ Tên Khách Sạn - Bấm xem chi tiết) & Lịch Trình Lưu Trú -->
-            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/40 text-xs space-y-1.5">
-              <div onclick="editBooking('${b.id}')" class="font-bold text-amber-300 truncate flex items-center justify-between cursor-pointer hover:text-amber-200" title="Bấm xem chi tiết phòng, giá vốn & NCC">
-                <div class="flex items-center gap-1.5 truncate">
-                  <i class="fa-solid fa-hotel text-amber-400 text-[11px] shrink-0"></i>
+            <!-- Dòng 2: Khách Sạn / Tour (Tra cứu thông tin tour/khách sạn nhanh) -->
+            <div onclick="editBooking('${b.id}')" class="p-3 rounded-xl bg-[#07162f] border border-blue-900/50 text-xs space-y-1.5 cursor-pointer hover:border-sky-500/50 active:scale-[0.99] transition" title="Chạm để xem chi tiết thông tin tour, phòng & nhà cung cấp">
+              <div class="flex items-center justify-between">
+                <div class="font-bold text-amber-300 text-sm truncate flex items-center gap-1.5">
+                  <i class="fa-solid fa-hotel text-amber-400 text-xs shrink-0"></i>
                   <span class="truncate">${escapeHtml(hotelOnlyName)}</span>
                 </div>
-                <span class="text-[10px] text-sky-400 font-normal hover:underline flex items-center gap-0.5 shrink-0 ml-1">
-                  Chi tiết <i class="fa-solid fa-angle-right text-[9px]"></i>
+                <span class="text-[11px] text-sky-400 font-semibold flex items-center gap-0.5 shrink-0 ml-1">
+                  Chi tiết <i class="fa-solid fa-angle-right text-[10px]"></i>
                 </span>
               </div>
-              <div class="flex items-center justify-between text-[11px] font-mono text-slate-300 pt-1 border-t border-blue-900/40">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-300 pt-1 border-t border-blue-900/40">
                 <span><b class="text-emerald-400">IN:</b> ${inDateVN}</span>
                 <span><b class="text-amber-400">OUT:</b> ${outDateVN}</span>
-                ${stayDuration ? `<span class="px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 text-[10px] font-semibold">${stayDuration}</span>` : ''}
+                ${stayDuration ? `<span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 text-[10px] font-bold">${stayDuration}</span>` : ''}
               </div>
             </div>
 
-            <!-- Dòng 3: Khách Hàng & SĐT (Rút gọn) & Nút Gọi / Zalo -->
-            <div class="flex items-center justify-between bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
-              <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-8 h-8 rounded-full bg-blue-600/30 text-sky-300 border border-blue-500/40 flex items-center justify-center font-bold text-xs shrink-0">
+            <!-- Dòng 3: Khách Hàng & Nút Gọi/Zalo To Chạm Dễ Dàng (>= 44x44px) -->
+            <div class="flex items-center justify-between bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 rounded-full bg-blue-600/30 text-sky-300 border border-blue-500/40 flex items-center justify-center font-bold text-sm shrink-0">
                   ${(b.khachHang || 'K').charAt(0).toUpperCase()}
                 </div>
                 <div class="min-w-0">
-                  <div class="font-bold text-white text-xs truncate">${escapeHtml(b.khachHang)}</div>
-                  <div class="text-[11px] font-mono text-slate-400 flex items-center gap-1">
-                    <i class="fa-solid fa-phone text-blue-400 text-[9px]"></i>
+                  <div class="font-bold text-white text-sm truncate">${escapeHtml(b.khachHang)}</div>
+                  <div class="text-xs font-mono text-slate-400 flex items-center gap-1.5 mt-0.5">
+                    <i class="fa-solid fa-phone text-blue-400 text-[10px]"></i>
                     <span>${escapeHtml(b.sdt)}</span>
                   </div>
                 </div>
               </div>
-              <div class="flex items-center gap-1.5 shrink-0">
-                <a href="tel:${escapeHtml(b.sdt)}" class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-xs hover:bg-emerald-500 hover:text-white transition" title="Gọi điện">
+              <div class="flex items-center gap-2 shrink-0">
+                <!-- Nút Gọi To Chuẩn Di Động >= 44x44px -->
+                <a href="tel:${escapeHtml(b.sdt)}" class="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-base hover:bg-emerald-500 hover:text-white transition shadow-sm active:scale-95" title="Gọi điện ngay">
                   <i class="fa-solid fa-phone"></i>
                 </a>
-                <a href="https://zalo.me/${escapeHtml(b.sdt)}" target="_blank" class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center text-xs hover:bg-blue-500 hover:text-white transition font-bold" title="Chat Zalo">
+                <!-- Nút Zalo To Chuẩn Di Động >= 44x44px -->
+                <a href="https://zalo.me/${escapeHtml(b.sdt)}" target="_blank" class="w-11 h-11 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-500/40 flex items-center justify-center text-sm font-black hover:bg-blue-500 hover:text-white transition shadow-sm active:scale-95" title="Chat Zalo ngay">
                   Z
                 </a>
               </div>
             </div>
 
-            <!-- Dòng 4: Trạng Thái Dòng Tiền & Công Nợ -->
-            <div class="grid grid-cols-2 gap-2 text-[11px]">
-              <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+            <!-- Dòng 4: Công Nợ & Thu Tiền -->
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
                 <div class="text-slate-400 text-[10px]">Tiền Khách (AR):</div>
-                <div class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-bold'} truncate">
+                <div class="${remainAR > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-bold'} truncate mt-0.5">
                   ${remainAR > 0 ? 'Còn nợ ' + remainAR.toLocaleString('vi-VN') + ' đ' : 'Đã thu đủ 100%'}
                 </div>
               </div>
-              <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+              <div class="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
                 <div class="text-slate-400 text-[10px]">Tiền NCC (AP):</div>
-                <div class="${remainAP > 0 ? 'text-amber-400 font-bold' : 'text-slate-300 font-bold'} truncate">
+                <div class="${remainAP > 0 ? 'text-amber-400 font-bold' : 'text-slate-300 font-bold'} truncate mt-0.5">
                   ${remainAP > 0 ? 'Còn nợ ' + remainAP.toLocaleString('vi-VN') + ' đ' : 'Đã trả đủ'}
                 </div>
               </div>
             </div>
 
-            <!-- Dòng 5: CÁC NÚT THAO TÁC 1-CHẠM TRÊN ĐIỆN THOẠI -->
-            <div class="flex items-center justify-between pt-1 gap-1.5 border-t border-slate-800/80">
-              <!-- Nút Xuất Mã QR Chuyển Khoản Techcombank -->
-              <button onclick="openVietQRForBooking('${b.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-gradient-to-r from-blue-600/30 to-indigo-600/30 border border-blue-500/40 hover:border-blue-400 text-sky-300 hover:text-white text-[11px] font-bold flex items-center justify-center gap-1 transition cursor-pointer">
-                <i class="fa-solid fa-qrcode text-xs text-amber-400"></i>
-                <span>Mã QR</span>
+            <!-- Dòng 5: CÁC NÚT THAO TÁC 1-CHẠM TO TRÊN ĐIỆN THOẠI (>= 46px) -->
+            <div class="flex items-center justify-between pt-1.5 gap-2 border-t border-slate-800/80">
+              <!-- Nút Xuất Mã QR Chuyển Khoản Techcombank (To, Nổi bật) -->
+              <button onclick="openVietQRForBooking('${b.id}')" class="flex-1 min-h-[46px] py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-blue-600/30 transition cursor-pointer active:scale-95">
+                <i class="fa-solid fa-qrcode text-sm text-amber-300"></i>
+                <span>Xuất VietQR</span>
               </button>
 
-              <!-- Nút Báo Thu Tiền Khách -->
-              <button onclick="openQuickBaoThu('${b.id}')" class="flex-1 py-1.5 px-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-300 hover:text-white text-[11px] font-bold flex items-center justify-center gap-1 transition cursor-pointer">
-                <i class="fa-solid fa-hand-holding-dollar text-xs"></i>
+              <!-- Nút Báo Thu Tiền Khách (To, Nổi bật) -->
+              <button onclick="openQuickBaoThu('${b.id}')" class="flex-1 min-h-[46px] py-2.5 px-3 rounded-xl bg-emerald-600/30 border border-emerald-500/50 hover:bg-emerald-600 text-emerald-300 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer active:scale-95">
+                <i class="fa-solid fa-hand-holding-dollar text-sm"></i>
                 <span>Báo Thu</span>
               </button>
 
               <!-- Nút Phiếu Xác Nhận / Voucher -->
-              <button onclick="openVoucherModal('${b.id}')" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs border border-slate-700 transition cursor-pointer" title="In Phiếu Xác Nhận">
+              <button onclick="openVoucherModal('${b.id}')" class="min-w-[46px] min-h-[46px] rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm border border-slate-700 flex items-center justify-center transition cursor-pointer active:scale-95" title="In Phiếu Xác Nhận / Voucher">
                 <i class="fa-solid fa-file-invoice"></i>
               </button>
 
               <!-- Nút Chỉnh Sửa Đơn -->
-              <button onclick="editBooking('${b.id}')" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs border border-slate-700 transition cursor-pointer" title="Sửa Đơn">
+              <button onclick="editBooking('${b.id}')" class="min-w-[46px] min-h-[46px] rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm border border-slate-700 flex items-center justify-center transition cursor-pointer active:scale-95" title="Sửa Đơn">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
             </div>
@@ -7147,17 +7261,17 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
         tbody.innerHTML += `
           <tr class="hover:bg-slate-800/30 transition font-mono">
-            <td class="py-3 px-3.5 font-bold text-blue-400 text-xs">${b.maBooking}</td>
-            <td class="py-3 px-3.5 font-sans font-medium text-slate-200">
+            <td data-label="Mã Booking" class="py-3 px-3.5 font-bold text-blue-400 text-xs">${b.maBooking}</td>
+            <td data-label="Khách & Dịch Vụ" class="py-3 px-3.5 font-sans font-medium text-slate-200">
               <span class="block font-bold text-xs">${escapeHtml(b.khachHang)}</span>
               <span class="text-[10px] text-slate-400 block">${escapeHtml(b.dichVu)}</span>
-              <span class="text-[10px] text-slate-500 block">Nhà Cung Cấp: <strong class="text-slate-300">${escapeHtml(b.doiTac || 'N/A')}</strong></span>
+              <span class="text-[10px] text-slate-500 block">NCC: <strong class="text-slate-300">${escapeHtml(b.doiTac || 'N/A')}</strong></span>
             </td>
-            <td class="py-3 px-3.5 text-center text-slate-400 text-xs">${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</td>
-            <td class="py-3 px-3.5 text-right text-emerald-400 font-bold text-xs num-tabular">+${inMoney.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-right text-rose-400 font-bold text-xs num-tabular">-${outMoney.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-right font-bold text-xs num-tabular ${net >= 0 ? 'text-white' : 'text-rose-400'}">${(net >= 0 ? '+' : '') + net.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-center">${statusText}</td>
+            <td data-label="Sale Phụ Trách" class="py-3 px-3.5 text-center text-slate-400 text-xs">${b.saleEmail ? b.saleEmail.split('@')[0] : 'sale'}</td>
+            <td data-label="Tiền Thu Khách" class="py-3 px-3.5 text-right text-emerald-400 font-bold text-xs num-tabular">+${inMoney.toLocaleString('vi-VN')} đ</td>
+            <td data-label="Chi Trả NCC" class="py-3 px-3.5 text-right text-rose-400 font-bold text-xs num-tabular">-${outMoney.toLocaleString('vi-VN')} đ</td>
+            <td data-label="Dòng Tiền Thuần" class="py-3 px-3.5 text-right font-bold text-xs num-tabular ${net >= 0 ? 'text-white' : 'text-rose-400'}">${(net >= 0 ? '+' : '') + net.toLocaleString('vi-VN')} đ</td>
+            <td data-label="Trạng Thái" class="py-3 px-3.5 text-center">${statusText}</td>
           </tr>
         `;
       });
@@ -7895,13 +8009,13 @@ ${lines.join('\n')}
 
         tbody.innerHTML += `
           <tr class="hover:bg-slate-800/30 transition">
-            <td class="py-3 px-3.5 font-bold text-white text-xs">${escapeHtml(s.name)}</td>
-            <td class="py-3 px-3.5 text-center font-mono font-bold text-white text-xs">${s.count} đơn</td>
-            <td class="py-3 px-3.5 text-right font-mono font-bold text-slate-300 text-xs num-tabular">${s.cost.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">+${s.profit.toLocaleString('vi-VN')} đ</td>
-            <td class="py-3 px-3.5 text-center font-mono font-bold text-indigo-400 text-xs">${margin}%</td>
-            <td class="py-3 px-3.5 text-center text-xs">${hdRatioBadge}</td>
-            <td class="py-3 px-3.5 text-center text-xs">${ratingStars}</td>
+            <td data-label="Nhà Cung Cấp" class="py-3 px-3.5 font-bold text-white text-xs">${escapeHtml(s.name)}</td>
+            <td data-label="Số Lượng Đơn" class="py-3 px-3.5 text-center font-mono font-bold text-white text-xs">${s.count} đơn</td>
+            <td data-label="Tổng Chi Trả NCC" class="py-3 px-3.5 text-right font-mono font-bold text-slate-300 text-xs num-tabular">${s.cost.toLocaleString('vi-VN')} đ</td>
+            <td data-label="Lãi Gộp Tạo Ra" class="py-3 px-3.5 text-right font-mono font-bold text-emerald-400 text-xs num-tabular">+${s.profit.toLocaleString('vi-VN')} đ</td>
+            <td data-label="Biên Lợi Nhuận" class="py-3 px-3.5 text-center font-mono font-bold text-indigo-400 text-xs">${margin}%</td>
+            <td data-label="Tuân Thủ HĐ" class="py-3 px-3.5 text-center text-xs">${hdRatioBadge}</td>
+            <td data-label="Đánh Giá" class="py-3 px-3.5 text-center text-xs">${ratingStars}</td>
           </tr>
         `;
       });
@@ -7952,19 +8066,19 @@ ${lines.join('\n')}
 
         tbody.innerHTML += `
           <tr class="hover:bg-slate-800/30 transition">
-            <td class="py-3 px-3.5 text-center font-mono text-slate-500">${idx + 1}</td>
-            <td class="py-3 px-3.5">
+            <td data-label="STT" class="py-3 px-3.5 text-center font-mono text-slate-500">${idx + 1}</td>
+            <td data-label="Họ & Tên" class="py-3 px-3.5">
               <span class="font-bold text-white block text-xs">${u.name || '<span class="text-rose-400 italic">Chưa nhập họ tên</span>'}</span>
             </td>
-            <td class="py-3 px-3.5 font-mono text-blue-400 text-xs">${u.email}</td>
-            <td class="py-3 px-3.5 text-center font-mono text-xs">${formatDob(u.dob)}</td>
-            <td class="py-3 px-3.5 text-center font-mono text-xs">
+            <td data-label="Email Tài Khoản" class="py-3 px-3.5 font-mono text-blue-400 text-xs">${u.email}</td>
+            <td data-label="Ngày Sinh" class="py-3 px-3.5 text-center font-mono text-xs">${formatDob(u.dob)}</td>
+            <td data-label="Số Điện Thoại" class="py-3 px-3.5 text-center font-mono text-xs">
               ${u.phone ? `<a href="tel:${u.phone}" class="text-emerald-400 font-bold hover:underline">${u.phone}</a>` : '<span class="text-rose-400 font-bold">Chưa nhập</span>'}
             </td>
             
-            <td class="py-3 px-3.5 text-center">${cashflowPermBadge}</td>
-            <td class="py-3 px-3.5 text-center">${statusBadge}</td>
-            <td class="py-3 px-3.5 text-right">
+            <td data-label="Quyền Dòng Tiền" class="py-3 px-3.5 text-center">${cashflowPermBadge}</td>
+            <td data-label="Trạng Thái Hồ Sơ" class="py-3 px-3.5 text-center">${statusBadge}</td>
+            <td data-label="Thao Tác" class="py-3 px-3.5 text-right">
               ${isAdmin ? `
                 <button onclick="openPermissionsModal('${u.email}')" class="px-2.5 py-1 rounded bg-indigo-600/20 hover:bg-indigo-600 hover:text-white border border-indigo-500/30 text-indigo-300 text-xs font-semibold transition cursor-pointer">
                   <i class="fa-solid fa-shield-halved mr-1 text-[10px]"></i> Phân Quyền
@@ -9191,38 +9305,38 @@ ${lines.join('\n')}
 
         html += `
           <tr class="hover:bg-slate-900/80 transition">
-            <td class="py-2.5 px-3 text-center text-slate-500 font-mono">${idx + 1}</td>
-            <td class="py-2.5 px-3">
+            <td data-label="STT" class="py-2.5 px-3 text-center text-slate-500 font-mono">${idx + 1}</td>
+            <td data-label="Khách Hàng" class="py-2.5 px-3">
               <div class="flex items-center gap-1.5">
                 <span class="font-bold text-white text-xs">${escapeHtml(c.khachHang)}</span>
                 ${c.vipBadge}
               </div>
             </td>
-            <td class="py-2.5 px-3">
+            <td data-label="Số Điện Thoại" class="py-2.5 px-3">
               <div class="flex items-center gap-2">
                 <span class="font-mono font-bold text-amber-300 text-xs">${escapeHtml(c.sdt || 'Chưa có SĐT')}</span>
                 ${cleanPhone ? `
-                  <a href="${zaloLink}" target="_blank" class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 hover:bg-blue-500 hover:text-white border border-blue-500/30 text-[10px] font-bold flex items-center gap-1 transition cursor-pointer" title="Nhắn tin Zalo với khách">
-                    <i class="fa-solid fa-comment-dots text-[9px]"></i> Zalo
+                  <a href="${zaloLink}" target="_blank" class="px-2 py-1 rounded-lg bg-blue-500/20 text-blue-300 hover:bg-blue-500 hover:text-white border border-blue-500/30 text-xs font-bold flex items-center gap-1 transition cursor-pointer" title="Nhắn tin Zalo với khách">
+                    <i class="fa-solid fa-comment-dots text-[10px]"></i> Zalo
                   </a>
                 ` : ''}
               </div>
             </td>
-            <td class="py-2.5 px-3 font-mono text-[11px] text-slate-400">
+            <td data-label="Email / CCCD" class="py-2.5 px-3 font-mono text-[11px] text-slate-400">
               <div>${escapeHtml(c.email || '---')}</div>
               ${c.cccd ? `<div class="text-[10px] text-slate-500">CCCD: ${escapeHtml(c.cccd)}</div>` : ''}
             </td>
-            <td class="py-2.5 px-3 text-center font-mono font-bold text-indigo-300">
+            <td data-label="Số Lượng Booking" class="py-2.5 px-3 text-center font-mono font-bold text-indigo-300">
               ${c.bookingCount} đơn
             </td>
-            <td class="py-2.5 px-3 text-right font-mono font-bold text-emerald-400 text-xs">
+            <td data-label="Tổng Tiền Đã Chi" class="py-2.5 px-3 text-right font-mono font-bold text-emerald-400 text-xs">
               ${c.totalSpend.toLocaleString('vi-VN')} đ
             </td>
-            <td class="py-2.5 px-3 text-[11px] text-slate-400 max-w-xs truncate" title="${escapeHtml(c.hotelsList || c.servicesList)}">
+            <td data-label="Khách Sạn & Dịch Vụ" class="py-2.5 px-3 text-[11px] text-slate-400 max-w-xs truncate" title="${escapeHtml(c.hotelsList || c.servicesList)}">
               ${escapeHtml(c.hotelsList || c.servicesList || 'Dịch vụ lữ hành')}
             </td>
-            <td class="py-2.5 px-3 text-center">
-              <button onclick="filterTableByCustomer('${escapeHtml(c.sdt || c.khachHang)}')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 hover:text-white text-[10px] font-semibold transition cursor-pointer" title="Xem tất cả đơn đặt của khách này">
+            <td data-label="Thao Tác" class="py-2.5 px-3 text-center">
+              <button onclick="filterTableByCustomer('${escapeHtml(c.sdt || c.khachHang)}')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 hover:text-white text-xs font-semibold transition cursor-pointer" title="Xem tất cả đơn đặt của khách này">
                 <i class="fa-solid fa-list-check"></i> Xem Đơn
               </button>
             </td>
