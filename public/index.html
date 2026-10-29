@@ -133,6 +133,18 @@
     .brand-glow {
       box-shadow: 0 0 25px -5px rgba(12, 106, 186, 0.4);
     }
+    /* Hiệu ứng kéo trượt ẩn / hiện Sidebar mượt mà trên Desktop để mở rộng tối đa màn hình */
+    #sidebar-main {
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+      will-change: margin-left, transform;
+    }
+    @media (min-width: 1024px) {
+      #sidebar-main.is-collapsed {
+        margin-left: -20rem !important; /* -320px trượt ẩn hoàn toàn qua bên trái */
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
   </style>
 </head>
 <body class="h-full flex overflow-hidden text-slate-200 antialiased bg-[#07162f] font-sans">
@@ -297,13 +309,17 @@
   <!-- BACKDROP OVERLAY CHO SIDEBAR TRÊN ĐIỆN THOẠI -->
   <div id="mobile-sidebar-backdrop" onclick="toggleMobileSidebar(false)" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity"></div>
 
-  <aside id="sidebar-main" class="fixed lg:static inset-y-0 left-0 z-50 w-72 sm:w-80 bg-[#0b192c] border-r border-[#1a2c47] flex flex-col justify-between shrink-0 select-none transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none">
+  <aside id="sidebar-main" class="fixed lg:static inset-y-0 left-0 z-50 w-72 sm:w-80 bg-[#0b192c] border-r border-[#1a2c47] flex flex-col justify-between shrink-0 select-none transform -translate-x-full lg:translate-x-0 shadow-2xl lg:shadow-none">
     <div class="overflow-y-auto">
       <!-- Brand Logo Header: Toàn bộ khu vực dành trọn cho Logo Doanh Nghiệp to, rộng, sắc nét, sang trọng, không bị cắt góc -->
       <div class="h-28 sm:h-32 px-3 py-2.5 border-b border-[#1a2c47] bg-[#07162f] flex items-center justify-between gap-2 shrink-0">
         <a href="javascript:void(0)" onclick="location.reload()" class="flex-1 h-full bg-white rounded-2xl p-2.5 shadow-lg flex items-center justify-center border border-slate-200 hover:border-sky-400 hover:shadow-xl transition-all duration-200 group" title="Booking Travel - Khách hàng là gia đình">
           <img src="logo.png?v=4.0" alt="Booking Travel - Khách hàng là gia đình" class="h-full w-full object-contain select-none transform group-hover:scale-[1.02] transition-transform duration-200">
         </a>
+        <!-- Nút Kéo Thu Gọn Sidebar trên Máy Tính (Kéo ẩn qua trái để mở rộng màn hình) -->
+        <button type="button" onclick="toggleSidebarDesktop(false)" class="hidden lg:flex w-9 h-9 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white items-center justify-center transition cursor-pointer shrink-0" title="Kéo ẩn menu qua trái (Ctrl+B)">
+          <i class="fa-solid fa-chevron-left text-sm"></i>
+        </button>
         <!-- Nút Đóng Sidebar trên Điện Thoại -->
         <button type="button" onclick="toggleMobileSidebar(false)" class="lg:hidden w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition cursor-pointer shrink-0" title="Đóng menu">
           <i class="fa-solid fa-xmark text-base"></i>
@@ -725,6 +741,11 @@
     </div>
   </aside>
 
+  <!-- Nút Floating Tab mở rộng Sidebar khi đang ẩn trên Máy Tính -->
+  <button id="sidebar-floating-toggle" onclick="toggleSidebarDesktop(true)" class="hidden fixed top-24 left-0 z-40 w-7 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-r-xl shadow-xl border border-l-0 border-blue-400/40 flex items-center justify-center cursor-pointer transition-all duration-200 group active:scale-95" title="Mở rộng menu (Phím tắt: Ctrl + B)">
+    <i class="fa-solid fa-chevron-right text-xs group-hover:translate-x-0.5 transition-transform"></i>
+  </button>
+
   <!-- ========================================================================= -->
   <!-- 2. MAIN APPLICATION WORKSPACE -->
   <!-- ========================================================================= -->
@@ -735,9 +756,9 @@
       
       <!-- Current View Title & Search -->
       <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0 max-w-xl">
-        <!-- Nút Hamburger Mở Sidebar trên Điện Thoại -->
-        <button type="button" onclick="toggleMobileSidebar(true)" class="lg:hidden p-2 rounded-xl bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 border border-slate-700/60 shadow-sm shrink-0 flex items-center justify-center cursor-pointer" title="Mở danh mục CRM">
-          <i class="fa-solid fa-bars text-base"></i>
+        <!-- Nút Hamburger Ẩn/Hiện Sidebar trên Cả Máy Tính & Điện Thoại -->
+        <button type="button" onclick="toggleSidebar()" id="btn-sidebar-toggle-top" class="p-2 rounded-xl bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 border border-slate-700/60 shadow-sm shrink-0 flex items-center justify-center cursor-pointer transition active:scale-95" title="Ẩn/Hiện menu (Ctrl + B)">
+          <i id="btn-sidebar-toggle-icon" class="fa-solid fa-bars-staggered text-base"></i>
         </button>
         <div class="hidden sm:flex items-center gap-2 shrink-0">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400" id="current-view-title">Điều Hành Lữ Hành</span>
@@ -6380,8 +6401,35 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     }
 
     // =========================================================================
-    // QUẢN LÝ SIDEBAR TRÊN ĐIỆN THOẠI (RESPONSIVE DRAWER)
+    // QUẢN LÝ SIDEBAR: KÉO ẨN QUA TRÁI & MỞ RỘNG MÀN HÌNH TRÊN CẢ MÁY TÍNH & ĐIỆN THOẠI
     // =========================================================================
+    function toggleSidebar(forceState) {
+      if (window.innerWidth < 1024) {
+        toggleMobileSidebar(forceState);
+      } else {
+        toggleSidebarDesktop(forceState);
+      }
+    }
+
+    function toggleSidebarDesktop(forceOpen) {
+      const aside = document.getElementById('sidebar-main');
+      const floatingBtn = document.getElementById('sidebar-floating-toggle');
+      if (!aside) return;
+
+      const isCurrentlyCollapsed = aside.classList.contains('is-collapsed');
+      const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : isCurrentlyCollapsed;
+
+      if (shouldOpen) {
+        aside.classList.remove('is-collapsed');
+        if (floatingBtn) floatingBtn.classList.add('hidden');
+        localStorage.setItem('sidebar_desktop_collapsed', 'false');
+      } else {
+        aside.classList.add('is-collapsed');
+        if (floatingBtn) floatingBtn.classList.remove('hidden');
+        localStorage.setItem('sidebar_desktop_collapsed', 'true');
+      }
+    }
+
     function toggleMobileSidebar(forceOpen) {
       const aside = document.getElementById('sidebar-main') || document.querySelector('aside');
       const backdrop = document.getElementById('mobile-sidebar-backdrop');
@@ -6401,29 +6449,82 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       }
     }
 
-    window.addEventListener('resize', () => {
+    function initSidebarManager() {
+      const aside = document.getElementById('sidebar-main');
+      const floatingBtn = document.getElementById('sidebar-floating-toggle');
+      if (!aside) return;
+
+      // Khôi phục trạng thái thu gọn từ lần làm việc trước trên máy tính
       if (window.innerWidth >= 1024) {
-        const aside = document.getElementById('sidebar-main');
-        const backdrop = document.getElementById('mobile-sidebar-backdrop');
-        if (aside) {
-          aside.classList.remove('-translate-x-full');
-          aside.classList.remove('translate-x-0');
+        const isCollapsed = localStorage.getItem('sidebar_desktop_collapsed') === 'true';
+        if (isCollapsed) {
+          aside.classList.add('is-collapsed');
+          if (floatingBtn) floatingBtn.classList.remove('hidden');
+        } else {
+          aside.classList.remove('is-collapsed');
+          if (floatingBtn) floatingBtn.classList.add('hidden');
         }
+      }
+
+      // Phím tắt Ctrl + B (hoặc Cmd + B) để ẩn / hiện nhanh sidebar
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+          e.preventDefault();
+          toggleSidebar();
+        }
+      });
+
+      // Hỗ trợ kéo vuốt (swipe/drag) qua trái để ẩn sidebar trên thiết bị cảm ứng
+      let touchStartX = 0;
+      let touchStartY = 0;
+      aside.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      aside.addEventListener('touchend', (e) => {
+        const diffX = e.changedTouches[0].clientX - touchStartX;
+        const diffY = e.changedTouches[0].clientY - touchStartY;
+        // Vuốt sang trái > 50px và góc vuốt chủ yếu theo chiều ngang -> ẩn menu
+        if (diffX < -50 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (window.innerWidth < 1024) {
+            toggleMobileSidebar(false);
+          } else {
+            toggleSidebarDesktop(false);
+          }
+        }
+      }, { passive: true });
+
+      // Tự động đóng sidebar khi người dùng click vào mục con trên điện thoại
+      aside.addEventListener('click', (e) => {
+        const btn = e.target.closest('button, a');
+        if (btn && window.innerWidth < 1024) {
+          toggleMobileSidebar(false);
+        }
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      const aside = document.getElementById('sidebar-main');
+      const backdrop = document.getElementById('mobile-sidebar-backdrop');
+      const floatingBtn = document.getElementById('sidebar-floating-toggle');
+      if (!aside) return;
+
+      if (window.innerWidth >= 1024) {
+        aside.classList.remove('-translate-x-full', 'translate-x-0');
         if (backdrop) backdrop.classList.add('hidden');
+        const isCollapsed = aside.classList.contains('is-collapsed');
+        if (floatingBtn) {
+          if (isCollapsed) floatingBtn.classList.remove('hidden');
+          else floatingBtn.classList.add('hidden');
+        }
+      } else {
+        if (floatingBtn) floatingBtn.classList.add('hidden');
       }
     });
 
-    // Tự động đóng sidebar khi người dùng chọn bất kỳ mục nào trên điện thoại
     document.addEventListener('DOMContentLoaded', () => {
-      const aside = document.getElementById('sidebar-main');
-      if (aside) {
-        aside.addEventListener('click', (e) => {
-          const btn = e.target.closest('button, a');
-          if (btn && window.innerWidth < 1024) {
-            toggleMobileSidebar(false);
-          }
-        });
-      }
+      initSidebarManager();
     });
 
     // =========================================================================
