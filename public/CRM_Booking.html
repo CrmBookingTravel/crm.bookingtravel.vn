@@ -454,14 +454,14 @@
       <div class="px-3 py-4 space-y-5">
         
         <!-- NHÓM 1: ĐIỀU HÀNH & BOOKING (ƯU TIÊN CỐT LÕI) -->
-        <div>
+        <div id="sidebar-sec-bookings">
           <p class="px-3 text-[10px] font-bold text-sky-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
             <i class="fa-solid fa-compass"></i> Điều Hành & Booking
           </p>
           <nav class="space-y-0.5">
             <button onclick="switchView('bookings'); setFilter('all')" id="nav-all" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-white bg-blue-600/15 border border-blue-500/30 text-blue-400 transition">
               <i class="fa-solid fa-receipt w-4 text-center"></i>
-              <span>Tất Cả Booking</span>
+              <span id="nav-all-text">Tất Cả Booking</span>
               <span id="badge-total-orders" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">0</span>
             </button>
             <button onclick="switchView('bookings'); setFilter('cho_ke_toan')" id="nav-cho_ke_toan" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-slate-800/60 transition">
@@ -518,7 +518,7 @@
         </div>
 
         <!-- NHÓM 2: ĐỐI TÁC & KHÁCH HÀNG -->
-        <div>
+        <div id="sidebar-sec-partners">
           <p class="px-3 text-[10px] font-bold text-sky-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
             <i class="fa-solid fa-handshake"></i> Đối Tác & Khách Hàng
           </p>
@@ -528,7 +528,7 @@
               <span>Đối Tác Cung Ứng</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">Resort</span>
             </button>
-            <button onclick="openBirthdayModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-amber-500/10 transition cursor-pointer">
+            <button id="nav-birthdays" onclick="openBirthdayModal()" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-amber-300 hover:text-white hover:bg-amber-500/10 transition cursor-pointer">
               <div class="flex items-center gap-2.5">
                 <i class="fa-solid fa-cake-candles text-rose-400 w-4 text-center"></i>
                 <span>Tri Ân Khách Hàng</span>
@@ -539,9 +539,9 @@
         </div>
 
         <!-- NHÓM 3: TÀI CHÍNH & DÒNG TIỀN (TOÀN CÔNG TY) -->
-        <div>
-          <p class="px-3 text-[10px] font-bold text-emerald-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i class="fa-solid fa-chart-pie"></i> Tài Chính & Báo Cáo
+        <div id="sidebar-sec-finance">
+          <p id="sidebar-title-finance" class="px-3 text-[10px] font-bold text-emerald-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-chart-pie"></i> <span>Tài Chính & Báo Cáo</span>
           </p>
           <nav class="space-y-0.5">
             <button onclick="switchView('expenses')" id="nav-expenses" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
@@ -561,16 +561,16 @@
             </button>
             <button onclick="switchView('kpi_sales')" id="nav-kpi_sales" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
               <i class="fa-solid fa-trophy w-4 text-center text-amber-400"></i>
-              <span>Hiệu Suất Sales (KPI)</span>
+              <span id="nav-kpi-text">Hiệu Suất Sales (KPI)</span>
               <span class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Thi Đua</span>
             </button>
           </nav>
         </div>
 
         <!-- NHÓM 4: NHÂN SỰ & PHÂN QUYỀN (ADMIN, SALES 1 - 4...) -->
-        <div>
-          <p class="px-3 text-[10px] font-bold text-teal-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i class="fa-solid fa-users-gear"></i> Nhân Sự & Phân Quyền
+        <div id="sidebar-sec-staff">
+          <p id="sidebar-title-staff" class="px-3 text-[10px] font-bold text-teal-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-users-gear"></i> <span>Nhân Sự & Phân Quyền</span>
           </p>
           <nav class="space-y-0.5">
             <button onclick="switchView('staff')" id="nav-staff" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
@@ -578,17 +578,17 @@
               <span>Phân Quyền Nhân Sự</span>
               <span id="staff-completed-badge" class="ml-auto text-[9px] font-bold px-1.5 py-0.2 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">Admin - Sales</span>
             </button>
-            <button onclick="openProfileModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
+            <button id="nav-profile" onclick="openProfileModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
               <i class="fa-solid fa-id-card w-4 text-center text-sky-400"></i>
               <span>Hồ Sơ Cá Nhân</span>
             </button>
           </nav>
         </div>
 
-        <!-- NHÓM 5: HÓA ĐƠN & KHÁCH HÀNG -->
-        <div>
-          <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-            <i class="fa-solid fa-file-invoice"></i> Quản Lý Hóa Đơn & CSKH
+        <!-- NHÓM 5: HÓA ĐƠN & KHÁCH HÀNG (KẾ TOÁN & BAN GIÁM ĐỐC) -->
+        <div id="sidebar-sec-invoices">
+          <p id="sidebar-title-invoices" class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-file-invoice"></i> <span>Quản Lý Hóa Đơn & CSKH</span>
           </p>
           <nav class="space-y-0.5">
             <button onclick="switchView('bookings'); setFilter('doi_hd_dau_vao')" id="nav-doi_hd_dau_vao" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-300 hover:text-white bg-rose-500/10 border border-rose-500/30 transition">
@@ -601,16 +601,16 @@
               <span>HĐ Đầu Ra Chờ Xuất</span>
               <span id="badge-can-xuat-hd-count" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-indigo-500/10 text-indigo-400">0</span>
             </button>
-            <button onclick="xuatExcelHoaDonGTGT()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
+            <button id="nav-xuat_hd_gtgt" onclick="xuatExcelHoaDonGTGT()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
               <i class="fa-solid fa-file-excel w-4 text-center text-emerald-500"></i>
               <span>Kết Xuất Hóa Đơn Thuế GTGT</span>
             </button>
-            <button onclick="openCustomerDirectoryModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-amber-300 hover:text-white hover:bg-amber-600/20 transition cursor-pointer">
+            <button id="nav-customer_dir" onclick="openCustomerDirectoryModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-amber-300 hover:text-white hover:bg-amber-600/20 transition cursor-pointer">
               <i class="fa-solid fa-address-book w-4 text-center text-amber-400"></i>
               <span>Danh Bạ Khách Hàng (SĐT)</span>
               <span id="badge-total-customers-sidebar" class="ml-auto text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300">0</span>
             </button>
-            <button onclick="openBackupRestoreModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
+            <button id="nav-backup_restore" onclick="openBackupRestoreModal()" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition cursor-pointer">
               <i class="fa-solid fa-cloud-arrow-down w-4 text-center text-cyan-400"></i>
               <span>Sao Lưu & Phục Hồi CRM</span>
             </button>
@@ -1022,17 +1022,17 @@
             </div>
           </div>
 
-          <!-- CẢNH BÁO: HÓA ĐƠN ĐẦU VÀO CẦN ĐÒI -->
-          <div onclick="setFilter('doi_hd_dau_vao')" class="bg-slate-900/80 border border-rose-900/60 bg-rose-950/10 rounded-xl p-3 sm:p-4.5 relative overflow-hidden group hover:border-rose-700 transition cursor-pointer">
-            <div class="flex items-center justify-between text-rose-400 text-[11px] sm:text-xs font-medium">
-              <span class="font-bold flex items-center gap-1.5">
+          <!-- CẢNH BÁO: HÓA ĐƠN ĐẦU VÀO CẦN ĐÒI / HOA HỒNG CHO SALES -->
+          <div id="stat-card-4" onclick="handleCard4Click()" class="bg-slate-900/80 border border-rose-900/60 bg-rose-950/10 rounded-xl p-3 sm:p-4.5 relative overflow-hidden group hover:border-rose-700 transition cursor-pointer">
+            <div class="flex items-center justify-between text-rose-400 text-[11px] sm:text-xs font-medium" id="stat-card-4-header">
+              <span class="font-bold flex items-center gap-1.5" id="stat-card-4-title">
                 <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> Cần Đòi HĐ
               </span>
-              <span class="text-rose-400 bg-rose-500/20 p-1.5 rounded-md border border-rose-500/30 text-xs"><i class="fa-solid fa-file-circle-exclamation"></i></span>
+              <span class="text-rose-400 bg-rose-500/20 p-1.5 rounded-md border border-rose-500/30 text-xs" id="stat-card-4-icon"><i class="fa-solid fa-file-circle-exclamation"></i></span>
             </div>
             <div class="mt-2.5 sm:mt-3">
               <div id="stat-chua-co-hd-vao" class="text-base sm:text-xl font-bold font-mono tracking-tight text-rose-400 num-tabular">0 đơn</div>
-              <p class="text-[10px] sm:text-[11px] text-rose-300 mt-1 truncate">Chưa lấy hóa đơn NCC</p>
+              <p class="text-[10px] sm:text-[11px] text-rose-300 mt-1 truncate" id="stat-card-4-sub">Chưa lấy hóa đơn NCC</p>
             </div>
           </div>
 
@@ -2433,6 +2433,10 @@
               <div>
                 <span class="text-xs text-amber-400 block uppercase font-bold">Lợi Nhuận Gộp (Lãi):</span>
                 <span id="formula-profit" class="text-lg sm:text-xl font-mono font-black text-emerald-400">0 đ</span>
+              </div>
+              <div class="border-l border-slate-800 pl-4">
+                <span class="text-xs text-amber-300 block uppercase font-bold">Hoa Hồng Sales (10%):</span>
+                <span id="formula-commission" class="text-lg sm:text-xl font-mono font-black text-amber-300 block mt-0.5">+0 đ</span>
               </div>
             </div>
 
@@ -4763,8 +4767,168 @@
       alert('✅ ĐÃ CHUYỂN SANG VAI TRÒ: ' + roleTitle.toUpperCase() + '\n\n• Nhân sự: ' + u.name + ' (' + u.email + ')\n• Tiêu đề: ' + (u.title || roleTitle));
     }
 
+    // =========================================================================
+    // QUẢN LÝ PHÂN QUYỀN GIAO DIỆN & MENU SIDEBAR THEO VAI TRÒ (RBAC)
+    // =========================================================================
+    function handleCard4Click() {
+      if (currentUser && currentUser.role === 'sale') {
+        switchView('kpi_sales');
+      } else {
+        switchView('bookings');
+        setFilter('doi_hd_dau_vao');
+      }
+    }
+
+    function updateCard4UI(role) {
+      const card4 = document.getElementById('stat-card-4');
+      const card4Header = document.getElementById('stat-card-4-header');
+      const card4Title = document.getElementById('stat-card-4-title');
+      const card4Icon = document.getElementById('stat-card-4-icon');
+      const card4Val = document.getElementById('stat-chua-co-hd-vao');
+      const card4Sub = document.getElementById('stat-card-4-sub');
+      if (!card4) return;
+
+      if (role === 'sale') {
+        card4.className = 'bg-slate-900/80 border border-amber-500/40 bg-amber-950/20 rounded-xl p-3 sm:p-4.5 relative overflow-hidden group hover:border-amber-400 transition cursor-pointer';
+        if (card4Header) card4Header.className = 'flex items-center justify-between text-amber-400 text-[11px] sm:text-xs font-medium';
+        if (card4Title) card4Title.innerHTML = '<span class="font-bold flex items-center gap-1.5 text-amber-400"><i class="fa-solid fa-coins text-amber-400"></i> Hoa Hồng Tạm Tính</span>';
+        if (card4Icon) {
+          card4Icon.className = 'text-amber-400 bg-amber-500/20 p-1.5 rounded-md border border-amber-500/30 text-xs';
+          card4Icon.innerHTML = '<i class="fa-solid fa-sack-dollar"></i>';
+        }
+        if (card4Val) card4Val.className = 'text-base sm:text-xl font-bold font-mono tracking-tight text-amber-300 num-tabular';
+        if (card4Sub) {
+          card4Sub.className = 'text-[10px] sm:text-[11px] text-amber-400/80 mt-1 truncate font-medium';
+          card4Sub.innerText = '10% lãi gộp đơn cá nhân';
+        }
+      } else {
+        card4.className = 'bg-slate-900/80 border border-rose-900/60 bg-rose-950/10 rounded-xl p-3 sm:p-4.5 relative overflow-hidden group hover:border-rose-700 transition cursor-pointer';
+        if (card4Header) card4Header.className = 'flex items-center justify-between text-rose-400 text-[11px] sm:text-xs font-medium';
+        if (card4Title) card4Title.innerHTML = '<span class="font-bold flex items-center gap-1.5 text-rose-400"><span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> Cần Đòi HĐ</span>';
+        if (card4Icon) {
+          card4Icon.className = 'text-rose-400 bg-rose-500/20 p-1.5 rounded-md border border-rose-500/30 text-xs';
+          card4Icon.innerHTML = '<i class="fa-solid fa-file-circle-exclamation"></i>';
+        }
+        if (card4Val) card4Val.className = 'text-base sm:text-xl font-bold font-mono tracking-tight text-rose-400 num-tabular';
+        if (card4Sub) {
+          card4Sub.className = 'text-[10px] sm:text-[11px] text-rose-300 mt-1 truncate';
+          card4Sub.innerText = 'Chưa lấy hóa đơn NCC';
+        }
+      }
+    }
+
+    function updateSidebarAndTabsByRole(role) {
+      const isSale = role === 'sale';
+      const isAcc = role === 'accountant';
+      const isAdmin = role === 'admin';
+
+      // 1. NHÓM 1: ĐIỀU HÀNH & BOOKING
+      const navAllText = document.getElementById('nav-all-text');
+      if (navAllText) {
+        navAllText.innerText = isSale ? 'Đơn Hàng Của Tôi' : 'Tất Cả Booking';
+      }
+      const navMyOrders = document.getElementById('nav-my_orders');
+      if (navMyOrders) navMyOrders.classList.add('hidden'); // Sales đã có All là Đơn Của Tôi; Kế toán & BGĐ xem all
+
+      const navChoBgd = document.getElementById('nav-cho_bgd');
+      if (navChoBgd) {
+        if (isSale) navChoBgd.classList.add('hidden');
+        else navChoBgd.classList.remove('hidden');
+      }
+
+      const navApPending = document.getElementById('nav-ap_pending');
+      if (navApPending) {
+        if (isSale) navApPending.classList.add('hidden');
+        else navApPending.classList.remove('hidden');
+      }
+
+      const navAgingDue = document.getElementById('nav-aging_due');
+      if (navAgingDue) {
+        if (isSale) navAgingDue.classList.add('hidden');
+        else navAgingDue.classList.remove('hidden');
+      }
+
+      // 2. NHÓM 3: TÀI CHÍNH & BÁO CÁO
+      const navExpenses = document.getElementById('nav-expenses');
+      const navCashflow = document.getElementById('nav-cashflow');
+      const navReports = document.getElementById('nav-reports');
+      const titleFinance = document.getElementById('sidebar-title-finance');
+      const navKpiText = document.getElementById('nav-kpi-text');
+
+      if (isSale) {
+        // Sales không thấy phần kế toán & tài chính tổng quát
+        if (navExpenses) navExpenses.classList.add('hidden');
+        if (navCashflow) navCashflow.classList.add('hidden');
+        if (navReports) navReports.classList.add('hidden');
+        if (titleFinance) titleFinance.innerHTML = '<i class="fa-solid fa-trophy"></i> <span>Hiệu Suất & Hoa Hồng</span>';
+        if (navKpiText) navKpiText.innerText = 'Hoa Hồng & Doanh Số Của Tôi';
+      } else {
+        if (navExpenses) navExpenses.classList.remove('hidden');
+        if (navCashflow) navCashflow.classList.remove('hidden');
+        if (navReports) navReports.classList.remove('hidden');
+        if (titleFinance) titleFinance.innerHTML = '<i class="fa-solid fa-chart-pie"></i> <span>Tài Chính & Báo Cáo</span>';
+        if (navKpiText) navKpiText.innerText = 'Hiệu Suất Sales (KPI)';
+      }
+
+      // 3. NHÓM 4: NHÂN SỰ & PHÂN QUYỀN
+      const navStaff = document.getElementById('nav-staff');
+      const titleStaff = document.getElementById('sidebar-title-staff');
+      if (isAdmin) {
+        if (navStaff) navStaff.classList.remove('hidden');
+        if (titleStaff) titleStaff.innerHTML = '<i class="fa-solid fa-users-gear"></i> <span>Nhân Sự & Phân Quyền</span>';
+      } else {
+        // Sales và Kế toán không quản lý nhân sự hệ thống
+        if (navStaff) navStaff.classList.add('hidden');
+        if (titleStaff) titleStaff.innerHTML = '<i class="fa-solid fa-id-card"></i> <span>Tài Khoản Cá Nhân</span>';
+      }
+
+      // 4. NHÓM 5: QUẢN LÝ HÓA ĐƠN & CSKH
+      const secInvoices = document.getElementById('sidebar-sec-invoices');
+      const navBackupRestore = document.getElementById('nav-backup_restore');
+      if (isSale) {
+        // Sales hoàn toàn không phải đi đòi hóa đơn hay xuất GTGT (việc của Kế Toán)
+        if (secInvoices) secInvoices.classList.add('hidden');
+      } else if (isAcc) {
+        if (secInvoices) secInvoices.classList.remove('hidden');
+        if (navBackupRestore) navBackupRestore.classList.add('hidden');
+      } else {
+        if (secInvoices) secInvoices.classList.remove('hidden');
+        if (navBackupRestore) navBackupRestore.classList.remove('hidden');
+      }
+
+      // 5. CÁC TABS LỌC NHANH TRÊN BẢNG BOOKING (#filter-segmented)
+      const tabDoiHd = document.querySelector('#filter-segmented button[data-filter="doi_hd_dau_vao"]');
+      const tabXuatHd = document.querySelector('#filter-segmented button[data-filter="can_xuat_hd_ra"]');
+      const tabAging = document.querySelector('#filter-segmented button[data-filter="aging_due"]');
+      const tabChoBgd = document.querySelector('#filter-segmented button[data-filter="cho_bgd"]');
+      const tabMyOrders = document.querySelector('#filter-segmented button[data-filter="my_orders"]');
+      const tabAll = document.querySelector('#filter-segmented button[data-filter="all"]');
+
+      if (isSale) {
+        if (tabDoiHd) tabDoiHd.classList.add('hidden');
+        if (tabXuatHd) tabXuatHd.classList.add('hidden');
+        if (tabAging) tabAging.classList.add('hidden');
+        if (tabChoBgd) tabChoBgd.classList.add('hidden');
+        if (tabMyOrders) tabMyOrders.classList.add('hidden');
+        if (tabAll) tabAll.innerHTML = 'Tất Cả Đơn Của Tôi (<span id="count-all">0</span>)';
+      } else {
+        if (tabDoiHd) tabDoiHd.classList.remove('hidden');
+        if (tabXuatHd) tabXuatHd.classList.remove('hidden');
+        if (tabAging) tabAging.classList.remove('hidden');
+        if (tabChoBgd) tabChoBgd.classList.remove('hidden');
+        if (tabMyOrders) tabMyOrders.classList.add('hidden');
+        if (tabAll) tabAll.innerHTML = 'Tất Cả (<span id="count-all">0</span>)';
+      }
+
+      // 6. CẬP NHẬT GIAO DIỆN THẺ METRIC CARD 4
+      updateCard4UI(role);
+    }
+
     function applyCurrentUserUI() {
       if (!currentUser) return;
+      
+      // Đồng bộ thanh menu bên trái và bộ lọc theo vai trò
+      updateSidebarAndTabsByRole(currentUser.role);
       
       const sidebarName = document.getElementById('sidebar-user-name');
       if (sidebarName) {
@@ -7803,15 +7967,19 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       const isAdmin = currentUser && currentUser.role === 'admin';
       const isAcc = currentUser && currentUser.role === 'accountant';
 
-      // 1. Phòng Kinh Doanh (Sales): Không thấy dữ liệu tài chính tổng quát
+      // 1. Phòng Kinh Doanh (Sales): Không truy cập dữ liệu tài chính tổng quát -> Tự động chuyển về bookings
       if ((viewName === 'cashflow' || viewName === 'reports' || viewName === 'expenses') && isSale) {
-        alert('⚠️ QUY ĐỊNH PHÂN QUYỀN - PHÒNG KINH DOANH (SALES)\n\nPhòng Kinh Doanh tập trung 100% vào việc chăm sóc khách hàng, khai thác nguồn khách và chốt đơn.\n\nQuyền hạn hệ thống: Dữ liệu tài chính tổng quát (Dòng Tiền Công Ty, Báo Cáo Lãi Lỗ P&L) do Phòng Kế Toán và Ban Giám Đốc quản lý.');
+        currentView = 'bookings';
+        renderTable();
+        updateMetrics();
         return;
       }
 
-      // 2. Phân Quyền Nhân Sự: Chỉ Ban Giám Đốc được cấu hình
+      // 2. Phân Quyền Nhân Sự: Chỉ Ban Giám Đốc được cấu hình -> Tự động chuyển về bookings
       if (viewName === 'staff' && !isAdmin) {
-        alert('⚠️ QUY ĐỊNH PHÂN QUYỀN - BAN GIÁM ĐỐC\n\nChỉ Ban Giám Đốc (Bùi Phạm Quỳnh Chi) mới có quyền quản trị và phân quyền nhân sự.');
+        currentView = 'bookings';
+        renderTable();
+        updateMetrics();
         return;
       }
 
@@ -7953,20 +8121,21 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
       const profit = revenue - cost;
       const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : 0;
+      const commission = Math.round(profit * 0.1);
 
       document.getElementById('stat-tong-thu').innerText = revenue.toLocaleString('vi-VN') + ' đ';
-      const canViewProfitMetrics = isAdmin || isAccountant;
-      if (canViewProfitMetrics) {
-        document.getElementById('stat-tong-von').innerText = cost.toLocaleString('vi-VN') + ' đ';
-        document.getElementById('stat-lai-gop').innerText = (profit >= 0 ? '+' : '') + profit.toLocaleString('vi-VN') + ' đ';
-        document.getElementById('stat-ty-suat').innerText = `Biên độ lợi nhuận: ${margin}%`;
+      
+      // Sales CẦN THẤY GIÁ VỐN VÀ LỢI NHUẬN GỘP ĐƠN CỦA MÌNH ĐỂ BIẾT HOA HỒNG (KHÔNG ẨN BẰNG ***)
+      document.getElementById('stat-tong-von').innerText = cost.toLocaleString('vi-VN') + ' đ';
+      document.getElementById('stat-lai-gop').innerText = (profit >= 0 ? '+' : '') + profit.toLocaleString('vi-VN') + ' đ';
+      
+      if (isSale) {
+        document.getElementById('stat-ty-suat').innerText = `Biên độ: ${margin}% • Hoa hồng: +${commission.toLocaleString('vi-VN')} đ`;
+        document.getElementById('stat-chua-co-hd-vao').innerText = '+' + commission.toLocaleString('vi-VN') + ' đ';
       } else {
-        // Phòng Kinh Doanh không xem dữ liệu tài chính tổng quát
-        document.getElementById('stat-tong-von').innerText = '***';
-        document.getElementById('stat-lai-gop').innerText = '***';
-        document.getElementById('stat-ty-suat').innerText = 'Quyền hạn: BGĐ & Kế Toán';
+        document.getElementById('stat-ty-suat').innerText = `Biên độ lợi nhuận: ${margin}%`;
+        document.getElementById('stat-chua-co-hd-vao').innerText = doiHdCount + ' đơn';
       }
-      document.getElementById('stat-chua-co-hd-vao').innerText = doiHdCount + ' đơn';
       document.getElementById('stat-no-khach').innerText = arDebt.toLocaleString('vi-VN') + ' đ';
       document.getElementById('stat-so-don-no-khach').innerText = arCount;
 
@@ -8228,14 +8397,18 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
           `;
         }
 
-        // YÊU CẦU: CÓ SỐ HÓA ĐƠN ĐẦU VÀO Ở NGOÀI LUÔN
+        // YÊU CẦU: CÓ SỐ HÓA ĐƠN ĐẦU VÀO Ở NGOÀI LUÔN (ĐÒI HÓA ĐƠN LÀ VIỆC CỦA KẾ TOÁN)
         let hdVaoBadge = '';
         if (b.statusHdVao === 'chua_lay') {
-          hdVaoBadge = `
-            <button onclick="openDoiHdDialog('${b.id}')" title="Bấm để lấy tin nhắn Zalo đi đòi hóa đơn đối tác" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30 transition flex items-center gap-1 cursor-pointer mx-auto">
-              <i class="fa-solid fa-bell text-[9px] animate-pulse"></i> Cần Đòi HĐ!
-            </button>
-          `;
+          if (isSale) {
+            hdVaoBadge = `<span class="text-[10px] text-slate-500 font-medium" title="Kế toán phụ trách theo dõi và đòi hóa đơn NCC">Chờ kế toán</span>`;
+          } else {
+            hdVaoBadge = `
+              <button onclick="openDoiHdDialog('${b.id}')" title="Bấm để lấy tin nhắn Zalo đi đòi hóa đơn đối tác" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30 transition flex items-center gap-1 cursor-pointer mx-auto">
+                <i class="fa-solid fa-bell text-[9px] animate-pulse"></i> Cần Đòi HĐ!
+              </button>
+            `;
+          }
         } else if (b.statusHdVao === 'da_co') {
           hdVaoBadge = `
             <div class="inline-flex flex-col items-center">
@@ -8277,8 +8450,18 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
           "text-blue-400 bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20" : 
           "text-slate-500 bg-slate-800/40 border-slate-700/40 hover:text-slate-300";
 
-        const costDisplay = canViewProfit ? `${cst.toLocaleString('vi-VN')} đ` : '<span class="text-slate-600">***</span>';
-        const profitDisplay = canViewProfit ? `+${profit.toLocaleString('vi-VN')} đ` : '<span class="text-slate-600">***</span>';
+        const isMine = b.saleEmail && b.saleEmail.toLowerCase() === myEmail;
+        // Sales xem vốn & lợi nhuận trên chính đơn của mình để tính hoa hồng. Kế toán & BGĐ xem all
+        const canViewThisProfit = isAdmin || isAccountant || isMine;
+        const costDisplay = canViewThisProfit ? `${cst.toLocaleString('vi-VN')} đ` : '<span class="text-slate-600">***</span>';
+        const commission = Math.round(profit * 0.1);
+        let profitDisplay = '<span class="text-slate-600">***</span>';
+        if (canViewThisProfit) {
+          profitDisplay = `
+            <div>+${profit.toLocaleString('vi-VN')} đ</div>
+            <div class="text-[9px] text-amber-300 font-semibold font-mono" title="Hoa hồng tạm tính 10% lãi gộp">HH: +${commission.toLocaleString('vi-VN')} đ</div>
+          `;
+        }
 
         const stayDuration = getStayDuration(b.checkIn, b.checkOut);
         const inDateVN = formatShortDateVN(b.checkIn);
@@ -8429,6 +8612,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               <div class="text-right">
                 <div class="font-mono font-black text-base text-white">${rev.toLocaleString('vi-VN')} đ</div>
                 <div class="text-[10px] text-slate-400 font-mono">Đặt: ${createDateVN}</div>
+                ${canViewThisProfit ? `<div class="text-[10px] font-mono text-emerald-400 font-semibold mt-0.5">Lãi: +${profit.toLocaleString('vi-VN')} đ • <span class="text-amber-300">HH: +${commission.toLocaleString('vi-VN')} đ</span></div>` : ''}
               </div>
             </div>
 
@@ -9553,7 +9737,13 @@ ${lines.join('\n')}
       const formulaRev = document.getElementById('formula-revenue');
       const formulaCost = document.getElementById('formula-cost');
       const formulaProfit = document.getElementById('formula-profit');
+      const formulaCommission = document.getElementById('formula-commission');
       const marginBadge = document.getElementById('profit-margin-badge');
+
+      if (formulaCommission) {
+        const comm = Math.round(profit * 0.1);
+        formulaCommission.innerText = '+' + comm.toLocaleString('vi-VN') + ' đ';
+      }
 
       if (formulaRev) formulaRev.innerText = rev.toLocaleString('vi-VN') + ' đ';
       if (formulaCost) formulaCost.innerText = cost.toLocaleString('vi-VN') + ' đ';
