@@ -1883,8 +1883,11 @@
             <i class="fa-solid fa-user"></i> Thông Tin Khách Hàng
           </div>
           <div>
-            <label class="block text-[11px] font-semibold text-slate-300 mb-1">Họ Và Tên Khách (*)</label>
-            <input type="text" id="mq-customer-name" required placeholder="Nhập tên khách hàng..." class="w-full bg-[#07162f] border border-slate-700 focus:border-blue-500 rounded-xl px-3 py-2 text-xs text-white font-semibold focus:outline-none">
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1 flex items-center justify-between">
+              <span>Họ Và Tên Khách (*)</span>
+              <span class="text-[9px] font-bold text-amber-300">IN HOA</span>
+            </label>
+            <input type="text" id="mq-customer-name" required placeholder="VD: BÙI THẾ QUANG" oninput="this.value = this.value.toUpperCase()" class="w-full bg-[#07162f] border border-slate-700 focus:border-blue-500 rounded-xl px-3 py-2 text-xs text-white font-bold uppercase focus:outline-none">
           </div>
           <div>
             <label class="block text-[11px] font-semibold text-slate-300 mb-1">Số Điện Thoại / Zalo (*)</label>
@@ -2233,8 +2236,8 @@
           
           <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
             <h4 class="text-sm sm:text-base font-bold text-sky-400 uppercase tracking-wide flex items-center gap-2">
-              <i class="fa-solid fa-hotel text-sky-400"></i>
-              <span>1. Thông Tin Đơn Hàng & Khách Sạn</span>
+              <i class="fa-solid fa-file-invoice text-sky-400"></i>
+              <span>1. Thông Tin Đơn Hàng</span>
             </h4>
             <span class="text-xs text-slate-400 font-mono">Quy trình: Sales ➔ Kế Toán ➔ Ban Giám Đốc</span>
           </div>
@@ -2248,10 +2251,10 @@
 
             <div>
               <label class="block text-xs font-bold text-amber-300 mb-1.5 flex items-center justify-between">
-                <span>Code Phòng (Bên Khách Sạn Cho)</span>
-                <i class="fa-solid fa-key text-[11px] text-amber-400"></i>
+                <span>Code Phòng (KS Cấp - Bổ Sung Sau)</span>
+                <span class="text-[9px] font-normal px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Chưa có để trống</span>
               </label>
-              <input type="text" id="ipt-room-code" placeholder="VD: ROVA-5774, VINP-8899..." class="w-full bg-[#07162f] border border-amber-500/50 rounded-xl px-3.5 py-2 text-sm font-mono font-bold text-amber-300 focus:outline-none focus:border-amber-400 uppercase" title="Mã xác nhận / Code phòng do bên khách sạn cung cấp sau khi giữ chỗ">
+              <input type="text" id="ipt-room-code" placeholder="Chưa có (bổ sung sau khi nhận mail KS)..." class="w-full bg-[#07162f] border border-amber-500/50 rounded-xl px-3.5 py-2 text-sm font-mono font-bold text-amber-300 focus:outline-none focus:border-amber-400 uppercase" title="Tạo đơn gửi khách trước. Sau khi gửi mail qua khách sạn lấy được code thì điền bổ sung sau.">
             </div>
 
             <div>
@@ -2487,8 +2490,11 @@
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label class="block text-xs font-bold text-slate-200 mb-1.5">Họ & Tên Khách Hàng (*)</label>
-              <input type="text" id="ipt-customer" required placeholder="VD: Nguyễn Văn Hùng" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white font-bold focus:outline-none focus:border-sky-400">
+              <label class="block text-xs font-bold text-slate-200 mb-1.5 flex items-center justify-between">
+                <span>Họ & Tên Khách Hàng (*)</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">MẶC ĐỊNH VIẾT HOA</span>
+              </label>
+              <input type="text" id="ipt-customer" required placeholder="VD: BÙI THẾ QUANG" oninput="this.value = this.value.toUpperCase()" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white font-black tracking-wide focus:outline-none focus:border-sky-400 uppercase">
             </div>
 
             <div>
@@ -3847,9 +3853,11 @@
   <!-- MODAL 2: PHIẾU XÁC NHẬN DỊCH VỤ & ROOMING LIST (CHUẨN LỮ HÀNH 5 SAO) -->
   <!-- ========================================================================= -->
   <div id="voucher-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm">
-    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl overflow-hidden">
+    <!-- Click backdrop outside to close -->
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeVoucherModal()" title="Bấm ra ngoài để đóng"></div>
+    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl overflow-hidden z-10">
       <!-- Header -->
-      <div class="px-6 py-4 border-b border-slate-800 bg-[#07162f] flex items-center justify-between">
+      <div class="px-6 py-4 border-b border-slate-800 bg-[#07162f] flex items-center justify-between shrink-0">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-600 flex items-center justify-center text-white text-lg shadow-lg shadow-sky-500/20">
             <i class="fa-solid fa-file-invoice"></i>
@@ -3862,8 +3870,9 @@
             <p class="text-[11px] text-slate-300">Đầy đủ Hạng phòng, Số lượng phòng, Số người & Số đêm – Xuất phiếu gửi Khách Hàng & Resort</p>
           </div>
         </div>
-        <button onclick="closeVoucherModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition">
-          <i class="fa-solid fa-xmark text-lg"></i>
+        <button onclick="closeVoucherModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border border-slate-700 shadow" title="Đóng phiếu">
+          <i class="fa-solid fa-xmark text-sm"></i>
+          <span>Đóng</span>
         </button>
       </div>
 
@@ -4046,9 +4055,17 @@
       </div>
 
       <!-- Actions -->
-      <div class="px-6 py-3.5 border-t border-slate-800 bg-[#07162f] flex flex-wrap items-center justify-between gap-3">
+      <div class="px-6 py-3.5 border-t border-slate-800 bg-[#07162f] flex flex-wrap items-center justify-between gap-3 shrink-0">
         <span class="text-xs text-slate-300 font-medium">Phiếu đầy đủ thông tin gửi cho Khách Hàng và Resort lưu trú</span>
         <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="closeVoucherModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-700 cursor-pointer flex items-center gap-1.5" title="Đóng modal phiếu xác nhận">
+            <i class="fa-solid fa-xmark"></i>
+            <span>Đóng</span>
+          </button>
+          <button type="button" onclick="openEmailDatPhongKhachSan(currentVoucherBookingId)" class="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer" title="Soạn email chuẩn gửi Khách sạn/Resort để xin mã Code phòng">
+            <i class="fa-solid fa-envelope"></i>
+            <span>Soạn Mail Gửi KS (Lấy Code)</span>
+          </button>
           <button type="button" onclick="saveVoucherData()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition border border-slate-700 cursor-pointer">
             <i class="fa-solid fa-floppy-disk mr-1"></i> Lưu Thông Tin
           </button>
@@ -4077,7 +4094,8 @@
   <!-- MODAL 3: CHĂM SÓC SINH NHẬT & TRI ÂN GIA ĐÌNH KHÁCH HÀNG (BOOKING TRAVEL) -->
   <!-- ========================================================================= -->
   <div id="birthday-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm">
-    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeBirthdayModal()" title="Bấm ra ngoài để đóng"></div>
+    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden z-10">
       <!-- Header -->
       <div class="px-6 py-4 border-b border-slate-800 bg-[#07162f] flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -4129,7 +4147,8 @@
 
   <!-- MODAL XEM TRƯỚC THIỆP & ẢNH QUÀ TRI ÂN KHÁCH HÀNG (5 MẪU ĐỠ TRÙNG) -->
   <div id="modal-preview-birthday-gift" class="fixed inset-0 z-[60] overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md">
-    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeGiftPreviewModal()" title="Bấm ra ngoài để đóng"></div>
+    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden z-10">
       <!-- Header -->
       <div class="px-5 py-3.5 border-b border-slate-800 bg-[#07162f] flex items-center justify-between">
         <div class="flex items-center gap-2.5">
@@ -5721,10 +5740,10 @@
         mstNcc: "4201889922",
         ngayHdVao: "",
         payments: [
-          { id: "p1", dot: "Đợt 1 - Cọc giữ chỗ (50%)", soTien: 400000, ngay: "2026-10-25", hinhThuc: "Chuyển khoản (Vietcombank)", trangThai: "da_thu", ghiChu: "CK Cọc qua VCB" },
-          { id: "p2", dot: "Đợt 2 - Quyết toán trước nhận phòng", soTien: 400000, ngay: "2026-11-10", hinhThuc: "Chuyển khoản (Vietcombank)", trangThai: "da_thu", ghiChu: "Thanh toán nốt" }
+          { id: "p1", dot: "Đợt 1 - Cọc giữ chỗ (50%)", soTien: 400000, ngay: "2026-10-25", hinhThuc: "Chuyển khoản (Techcombank)", trangThai: "da_thu", ghiChu: "CK Cọc qua Techcombank" },
+          { id: "p2", dot: "Đợt 2 - Quyết toán trước nhận phòng", soTien: 400000, ngay: "2026-11-10", hinhThuc: "Chuyển khoản (MBBank)", trangThai: "da_thu", ghiChu: "Thanh toán nốt" }
         ],
-        khachHang: "Chị Hoàng Thị Hồng Ly",
+        khachHang: "CHỊ HOÀNG THỊ HỒNG LY",
         sdt: "0877213681",
         saleEmail: "sales1@bookingtravel.vn",
         serviceType: "hotel",
@@ -5762,10 +5781,10 @@
         mstNcc: "4201778811",
         ngayHdVao: "",
         payments: [
-          { id: "p1", dot: "Đợt 1 - Cọc giữ chỗ", soTien: 1866000, ngay: "2026-10-26", hinhThuc: "Chuyển khoản (Techcombank)", trangThai: "da_thu", ghiChu: "Cọc 50%" },
-          { id: "p2", dot: "Đợt 2 - Quyết toán khi check-in", soTien: 1866000, ngay: "2026-10-29", hinhThuc: "Chuyển khoản (Techcombank)", trangThai: "cho_thu", ghiChu: "Hẹn thu tại lễ tân" }
+          { id: "p1", dot: "Đợt 1 - Cọc giữ chỗ", soTien: 1866000, ngay: "2026-10-26", hinhThuc: "Chuyển khoản (Techcombank)", trangThai: "da_thu", ghiChu: "Cọc 50% Techcombank 554479" },
+          { id: "p2", dot: "Đợt 2 - Quyết toán khi check-in", soTien: 1866000, ngay: "2026-10-29", hinhThuc: "Tiền mặt / Cà thẻ tại lễ tân", trangThai: "cho_thu", ghiChu: "Hẹn thu tại lễ tân" }
         ],
-        khachHang: "Anh Đỗ Khánh Linh",
+        khachHang: "ANH ĐỖ KHÁNH LINH",
         sdt: "0976937575",
         saleEmail: "sales2@bookingtravel.vn",
         serviceType: "hotel",
@@ -5797,10 +5816,10 @@
         mstNcc: "4200456889",
         ngayHdVao: "2026-10-25",
         payments: [
-          { id: "p1", dot: "Đợt 1 - Cọc giữ phòng (50%)", soTien: 15000000, ngay: "2026-10-24", hinhThuc: "Chuyển khoản (Vietcombank)", trangThai: "da_thu", ghiChu: "Đã nhận UNC cọc" },
-          { id: "p2", dot: "Đợt 2 - Trước khởi hành 7 ngày", soTien: 13500000, ngay: "2026-11-13", hinhThuc: "Chuyển khoản (Vietcombank)", trangThai: "cho_thu", ghiChu: "Hẹn thanh toán nốt" }
+          { id: "p1", dot: "Đợt 1 - Cọc giữ phòng (50%)", soTien: 15000000, ngay: "2026-10-24", hinhThuc: "Chuyển khoản (Techcombank)", trangThai: "da_thu", ghiChu: "Đã nhận UNC Techcombank cọc" },
+          { id: "p2", dot: "Đợt 2 - Trước khởi hành 7 ngày", soTien: 13500000, ngay: "2026-11-13", hinhThuc: "Chuyển khoản (MBBank)", trangThai: "cho_thu", ghiChu: "Hẹn thanh toán nốt" }
         ],
-        khachHang: "Đoàn Anh Vũ (12 Khách)",
+        khachHang: "ĐOÀN ANH VŨ (12 KHÁCH)",
         sdt: "0918889999",
         saleEmail: "sales3@bookingtravel.vn",
         serviceType: "combo",
@@ -5826,7 +5845,7 @@
       {
         id: "DH1793112480848",
         maBooking: "DH1793112480848",
-        khachHang: "Gia đình chị Phạm Mai Hương",
+        khachHang: "GIA ĐÌNH CHỊ PHẠM MAI HƯƠNG",
         sdt: "0934567890",
         saleEmail: "sales1@bookingtravel.vn",
         serviceType: "hotel",
@@ -5848,7 +5867,7 @@
       {
         id: "DH1793112256202",
         maBooking: "DH1793112256202",
-        khachHang: "Công ty Cổ phần Techcom VN",
+        khachHang: "CÔNG TY CỔ PHẦN TECHCOM VN",
         sdt: "0982345678",
         saleEmail: "sales4@bookingtravel.vn",
         serviceType: "tour",
@@ -5873,7 +5892,7 @@
       {
         id: "DH1793108842100",
         maBooking: "DH1793108842100",
-        khachHang: "Bác sĩ Trần Quốc Toản",
+        khachHang: "BÁC SĨ TRẦN QUỐC TOÀN",
         sdt: "0912345670",
         saleEmail: "sales2@bookingtravel.vn",
         serviceType: "hotel",
@@ -5895,7 +5914,7 @@
       {
         id: "DH1793105520930",
         maBooking: "DH1793105520930",
-        khachHang: "Đoàn Sinh Viên FTU (24 Bạn)",
+        khachHang: "ĐOÀN SINH VIÊN FTU (24 BẠN)",
         sdt: "0967891234",
         saleEmail: "sales5@bookingtravel.vn",
         serviceType: "ticket",
@@ -5917,7 +5936,7 @@
       {
         id: "DH1793102194850",
         maBooking: "DH1793102194850",
-        khachHang: "Chị Đặng Thùy Trang",
+        khachHang: "CHỊ ĐẶNG THÙY TRANG",
         sdt: "0908776655",
         saleEmail: "sales1@bookingtravel.vn",
         serviceType: "combo",
@@ -5939,7 +5958,7 @@
       {
         id: "DH1793098871200",
         maBooking: "DH1793098871200",
-        khachHang: "Anh Hoàng Tuấn Minh",
+        khachHang: "ANH HOÀNG TUẤN MINH",
         sdt: "0915667788",
         saleEmail: "sales6@bookingtravel.vn",
         serviceType: "tour",
@@ -5961,7 +5980,7 @@
       {
         id: "DH1793095548600",
         maBooking: "DH1793095548600",
-        khachHang: "Chị Vũ Mai Lan",
+        khachHang: "CHỊ VŨ MAI LAN",
         sdt: "0945123987",
         saleEmail: "sales1@bookingtravel.vn",
         serviceType: "hotel",
@@ -5994,7 +6013,7 @@
           { id: "p1", dot: "Đợt 1 - Cọc giữ Bungalow (50%)", soTien: 2600000, ngay: "2026-10-26", hinhThuc: "Chuyển khoản (MBBank)", trangThai: "da_thu", ghiChu: "Cọc qua MB" },
           { id: "p2", dot: "Đợt 2 - Quyết toán khi nhận phòng", soTien: 2600000, ngay: "2026-11-06", hinhThuc: "Tiền mặt", trangThai: "cho_thu", ghiChu: "Thanh toán nốt" }
         ],
-        khachHang: "Chị Lê Bích Ngọc",
+        khachHang: "CHỊ LÊ BÍCH NGỌC",
         sdt: "0909876543",
         saleEmail: "sales3@bookingtravel.vn",
         serviceType: "hotel",
@@ -7659,109 +7678,217 @@
     }
 
     function openVoucherModal(bookingId) {
-      currentVoucherBookingId = bookingId;
+      try {
+        currentVoucherBookingId = bookingId;
+        const b = bookings.find(x => x.id === bookingId);
+        if (!b) {
+          if (typeof showToast === 'function') showToast('Không tìm thấy dữ liệu đơn ' + bookingId, 'error');
+          return;
+        }
+
+        const dIn = b.checkIn ? b.checkIn.split('-').reverse().join('/') : (b.ngayDi || '---');
+        const dOut = b.checkOut ? b.checkOut.split('-').reverse().join('/') : (b.ngayVe || '---');
+
+        // TÍNH TOÁN SỐ ĐÊM CHÍNH XÁC
+        let nights = 1;
+        if (b.checkIn && b.checkOut) {
+          const d1 = new Date(b.checkIn);
+          const d2 = new Date(b.checkOut);
+          const diffTime = d2.getTime() - d1.getTime();
+          const diffDays = Math.round(diffTime / (1000 * 3600 * 24));
+          if (diffDays > 0) nights = diffDays;
+        }
+        if (b.soDem) nights = parseInt(b.soDem, 10) || nights;
+
+        // PHÂN TÍCH SỐ LƯỢNG PHÒNG
+        let roomQty = b.soLuongPhong || 1;
+        if (!b.soLuongPhong && b.dichVu) {
+          const m = b.dichVu.match(/(\d+)\s*(?:phòng|phong|căn|can|villa|ph)/i);
+          if (m) roomQty = parseInt(m[1], 10);
+        }
+
+        // PHÂN TÍCH HẠNG PHÒNG
+        let roomCategory = b.hangPhong || '';
+        if (!roomCategory && b.dichVu) {
+          let s = b.dichVu;
+          if (b.doiTac && s.toLowerCase().startsWith(b.doiTac.toLowerCase())) {
+            s = s.substring(b.doiTac.length).replace(/^[\s\-–—:]+/, '');
+          }
+          s = s.replace(/^\d+\s*(?:phòng|phong|căn|can|villa)\s*[-–—:]*\s*/i, '');
+          s = s.replace(/\(.*\)/g, '').trim();
+          roomCategory = s || b.dichVu;
+        }
+
+        // PHÂN TÍCH SỐ LƯỢNG KHÁCH
+        let guestQty = b.soKhach || '';
+        if (!guestQty) {
+          guestQty = `${roomQty * 2} Người lớn`;
+        }
+
+        // ĐIỀN THÔNG TIN VÀO PHIẾU VOUCHER
+        const vcCodeEl = document.getElementById('vc-code');
+        if (vcCodeEl) vcCodeEl.innerText = b.maBooking || 'BT-2026-001';
+        const createdDateEl = document.getElementById('vc-booking-date');
+        if (createdDateEl) {
+          const cDate = b.ngayTao ? b.ngayTao.substring(0, 10).split('-').reverse().join('/') : '26/10/2026';
+          createdDateEl.innerText = `Ngày tạo: ${cDate}`;
+        }
+
+        const vcSupplierEl = document.getElementById('vc-supplier');
+        if (vcSupplierEl) vcSupplierEl.innerText = b.doiTac || 'Khách sạn / Resort';
+        const vcResortCodeEl = document.getElementById('vc-resort-code');
+        if (vcResortCodeEl) vcResortCodeEl.value = b.codePhong || b.resortCode || '';
+
+        // Điền 4 yếu tố người dùng yêu cầu
+        const roomCatInput = document.getElementById('vc-room-category-input');
+        if (roomCatInput) roomCatInput.value = roomCategory;
+
+        const roomQtyInput = document.getElementById('vc-room-qty-input');
+        if (roomQtyInput) roomQtyInput.value = roomQty;
+
+        const guestQtyInput = document.getElementById('vc-guest-qty-input');
+        if (guestQtyInput) guestQtyInput.value = guestQty;
+
+        const vcInEl = document.getElementById('vc-checkin-date');
+        if (vcInEl) vcInEl.innerText = `14:00 - ${dIn}`;
+        const vcOutEl = document.getElementById('vc-checkout-date');
+        if (vcOutEl) vcOutEl.innerText = `12:00 - ${dOut}`;
+        const vcNightEl = document.getElementById('vc-night-qty');
+        if (vcNightEl) vcNightEl.innerText = `${nights} Đêm`;
+        const mealPlanEl = document.getElementById('vc-meal-plan');
+        if (mealPlanEl) mealPlanEl.innerText = b.buaAn || 'Ăn sáng buffet hàng ngày';
+
+        // Thông tin khách hàng (IN HOA MẶC ĐỊNH)
+        const vcCustNameEl = document.getElementById('vc-customer-name');
+        if (vcCustNameEl) vcCustNameEl.innerText = (b.khachHang || 'Khách Hàng').toUpperCase();
+        const vcCustPhoneEl = document.getElementById('vc-customer-phone');
+        if (vcCustPhoneEl) vcCustPhoneEl.innerText = b.sdt || '---';
+
+        const cccdEl = document.getElementById('vc-customer-cccd');
+        if (cccdEl) cccdEl.innerText = b.cccd || 'Đang cập nhật';
+        const emailEl = document.getElementById('vc-customer-email');
+        if (emailEl) emailEl.innerText = b.email || 'Chưa có email';
+
+        const vcStaffEl = document.getElementById('vc-staff');
+        if (vcStaffEl) vcStaffEl.innerText = b.saleName || (currentUser ? currentUser.name : 'Ban Giám Đốc • Booking Travel');
+
+        // Rooming List
+        const defaultRooming = b.cccd ? 
+          `1. ${(b.khachHang || '').toUpperCase()} (Đại diện đoàn - CCCD: ${b.cccd} - SĐT: ${b.sdt})` : 
+          `1. ${(b.khachHang || '').toUpperCase()} (Đại diện đoàn - SĐT: ${b.sdt})`;
+        const vcRoomingEl = document.getElementById('vc-rooming-list');
+        if (vcRoomingEl) vcRoomingEl.value = b.roomingList || defaultRooming;
+
+        // Trạng thái thanh toán
+        const statusBadge = document.getElementById('vc-status-badge');
+        if (statusBadge) {
+          if (parseFloat(b.daTraDoiTac) >= parseFloat(b.giaVon) && parseFloat(b.giaVon) > 0) {
+            statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300';
+            statusBadge.innerText = 'ĐÃ THANH TOÁN 100% CHO RESORT';
+          } else if (parseFloat(b.daTraDoiTac) > 0) {
+            statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300';
+            statusBadge.innerText = 'ĐÃ CỌC GIỮ CHỖ VỚI RESORT';
+          } else {
+            statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300';
+            statusBadge.innerText = 'ĐÃ XÁC NHẬN ĐẶT PHÒNG';
+          }
+        }
+
+        const voucherModalEl = document.getElementById('voucher-modal');
+        if (voucherModalEl) voucherModalEl.classList.remove('hidden');
+      } catch (err) {
+        console.error('Lỗi khi mở Voucher:', err);
+        closeVoucherModal();
+        if (typeof showToast === 'function') {
+          showToast('Không thể mở phiếu xác nhận: ' + err.message, 'error');
+        } else {
+          alert('⚠️ Có lỗi hiển thị phiếu xác nhận: ' + err.message);
+        }
+      }
+    }
+
+    // =========================================================================
+    // QUY TRÌNH: SOẠN EMAIL GỬI KHÁCH SẠN / RESORT ĐỂ XIN CODE PHÒNG
+    // =========================================================================
+    function openEmailDatPhongKhachSan(bookingId) {
       const b = bookings.find(x => x.id === bookingId);
       if (!b) return;
 
       const dIn = b.checkIn ? b.checkIn.split('-').reverse().join('/') : (b.ngayDi || '---');
       const dOut = b.checkOut ? b.checkOut.split('-').reverse().join('/') : (b.ngayVe || '---');
 
-      // TÍNH TOÁN SỐ ĐÊM CHÍNH XÁC
       let nights = 1;
       if (b.checkIn && b.checkOut) {
         const d1 = new Date(b.checkIn);
         const d2 = new Date(b.checkOut);
-        const diffTime = d2.getTime() - d1.getTime();
-        const diffDays = Math.round(diffTime / (1000 * 3600 * 24));
-        if (diffDays > 0) nights = diffDays;
+        const diff = Math.round((d2 - d1) / (1000 * 3600 * 24));
+        if (diff > 0) nights = diff;
       }
       if (b.soDem) nights = parseInt(b.soDem, 10) || nights;
 
-      // PHÂN TÍCH SỐ LƯỢNG PHÒNG
-      let roomQty = b.soLuongPhong || 1;
-      if (!b.soLuongPhong && b.dichVu) {
-        const m = b.dichVu.match(/(\d+)\s*(?:phòng|phong|căn|can|villa|ph)/i);
-        if (m) roomQty = parseInt(m[1], 10);
+      let roomDetailText = b.dichVu || '';
+      if (Array.isArray(b.roomList) && b.roomList.length > 0) {
+        roomDetailText = b.roomList.map(r => `• ${r.roomCount}x ${r.roomType || 'Phòng'}`).join('\n');
       }
 
-      // PHÂN TÍCH HẠNG PHÒNG
-      let roomCategory = b.hangPhong || '';
-      if (!roomCategory && b.dichVu) {
-        let s = b.dichVu;
-        if (b.doiTac && s.toLowerCase().startsWith(b.doiTac.toLowerCase())) {
-          s = s.substring(b.doiTac.length).replace(/^[\s\-–—:]+/, '');
+      const emailSubject = `[BOOKING TRAVEL] ĐẶT PHÒNG & XIN MÃ CODE - ĐOÀN: ${(b.khachHang || '').toUpperCase()} (${dIn} - ${dOut})`;
+      const emailBody = `Kính gửi: Bộ phận Đặt phòng & Lễ tân Khách sạn / Resort: ${b.doiTac || 'Quý Khách Sạn'}!
+
+Công ty TNHH Booking Travel xin gửi lời chào trân trọng và chúc Quý đối tác kinh doanh hồng phát!
+
+Bộ phận Điều Hành Booking Travel xin gửi thông tin đặt phòng cho đoàn khách:
+1. TÊN KHÁCH HÀNG (ĐẠI DIỆN ĐOÀN): ${(b.khachHang || '').toUpperCase()}
+2. SỐ ĐIỆN THOẠI KHÁCH: ${b.sdt || '---'} ${b.cccd ? `\n3. SỐ CCCD/HỘ CHIẾU: ${b.cccd}` : ''}
+4. THỜI GIAN LƯU TRÚ:
+   - Check-in: 14:00 ngày ${dIn}
+   - Check-out: 12:00 ngày ${dOut}
+   - Tổng thời gian: ${nights} Đêm
+5. CHI TIẾT HẠNG PHÒNG VÀ SỐ LƯỢNG:
+${roomDetailText}
+${b.childSurcharge && b.childSurcharge.count > 0 ? `• Phụ thu trẻ em: ${b.childSurcharge.count} bé` : ''}
+${b.extraBedSurcharge && b.extraBedSurcharge.count > 0 ? `• Giường phụ (Extra bed): ${b.extraBedSurcharge.count} giường` : ''}
+6. GIÁ VỐN NET ĐỐI TÁC: ${(b.giaVon || 0).toLocaleString('vi-VN')} VNĐ
+
+👉 Kính đề nghị Quý Khách sạn / Resort kiểm tra phòng trống, xác nhận giữ chỗ và cung cấp "MÃ CODE PHÒNG / CONFIRMATION CODE" qua email phản hồi để Booking Travel gửi thông tin cho đoàn.
+
+Mọi thông tin cần hỗ trợ, xin vui lòng liên hệ:
+• Chuyên viên Điều Hành: ${b.saleName || (currentUser ? currentUser.name : 'Sales Booking Travel')}
+• Hotline Điều Hành 24/7: 084.64.55.222 & 08.33.00.1000
+• Email: datphong@bookingtravel.vn • info@bookingtravel.vn
+═══════════════════════════════════════
+CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình"`;
+
+      navigator.clipboard.writeText(emailBody).then(() => {
+        const openMailApp = confirm(`📋 ĐÃ SAO CHÉP MẪU EMAIL ĐẶT PHÒNG GỬI KHÁCH SẠN!\n\nTiêu đề: ${emailSubject}\n\nBạn có muốn mở ngay ứng dụng Email (Outlook / Gmail) để gửi cho Khách sạn không?`);
+        if (openMailApp) {
+          window.location.href = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
         }
-        s = s.replace(/^\d+\s*(?:phòng|phong|căn|can|villa)\s*[-–—:]*\s*/i, '');
-        s = s.replace(/\(.*\)/g, '').trim();
-        roomCategory = s || b.dichVu;
+      }).catch(() => {
+        alert(`MẪU EMAIL ĐẶT PHÒNG KHÁCH SẠN:\n\n${emailBody}`);
+      });
+    }
+
+    // =========================================================================
+    // QUY TRÌNH: CẬP NHẬT NHANH CODE PHÒNG KHÁCH SẠN CẤP QUA MAIL (1-CHẠM)
+    // =========================================================================
+    function quickUpdateHotelRoomCode(bookingId) {
+      const b = bookings.find(x => x.id === bookingId);
+      if (!b) return;
+
+      const currentCode = b.codePhong || b.resortCode || '';
+      const newCode = prompt(`🔑 CẬP NHẬN CODE PHÒNG (DO BÊN KHÁCH SẠN CẤP QUA MAIL):\n\n• Mã Booking: ${b.maBooking}\n• Khách Hàng: ${(b.khachHang || '').toUpperCase()}\n• Khách Sạn: ${b.doiTac || ''}\n\nNhập Code phòng bên khách sạn phản hồi:`, currentCode);
+      
+      if (newCode === null) return;
+      const trimmed = newCode.trim().toUpperCase();
+      b.codePhong = trimmed;
+      b.resortCode = trimmed;
+      saveData();
+      renderTable();
+      if (typeof showToast === 'function') {
+        showToast(`Đã lưu Code Phòng [${trimmed || 'Trống'}] cho đơn ${b.maBooking}`, 'success');
+      } else {
+        alert(`✅ ĐÃ CẬP NHẬT CODE PHÒNG [${trimmed || 'TRỐNG'}] CHO ĐƠN ${b.maBooking}!`);
       }
-
-      // PHÂN TÍCH SỐ LƯỢNG KHÁCH
-      let guestQty = b.soKhach || '';
-      if (!guestQty) {
-        guestQty = `${roomQty * 2} Người lớn`;
-      }
-
-      // ĐIỀN THÔNG TIN VÀO PHIẾU VOUCHER
-      document.getElementById('vc-code').innerText = b.maBooking || 'BT-2026-001';
-      const createdDateEl = document.getElementById('vc-booking-date');
-      if (createdDateEl) {
-        const cDate = b.ngayTao ? b.ngayTao.substring(0, 10).split('-').reverse().join('/') : '26/10/2026';
-        createdDateEl.innerText = `Ngày tạo: ${cDate}`;
-      }
-
-      document.getElementById('vc-supplier').innerText = b.doiTac || 'Khách sạn / Resort';
-      document.getElementById('vc-resort-code').value = b.resortCode || '';
-
-      // Điền 4 yếu tố người dùng yêu cầu
-      const roomCatInput = document.getElementById('vc-room-category-input');
-      if (roomCatInput) roomCatInput.value = roomCategory;
-
-      const roomQtyInput = document.getElementById('vc-room-qty-input');
-      if (roomQtyInput) roomQtyInput.value = roomQty;
-
-      const guestQtyInput = document.getElementById('vc-guest-qty-input');
-      if (guestQtyInput) guestQtyInput.value = guestQty;
-
-      document.getElementById('vc-checkin-date').innerText = `14:00 - ${dIn}`;
-      document.getElementById('vc-checkout-date').innerText = `12:00 - ${dOut}`;
-      document.getElementById('vc-night-qty').innerText = `${nights} Đêm`;
-      const mealPlanEl = document.getElementById('vc-meal-plan');
-      if (mealPlanEl) mealPlanEl.innerText = b.buaAn || 'Ăn sáng buffet hàng ngày';
-
-      // Thông tin khách hàng
-      document.getElementById('vc-customer-name').innerText = b.khachHang || 'Khách Hàng';
-      document.getElementById('vc-customer-phone').innerText = b.sdt || '---';
-
-      const cccdEl = document.getElementById('vc-customer-cccd');
-      if (cccdEl) cccdEl.innerText = b.cccd || 'Đang cập nhật';
-      const emailEl = document.getElementById('vc-customer-email');
-      if (emailEl) emailEl.innerText = b.email || 'Chưa có email';
-
-      document.getElementById('vc-staff').innerText = b.saleName || (currentUser ? currentUser.name : 'Ban Giám Đốc • Booking Travel');
-
-      // Rooming List
-      const defaultRooming = b.cccd ? 
-        `1. ${b.khachHang} (Đại diện đoàn - CCCD: ${b.cccd} - SĐT: ${b.sdt})` : 
-        `1. ${b.khachHang} (Đại diện đoàn - SĐT: ${b.sdt})`;
-      document.getElementById('vc-rooming-list').value = b.roomingList || defaultRooming;
-
-      // Trạng thái thanh toán
-      const statusBadge = document.getElementById('vc-status-badge');
-      if (statusBadge) {
-        if (parseFloat(b.daTraDoiTac) >= parseFloat(b.giaVon) && parseFloat(b.giaVon) > 0) {
-          statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300';
-          statusBadge.innerText = 'ĐÃ THANH TOÁN 100% CHO RESORT';
-        } else if (parseFloat(b.daTraDoiTac) > 0) {
-          statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300';
-          statusBadge.innerText = 'ĐÃ CỌC GIỮ CHỖ VỚI RESORT';
-        } else {
-          statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300';
-          statusBadge.innerText = 'ĐÃ XÁC NHẬN ĐẶT PHÒNG';
-        }
-      }
-
-      document.getElementById('voucher-modal').classList.remove('hidden');
     }
 
     function closeVoucherModal() {
@@ -7807,7 +7934,7 @@
 `🎉 [BOOKING TRAVEL] XÁC NHẬN ĐẶT PHÒNG THÀNH CÔNG 🎉
 "Khách hàng là gia đình" • Hotline: 0846.477.222
 
-Kính gửi Quý khách: ${b.khachHang}
+Kính gửi Quý khách: ${(b.khachHang || '').toUpperCase()}
 Booking Travel xin trân trọng gửi Quý khách thông tin Phiếu xác nhận đặt phòng (Voucher) chi tiết:
 
 🏷️ Mã Đặt Chỗ: ${b.maBooking}
@@ -7824,9 +7951,9 @@ Booking Travel xin trân trọng gửi Quý khách thông tin Phiếu xác nhậ
 ✨ Tiện Ích Miễn Phí: Sử dụng hồ bơi, phòng gym, wifi toàn khu, trà/cà phê/nước suối trong phòng mỗi ngày.
 
 👥 Danh Sách Khách Lưu Trú (Rooming List):
-${roomingList || ('1. ' + b.khachHang)}
+${roomingList || ('1. ' + (b.khachHang || '').toUpperCase())}
 
-❤️ Quý khách chỉ cần đọc Họ Tên đại diện (${b.khachHang}) hoặc Số điện thoại (${b.sdt}) tại quầy Lễ tân để nhận phòng dễ dàng.
+❤️ Quý khách chỉ cần đọc Họ Tên đại diện (${(b.khachHang || '').toUpperCase()}) hoặc Số điện thoại (${b.sdt}) tại quầy Lễ tân để nhận phòng dễ dàng.
 Booking Travel kính chúc Quý khách và gia đình có một kỳ nghỉ thật vui vẻ, hạnh phúc và trọn vẹn!
 ☎️ Tổng đài hỗ trợ 24/7: 0846.477.222 & 08.33.00.1000
 🌐 Cổng thông tin: https://bookingtravel.vn`;
@@ -7858,7 +7985,7 @@ Booking Travel xin gửi thông tin xác nhận đoàn khách lưu trú:
 
 🏷️ Mã Booking CRM: ${b.maBooking}
 🔑 Mã Xác Nhận Resort: ${resortCode || 'Chờ cấp mã'}
-👤 Khách hàng đại diện: ${b.khachHang} - SĐT: ${b.sdt}${b.cccd ? ' - CCCD: ' + b.cccd : ''}${b.email ? ' - Email: ' + b.email : ''}
+👤 Khách hàng đại diện: ${(b.khachHang || '').toUpperCase()} - SĐT: ${b.sdt}${b.cccd ? ' - CCCD: ' + b.cccd : ''}${b.email ? ' - Email: ' + b.email : ''}
 🏨 Hạng Phòng: ${roomCat}
 🔢 Số Lượng Phòng: ${roomQty} Phòng
 👥 Số Lượng Khách: ${guestQty}
@@ -7868,7 +7995,7 @@ Booking Travel xin gửi thông tin xác nhận đoàn khách lưu trú:
    • Check-out: Trước 12:00 ngày ${dOut}
 🍽️ Tiêu chuẩn bữa ăn: Ăn sáng buffet hàng ngày
 👥 Danh sách đoàn (Rooming List):
-${roomingList || ('1. ' + b.khachHang)}
+${roomingList || ('1. ' + (b.khachHang || '').toUpperCase())}
 
 ✨ Kính nhờ Quý khách sạn setup phòng sạch đẹp, đón tiếp khách chu đáo theo tinh thần "Khách hàng là gia đình"!
 ☎️ Hotline Điều hành Booking Travel: 0846.477.222 & 08.33.00.1000`;
@@ -8826,7 +8953,27 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         hasOldCode = bookings.some(b => b.maBooking && (b.maBooking.includes('-') || b.maBooking.startsWith('BK-')));
       }
       if (hasOldCode || !bookings || bookings.length === 0) {
-        bookings = INITIAL_REFINED_DATA;
+        bookings = JSON.parse(JSON.stringify(INITIAL_REFINED_DATA));
+        saveData();
+      }
+
+      // Chuẩn hóa tự động: Viết hoa toàn bộ tên khách hàng & xử lý trùng phương thức Techcombank
+      if (Array.isArray(bookings)) {
+        bookings.forEach(b => {
+          if (b.khachHang) b.khachHang = b.khachHang.toUpperCase();
+          if (Array.isArray(b.payments)) {
+            let tcbSeen = 0;
+            b.payments.forEach(p => {
+              if (p.hinhThuc && p.hinhThuc.includes('Techcombank')) {
+                tcbSeen++;
+                if (tcbSeen > 1) {
+                  p.hinhThuc = 'Tiền mặt / Cà thẻ tại lễ tân';
+                  p.ghiChu = 'Thanh toán nốt khi nhận phòng';
+                }
+              }
+            });
+          }
+        });
         saveData();
       }
 
@@ -8906,11 +9053,21 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         }
       }
 
-      // Phím tắt Ctrl + B (hoặc Cmd + B) để ẩn / hiện nhanh sidebar
+      // Phím tắt: Ctrl + B để toggle sidebar, Escape để đóng ngay bất kỳ modal nào đang mở
       window.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
           e.preventDefault();
           toggleSidebar();
+        } else if (e.key === 'Escape') {
+          if (typeof closeVoucherModal === 'function') closeVoucherModal();
+          if (typeof closeModalTaoDon === 'function') closeModalTaoDon();
+          if (typeof closeVietQRModal === 'function') closeVietQRModal();
+          if (typeof closeQuickBaoThuModal === 'function') closeQuickBaoThuModal();
+          if (typeof closeMobileQuickBooking === 'function') closeMobileQuickBooking();
+          if (typeof closeBirthdayModal === 'function') closeBirthdayModal();
+          if (typeof closeGiftPreviewModal === 'function') closeGiftPreviewModal();
+          if (typeof closeDoiHdDialog === 'function') closeDoiHdDialog();
+          if (typeof closeFilesModal === 'function') closeFilesModal();
         }
       });
 
@@ -9688,10 +9845,17 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                 <i class="fa-regular fa-calendar text-[10px] text-amber-400 shrink-0"></i>
                 <span>${createDateVN}</span>
               </div>
-              <div class="text-[11px] text-sky-400 font-mono font-medium flex items-center gap-1 mt-0.5 truncate max-w-[130px]" title="Code phòng / Mã xác nhận: ${escapeHtml(roomCode)}">
-                <i class="fa-solid fa-key text-[10px] text-amber-400 shrink-0"></i>
-                <span class="truncate">Code: ${escapeHtml(roomCode)}</span>
-              </div>
+              ${roomCode ? `
+                <button type="button" onclick="quickUpdateHotelRoomCode('${b.id}')" class="text-[11px] text-sky-400 hover:text-sky-300 font-mono font-bold flex items-center gap-1 mt-0.5 truncate max-w-[140px] cursor-pointer hover:underline" title="Bấm để chỉnh sửa Code phòng bên khách sạn cho">
+                  <i class="fa-solid fa-key text-[10px] text-amber-400 shrink-0"></i>
+                  <span class="truncate">Code: ${escapeHtml(roomCode)}</span>
+                </button>
+              ` : `
+                <button type="button" onclick="quickUpdateHotelRoomCode('${b.id}')" class="text-[10px] text-amber-300 hover:text-amber-200 font-sans font-bold flex items-center gap-1 mt-0.5 px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 hover:bg-amber-500/25 transition cursor-pointer" title="Tạo đơn gửi khách trước. Bấm vào đây để điền Code phòng sau khi khách sạn xác nhận qua mail">
+                  <i class="fa-solid fa-plus text-[9px]"></i>
+                  <span>+ Điền Code KS</span>
+                </button>
+              `}
             </td>
 
             <!-- 3. IN - OUT (ĐÃ XÓA SỐ ĐÊM THEO YÊU CẦU) -->
@@ -9708,9 +9872,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               </div>
             </td>
 
-            <!-- 4. KHÁCH HÀNG (KÈM KHÁCH SẠN / RESORT Ở DƯỚI) -->
+            <!-- 4. KHÁCH HÀNG (MẶC ĐỊNH VIẾT HOA) -->
             <td class="py-3 px-3.5 whitespace-nowrap">
-              <div class="font-bold text-white text-xs">${escapeHtml(b.khachHang)}</div>
+              <div class="font-black text-white text-xs uppercase tracking-wide">${escapeHtml((b.khachHang || '').toUpperCase())}</div>
               <div class="text-[11px] text-amber-300/90 font-medium truncate flex items-center gap-1.5 mt-0.5" title="${escapeHtml(hotelOnlyName)}">
                 <i class="fa-solid fa-hotel text-amber-400 text-[10px] shrink-0"></i>
                 <span class="truncate max-w-[170px]">${escapeHtml(hotelOnlyName)}</span>
@@ -9814,6 +9978,10 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                 <button onclick="openQuickBaoThu('${b.id}')" title="Báo Thu Tiền Khách / Cập Nhật Thanh Toán" class="p-1.5 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-hand-holding-dollar"></i>
                 </button>
+                <!-- Nút Soạn Email Gửi KS Lấy Code -->
+                <button onclick="openEmailDatPhongKhachSan('${b.id}')" title="Soạn Email Đặt Phòng Gửi Khách Sạn (Lấy Mã Code)" class="p-1.5 rounded-lg text-indigo-400 hover:text-white hover:bg-indigo-600/30 transition text-xs cursor-pointer">
+                  <i class="fa-solid fa-envelope"></i>
+                </button>
                 <button onclick="openVoucherModal('${b.id}')" title="In Phiếu Xác Nhận Dịch Vụ / Rooming List & Gửi Zalo" class="p-1.5 rounded-lg text-sky-400 hover:text-white hover:bg-sky-600/30 transition text-xs cursor-pointer">
                   <i class="fa-solid fa-file-invoice"></i>
                 </button>
@@ -9838,6 +10006,15 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <div class="flex items-center justify-between">
               <div>
                 <span class="font-mono font-bold text-sky-400 text-xs">${escapeHtml(b.maBooking)}</span>
+                ${roomCode ? `
+                  <button type="button" onclick="quickUpdateHotelRoomCode('${b.id}')" class="ml-1 text-[10px] font-mono font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.2 rounded cursor-pointer" title="Sửa code phòng KS">
+                    🔑 ${escapeHtml(roomCode)}
+                  </button>
+                ` : `
+                  <button type="button" onclick="quickUpdateHotelRoomCode('${b.id}')" class="ml-1 text-[9px] font-bold text-amber-300 bg-amber-500/20 border border-amber-500/40 px-1.5 py-0.2 rounded cursor-pointer" title="Điền code phòng KS sau khi nhận mail">
+                    + Điền Code KS
+                  </button>
+                `}
                 <div class="text-[11px] text-slate-300 font-medium flex items-center gap-1.5 mt-0.5">
                   <i class="fa-solid fa-user-tie text-[10px] text-sky-400 shrink-0"></i>
                   <span>${escapeHtml(staffDisplayName)}</span>
@@ -9874,7 +10051,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                   ${(b.khachHang || 'K').charAt(0).toUpperCase()}
                 </div>
                 <div class="min-w-0">
-                  <div class="font-bold text-white text-sm truncate">${escapeHtml(b.khachHang)}</div>
+                  <div class="font-bold text-white text-sm truncate uppercase tracking-wide">${escapeHtml((b.khachHang || '').toUpperCase())}</div>
                   <div class="text-xs font-mono text-slate-400 flex items-center gap-1.5 mt-0.5">
                     <i class="fa-solid fa-phone text-blue-400 text-[10px]"></i>
                     <span>${escapeHtml(b.sdt)}</span>
@@ -9951,8 +10128,8 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                 <span>Báo Thu</span>
               </button>
 
-              <!-- Nút Phiếu Xác Nhận / Voucher -->
-              <button onclick="openVoucherModal('${b.id}')" class="min-w-[46px] min-h-[46px] rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm border border-slate-700 flex items-center justify-center transition cursor-pointer active:scale-95" title="In Phiếu Xác Nhận / Voucher">
+              <!-- Nút Phiếu Xác Nhận / Voucher & Mail KS -->
+              <button onclick="openVoucherModal('${b.id}')" class="min-w-[46px] min-h-[46px] rounded-xl bg-sky-500/20 hover:bg-sky-500 text-sky-300 hover:text-slate-950 text-sm border border-sky-500/40 flex items-center justify-center transition cursor-pointer active:scale-95 shadow-sm" title="In Phiếu Xác Nhận / Voucher & Soạn Mail KS">
                 <i class="fa-solid fa-file-invoice"></i>
               </button>
 
@@ -11347,7 +11524,7 @@ ${lines.join('\n')}
             dot: 'Đợt 1 - Cọc Giữ Chỗ (30-50%)',
             soTien: 0,
             ngay: new Date().toISOString().slice(0, 10),
-            hinhThuc: 'Chuyển khoản (Vietcombank)',
+            hinhThuc: 'Chuyển khoản (Techcombank)',
             trangThai: 'cho_thu',
             ghiChu: 'Hẹn cọc ngay khi chốt code'
           }
@@ -11368,9 +11545,8 @@ ${lines.join('\n')}
             </td>
             <td class="py-2 px-2.5">
               <select onchange="updatePaymentField('${pm.id}', 'hinhThuc', this.value)" class="w-full bg-[#07162f] border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-indigo-400">
-                <option value="Chuyển khoản (Vietcombank)" ${pm.hinhThuc === 'Chuyển khoản (Vietcombank)' ? 'selected' : ''}>Chuyển khoản (Vietcombank)</option>
-                <option value="Chuyển khoản (Techcombank)" ${pm.hinhThuc === 'Chuyển khoản (Techcombank)' ? 'selected' : ''}>Chuyển khoản (Techcombank)</option>
-                <option value="Chuyển khoản (MBBank)" ${pm.hinhThuc === 'Chuyển khoản (MBBank)' ? 'selected' : ''}>Chuyển khoản (MBBank)</option>
+                <option value="Chuyển khoản (Techcombank)" ${pm.hinhThuc === 'Chuyển khoản (Techcombank)' ? 'selected' : ''}>Chuyển khoản Techcombank (554479 - Cty)</option>
+                <option value="Chuyển khoản (MBBank)" ${pm.hinhThuc === 'Chuyển khoản (MBBank)' ? 'selected' : ''}>Chuyển khoản MB Bank (Cty)</option>
                 <option value="Tiền mặt" ${pm.hinhThuc === 'Tiền mặt' ? 'selected' : ''}>Tiền mặt trực tiếp</option>
                 <option value="Cà thẻ POS" ${pm.hinhThuc === 'Cà thẻ POS' ? 'selected' : ''}>Cà thẻ POS / Tín dụng</option>
                 <option value="Khác" ${pm.hinhThuc === 'Khác' ? 'selected' : ''}>Khác...</option>
@@ -11415,7 +11591,7 @@ ${lines.join('\n')}
         dot: dotName,
         soTien: 0,
         ngay: new Date().toISOString().slice(0, 10),
-        hinhThuc: 'Chuyển khoản (Vietcombank)',
+        hinhThuc: 'Chuyển khoản (Techcombank)',
         trangThai: 'cho_thu',
         ghiChu: ''
       });
@@ -11625,7 +11801,7 @@ ${lines.join('\n')}
       const hotelName = hotelSel && hotelSel.value ? hotelSel.value : 'Khách sạn Booking Travel';
       const roomSel = document.getElementById('mq-room');
       const roomName = roomSel && roomSel.value ? roomSel.value : 'Phòng tiêu chuẩn';
-      const customerName = document.getElementById('mq-customer-name').value.trim();
+      const customerName = document.getElementById('mq-customer-name').value.trim().toUpperCase();
       const customerPhone = document.getElementById('mq-customer-phone').value.trim();
       const checkIn = document.getElementById('mq-checkin').value;
       const checkOut = document.getElementById('mq-checkout').value;
@@ -12684,7 +12860,7 @@ ${lines.join('\n')}
           dot: 'Đợt 1 - Cọc Giữ Chỗ (30-50%)',
           soTien: 0,
           ngay: new Date().toISOString().slice(0, 10),
-          hinhThuc: 'Chuyển khoản (Vietcombank)',
+          hinhThuc: 'Chuyển khoản (Techcombank)',
           trangThai: 'cho_thu',
           ghiChu: 'Hẹn cọc ngay khi xác nhận giữ phòng'
         }
@@ -12745,7 +12921,7 @@ ${lines.join('\n')}
         maBooking: codeVal,
         ngayTao: document.getElementById('ipt-created-date').value,
         createdAt: document.getElementById('ipt-created-date').value,
-        khachHang: document.getElementById('ipt-customer').value.trim(),
+        khachHang: document.getElementById('ipt-customer').value.trim().toUpperCase(),
         sdt: phoneVal,
         email: document.getElementById('ipt-customer-email').value.trim(),
         cccd: document.getElementById('ipt-customer-cccd').value.trim(),
@@ -13266,7 +13442,7 @@ ${lines.join('\n')}
             <td data-label="STT" class="py-2.5 px-3 text-center text-slate-500 font-mono">${idx + 1}</td>
             <td data-label="Khách Hàng" class="py-2.5 px-3">
               <div class="flex items-center gap-1.5">
-                <span class="font-bold text-white text-xs">${escapeHtml(c.khachHang)}</span>
+                <span class="font-bold text-white text-xs uppercase">${escapeHtml((c.khachHang || '').toUpperCase())}</span>
                 ${c.vipBadge}
               </div>
             </td>
