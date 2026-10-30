@@ -3837,7 +3837,7 @@
   <!-- MODAL 3: CHĂM SÓC SINH NHẬT & TRI ÂN GIA ĐÌNH KHÁCH HÀNG (BOOKING TRAVEL) -->
   <!-- ========================================================================= -->
   <div id="birthday-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm">
-    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
       <!-- Header -->
       <div class="px-6 py-4 border-b border-slate-800 bg-[#07162f] flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -3848,7 +3848,7 @@
             <h3 class="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
               <span>CHĂM SÓC SINH NHẬT & TRI ÂN GIA ĐÌNH KHÁCH HÀNG</span>
             </h3>
-            <p class="text-[11px] text-amber-200/90 font-medium">Triết lý: "Khách hàng là gia đình" • Tự động nhắc sinh nhật & gửi voucher tri ân</p>
+            <p class="text-[11px] text-amber-200/90 font-medium">Triết lý: "Khách hàng là gia đình" • Tối ưu đa dạng quà tặng tri ân thiết thực</p>
           </div>
         </div>
         <button onclick="closeBirthdayModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition">
@@ -3857,11 +3857,25 @@
       </div>
 
       <!-- Body -->
-      <div class="flex-1 overflow-y-auto p-6 space-y-4 bg-[#0b192c]/50">
-        <div class="p-3.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-rose-500/10 to-transparent border border-amber-500/20 flex items-center gap-3">
-          <i class="fa-solid fa-gift text-2xl text-amber-400"></i>
-          <div class="text-xs text-slate-300">
-            <strong class="text-amber-300">Chính sách tri ân gia đình:</strong> Mỗi dịp sinh nhật khách hàng, Booking Travel tự động chuẩn bị thiệp chúc mừng và <strong class="text-emerald-400">Mã giảm giá 10%</strong> cho kỳ nghỉ dưỡng kế tiếp.
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-[#0b192c]/50">
+        <!-- Banner Chính Sách Quà Tặng Tri Ân Đa Dạng -->
+        <div class="p-3.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-rose-500/10 to-transparent border border-amber-500/20 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+            <i class="fa-solid fa-gift text-base"></i>
+          </div>
+          <div class="text-xs text-slate-300 leading-relaxed">
+            <div class="flex items-center gap-2">
+              <strong class="text-amber-300 font-bold">Chính sách quà tặng tri ân gia đình:</strong>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Áp dụng sử dụng 1 lần</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-0.5">Mỗi dịp sinh nhật hoặc tri ân, nhân viên linh hoạt chọn món quà phù hợp nhất với từng khách hàng:</p>
+            <div class="mt-2 flex flex-wrap items-center gap-1.5 text-[11px]">
+              <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-medium">🏨 1 Đêm nghỉ dưỡng</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-medium">💵 Voucher 50k - 100k - 200k</span>
+              <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-medium">🎟️ Vé tour trải nghiệm</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-medium">🛵 Miễn phí xe máy 1 ngày</span>
+              <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 font-medium">🦞 Voucher 10% Hải sản Nha Trang (Tý Rô, Tám Mẹo, Bốn Bao)</span>
+            </div>
           </div>
         </div>
 
@@ -3869,6 +3883,104 @@
         <div class="space-y-2.5" id="birthday-customers-list">
           <!-- Rendered by JS -->
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL XEM TRƯỚC THIỆP & QUÀ TRI ÂN KHÁCH HÀNG -->
+  <div id="modal-preview-birthday-gift" class="fixed inset-0 z-[60] overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md">
+    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Header -->
+      <div class="px-5 py-3.5 border-b border-slate-800 bg-[#07162f] flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-white text-sm shadow-md">
+            <i class="fa-solid fa-envelope-open-text"></i>
+          </div>
+          <div>
+            <h4 class="text-sm font-extrabold text-white">THIỆP SINH NHẬT & QUÀ TẶNG TRI ÂN</h4>
+            <p class="text-[10px] text-amber-300/90 font-medium">Triết lý: "Khách hàng là gia đình" • Sử dụng 1 lần</p>
+          </div>
+        </div>
+        <button onclick="closeGiftPreviewModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <!-- Preview Card Body -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-[#0b192c]/60">
+        <!-- Chọn lại món quà nhanh -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-300 mb-1">🎁 Chọn Món Quà Tri Ân:</label>
+          <select id="preview-gift-select" onchange="onPreviewGiftChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-500">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+
+        <!-- Thiệp Visual Card -->
+        <div class="relative rounded-2xl p-5 border border-amber-500/30 bg-gradient-to-b from-[#07162f] via-slate-900 to-[#07162f] shadow-xl text-center space-y-3 overflow-hidden">
+          <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="flex items-center justify-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider">
+            <i class="fa-solid fa-cake-candles"></i>
+            <span>CHÚC MỪNG SINH NHẬT</span>
+            <i class="fa-solid fa-cake-candles"></i>
+          </div>
+
+          <h3 id="preview-card-name" class="text-base sm:text-lg font-black text-white">Kính gửi Quý khách: Chị Hoàng Thị Hồng Ly</h3>
+
+          <p class="text-[11px] text-slate-300 italic px-2">
+            "Công ty TNHH Booking Travel xin kính chúc Quý khách một ngày sinh nhật thật ấm áp, nhiều niềm vui và luôn tràn ngập hạnh phúc bên gia đình!"
+          </p>
+
+          <!-- Hộp Món Quà -->
+          <div class="p-3.5 rounded-xl bg-slate-950/90 border border-amber-500/40 text-left space-y-1.5 shadow-inner">
+            <div class="flex items-center justify-between gap-2">
+              <span id="preview-card-badge" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30">QUÀ TẶNG TRI ÂN</span>
+              <span class="text-[10px] font-extrabold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">SỬ DỤNG 1 LẦN</span>
+            </div>
+            <h5 id="preview-card-title" class="text-xs sm:text-sm font-extrabold text-amber-300 flex items-center gap-2">
+              <i class="fa-solid fa-gift text-amber-400"></i>
+              <span>VOUCHER 10% HẢI SẢN NHA TRANG (TÝ RÔ - TÁM MẸO - BỐN BAO)</span>
+            </h5>
+            <p id="preview-card-desc" class="text-[11px] text-slate-300 leading-relaxed"></p>
+            <div class="pt-1 flex items-center justify-between text-[11px] font-mono border-t border-slate-800">
+              <span class="text-slate-400">Mã Quà Tặng:</span>
+              <span id="preview-card-code" class="text-emerald-400 font-extrabold px-2 py-0.5 bg-emerald-500/10 rounded border border-emerald-500/20">BT-HAISAN-5774</span>
+            </div>
+          </div>
+
+          <div class="text-[10px] text-slate-400">
+            Booking Travel • "Khách hàng là gia đình" • Hotline: 084.64.55.222
+          </div>
+        </div>
+
+        <!-- Khung Nội dung tin nhắn sao chép -->
+        <div>
+          <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+            <span class="font-bold text-slate-300">Nội dung tin nhắn Zalo / SMS:</span>
+            <button onclick="copyPreviewMessageText()" class="text-sky-400 hover:text-sky-300 font-bold flex items-center gap-1 transition cursor-pointer">
+              <i class="fa-regular fa-copy"></i>
+              <span>Sao chép toàn bộ</span>
+            </button>
+          </div>
+          <textarea id="preview-message-text" rows="5" readonly class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-[11px] font-mono text-slate-300 leading-relaxed focus:outline-none scrollbar-thin"></textarea>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="px-5 py-3 border-t border-slate-800 bg-[#07162f] flex flex-wrap items-center justify-end gap-2">
+        <button onclick="closeGiftPreviewModal()" class="px-4 py-1.5 rounded-lg border border-slate-700 text-xs font-bold text-slate-300 hover:bg-slate-800 transition cursor-pointer">
+          Đóng
+        </button>
+        <button onclick="copyPreviewMessageText()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+          <i class="fa-solid fa-copy"></i>
+          <span>Sao Chép Tin Nhắn</span>
+        </button>
+        <button onclick="sendZaloDirectFromPreview()" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-700 hover:to-sky-700 text-white text-xs font-extrabold transition flex items-center gap-1.5 shadow-md shadow-blue-600/30 cursor-pointer">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Mở Zalo Gửi Khách</span>
+        </button>
       </div>
     </div>
   </div>
@@ -7435,6 +7547,88 @@ ${roomingList || ('1. ' + b.khachHang)}
     // =========================================================================
     // 3. CHĂM SÓC SINH NHẬT & TRI ÂN GIA ĐÌNH KHÁCH HÀNG (BOOKING TRAVEL)
     // =========================================================================
+    const BIRTHDAY_GIFTS = [
+      {
+        id: 'xe_may_1ngay',
+        name: '🛵 Miễn phí xe máy 1 ngày',
+        label: 'Miễn phí xe máy 1 ngày vi vu du lịch',
+        desc: 'Miễn phí 100% 01 ngày thuê xe máy tại điểm đến du lịch (Nha Trang / Đà Lạt / Phú Quốc...)',
+        codePrefix: 'FREE-XEMAY-1D',
+        badge: 'Ưu Đãi Hot',
+        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+        detailText: 'Tặng 01 ngày thuê xe máy (24 giờ) hoàn toàn miễn phí khi Quý khách trải nghiệm du lịch.',
+        usageNote: 'Sử dụng 1 lần duy nhất cho kỳ nghỉ kế tiếp.'
+      },
+      {
+        id: 'hai_san_nhatrang',
+        name: '🦞 Voucher 10% Hải Sản Nha Trang',
+        label: 'Voucher 10% Hải sản Nha Trang (Tý Rô - Tám Mẹo - Bốn Bao)',
+        desc: 'Giảm 10% tại 3 quán hải sản nổi tiếng Nha Trang: Quán Tý Rô, Quán Tám Mẹo, Quán Bốn Bao',
+        codePrefix: 'HAISAN-NT10',
+        badge: 'Ẩm Thực Đặc Sản',
+        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+        detailText: 'Giảm ngay 10% tổng hóa đơn ăn uống tại hệ thống quán hải sản nổi tiếng Nha Trang: Quán Hải Sản Tý Rô • Quán Hải Sản Tám Mẹo • Quán Hải Sản Bốn Bao.',
+        usageNote: 'Sử dụng 1 lần duy nhất tại một trong các quán hải sản liên kết.'
+      },
+      {
+        id: 'dem_nghi',
+        name: '🏨 Tặng 1 Đêm nghỉ dưỡng',
+        label: 'Tặng 1 đêm nghỉ dưỡng miễn phí tại Resort/Khách sạn',
+        desc: 'Tặng 01 đêm nghỉ dưỡng miễn phí tại Khách sạn / Resort đối tác của Booking Travel',
+        codePrefix: 'DEMNGHI-FREE',
+        badge: 'Đặc Quyền VIP',
+        badgeColor: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
+        detailText: 'Tặng 01 đêm nghỉ dưỡng phòng tiêu chuẩn miễn phí tại hệ thống Khách sạn / Resort liên kết.',
+        usageNote: 'Sử dụng 1 lần duy nhất, áp dụng khi đặt kỳ nghỉ từ 2 đêm trở lên.'
+      },
+      {
+        id: 'voucher_200k',
+        name: '💵 Voucher giảm 200k',
+        label: 'Voucher giảm 200.000 đ tiền mặt',
+        desc: 'Trừ trực tiếp 200.000 đ vào đơn đặt phòng hoặc tour du lịch',
+        codePrefix: 'VC-200K',
+        badge: 'Tiền Mặt',
+        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+        detailText: 'Giảm trực tiếp 200.000 đ vào tổng hóa đơn đặt phòng Khách sạn, Resort hoặc Tour trọn gói.',
+        usageNote: 'Sử dụng 1 lần duy nhất, trừ thẳng vào tiền thanh toán đơn hàng.'
+      },
+      {
+        id: 'voucher_100k',
+        name: '💵 Voucher giảm 100k',
+        label: 'Voucher giảm 100.000 đ tiền mặt',
+        desc: 'Trừ trực tiếp 100.000 đ vào đơn đặt phòng hoặc tour du lịch',
+        codePrefix: 'VC-100K',
+        badge: 'Tiền Mặt',
+        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+        detailText: 'Giảm trực tiếp 100.000 đ vào tổng hóa đơn đặt phòng Khách sạn, Resort hoặc Tour trọn gói.',
+        usageNote: 'Sử dụng 1 lần duy nhất, trừ thẳng vào tiền thanh toán đơn hàng.'
+      },
+      {
+        id: 'voucher_50k',
+        name: '💵 Voucher giảm 50k',
+        label: 'Voucher giảm 50.000 đ tiền mặt',
+        desc: 'Trừ trực tiếp 50.000 đ vào đơn đặt phòng hoặc tour du lịch',
+        codePrefix: 'VC-50K',
+        badge: 'Tiền Mặt',
+        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+        detailText: 'Giảm trực tiếp 50.000 đ vào tổng hóa đơn đặt phòng Khách sạn, Resort hoặc Tour trọn gói.',
+        usageNote: 'Sử dụng 1 lần duy nhất, trừ thẳng vào tiền thanh toán đơn hàng.'
+      },
+      {
+        id: 've_tour',
+        name: '🎟️ Tặng Vé tour trải nghiệm',
+        label: 'Tặng 01 vé tour du lịch / tour đảo trải nghiệm',
+        desc: 'Tặng 01 vé tour trải nghiệm khám phá biển đảo hoặc city tour cao cấp',
+        codePrefix: 'VETOUR-VIP',
+        badge: 'Trải Nghiệm',
+        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-500/30',
+        detailText: 'Tặng 01 vé tour du lịch biển đảo hoặc tham quan trải nghiệm danh lam thắng cảnh.',
+        usageNote: 'Sử dụng 1 lần duy nhất cho 01 người đi kèm tour.'
+      }
+    ];
+
+    let currentPreviewCustomer = null;
+
     function openBirthdayModal() {
       renderBirthdayCustomers();
       document.getElementById('birthday-modal').classList.remove('hidden');
@@ -7474,48 +7668,180 @@ ${roomingList || ('1. ' + b.khachHang)}
 
       customers.forEach((c, idx) => {
         const item = document.createElement('div');
-        item.className = 'p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-amber-500/40 transition flex items-center justify-between gap-3';
+        item.className = 'p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-amber-500/40 transition flex flex-col md:flex-row md:items-center justify-between gap-3';
+        
+        let giftOptionsHtml = BIRTHDAY_GIFTS.map(g => 
+          `<option value="${g.id}">${g.name}</option>`
+        ).join('');
+
         item.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-500/20 to-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-xs border border-rose-500/30">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-500/20 to-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-xs border border-rose-500/30 shrink-0">
               <i class="fa-solid fa-user-heart"></i>
             </div>
-            <div>
+            <div class="min-w-0">
               <div class="flex items-center gap-2">
-                <h4 class="text-xs font-bold text-white">${c.name}</h4>
-                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300">Khách Gia Đình</span>
+                <h4 class="text-xs font-bold text-white truncate">${c.name}</h4>
+                <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 shrink-0">Khách Gia Đình</span>
               </div>
-              <p class="text-[11px] text-slate-400 font-mono">${c.phone}${c.email ? ' • ' + c.email : ''}${c.cccd ? ' • CCCD: ' + c.cccd : ''} • Đơn: ${c.bookingCode}</p>
+              <p class="text-[11px] text-slate-400 font-mono truncate">${c.phone}${c.email ? ' • ' + c.email : ''}${c.cccd ? ' • CCCD: ' + c.cccd : ''} • Đơn: ${c.bookingCode}</p>
             </div>
           </div>
-          <button onclick="sendBirthdayWishZalo('${c.phone}', '${c.name}', '${c.service}')" class="px-3 py-1.5 bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white text-xs font-bold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
-            <i class="fa-solid fa-gift"></i>
-            <span>Gửi Thiệp & Mã 10%</span>
-          </button>
+
+          <div class="flex items-center gap-2 shrink-0 self-end md:self-auto w-full md:w-auto">
+            <select id="gift-select-${idx}" class="flex-1 md:w-44 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-amber-300 font-medium focus:outline-none focus:border-amber-500">
+              ${giftOptionsHtml}
+            </select>
+            <button onclick="openGiftPreviewForIndex(${idx})" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-bold rounded-lg border border-slate-700 transition flex items-center gap-1 cursor-pointer" title="Xem thiệp mẫu">
+              <i class="fa-regular fa-eye text-xs"></i>
+              <span>Xem Thiệp</span>
+            </button>
+            <button onclick="quickSendGiftZalo(${idx})" class="px-3 py-1.5 bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white text-xs font-bold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+              <span>Gửi Quà Zalo</span>
+            </button>
+          </div>
         `;
         container.appendChild(item);
       });
+
+      // Lưu danh sách khách hàng để các hàm modal truy cập
+      window._currentBirthdayCustomers = customers;
     }
 
-    function sendBirthdayWishZalo(phone, name, service) {
-      const text = 
-`🎉 CHÚC MỪNG SINH NHẬT - TỪ ĐẠI GIA ĐÌNH BOOKING TRAVEL 🎉
-Kính gửi Quý khách ${name}!
+    function getGiftMessageText(customer, giftId) {
+      const gift = BIRTHDAY_GIFTS.find(g => g.id === giftId) || BIRTHDAY_GIFTS[0];
+      const cleanPhone = (customer.phone || '').replace(/[^0-9]/g, '');
+      const safeSuffix = cleanPhone.slice(-4) || '2026';
+      const voucherCode = `BT-${gift.codePrefix}-${safeSuffix}`.toUpperCase();
 
-Hôm nay là một ngày vô cùng đặc biệt! Công ty TNHH Booking Travel xin kính chúc Quý khách một ngày sinh nhật thật ấm áp, nhiều niềm vui, dồi dào sức khỏe và luôn tràn ngập hạnh phúc bên những người thân yêu!
+      return `🎉 CHÚC MỪNG SINH NHẬT - TỪ ĐẠI GIA ĐÌNH BOOKING TRAVEL 🎉
+Kính gửi Quý khách ${customer.name}!
 
-Với triết lý "Khách hàng là gia đình", Booking Travel xin trân trọng gửi tặng Quý khách món quà tri ân:
-🎁 MÃ ƯU ĐÃI NGHỈ DƯỠNG: [GIADINH10-HAPPYBIRTHDAY]
-✨ Đặc quyền: Giảm ngay 10% trên toàn bộ hệ thống 100+ Khách sạn, Resort & Tour cho kỳ nghỉ dưỡng kế tiếp của Quý khách và gia đình!
+Hôm nay là một ngày vô cùng đặc biệt! Toàn thể Ban Lãnh Đạo và Cán Bộ Nhân Viên Công ty TNHH Booking Travel xin kính chúc Quý khách một ngày sinh nhật thật ấm áp, ngập tràn niềm vui, dồi dào sức khỏe và luôn hạnh phúc trọn vẹn bên những người thân yêu!
+
+Với triết lý "Khách hàng là gia đình", Booking Travel xin trân trọng gửi tặng Quý khách món quà tri ân đặc biệt:
+🎁 MÓN QUÀ TRI ÂN: ${gift.label.toUpperCase()}
+✨ Chi tiết ưu đãi: ${gift.detailText}
+🎟️ MÃ QUÀ TẶNG: [ ${voucherCode} ]
+⚠️ Điều kiện áp dụng: Sử dụng 1 lần duy nhất • Hạn dùng 12 tháng kể từ ngày nhận.
+
+👉 Cách sử dụng: Quý khách chỉ cần thông báo mã quà tặng trên cho chuyên viên tư vấn Booking Travel khi đặt kỳ nghỉ tiếp theo hoặc xuất trình tại cơ sở dịch vụ liên kết để được áp dụng ngay!
 
 ☎️ Hotline hỗ trợ 24/7: 084.64.55.222 & 08.33.00.1000
 🌐 Website: https://bookingtravel.vn
 ═══════════════════════════════════════
 CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục vụ từ trái tim!`;
+    }
+
+    function openGiftPreviewForIndex(idx) {
+      const customers = window._currentBirthdayCustomers || [];
+      const customer = customers[idx];
+      if (!customer) return;
+
+      const selEl = document.getElementById(`gift-select-${idx}`);
+      const giftId = selEl ? selEl.value : BIRTHDAY_GIFTS[0].id;
+
+      currentPreviewCustomer = { ...customer, selectedGiftId: giftId };
+
+      // Populate preview modal select
+      const prevSel = document.getElementById('preview-gift-select');
+      if (prevSel) {
+        prevSel.innerHTML = BIRTHDAY_GIFTS.map(g => 
+          `<option value="${g.id}" ${g.id === giftId ? 'selected' : ''}>${g.name} - ${g.desc}</option>`
+        ).join('');
+      }
+
+      updatePreviewModalCard();
+      document.getElementById('modal-preview-birthday-gift').classList.remove('hidden');
+    }
+
+    function onPreviewGiftChange() {
+      if (!currentPreviewCustomer) return;
+      const prevSel = document.getElementById('preview-gift-select');
+      if (prevSel) {
+        currentPreviewCustomer.selectedGiftId = prevSel.value;
+      }
+      updatePreviewModalCard();
+    }
+
+    function updatePreviewModalCard() {
+      if (!currentPreviewCustomer) return;
+      const giftId = currentPreviewCustomer.selectedGiftId;
+      const gift = BIRTHDAY_GIFTS.find(g => g.id === giftId) || BIRTHDAY_GIFTS[0];
+      const cleanPhone = (currentPreviewCustomer.phone || '').replace(/[^0-9]/g, '');
+      const safeSuffix = cleanPhone.slice(-4) || '2026';
+      const voucherCode = `BT-${gift.codePrefix}-${safeSuffix}`.toUpperCase();
+
+      document.getElementById('preview-card-name').innerText = `Kính gửi Quý khách: ${currentPreviewCustomer.name}`;
+      document.getElementById('preview-card-title').innerHTML = `<i class="fa-solid fa-gift text-amber-400"></i> <span>${gift.label.toUpperCase()}</span>`;
+      document.getElementById('preview-card-desc').innerText = `${gift.detailText} (${gift.usageNote})`;
+      document.getElementById('preview-card-code').innerText = voucherCode;
+
+      const badgeEl = document.getElementById('preview-card-badge');
+      if (badgeEl) {
+        badgeEl.className = `px-2 py-0.5 rounded text-[10px] font-extrabold border ${gift.badgeColor}`;
+        badgeEl.innerText = gift.badge.toUpperCase();
+      }
+
+      const msgText = getGiftMessageText(currentPreviewCustomer, giftId);
+      document.getElementById('preview-message-text').value = msgText;
+    }
+
+    function closeGiftPreviewModal() {
+      const modal = document.getElementById('modal-preview-birthday-gift');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function copyPreviewMessageText() {
+      const textarea = document.getElementById('preview-message-text');
+      if (!textarea) return;
+      const text = textarea.value;
 
       navigator.clipboard.writeText(text).then(() => {
-        alert(`🎁 ĐÃ SAO CHÉP THIỆP SINH NHẬT VÀ MÃ GIẢM GIÁ 10% CHO KHÁCH "${name}"!\nBạn có thể dán (Ctrl+V) gửi ngay qua Zalo số: ${phone}!`);
+        alert(`🎁 ĐÃ SAO CHÉP THIỆP VÀ MÃ QUÀ TẶNG!\nBạn có thể dán (Ctrl+V) gửi ngay qua Zalo số: ${currentPreviewCustomer?.phone || ''}!`);
+      }).catch(() => {
+        textarea.select();
+        document.execCommand('copy');
+        alert(`🎁 ĐÃ SAO CHÉP THIỆP VÀ MÃ QUÀ TẶNG!\nBạn có thể dán (Ctrl+V) gửi ngay qua Zalo số: ${currentPreviewCustomer?.phone || ''}!`);
       });
+    }
+
+    function sendZaloDirectFromPreview() {
+      if (!currentPreviewCustomer) return;
+      copyPreviewMessageText();
+      const cleanPhone = (currentPreviewCustomer.phone || '').replace(/[^0-9]/g, '');
+      if (cleanPhone) {
+        window.open(`https://zalo.me/${cleanPhone}`, '_blank');
+      }
+    }
+
+    function quickSendGiftZalo(idx) {
+      const customers = window._currentBirthdayCustomers || [];
+      const customer = customers[idx];
+      if (!customer) return;
+
+      const selEl = document.getElementById(`gift-select-${idx}`);
+      const giftId = selEl ? selEl.value : BIRTHDAY_GIFTS[0].id;
+      const gift = BIRTHDAY_GIFTS.find(g => g.id === giftId) || BIRTHDAY_GIFTS[0];
+
+      const text = getGiftMessageText(customer, giftId);
+      const cleanPhone = (customer.phone || '').replace(/[^0-9]/g, '');
+
+      navigator.clipboard.writeText(text).then(() => {
+        const openZalo = confirm(`🎁 ĐÃ SAO CHÉP THIỆP SINH NHẬT VỚI MÓN QUÀ:\n👉 "${gift.label.toUpperCase()}" (Sử dụng 1 lần)\n\nCho khách hàng: ${customer.name} (${customer.phone})\n\nBấm [OK] để mở Zalo số ${customer.phone} và dán gửi ngay!`);
+        if (openZalo && cleanPhone) {
+          window.open(`https://zalo.me/${cleanPhone}`, '_blank');
+        }
+      }).catch(() => {
+        alert(`🎁 Đã chuẩn bị thiệp sinh nhật và quà "${gift.label}" cho khách ${customer.name}!`);
+      });
+    }
+
+    // Giữ lại alias cũ để tương thích
+    function sendBirthdayWishZalo(phone, name, service) {
+      const customer = { name, phone, service };
+      quickSendGiftZalo(0);
     }
 
     // MODAL TRA CỨU BẢNG GIÁ & BÁO KHÁCH
