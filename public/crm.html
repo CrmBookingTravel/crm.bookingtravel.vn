@@ -333,7 +333,7 @@
         <!-- HÌNH ẢNH TẬP THỂ NHÂN VIÊN BOOKING TRAVEL -->
         <div class="relative max-w-2xl rounded-2xl overflow-hidden border border-blue-400/30 shadow-2xl bg-slate-900/60 backdrop-blur group">
           <div class="relative aspect-[16/9] sm:h-56 lg:h-64 w-full overflow-hidden">
-            <img src="team_bookingtravel.jpg" alt="Tập thể Cán Bộ Nhân Viên - Công ty TNHH Booking Travel" class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700">
+            <img src="team_bookingtravel.jpg" alt="Tập thể Cán Bộ Nhân Viên - Công ty TNHH Booking Travel" loading="lazy" decoding="async" class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700">
             <div class="absolute inset-0 bg-gradient-to-t from-[#07162f] via-transparent to-transparent opacity-80"></div>
           </div>
           <div class="absolute bottom-0 inset-x-0 p-3 sm:p-4 flex items-center justify-between gap-3 bg-gradient-to-t from-[#07162f] via-[#07162f]/90 to-transparent">
@@ -692,7 +692,7 @@
       <div class="flex-1 max-w-md min-w-[180px] mx-1 sm:mx-4">
         <div class="relative w-full">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
-          <input type="text" id="global-search" oninput="handleSearch()" placeholder="🔍 Tìm khách, SĐT, Resort, Tour, Mã Đơn..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+          <input type="text" id="global-search" oninput="handleSearch(event)" onkeydown="if(event.key==='Enter') handleSearch(event)" placeholder="🔍 Tìm khách, SĐT, Resort, Tour, Mã Đơn..." class="w-full bg-slate-900/90 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
         </div>
       </div>
 
@@ -7989,7 +7989,20 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       }
     }
 
-    function handleSearch() {
+    let _searchDebounceTimer = null;
+    function handleSearch(event) {
+      if (event && event.key === 'Enter') {
+        clearTimeout(_searchDebounceTimer);
+        executeSearch();
+        return;
+      }
+      clearTimeout(_searchDebounceTimer);
+      _searchDebounceTimer = setTimeout(() => {
+        executeSearch();
+      }, 150);
+    }
+
+    function executeSearch() {
       if (currentView === 'bookings') {
         renderTable();
       } else if (currentView === 'expenses') {
@@ -8258,8 +8271,11 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         if (!canViewAll && !isMine) return false;
 
         const rev = parseFloat(b.giaBan) || 0;
+        const cst = parseFloat(b.giaVon) || 0;
         const paidAR = parseFloat(b.khachDaCoc) || 0;
+        const paidAP = parseFloat(b.daTraDoiTac) || 0;
         const remainAR = Math.max(0, rev - paidAR);
+        const remainAP = Math.max(0, cst - paidAP);
 
         if (currentFilter === 'my_orders' && !isMine) return false;
         if (currentFilter === 'cho_ke_toan') {
