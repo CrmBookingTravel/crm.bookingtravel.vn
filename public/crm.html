@@ -3977,6 +3977,10 @@
           <i class="fa-solid fa-copy"></i>
           <span>Sao Chép Tin Nhắn</span>
         </button>
+        <button onclick="sendSMSDirectFromPreview()" class="px-4 py-1.5 rounded-lg bg-sky-950 hover:bg-sky-900 text-sky-300 border border-sky-500/40 text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer" title="Tự động mở SMS trên điện thoại">
+          <i class="fa-solid fa-comment-sms"></i>
+          <span>Gửi SMS Tự Động</span>
+        </button>
         <button onclick="sendZaloDirectFromPreview()" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-700 hover:to-sky-700 text-white text-xs font-extrabold transition flex items-center gap-1.5 shadow-md shadow-blue-600/30 cursor-pointer">
           <i class="fa-solid fa-paper-plane"></i>
           <span>Mở Zalo Gửi Khách</span>
@@ -7688,7 +7692,7 @@ ${roomingList || ('1. ' + b.khachHang)}
             </div>
           </div>
 
-          <div class="flex items-center gap-2 shrink-0 self-end md:self-auto w-full md:w-auto">
+          <div class="flex items-center gap-1.5 shrink-0 self-end md:self-auto w-full md:w-auto">
             <select id="gift-select-${idx}" class="flex-1 md:w-44 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-amber-300 font-medium focus:outline-none focus:border-amber-500">
               ${giftOptionsHtml}
             </select>
@@ -7696,9 +7700,17 @@ ${roomingList || ('1. ' + b.khachHang)}
               <i class="fa-regular fa-eye text-xs"></i>
               <span>Xem Thiệp</span>
             </button>
-            <button onclick="quickSendGiftZalo(${idx})" class="px-3 py-1.5 bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white text-xs font-bold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+            <button onclick="quickCopyGift(${idx})" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-amber-200 text-xs font-bold rounded-lg border border-amber-500/30 transition flex items-center gap-1 cursor-pointer" title="Sao chép toàn bộ thiệp & mã">
+              <i class="fa-regular fa-copy text-xs"></i>
+              <span>Copy</span>
+            </button>
+            <button onclick="quickSendGiftSMS(${idx})" class="px-2.5 py-1.5 bg-sky-950 hover:bg-sky-900 text-sky-300 text-xs font-bold rounded-lg border border-sky-500/40 transition flex items-center gap-1 cursor-pointer" title="Tự động mở SMS điện thoại điền sẵn nội dung">
+              <i class="fa-solid fa-comment-sms text-xs"></i>
+              <span>SMS</span>
+            </button>
+            <button onclick="quickSendGiftZalo(${idx})" class="px-3 py-1.5 bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-700 hover:to-sky-700 text-white text-xs font-bold rounded-lg shadow-sm transition flex items-center gap-1.5 cursor-pointer" title="Tự động copy & mở Zalo khách">
               <i class="fa-solid fa-paper-plane text-xs"></i>
-              <span>Gửi Quà Zalo</span>
+              <span>Mở Zalo Gửi</span>
             </button>
           </div>
         `;
@@ -7707,6 +7719,32 @@ ${roomingList || ('1. ' + b.khachHang)}
 
       // Lưu danh sách khách hàng để các hàm modal truy cập
       window._currentBirthdayCustomers = customers;
+    }
+
+    function showToastNotification(message, icon = 'fa-check') {
+      let toast = document.getElementById('bt-toast-notification');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'bt-toast-notification';
+        toast.className = 'fixed top-5 right-5 z-[9999] max-w-sm px-4 py-3 rounded-xl bg-slate-900/95 border border-emerald-500/40 text-white shadow-2xl backdrop-blur-md flex items-center gap-3 transition-all duration-300 transform translate-y-[-20px] opacity-0 pointer-events-none';
+        document.body.appendChild(toast);
+      }
+
+      toast.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+          <i class="fa-solid ${icon}"></i>
+        </div>
+        <div class="text-xs font-medium leading-relaxed">${message}</div>
+      `;
+
+      toast.classList.remove('translate-y-[-20px]', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      clearTimeout(window._toastTimeout);
+      window._toastTimeout = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-[-20px]', 'opacity-0', 'pointer-events-none');
+      }, 4000);
     }
 
     function getGiftMessageText(customer, giftId) {
@@ -7799,11 +7837,11 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const text = textarea.value;
 
       navigator.clipboard.writeText(text).then(() => {
-        alert(`🎁 ĐÃ SAO CHÉP THIỆP VÀ MÃ QUÀ TẶNG!\nBạn có thể dán (Ctrl+V) gửi ngay qua Zalo số: ${currentPreviewCustomer?.phone || ''}!`);
+        showToastNotification(`🎁 Đã sao chép toàn bộ thiệp & mã quà tặng cho khách <strong>${currentPreviewCustomer?.name || ''}</strong>!`, 'fa-copy');
       }).catch(() => {
         textarea.select();
         document.execCommand('copy');
-        alert(`🎁 ĐÃ SAO CHÉP THIỆP VÀ MÃ QUÀ TẶNG!\nBạn có thể dán (Ctrl+V) gửi ngay qua Zalo số: ${currentPreviewCustomer?.phone || ''}!`);
+        showToastNotification(`🎁 Đã sao chép toàn bộ thiệp & mã quà tặng!`, 'fa-copy');
       });
     }
 
@@ -7814,6 +7852,48 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       if (cleanPhone) {
         window.open(`https://zalo.me/${cleanPhone}`, '_blank');
       }
+    }
+
+    function sendSMSDirectFromPreview() {
+      if (!currentPreviewCustomer) return;
+      const giftId = currentPreviewCustomer.selectedGiftId;
+      const text = getGiftMessageText(currentPreviewCustomer, giftId);
+      const cleanPhone = (currentPreviewCustomer.phone || '').replace(/[^0-9]/g, '');
+      const smsUri = `sms:${cleanPhone}?body=${encodeURIComponent(text)}`;
+      showToastNotification(`📱 Đang mở ứng dụng Tin nhắn SMS đã tự động điền sẵn thiệp cho <strong>${currentPreviewCustomer.name}</strong>!`, 'fa-comment-sms');
+      window.location.href = smsUri;
+    }
+
+    function quickCopyGift(idx) {
+      const customers = window._currentBirthdayCustomers || [];
+      const customer = customers[idx];
+      if (!customer) return;
+
+      const selEl = document.getElementById(`gift-select-${idx}`);
+      const giftId = selEl ? selEl.value : BIRTHDAY_GIFTS[0].id;
+      const gift = BIRTHDAY_GIFTS.find(g => g.id === giftId) || BIRTHDAY_GIFTS[0];
+
+      const text = getGiftMessageText(customer, giftId);
+      navigator.clipboard.writeText(text).then(() => {
+        showToastNotification(`📋 Đã sao chép thiệp & mã quà: <strong>${gift.label}</strong>!`, 'fa-copy');
+      }).catch(() => {
+        showToastNotification(`📋 Đã sao chép thiệp quà tặng cho <strong>${customer.name}</strong>!`, 'fa-copy');
+      });
+    }
+
+    function quickSendGiftSMS(idx) {
+      const customers = window._currentBirthdayCustomers || [];
+      const customer = customers[idx];
+      if (!customer) return;
+
+      const selEl = document.getElementById(`gift-select-${idx}`);
+      const giftId = selEl ? selEl.value : BIRTHDAY_GIFTS[0].id;
+
+      const text = getGiftMessageText(customer, giftId);
+      const cleanPhone = (customer.phone || '').replace(/[^0-9]/g, '');
+      const smsUri = `sms:${cleanPhone}?body=${encodeURIComponent(text)}`;
+      showToastNotification(`📱 Đang mở ứng dụng SMS đã tự động điền sẵn thiệp cho <strong>${customer.name}</strong>!`, 'fa-comment-sms');
+      window.location.href = smsUri;
     }
 
     function quickSendGiftZalo(idx) {
@@ -7828,14 +7908,23 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const text = getGiftMessageText(customer, giftId);
       const cleanPhone = (customer.phone || '').replace(/[^0-9]/g, '');
 
+      // Tự động copy nội dung vào Clipboard mà không cần người dùng xác nhận
       navigator.clipboard.writeText(text).then(() => {
-        const openZalo = confirm(`🎁 ĐÃ SAO CHÉP THIỆP SINH NHẬT VỚI MÓN QUÀ:\n👉 "${gift.label.toUpperCase()}" (Sử dụng 1 lần)\n\nCho khách hàng: ${customer.name} (${customer.phone})\n\nBấm [OK] để mở Zalo số ${customer.phone} và dán gửi ngay!`);
-        if (openZalo && cleanPhone) {
-          window.open(`https://zalo.me/${cleanPhone}`, '_blank');
-        }
+        showToastNotification(`🎁 Đã tự động sao chép thiệp & mã: <strong>${gift.label}</strong>! Đang mở Zalo để bạn dán (Ctrl+V) gửi ngay cho khách.`, 'fa-paper-plane');
       }).catch(() => {
-        alert(`🎁 Đã chuẩn bị thiệp sinh nhật và quà "${gift.label}" cho khách ${customer.name}!`);
+        showToastNotification(`🎁 Đang mở Zalo gửi thiệp quà tặng cho <strong>${customer.name}</strong>.`, 'fa-paper-plane');
       });
+
+      // Mở ngay cửa sổ Zalo với số điện thoại của khách hàng
+      if (cleanPhone) {
+        window.open(`https://zalo.me/${cleanPhone}`, '_blank');
+      }
+    }
+
+    // Giữ lại alias cũ để tương thích
+    function sendBirthdayWishZalo(phone, name, service) {
+      const customer = { name, phone, service };
+      quickSendGiftZalo(0);
     }
 
     // Giữ lại alias cũ để tương thích
