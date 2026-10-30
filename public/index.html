@@ -2201,9 +2201,9 @@
           </div>
           <div>
             <h3 id="modal-title" class="text-base sm:text-lg font-extrabold text-white uppercase tracking-wide flex items-center gap-2">
-              <span>ĐIỀU HÀNH & HẠCH TOÁN BOOKING</span>
+              <span>TẠO BOOKING</span>
             </h3>
-            <p class="text-xs text-slate-400">Công ty TNHH Booking Travel &bull; Hệ Thống Điều Hành Độc Quyền</p>
+            <p class="text-xs text-sky-300 font-semibold">Công ty TNHH Booking Travel &bull; Hệ Thống Tạo Đơn Đặt Phòng & Dịch Vụ</p>
           </div>
         </div>
         
@@ -2219,88 +2219,95 @@
       </div>
 
       <!-- Modal Body (Form cuộn thoải mái, font to rõ ràng, không hoa mắt) -->
-      <form id="booking-form" onsubmit="handleSaveBooking(event)" class="flex-1 overflow-y-auto p-5 sm:p-7 space-y-6">
+      <form id="booking-form" onsubmit="handleSaveBooking(event)" class="flex-1 overflow-y-auto p-4 sm:p-7 space-y-6">
         <input type="hidden" id="edit-id" value="">
         <input type="hidden" id="ipt-room-lookup" value="">
+        <input type="hidden" id="ipt-room-type" value="">
+        <input type="hidden" id="ipt-room-count" value="1">
+        <input type="hidden" id="ipt-night-count" value="1">
 
         <!-- ========================================================================= -->
-        <!-- KHỐI 1: THÔNG TIN ĐIỀU HÀNH & HỒ SƠ KHÁCH HÀNG -->
+        <!-- KHỐI 1: THÔNG TIN ĐƠN HÀNG, KHÁCH SẠN & LỊCH TRÌNH -->
         <!-- ========================================================================= -->
         <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-5">
+          
           <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
-            <!-- QUY TRÌNH 3 BƯỚC CHUẨN CÔNG TY BOOKING TRAVEL -->
-          <div class="p-3 sm:p-4 rounded-xl bg-slate-950/80 border border-blue-900/60 mb-3">
-            <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
-              <span>Quy Trình Phê Duyệt 3 Bước Chuẩn</span>
-              <span class="text-sky-400 font-mono">Sales ➔ Kế Toán ➔ Ban Giám Đốc</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-xs">
-                <div class="font-bold text-amber-300 flex items-center gap-1.5">
-                  <span class="w-5 h-5 rounded-full bg-amber-500 text-slate-950 font-black text-[10px] flex items-center justify-center">1</span>
-                  <span>B1: Sales Tạo Đơn</span>
-                </div>
-                <div class="text-[11px] text-slate-400 mt-1">Kiều, Thắng, Linh chọn dịch vụ, nhập tiền & tải UNC/QR</div>
-              </div>
-              <div class="p-2.5 rounded-lg bg-sky-500/10 border border-sky-500/30 text-xs">
-                <div class="font-bold text-sky-300 flex items-center gap-1.5">
-                  <span class="w-5 h-5 rounded-full bg-sky-500 text-slate-950 font-black text-[10px] flex items-center justify-center">2</span>
-                  <span>B2: Kế Toán Duyệt Tiền</span>
-                </div>
-                <div class="text-[11px] text-slate-400 mt-1">Linh đối soát AR/AP & sao kê Techcombank 554479/MB</div>
-              </div>
-              <div class="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-xs">
-                <div class="font-bold text-emerald-300 flex items-center gap-1.5">
-                  <span class="w-5 h-5 rounded-full bg-emerald-500 text-slate-950 font-black text-[10px] flex items-center justify-center">3</span>
-                  <span>B3: BGĐ Phê Duyệt</span>
-                </div>
-                <div class="text-[11px] text-slate-400 mt-1">Quỳnh Chi duyệt P&L, chốt điều hành & tự động đẩy HĐ VAT</div>
-              </div>
-            </div>
+            <h4 class="text-sm sm:text-base font-bold text-sky-400 uppercase tracking-wide flex items-center gap-2">
+              <i class="fa-solid fa-hotel text-sky-400"></i>
+              <span>1. Thông Tin Đơn Hàng & Khách Sạn</span>
+            </h4>
+            <span class="text-xs text-slate-400 font-mono">Quy trình: Sales ➔ Kế Toán ➔ Ban Giám Đốc</span>
           </div>
 
-          <h4 class="text-sm sm:text-base font-bold text-sky-400 uppercase tracking-wide flex items-center gap-2">
-            <i class="fa-solid fa-address-card text-sky-400"></i>
-            <span>1. Thông Tin Điều Hành & Hồ Sơ Khách Hàng</span>
-          </h4>
-          </div>
-
-          <!-- Dòng 1: Mã Đơn, Ngày Tạo, Sale, Phân Loại, Trạng Thái -->
+          <!-- Dòng 1: Mã Booking, Code Phòng, Sale Phụ Trách, Ngày Tạo -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Mã Booking (*)</label>
-              <input type="text" id="ipt-code" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base font-mono font-bold text-sky-300 focus:outline-none focus:border-sky-400 uppercase">
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Mã Booking (*)</label>
+              <input type="text" id="ipt-code" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-sm font-mono font-bold text-sky-300 focus:outline-none focus:border-sky-400 uppercase">
             </div>
 
             <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Ngày Tạo Đơn (*)</label>
-              <input type="datetime-local" id="ipt-created-date" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-mono text-emerald-300 focus:outline-none focus:border-emerald-400">
+              <label class="block text-xs font-bold text-amber-300 mb-1.5 flex items-center justify-between">
+                <span>Code Phòng (Bên Khách Sạn Cho)</span>
+                <i class="fa-solid fa-key text-[11px] text-amber-400"></i>
+              </label>
+              <input type="text" id="ipt-room-code" placeholder="VD: ROVA-5774, VINP-8899..." class="w-full bg-[#07162f] border border-amber-500/50 rounded-xl px-3.5 py-2 text-sm font-mono font-bold text-amber-300 focus:outline-none focus:border-amber-400 uppercase" title="Mã xác nhận / Code phòng do bên khách sạn cung cấp sau khi giữ chỗ">
             </div>
 
             <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Sale Phụ Trách (*)</label>
-              <select id="ipt-sale" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-400">
-                <!-- Populated dynamically -->
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Sale Phụ Trách (*)</label>
+              <select id="ipt-sale" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-sky-400">
+                <!-- Tự động điền theo hệ thống phân quyền -->
               </select>
             </div>
 
             <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Nhóm Dịch Vụ (*)</label>
-              <select id="ipt-service-type" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-400">
-                <option value="hotel">🏨 Khách Sạn / Resort Lẻ</option>
-                <option value="combo">✈️ Combo Du Lịch (Phòng + Vé/Xe)</option>
-                <option value="tour">🚩 Tour Trọn Gói / Ghép Đoàn</option>
-                <option value="ticket">🎟️ Vé Vui Chơi (VinWonders/Sun World)</option>
-              </select>
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Ngày Tạo Đơn (*)</label>
+              <input type="datetime-local" id="ipt-created-date" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-mono text-emerald-300 focus:outline-none focus:border-emerald-400">
             </div>
           </div>
 
-          <!-- Dòng 2: Trạng Thái Điều Hành & Lịch Trình Check-in / Check-out -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Trạng Thái Điều Hành (*)</label>
-              <select id="ipt-tour-status" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-amber-300 font-bold focus:outline-none focus:border-amber-400">
+          <!-- Dòng 2: Tên Khách Sạn / Resort (Tối Ưu Lại Có Nút Chọn Nhanh) -->
+          <div class="space-y-2 bg-[#0a1b38] p-4 rounded-xl border border-sky-800/60 shadow-inner">
+            <div class="flex flex-wrap items-center justify-between gap-1.5">
+              <label class="block text-xs font-bold text-sky-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-hotel text-sky-400"></i> Tên Khách Sạn / Resort / Nhà Cung Cấp (*)
+              </label>
+              <span class="text-[11px] text-slate-400">Bấm chọn nhanh hoặc nhập tên khách sạn:</span>
+            </div>
+            
+            <input type="text" id="ipt-supplier" required oninput="recalculateTotalFinancials()" placeholder="VD: Khách Sạn Rova Nha Trang, Amaya Retreat Sóc Sơn, Flamingo Đại Lải..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base text-white font-bold focus:outline-none focus:border-sky-400">
+            
+            <!-- Quick select pills các khách sạn thường xuyên đặt -->
+            <div class="flex flex-wrap items-center gap-1.5 pt-1">
+              <button type="button" onclick="selectQuickHotel('Khách Sạn Rova Nha Trang')" class="px-2.5 py-1 rounded-lg bg-sky-950/80 hover:bg-sky-800 text-sky-300 border border-sky-700/60 text-[11px] font-semibold transition cursor-pointer">
+                🏢 KS Rova Nha Trang
+              </button>
+              <button type="button" onclick="selectQuickHotel('Amaya Retreat Sóc Sơn')" class="px-2.5 py-1 rounded-lg bg-sky-950/80 hover:bg-sky-800 text-sky-300 border border-sky-700/60 text-[11px] font-semibold transition cursor-pointer">
+                🌿 Amaya Retreat Sóc Sơn
+              </button>
+              <button type="button" onclick="selectQuickHotel('Flamingo Đại Lải Resort')" class="px-2.5 py-1 rounded-lg bg-sky-950/80 hover:bg-sky-800 text-sky-300 border border-sky-700/60 text-[11px] font-semibold transition cursor-pointer">
+                🦩 Flamingo Đại Lải
+              </button>
+              <button type="button" onclick="selectQuickHotel('King Town Grand Hotel Nha Trang')" class="px-2.5 py-1 rounded-lg bg-sky-950/80 hover:bg-sky-800 text-sky-300 border border-sky-700/60 text-[11px] font-semibold transition cursor-pointer">
+                👑 King Town Grand
+              </button>
+              <button type="button" onclick="selectQuickHotel('Champa Island Nha Trang Resort')" class="px-2.5 py-1 rounded-lg bg-sky-950/80 hover:bg-sky-800 text-sky-300 border border-sky-700/60 text-[11px] font-semibold transition cursor-pointer">
+                🏝️ Champa Island
+              </button>
+              <button type="button" onclick="selectQuickHotel('Vinpearl Resort Nha Trang')" class="px-2.5 py-1 rounded-lg bg-sky-950/80 hover:bg-sky-800 text-sky-300 border border-sky-700/60 text-[11px] font-semibold transition cursor-pointer">
+                ⭐ Vinpearl Resort
+              </button>
+            </div>
+          </div>
+
+          <!-- Dòng 3: Trạng Thái Booking & Ngày Check-In / Check-Out (Tự Tính Số Đêm) -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
+            <div class="sm:col-span-5">
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Trạng Thái Điều Hành (*)</label>
+              <select id="ipt-tour-status" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-amber-300 font-bold focus:outline-none focus:border-amber-400">
                 <option value="cho_duyet">🟡 Bước 1: Chờ Kế Toán Duyệt Tiền</option>
+                <option value="da_coc">🟠 Đã Cọc / Giữ Chỗ Phòng</option>
                 <option value="ke_toan_duyet">🔵 Bước 2: Kế Toán Đã Duyệt Tiền - Chờ BGĐ</option>
                 <option value="da_chot">🟢 Bước 3: BGĐ Đã Duyệt - Chốt Điều Hành</option>
                 <option value="dang_di">🟣 Bước 4: Đang Check-in / Đi Tour</option>
@@ -2308,198 +2315,213 @@
               </select>
             </div>
 
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Ngày Check-In (*)</label>
-              <input type="date" id="ipt-checkin" onchange="document.getElementById('ipt-checkout').min = this.value" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base text-white focus:outline-none focus:border-sky-400 font-mono">
+            <div class="sm:col-span-3">
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Ngày Check-In (*)</label>
+              <input type="date" id="ipt-checkin" onchange="onBookingDatesChange()" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-sky-400 font-mono">
             </div>
 
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Ngày Check-Out (*)</label>
-              <input type="date" id="ipt-checkout" onchange="calculateNightsInBookingForm();" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base text-white focus:outline-none focus:border-sky-400 font-mono">
-            </div>
-          </div>
-
-          <!-- Dòng Chi Tiết: Hạng Phòng, Số Lượng Phòng, Số Người & Số Đêm (Đầy đủ theo yêu cầu) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-[#0a1b38] p-4 rounded-xl border border-sky-800/60 shadow-inner">
-            <div>
-              <label class="block text-sm font-bold text-sky-300 mb-1.5 flex items-center gap-1.5">
-                <i class="fa-solid fa-bed text-sky-400"></i> Hạng Phòng (*)
-              </label>
-              <input type="text" id="ipt-room-type" placeholder="VD: Executive Ocean View" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white font-bold focus:outline-none focus:border-sky-400">
+            <div class="sm:col-span-3">
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Ngày Check-Out (*)</label>
+              <input type="date" id="ipt-checkout" onchange="onBookingDatesChange()" required class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-sky-400 font-mono">
             </div>
 
-            <div>
-              <label class="block text-sm font-bold text-sky-300 mb-1.5 flex items-center gap-1.5">
-                <i class="fa-solid fa-door-open text-sky-400"></i> Số Lượng Phòng
-              </label>
-              <input type="number" id="ipt-room-count" min="1" value="1" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-black text-sky-200 text-center focus:outline-none focus:border-sky-400 font-mono">
+            <div class="sm:col-span-1 flex flex-col justify-end">
+              <div class="h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold font-mono text-xs flex items-center justify-center shrink-0" title="Tổng số đêm lưu trú">
+                <span id="booking-nights-badge">1 đêm</span>
+              </div>
             </div>
-
-            <div>
-              <label class="block text-sm font-bold text-amber-300 mb-1.5 flex items-center gap-1.5">
-                <i class="fa-solid fa-users text-amber-400"></i> Số Lượng Người / Khách
-              </label>
-              <input type="text" id="ipt-guest-count" placeholder="VD: 4 Người lớn, 1 Trẻ em" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-black text-amber-200 text-center focus:outline-none focus:border-amber-400">
-            </div>
-
-            <div>
-              <label class="block text-sm font-bold text-emerald-300 mb-1.5 flex items-center gap-1.5">
-                <i class="fa-solid fa-moon text-emerald-400"></i> Tổng Số Đêm
-              </label>
-              <input type="number" id="ipt-night-count" min="1" value="1" oninput="updateCheckOutFromNights()" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm font-black text-emerald-300 text-center focus:outline-none focus:border-emerald-400 font-mono">
-            </div>
-          </div>
-
-          <!-- Dòng 3: Khách Hàng (Họ Tên, SĐT, Email, CCCD) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Họ & Tên Khách Hàng (*)</label>
-              <input type="text" id="ipt-customer" required placeholder="VD: Nguyễn Văn Hùng" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base text-white font-bold focus:outline-none focus:border-sky-400">
-            </div>
-
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5 flex items-center justify-between">
-                <span>Số Điện Thoại (*)</span>
-                <span id="phone-feedback" class="text-xs font-mono"></span>
-              </label>
-              <input type="tel" id="ipt-phone" required maxlength="11" oninput="handlePhoneInput(this)" placeholder="VD: 0912345678" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400">
-            </div>
-
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Email Khách Hàng</label>
-              <input type="email" id="ipt-customer-email" placeholder="VD: khachhang@gmail.com" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base text-white focus:outline-none focus:border-sky-400">
-            </div>
-
-            <div>
-              <label class="block text-sm font-bold text-slate-200 mb-1.5">Số CCCD / Hộ Chiếu</label>
-              <input type="text" id="ipt-customer-cccd" placeholder="VD: 001089012345" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base text-white font-mono focus:outline-none focus:border-sky-400">
-            </div>
-          </div>
-
-          <!-- Dòng 4: Tên Dịch Vụ / Lộ Trình Chi Tiết & Ghi Chú (Rộng rãi, Font to) -->
-          <div>
-            <label class="block text-sm font-bold text-amber-300 mb-1.5">
-              Tên Dịch Vụ / Lộ Trình Chi Tiết & Ghi Chú Yêu Cầu (*)
-            </label>
-            <textarea id="ipt-service" rows="3" required placeholder="Nhập tên khách sạn, hạng phòng, tiện ích, số lượng khách..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl p-4 text-sm sm:text-base text-white font-medium focus:outline-none focus:border-amber-400 leading-relaxed"></textarea>
-          </div>
-
-          <!-- Dòng 5: Nhà Cung Cấp -->
-          <div>
-            <label class="block text-sm font-bold text-slate-200 mb-1.5">
-              Nhà Cung Cấp / Khách Sạn / Resort (*)
-            </label>
-            <input type="text" id="ipt-supplier" required placeholder="VD: Sheraton Nha Trang Hotel & Spa" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-4 py-2.5 text-sm sm:text-base text-white font-bold focus:outline-none focus:border-sky-400">
           </div>
 
         </div>
 
         <!-- ========================================================================= -->
-        <!-- KHỐI 3: TÀI CHÍNH BÁN HÀNG & MUA HÀNG (DOANH THU, GIÁ VỐN, LÃI GỘP) -->
+        <!-- KHỐI 2: CHI TIẾT HẠNG PHÒNG & NHÂN BẢN (CÔNG THỨC: PHÒNG × ĐÊM × GIÁ) -->
         <!-- ========================================================================= -->
-        <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-amber-900/40 shadow-md space-y-5">
+        <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-4">
+          
+          <div class="border-b border-slate-800 pb-3 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h4 class="text-sm sm:text-base font-bold text-sky-400 uppercase tracking-wide flex items-center gap-2">
+                <i class="fa-solid fa-bed text-sky-400"></i>
+                <span>2. Chi Tiết Hạng Phòng & Nhân Bản (Thêm Nhiều Hạng Phòng)</span>
+              </h4>
+              <p class="text-[11px] text-slate-400 mt-0.5">Phép tính tự động: <b>[Số phòng] × [Số đêm] × [Đơn giá] = [Tiền phòng]</b></p>
+            </div>
+            
+            <button type="button" onclick="addBookingRoom()" class="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 active:scale-95 text-white font-bold text-xs shadow-md shadow-sky-600/30 transition flex items-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-plus text-xs"></i>
+              <span>+ Thêm Hạng Phòng</span>
+            </button>
+          </div>
+
+          <!-- Danh sách các hạng phòng (Dynamic Room Types Container) -->
+          <div id="room-types-list" class="space-y-3">
+            <!-- Được render tự động qua renderBookingRoomRows() -->
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <button type="button" onclick="addBookingRoom()" class="px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-sky-300 hover:text-white font-bold text-xs border border-sky-500/30 transition flex items-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-clone text-xs"></i>
+              <span>+ Nhân Bản / Thêm Hạng Phòng Khác Vào Đơn Này</span>
+            </button>
+            <span class="text-[11px] text-slate-400 italic">* Khách có thể đặt nhiều hạng phòng cùng lúc</span>
+          </div>
+
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- KHỐI 3: PHỤ THU TRẺ EM & GIƯỜNG PHỤ (EXTRA BED) -->
+        <!-- ========================================================================= -->
+        <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-4">
+          
           <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
             <h4 class="text-sm sm:text-base font-bold text-amber-400 uppercase tracking-wide flex items-center gap-2">
-              <i class="fa-solid fa-coins text-amber-400"></i>
-              <span>2. Hạch Toán Doanh Thu, Giá Vốn & Lợi Nhuận Gộp</span>
+              <i class="fa-solid fa-children text-amber-400"></i>
+              <span>3. Phụ Thu Trẻ Em & Giường Phụ (Extra Bed)</span>
             </h4>
+            <span class="text-[11px] text-slate-400 font-mono">Tự tính theo số lượng & đêm</span>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            <!-- Cột 1: Thu Khách (Giá Bán) -->
-            <div class="p-4 sm:p-5 bg-[#07162f] border border-slate-800 rounded-xl space-y-3.5">
-              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                <span class="text-sm font-bold text-sky-400 uppercase">
-                  Bán Hàng (Doanh Thu Khách)
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- 1. Phụ Thu Trẻ Em: Số Lượng Trẻ Em × Số Đêm × Đơn Giá = Tiền -->
+            <div class="p-3.5 rounded-xl bg-[#07162f] border border-amber-900/40 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-child text-amber-400"></i> Phụ Thu Trẻ Em
                 </span>
-                <span class="text-xs text-slate-400 font-bold">GIÁ BÁN THỰC TẾ</span>
+                <span class="text-[10px] text-slate-400">Phép tính: Trẻ em × Đêm × Giá</span>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[10px] font-semibold text-slate-400 mb-1">Số Lượng Trẻ Em</label>
+                  <input type="number" id="ipt-child-count" min="0" value="0" oninput="recalculateTotalFinancials()" placeholder="0" class="w-full bg-[#0a1b38] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-300 font-bold font-mono text-center focus:outline-none focus:border-amber-400">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-semibold text-slate-400 mb-1">Giá Phụ Thu / Bé / Đêm</label>
+                  <input type="text" id="ipt-child-price" oninput="handleCurrencyInput(this); recalculateTotalFinancials()" placeholder="0" class="w-full bg-[#0a1b38] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-300 font-bold font-mono focus:outline-none focus:border-amber-400">
+                </div>
               </div>
 
-              <div>
-                <label class="block text-sm font-bold text-slate-200 mb-1.5 flex items-center justify-between">
-                  <span>Giá Bán Báo Khách (VNĐ) (*)</span>
-                  <span class="text-xs text-amber-300 font-mono font-bold" id="badge-revenue-word"></span>
-                </label>
-                <div class="relative">
-                  <input type="text" id="ipt-revenue" required placeholder="0" oninput="handleCurrencyInput(this); calculateFormFinancials();" class="w-full bg-[#0a1931] border border-slate-700 focus:border-amber-400 rounded-xl pl-4 pr-12 py-3 text-base sm:text-lg font-mono font-extrabold text-amber-300 focus:outline-none">
-                  <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-sm text-slate-400 font-bold">đ</span>
-                </div>
-              </div>
-
-              <div class="p-3 rounded-lg bg-[#07162f] border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-1.5">
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-400">Tổng Đã Thu Của Khách:</span>
-                  <span id="sum-customer-paid-display" class="font-mono font-bold text-emerald-400 text-sm">0 đ</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-400 font-semibold">Khách Còn Thiếu (Nợ Phải Thu AR):</span>
-                  <span id="customer-debt-remain-display" class="font-mono font-bold text-rose-400 text-sm">0 đ</span>
-                </div>
+              <div class="p-2 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] flex items-center justify-between font-mono">
+                <span class="text-slate-400">Phép tính:</span>
+                <span id="child-calc-preview" class="text-amber-300 font-bold">0 trẻ em × 1 đêm = 0 đ</span>
               </div>
             </div>
 
-            <!-- Cột 2: Trả NCC (Giá Vốn) -->
-            <div class="p-4 sm:p-5 bg-[#07162f] border border-slate-800 rounded-xl space-y-3.5">
-              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                <span class="text-sm font-bold text-amber-400 uppercase">
-                  Mua Hàng (Giá Vốn Trả NCC)
+            <!-- 2. Phụ Thu Giường Phụ: Số Lượng Giường × Số Đêm × Đơn Giá = Tiền -->
+            <div class="p-3.5 rounded-xl bg-[#07162f] border border-purple-900/40 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-bed text-purple-400"></i> Phụ Giường Phụ (Extra Bed)
                 </span>
-                <span class="text-xs text-slate-400 font-bold">GIÁ NET ĐỐI TÁC</span>
+                <span class="text-[10px] text-slate-400">Phép tính: Giường × Đêm × Giá</span>
               </div>
-
-              <div>
-                <label class="block text-sm font-bold text-slate-200 mb-1.5 flex items-center justify-between">
-                  <span>Giá Vốn Trả Nhà Cung Cấp (VNĐ) (*)</span>
-                  <span class="text-xs text-slate-400 font-mono font-bold" id="badge-cost-word"></span>
-                </label>
-                <div class="relative">
-                  <input type="text" id="ipt-cost" required placeholder="0" oninput="handleCurrencyInput(this); calculateFormFinancials();" class="w-full bg-[#0a1931] border border-slate-700 focus:border-slate-400 rounded-xl pl-4 pr-12 py-3 text-base sm:text-lg font-mono font-bold text-slate-200 focus:outline-none">
-                  <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-sm text-slate-400 font-bold">đ</span>
+              
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[10px] font-semibold text-slate-400 mb-1">Số Giường Phụ</label>
+                  <input type="number" id="ipt-extrabed-count" min="0" value="0" oninput="recalculateTotalFinancials()" placeholder="0" class="w-full bg-[#0a1b38] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-purple-300 font-bold font-mono text-center focus:outline-none focus:border-purple-400">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-semibold text-slate-400 mb-1">Giá Giường / Đêm</label>
+                  <input type="text" id="ipt-extrabed-price" oninput="handleCurrencyInput(this); recalculateTotalFinancials()" placeholder="0" class="w-full bg-[#0a1b38] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-purple-300 font-bold font-mono focus:outline-none focus:border-purple-400">
                 </div>
               </div>
 
-              <div>
-                <label class="block text-sm font-semibold text-slate-300 mb-1.5">Số Tiền Đã Thanh Toán Cho NCC</label>
-                <div class="relative">
-                  <input type="text" id="ipt-ap-paid" placeholder="0" oninput="handleCurrencyInput(this); calculateFormFinancials();" class="w-full bg-[#0a1931] border border-slate-700 rounded-xl pl-4 pr-12 py-2.5 text-sm sm:text-base font-mono text-emerald-400 focus:outline-none">
-                  <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-xs text-slate-400 font-bold">đ</span>
-                </div>
+              <div class="p-2 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] flex items-center justify-between font-mono">
+                <span class="text-slate-400">Phép tính:</span>
+                <span id="extrabed-calc-preview" class="text-purple-300 font-bold">0 giường × 1 đêm = 0 đ</span>
               </div>
             </div>
+
           </div>
 
-          <!-- Bảng Tóm Tắt Lợi Nhuận Gộp (Font To Rõ, Nổi Bật) -->
-          <div class="p-4 sm:p-5 rounded-xl bg-[#07162f] border border-slate-800 flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center gap-6 flex-wrap">
-              <div>
-                <span class="text-xs text-slate-400 block uppercase">Doanh Thu:</span>
-                <span id="formula-revenue" class="text-base sm:text-lg font-mono font-bold text-white">0 đ</span>
+          <!-- BẢNG TỔNG HỢP TÀI CHÍNH TỰ ĐỘNG & HOA HỒNG TRỰC QUAN -->
+          <div class="p-4 rounded-xl bg-gradient-to-r from-slate-950 to-[#07162f] border border-emerald-500/40 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2">
+              <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-calculator text-emerald-400"></i> BẢNG TÍNH TIỀN TỰ ĐỘNG (REALTIME SUMMARY)
+              </span>
+              <span id="calc-summary-details" class="text-[11px] text-slate-400 font-mono">Phòng: 0 đ + Trẻ em: 0 đ + Giường phụ: 0 đ</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <!-- Tổng Doanh Thu Bán -->
+              <div class="p-3 rounded-lg bg-[#0a1b38] border border-amber-500/40">
+                <span class="text-[10px] text-slate-400 block font-semibold uppercase">1. Tổng Doanh Thu (Giá Bán Báo Khách)</span>
+                <input type="text" id="ipt-revenue" required placeholder="0" oninput="handleCurrencyInput(this); calculateFormFinancials();" class="w-full bg-transparent text-base sm:text-lg font-mono font-black text-amber-300 focus:outline-none mt-1">
               </div>
-              <div class="text-slate-600 text-lg font-bold">-</div>
-              <div>
-                <span class="text-xs text-slate-400 block uppercase">Giá Vốn:</span>
-                <span id="formula-cost" class="text-base sm:text-lg font-mono font-bold text-slate-300">0 đ</span>
+
+              <!-- Tổng Giá Vốn Net -->
+              <div class="p-3 rounded-lg bg-[#0a1b38] border border-slate-700">
+                <span class="text-[10px] text-slate-400 block font-semibold uppercase">2. Tổng Giá Vốn Net (Trả Đối Tác)</span>
+                <input type="text" id="ipt-cost" required placeholder="0" oninput="handleCurrencyInput(this); calculateFormFinancials();" class="w-full bg-transparent text-base sm:text-lg font-mono font-bold text-slate-200 focus:outline-none mt-1">
               </div>
-              <div class="text-slate-600 text-lg font-bold">=</div>
-              <div>
-                <span class="text-xs text-amber-400 block uppercase font-bold">Lợi Nhuận Gộp (Lãi):</span>
-                <span id="formula-profit" class="text-lg sm:text-xl font-mono font-black text-emerald-400">0 đ</span>
-              </div>
-              <div class="border-l border-slate-800 pl-4">
-                <span class="text-xs text-amber-300 block uppercase font-bold">Hoa Hồng Sales (10%):</span>
-                <span id="formula-commission" class="text-lg sm:text-xl font-mono font-black text-amber-300 block mt-0.5">+0 đ</span>
+
+              <!-- Lợi Nhuận / Hoa Hồng Sales -->
+              <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/50 flex flex-col justify-between">
+                <span class="text-[10px] text-emerald-300 block font-semibold uppercase">3. Hoa Hồng Của Sales (Doanh Thu - Net)</span>
+                <div id="calc-profit-preview" class="text-base sm:text-lg font-mono font-black text-emerald-400 mt-1 truncate">+0 đ</div>
               </div>
             </div>
 
-            <div>
-              <span class="text-xs text-slate-400 block uppercase mb-1">Tỷ Suất Lợi Nhuận:</span>
-              <span id="profit-margin-badge" class="px-3 py-1 rounded-full text-xs sm:text-sm font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">0.0%</span>
-            </div>
+            <input type="hidden" id="ipt-ap-paid" value="0">
           </div>
 
         </div>
 
         <!-- ========================================================================= -->
+        <!-- KHỐI 4: THÔNG TIN HỒ SƠ KHÁCH HÀNG & GHI CHÚ DỊCH VỤ -->
+        <!-- ========================================================================= -->
+        <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-4">
+          
+          <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+            <h4 class="text-sm sm:text-base font-bold text-sky-400 uppercase tracking-wide flex items-center gap-2">
+              <i class="fa-solid fa-user-check text-sky-400"></i>
+              <span>4. Thông Tin Khách Hàng (Họ Tên, SĐT, Email, CCCD)</span>
+            </h4>
+            <span class="text-[11px] text-amber-300 font-semibold">* Thông tin xuất vé & nhận phòng</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Họ & Tên Khách Hàng (*)</label>
+              <input type="text" id="ipt-customer" required placeholder="VD: Nguyễn Văn Hùng" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white font-bold focus:outline-none focus:border-sky-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-200 mb-1.5 flex items-center justify-between">
+                <span>Số Điện Thoại (*)</span>
+                <span id="phone-feedback" class="text-[10px] font-mono"></span>
+              </label>
+              <input type="tel" id="ipt-phone" required maxlength="11" oninput="handlePhoneInput(this)" placeholder="VD: 0912345678" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Email Khách Hàng</label>
+              <input type="email" id="ipt-customer-email" placeholder="VD: khachhang@gmail.com" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-sky-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-200 mb-1.5">Số CCCD / Hộ Chiếu</label>
+              <input type="text" id="ipt-customer-cccd" placeholder="VD: 001089012345" class="w-full bg-[#07162f] border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white font-mono focus:outline-none focus:border-sky-400">
+            </div>
+          </div>
+
+          <!-- Ghi Chú Yêu Cầu Dịch Vụ -->
+          <div>
+            <label class="block text-xs font-bold text-slate-200 mb-1.5 flex items-center justify-between">
+              <span>Tên Dịch Vụ / Lộ Trình Chi Tiết & Ghi Chú Yêu Cầu (*)</span>
+              <span class="text-[10px] text-slate-400">Tự động đồng bộ từ chi tiết phòng & khách sạn</span>
+            </label>
+            <textarea id="ipt-service" rows="2" required placeholder="Nhập tên khách sạn, hạng phòng, tiện ích, ghi chú đón tiễn..." class="w-full bg-[#07162f] border border-slate-700 rounded-xl p-3 text-xs sm:text-sm text-white font-medium focus:outline-none focus:border-sky-400 leading-relaxed"></textarea>
+          </div>
+
+        </div>
+
+        <input type="hidden" id="ipt-service-type" value="hotel">
         <!-- KHỐI 4: KẾ HOẠCH & TIẾN ĐỘ THU TIỀN NHIỀU ĐỢT (3 - 4 LẦN) -->
         <!-- ========================================================================= -->
         <div class="p-5 sm:p-6 rounded-2xl bg-[#0c1e3d] border border-blue-900/50 shadow-md space-y-4">
@@ -2667,7 +2689,7 @@
             </button>
             <button type="submit" class="px-7 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-sm font-extrabold shadow-lg shadow-blue-600/30 transition flex items-center gap-2 cursor-pointer">
               <i class="fa-solid fa-floppy-disk text-base"></i>
-              <span>LƯU HẠCH TOÁN BOOKING</span>
+              <span>LƯU TẠO BOOKING</span>
             </button>
           </div>
         </div>
@@ -9958,6 +9980,230 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
     }
 
     // =========================================================================
+    // XỬ LÝ HẠNG PHÒNG ĐỘNG, NHÂN BẢN & PHÉP TÍNH TÀI CHÍNH TỰ ĐỘNG
+    // =========================================================================
+    let currentBookingRooms = [
+      {
+        roomType: 'Deluxe Ocean View',
+        roomCount: 2,
+        pricePerNight: 1000000,
+        costPerNight: 850000
+      }
+    ];
+
+    function selectQuickHotel(hotelName) {
+      const el = document.getElementById('ipt-supplier');
+      if (el) {
+        el.value = hotelName;
+        recalculateTotalFinancials();
+      }
+    }
+
+    function getBookingNights() {
+      const ci = document.getElementById('ipt-checkin')?.value;
+      const co = document.getElementById('ipt-checkout')?.value;
+      if (!ci || !co) return 1;
+      const d1 = new Date(ci);
+      const d2 = new Date(co);
+      const diff = Math.ceil((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+      return Math.max(1, diff);
+    }
+
+    function onBookingDatesChange() {
+      const ci = document.getElementById('ipt-checkin');
+      const co = document.getElementById('ipt-checkout');
+      if (ci && co && ci.value) {
+        co.min = ci.value;
+      }
+      const nights = getBookingNights();
+      const elNights = document.getElementById('ipt-night-count');
+      if (elNights) elNights.value = nights;
+      const elNightsBadge = document.getElementById('booking-nights-badge');
+      if (elNightsBadge) elNightsBadge.innerText = `${nights} đêm`;
+
+      renderBookingRoomRows();
+    }
+
+    function renderBookingRoomRows() {
+      const container = document.getElementById('room-types-list');
+      if (!container) return;
+      const nights = getBookingNights();
+
+      container.innerHTML = currentBookingRooms.map((r, idx) => {
+        const rCount = parseInt(r.roomCount, 10) || 1;
+        const rPrice = parseFloat(r.pricePerNight) || 0;
+        const rCost = parseFloat(r.costPerNight) || 0;
+        const subtotal = rCount * nights * rPrice;
+        const subtotalCost = rCount * nights * rCost;
+
+        return `
+          <div class="p-3.5 rounded-xl bg-[#07162f] border border-sky-900/60 hover:border-sky-500/60 transition space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-md bg-sky-500/20 text-sky-400 font-bold text-xs flex items-center justify-center border border-sky-500/30 font-mono">${idx + 1}</span>
+                <span class="text-xs font-bold text-sky-300">Hạng Phòng #${idx + 1}</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="duplicateBookingRoom(${idx})" class="px-2.5 py-1 rounded-lg bg-sky-600/30 hover:bg-sky-500 hover:text-white text-sky-300 text-[11px] font-bold border border-sky-500/40 transition flex items-center gap-1 cursor-pointer" title="Nhân bản hạng phòng này">
+                  <i class="fa-solid fa-clone text-[10px]"></i> Nhân Bản
+                </button>
+                ${currentBookingRooms.length > 1 ? `
+                  <button type="button" onclick="removeBookingRoom(${idx})" class="p-1 rounded-lg text-rose-400 hover:bg-rose-500/20 transition cursor-pointer" title="Xóa hạng phòng này">
+                    <i class="fa-solid fa-trash-can text-xs"></i>
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+              <div class="sm:col-span-4">
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Tên Hạng Phòng (*)</label>
+                <input type="text" value="${escapeHtml(r.roomType || '')}" oninput="updateRoomField(${idx}, 'roomType', this.value)" placeholder="VD: Deluxe Ocean View, Suite..." class="w-full bg-[#0a1b38] border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-bold focus:outline-none focus:border-sky-400">
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Số Lượng Phòng</label>
+                <input type="number" min="1" value="${rCount}" oninput="updateRoomField(${idx}, 'roomCount', this.value)" class="w-full bg-[#0a1b38] border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-sky-300 font-bold text-center focus:outline-none focus:border-sky-400 font-mono">
+              </div>
+              <div class="sm:col-span-3">
+                <label class="block text-[11px] font-semibold text-amber-300 mb-1">Giá Bán / Phòng / Đêm</label>
+                <input type="text" value="${rPrice > 0 ? rPrice.toLocaleString('vi-VN') : ''}" placeholder="0" oninput="handleCurrencyInput(this); updateRoomField(${idx}, 'pricePerNight', parseCurrency(this.value))" class="w-full bg-[#0a1b38] border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-300 font-bold font-mono focus:outline-none focus:border-amber-400">
+              </div>
+              <div class="sm:col-span-3">
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Giá Nét / Phòng / Đêm</label>
+                <input type="text" value="${rCost > 0 ? rCost.toLocaleString('vi-VN') : ''}" placeholder="0" oninput="handleCurrencyInput(this); updateRoomField(${idx}, 'costPerNight', parseCurrency(this.value))" class="w-full bg-[#0a1b38] border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300 font-bold font-mono focus:outline-none focus:border-slate-500">
+              </div>
+            </div>
+
+            <div class="p-2 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] flex flex-wrap items-center justify-between gap-2 text-slate-400 font-mono">
+              <div>
+                <span class="text-slate-300">Phép tính:</span>
+                <span class="text-sky-300 font-bold">${rCount} phòng</span> &times; <span class="text-emerald-300 font-bold">${nights} đêm</span> &times; <span class="text-amber-300 font-bold">${rPrice.toLocaleString('vi-VN')} đ</span> = <b class="text-amber-400 text-xs">${subtotal.toLocaleString('vi-VN')} đ</b>
+              </div>
+              <div class="text-slate-400">
+                Net: <b class="text-slate-300 font-bold">${subtotalCost.toLocaleString('vi-VN')} đ</b>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      recalculateTotalFinancials();
+    }
+
+    function addBookingRoom() {
+      currentBookingRooms.push({
+        roomType: 'Deluxe City View',
+        roomCount: 1,
+        pricePerNight: 800000,
+        costPerNight: 700000
+      });
+      renderBookingRoomRows();
+    }
+
+    function duplicateBookingRoom(idx) {
+      const target = currentBookingRooms[idx];
+      if (!target) return;
+      currentBookingRooms.push(JSON.parse(JSON.stringify(target)));
+      renderBookingRoomRows();
+      if (typeof showToast === 'function') showToast('Đã nhân bản thêm 1 hạng phòng!', 'success');
+    }
+
+    function removeBookingRoom(idx) {
+      if (currentBookingRooms.length <= 1) return;
+      currentBookingRooms.splice(idx, 1);
+      renderBookingRoomRows();
+    }
+
+    function updateRoomField(idx, field, val) {
+      if (!currentBookingRooms[idx]) return;
+      currentBookingRooms[idx][field] = val;
+      recalculateTotalFinancials();
+    }
+
+    function recalculateTotalFinancials() {
+      const nights = getBookingNights();
+      
+      // 1. Tổng tiền các hạng phòng
+      let totalRoomsRev = 0;
+      let totalRoomsCost = 0;
+      let totalRoomCount = 0;
+      const roomNames = [];
+
+      currentBookingRooms.forEach(r => {
+        const rc = parseInt(r.roomCount, 10) || 1;
+        const rp = parseFloat(r.pricePerNight) || 0;
+        const rcst = parseFloat(r.costPerNight) || 0;
+        totalRoomCount += rc;
+        totalRoomsRev += rc * nights * rp;
+        totalRoomsCost += rc * nights * rcst;
+        if (r.roomType) roomNames.push(`${rc} ${r.roomType}`);
+      });
+
+      // 2. Phụ thu trẻ em: số lượng trẻ em x số đêm x đơn giá
+      const childCount = parseInt(document.getElementById('ipt-child-count')?.value, 10) || 0;
+      const childPrice = parseCurrency(document.getElementById('ipt-child-price')?.value || 0);
+      const totalChildRev = childCount * nights * childPrice;
+      const totalChildCost = childCount * nights * (childPrice * 0.85);
+
+      const elChildCalc = document.getElementById('child-calc-preview');
+      if (elChildCalc) {
+        elChildCalc.innerText = `${childCount} trẻ em × ${nights} đêm × ${childPrice.toLocaleString('vi-VN')} đ = ${totalChildRev.toLocaleString('vi-VN')} đ`;
+      }
+
+      // 3. Phụ thu giường phụ: số lượng giường x số đêm x đơn giá
+      const extraBedCount = parseInt(document.getElementById('ipt-extrabed-count')?.value, 10) || 0;
+      const extraBedPrice = parseCurrency(document.getElementById('ipt-extrabed-price')?.value || 0);
+      const totalExtraBedRev = extraBedCount * nights * extraBedPrice;
+      const totalExtraBedCost = extraBedCount * nights * (extraBedPrice * 0.85);
+
+      const elBedCalc = document.getElementById('extrabed-calc-preview');
+      if (elBedCalc) {
+        elBedCalc.innerText = `${extraBedCount} giường × ${nights} đêm × ${extraBedPrice.toLocaleString('vi-VN')} đ = ${totalExtraBedRev.toLocaleString('vi-VN')} đ`;
+      }
+
+      // 4. Tổng tài chính
+      const totalRev = totalRoomsRev + totalChildRev + totalExtraBedRev;
+      const totalCost = totalRoomsCost + totalChildCost + totalExtraBedCost;
+      const totalProfit = totalRev - totalCost;
+
+      const elRev = document.getElementById('ipt-revenue');
+      if (elRev) elRev.value = totalRev > 0 ? totalRev.toLocaleString('vi-VN') : '0';
+
+      const elCost = document.getElementById('ipt-cost');
+      if (elCost) elCost.value = totalCost > 0 ? totalCost.toLocaleString('vi-VN') : '0';
+
+      const elProfitBadge = document.getElementById('calc-profit-preview');
+      if (elProfitBadge) {
+        elProfitBadge.innerText = (totalProfit >= 0 ? '+' : '') + totalProfit.toLocaleString('vi-VN') + ' đ';
+      }
+
+      const elSummaryText = document.getElementById('calc-summary-details');
+      if (elSummaryText) {
+        elSummaryText.innerText = `Phòng: ${totalRoomsRev.toLocaleString('vi-VN')} đ + Trẻ em: ${totalChildRev.toLocaleString('vi-VN')} đ + Giường phụ: ${totalExtraBedRev.toLocaleString('vi-VN')} đ`;
+      }
+
+      // Cập nhật trường Tên Dịch Vụ / Lộ Trình (ipt-service)
+      const hotelName = document.getElementById('ipt-supplier')?.value.trim() || 'Khách Sạn';
+      const ciStr = formatShortDateVN(document.getElementById('ipt-checkin')?.value);
+      const coStr = formatShortDateVN(document.getElementById('ipt-checkout')?.value);
+      const autoServiceDesc = `${hotelName} - ${roomNames.join(' + ')} (${nights} đêm từ ${ciStr} đến ${coStr})${childCount > 0 ? ` + ${childCount} trẻ em` : ''}${extraBedCount > 0 ? ` + ${extraBedCount} giường phụ` : ''}`;
+      
+      const elService = document.getElementById('ipt-service');
+      if (elService && (!elService.value.trim() || elService.dataset.autoGenerated === 'true')) {
+        elService.value = autoServiceDesc;
+        elService.dataset.autoGenerated = 'true';
+      }
+
+      const elRoomType = document.getElementById('ipt-room-type');
+      if (elRoomType) elRoomType.value = roomNames.join(' + ');
+
+      const elRoomCount = document.getElementById('ipt-room-count');
+      if (elRoomCount) elRoomCount.value = totalRoomCount;
+
+      calculateFormFinancials();
+    }
+
+        // =========================================================================
     // XỬ LÝ BỘ LỌC NGÀY (CHECK-IN, CHECK-OUT, NGÀY TẠO)
     // =========================================================================
     function onDateFilterChange() {
@@ -12366,7 +12612,31 @@ ${lines.join('\n')}
       }
       document.getElementById('edit-id').value = '';
       document.getElementById('booking-form').reset();
-      document.getElementById('modal-title').innerText = 'ĐIỀU HÀNH & HẠCH TOÁN BOOKING';
+      document.getElementById('modal-title').innerText = 'TẠO BOOKING';
+      
+      // Khởi tạo phòng mẫu và ngày mặc định
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 2); // 2 đêm mặc định
+      
+      const formatYMD = d => d.toISOString().slice(0, 10);
+      document.getElementById('ipt-checkin').value = formatYMD(today);
+      document.getElementById('ipt-checkout').value = formatYMD(tomorrow);
+      document.getElementById('ipt-room-code').value = '';
+      document.getElementById('ipt-child-count').value = 0;
+      document.getElementById('ipt-child-price').value = '';
+      document.getElementById('ipt-extrabed-count').value = 0;
+      document.getElementById('ipt-extrabed-price').value = '';
+
+      currentBookingRooms = [
+        {
+          roomType: 'Deluxe Ocean View',
+          roomCount: 2,
+          pricePerNight: 1000000,
+          costPerNight: 850000
+        }
+      ];
+      onBookingDatesChange();
       document.getElementById('ipt-code').value = generateBookingCode();
       filterHotelsByStar('all');
       const alertBox = document.getElementById('room-autofill-alert');
@@ -12483,6 +12753,16 @@ ${lines.join('\n')}
         serviceType: document.getElementById('ipt-service-type').value,
         tourStatus: document.getElementById('ipt-tour-status').value,
         dichVu: document.getElementById('ipt-service').value.trim(),
+        codePhong: document.getElementById('ipt-room-code')?.value.trim() || '',
+        roomList: JSON.parse(JSON.stringify(currentBookingRooms)),
+        childSurcharge: {
+          count: parseInt(document.getElementById('ipt-child-count')?.value, 10) || 0,
+          price: parseCurrency(document.getElementById('ipt-child-price')?.value || 0)
+        },
+        extraBedSurcharge: {
+          count: parseInt(document.getElementById('ipt-extrabed-count')?.value, 10) || 0,
+          price: parseCurrency(document.getElementById('ipt-extrabed-price')?.value || 0)
+        },
         hangPhong: document.getElementById('ipt-room-type')?.value.trim() || '',
         soLuongPhong: parseInt(document.getElementById('ipt-room-count')?.value, 10) || 1,
         soKhach: document.getElementById('ipt-guest-count')?.value.trim() || '2 Người lớn',
@@ -12524,7 +12804,9 @@ ${lines.join('\n')}
       if (currentView === 'cashflow') renderCashflowView();
       closeModalTaoDon();
 
-      alert('✅ ĐÃ LƯU THÀNH CÔNG BOOKING [' + item.maBooking + ']!\n• Khách: ' + item.khachHang + '\n• Doanh Thu: ' + item.giaBan.toLocaleString('vi-VN') + ' đ\n• Đã Thu: ' + item.khachDaCoc.toLocaleString('vi-VN') + ' đ');
+      if (typeof showToast === 'function') {
+        showToast('Đã lưu thành công booking [' + item.maBooking + '] • ' + item.khachHang, 'success');
+      }
     }
 
     // Sửa Booking
@@ -12538,7 +12820,44 @@ ${lines.join('\n')}
       if (!b) return;
 
       document.getElementById('edit-id').value = b.id;
-      document.getElementById('modal-title').innerText = 'HẠCH TOÁN ĐƠN: ' + b.maBooking;
+      document.getElementById('modal-title').innerText = 'CẬP NHẬT BOOKING: ' + b.maBooking;
+      document.getElementById('ipt-room-code').value = b.codePhong || '';
+      document.getElementById('ipt-supplier').value = b.doiTac || '';
+
+      if (b.roomList && b.roomList.length > 0) {
+        currentBookingRooms = JSON.parse(JSON.stringify(b.roomList));
+      } else {
+        const rc = parseInt(b.soLuongPhong, 10) || 1;
+        const nd = parseInt(b.soDem, 10) || 1;
+        const pPerNight = Math.round((parseFloat(b.giaBan) || 1000000) / (rc * nd));
+        const cPerNight = Math.round((parseFloat(b.giaVon) || 850000) / (rc * nd));
+        currentBookingRooms = [
+          {
+            roomType: b.hangPhong || 'Phòng Khách Sạn',
+            roomCount: rc,
+            pricePerNight: pPerNight,
+            costPerNight: cPerNight
+          }
+        ];
+      }
+
+      if (b.childSurcharge) {
+        document.getElementById('ipt-child-count').value = b.childSurcharge.count || 0;
+        document.getElementById('ipt-child-price').value = b.childSurcharge.price ? b.childSurcharge.price.toLocaleString('vi-VN') : '';
+      } else {
+        document.getElementById('ipt-child-count').value = 0;
+        document.getElementById('ipt-child-price').value = '';
+      }
+
+      if (b.extraBedSurcharge) {
+        document.getElementById('ipt-extrabed-count').value = b.extraBedSurcharge.count || 0;
+        document.getElementById('ipt-extrabed-price').value = b.extraBedSurcharge.price ? b.extraBedSurcharge.price.toLocaleString('vi-VN') : '';
+      } else {
+        document.getElementById('ipt-extrabed-count').value = 0;
+        document.getElementById('ipt-extrabed-price').value = '';
+      }
+
+      onBookingDatesChange();
       document.getElementById('ipt-code').value = b.maBooking;
 
       // YÊU CẦU 9: Ngày tạo đơn
