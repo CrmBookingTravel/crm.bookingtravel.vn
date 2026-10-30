@@ -3887,84 +3887,87 @@
     </div>
   </div>
 
-  <!-- MODAL XEM TRƯỚC THIỆP & QUÀ TRI ÂN KHÁCH HÀNG -->
+  <!-- MODAL XEM TRƯỚC THIỆP & ẢNH QUÀ TRI ÂN KHÁCH HÀNG (5 MẪU ĐỠ TRÙNG) -->
   <div id="modal-preview-birthday-gift" class="fixed inset-0 z-[60] overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/85 backdrop-blur-md">
-    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
       <!-- Header -->
       <div class="px-5 py-3.5 border-b border-slate-800 bg-[#07162f] flex items-center justify-between">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-white text-sm shadow-md">
-            <i class="fa-solid fa-envelope-open-text"></i>
+            <i class="fa-solid fa-image"></i>
           </div>
           <div>
-            <h4 class="text-sm font-extrabold text-white">THIỆP SINH NHẬT & QUÀ TẶNG TRI ÂN</h4>
-            <p class="text-[10px] text-amber-300/90 font-medium">Triết lý: "Khách hàng là gia đình" • Sử dụng 1 lần</p>
+            <h4 class="text-sm font-extrabold text-white flex items-center gap-2">
+              <span>THIỆP SINH NHẬT & ẢNH QUÀ TẶNG TRI ÂN</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">5 Mẫu Không Trùng</span>
+            </h4>
+            <p class="text-[10px] text-amber-300/90 font-medium">Triết lý: "Khách hàng là gia đình" • Tự động tạo ảnh thiệp độ nét cao gửi kèm</p>
           </div>
         </div>
-        <button onclick="closeGiftPreviewModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
+        <button onclick="closeGiftPreviewModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition cursor-pointer">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
 
       <!-- Preview Card Body -->
       <div class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-[#0b192c]/60">
-        <!-- Chọn lại món quà nhanh -->
-        <div>
-          <label class="block text-[11px] font-bold text-slate-300 mb-1">🎁 Chọn Món Quà Tri Ân:</label>
-          <select id="preview-gift-select" onchange="onPreviewGiftChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-500">
-            <!-- Populated by JS -->
-          </select>
+        <!-- 2 Bộ Lọc: Món Quà & Mẫu Ảnh Thiệp -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-300 mb-1">🎁 Chọn Món Quà Tri Ân:</label>
+            <select id="preview-gift-select" onchange="onPreviewGiftChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-500">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-300 mb-1">🎨 Chọn Mẫu Ảnh Thiệp (5 Mẫu):</label>
+            <select id="preview-template-select" onchange="onPreviewTemplateChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-bold text-sky-300 focus:outline-none focus:border-sky-500">
+              <option value="1">👑 Mẫu 1: Hoàng Gia Sang Trọng (Gold & Navy)</option>
+              <option value="2">🌊 Mẫu 2: Biển Đảo Nha Trang (Ocean Resort)</option>
+              <option value="3">❤️ Mẫu 3: Gia Đình Ấm Áp (Warm Rose & Family)</option>
+              <option value="4">💎 Mẫu 4: Hiện Đại Sapphire (Electric Cyan)</option>
+              <option value="5">🎆 Mẫu 5: Dạ Tiệc Pháo Hoa (Festive Party)</option>
+            </select>
+          </div>
         </div>
 
-        <!-- Thiệp Visual Card -->
-        <div class="relative rounded-2xl p-5 border border-amber-500/30 bg-gradient-to-b from-[#07162f] via-slate-900 to-[#07162f] shadow-xl text-center space-y-3 overflow-hidden">
-          <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
-          <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl pointer-events-none"></div>
-          
-          <div class="flex items-center justify-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider">
-            <i class="fa-solid fa-cake-candles"></i>
-            <span>CHÚC MỪNG SINH NHẬT</span>
-            <i class="fa-solid fa-cake-candles"></i>
+        <!-- Canvas Vẽ Ảnh Thiệp Thật Độ Nét Cao -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-[11px] text-slate-400">
+            <span class="font-bold text-white flex items-center gap-1.5">
+              <i class="fa-regular fa-image text-amber-400"></i>
+              <span>Hình ảnh thiệp chúc mừng sinh nhật (Tự động tạo):</span>
+            </span>
+            <span class="text-emerald-400 font-mono text-[10px]">Độ nét cao 900x620px</span>
           </div>
 
-          <h3 id="preview-card-name" class="text-base sm:text-lg font-black text-white">Kính gửi Quý khách: Chị Hoàng Thị Hồng Ly</h3>
-
-          <p class="text-[11px] text-slate-300 italic px-2">
-            "Công ty TNHH Booking Travel xin kính chúc Quý khách một ngày sinh nhật thật ấm áp, nhiều niềm vui và luôn tràn ngập hạnh phúc bên gia đình!"
-          </p>
-
-          <!-- Hộp Món Quà -->
-          <div class="p-3.5 rounded-xl bg-slate-950/90 border border-amber-500/40 text-left space-y-1.5 shadow-inner">
-            <div class="flex items-center justify-between gap-2">
-              <span id="preview-card-badge" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30">QUÀ TẶNG TRI ÂN</span>
-              <span class="text-[10px] font-extrabold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">SỬ DỤNG 1 LẦN</span>
-            </div>
-            <h5 id="preview-card-title" class="text-xs sm:text-sm font-extrabold text-amber-300 flex items-center gap-2">
-              <i class="fa-solid fa-gift text-amber-400"></i>
-              <span>VOUCHER 10% HẢI SẢN NHA TRANG (TÝ RÔ - TÁM MẸO - BỐN BAO)</span>
-            </h5>
-            <p id="preview-card-desc" class="text-[11px] text-slate-300 leading-relaxed"></p>
-            <div class="pt-1 flex items-center justify-between text-[11px] font-mono border-t border-slate-800">
-              <span class="text-slate-400">Mã Quà Tặng:</span>
-              <span id="preview-card-code" class="text-emerald-400 font-extrabold px-2 py-0.5 bg-emerald-500/10 rounded border border-emerald-500/20">BT-HAISAN-5774</span>
-            </div>
+          <div class="relative w-full rounded-xl overflow-hidden shadow-2xl border border-amber-500/30 bg-slate-950">
+            <canvas id="preview-gift-canvas" width="900" height="620" class="w-full h-auto block"></canvas>
           </div>
 
-          <div class="text-[10px] text-slate-400">
-            Booking Travel • "Khách hàng là gia đình" • Hotline: 084.64.55.222
+          <!-- Nút thao tác ảnh nhanh -->
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <button onclick="copyCardImageToClipboard()" class="flex-1 min-w-[140px] px-3 py-2 bg-gradient-to-r from-amber-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white text-xs font-extrabold rounded-lg shadow-md transition flex items-center justify-center gap-1.5 cursor-pointer" title="Copy trực tiếp ảnh vào Clipboard">
+              <i class="fa-regular fa-copy"></i>
+              <span>Copy Ảnh Vào Zalo (Ctrl+V)</span>
+            </button>
+            <button onclick="downloadCardImage()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 text-xs font-bold rounded-lg transition flex items-center gap-1.5 cursor-pointer" title="Tải ảnh file PNG về máy">
+              <i class="fa-solid fa-download"></i>
+              <span>Tải Ảnh (.PNG)</span>
+            </button>
           </div>
         </div>
 
         <!-- Khung Nội dung tin nhắn sao chép -->
         <div>
           <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-            <span class="font-bold text-slate-300">Nội dung tin nhắn Zalo / SMS:</span>
+            <span class="font-bold text-slate-300">Nội dung tin nhắn văn bản kèm theo:</span>
             <button onclick="copyPreviewMessageText()" class="text-sky-400 hover:text-sky-300 font-bold flex items-center gap-1 transition cursor-pointer">
               <i class="fa-regular fa-copy"></i>
-              <span>Sao chép toàn bộ</span>
+              <span>Sao chép chữ</span>
             </button>
           </div>
-          <textarea id="preview-message-text" rows="5" readonly class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-[11px] font-mono text-slate-300 leading-relaxed focus:outline-none scrollbar-thin"></textarea>
+          <textarea id="preview-message-text" rows="4" readonly class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-[11px] font-mono text-slate-300 leading-relaxed focus:outline-none scrollbar-thin"></textarea>
         </div>
       </div>
 
@@ -3973,11 +3976,11 @@
         <button onclick="closeGiftPreviewModal()" class="px-4 py-1.5 rounded-lg border border-slate-700 text-xs font-bold text-slate-300 hover:bg-slate-800 transition cursor-pointer">
           Đóng
         </button>
-        <button onclick="copyPreviewMessageText()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+        <button onclick="copyPreviewMessageText()" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer">
           <i class="fa-solid fa-copy"></i>
-          <span>Sao Chép Tin Nhắn</span>
+          <span>Copy Chữ Lời Chúc</span>
         </button>
-        <button onclick="sendSMSDirectFromPreview()" class="px-4 py-1.5 rounded-lg bg-sky-950 hover:bg-sky-900 text-sky-300 border border-sky-500/40 text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer" title="Tự động mở SMS trên điện thoại">
+        <button onclick="sendSMSDirectFromPreview()" class="px-3.5 py-1.5 rounded-lg bg-sky-950 hover:bg-sky-900 text-sky-300 border border-sky-500/40 text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer" title="Tự động mở SMS trên điện thoại">
           <i class="fa-solid fa-comment-sms"></i>
           <span>Gửi SMS Tự Động</span>
         </button>
@@ -7631,6 +7634,15 @@ ${roomingList || ('1. ' + b.khachHang)}
       }
     ];
 
+    // 5 MẪU THIỆP ĐỠ TRÙNG LẶP KHÁCH HÀNG (ĐỘ NÉT CAO 900x620)
+    const BIRTHDAY_TEMPLATES = [
+      { id: 1, name: '👑 Mẫu 1: Hoàng Gia Sang Trọng', tag: 'Hoàng Gia', color: '#f59e0b', bgGrad: ['#051329', '#0d2753', '#163b78'] },
+      { id: 2, name: '🌊 Mẫu 2: Biển Đảo Nha Trang', tag: 'Biển Đảo', color: '#38bdf8', bgGrad: ['#042f2e', '#0e7490', '#0284c7'] },
+      { id: 3, name: '❤️ Mẫu 3: Gia Đình Ấm Áp', tag: 'Gia Đình', color: '#fda4af', bgGrad: ['#3b0764', '#831843', '#be123c'] },
+      { id: 4, name: '💎 Mẫu 4: Hiện Đại Sapphire', tag: 'Sapphire', color: '#67e8f9', bgGrad: ['#030712', '#1e1b4b', '#2563eb'] },
+      { id: 5, name: '🎆 Mẫu 5: Dạ Tiệc Pháo Hoa', tag: 'Lễ Hội', color: '#fbbf24', bgGrad: ['#18181b', '#312e81', '#701a75'] }
+    ];
+
     let currentPreviewCustomer = null;
 
     function openBirthdayModal() {
@@ -7672,10 +7684,15 @@ ${roomingList || ('1. ' + b.khachHang)}
 
       customers.forEach((c, idx) => {
         const item = document.createElement('div');
-        item.className = 'p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-amber-500/40 transition flex flex-col md:flex-row md:items-center justify-between gap-3';
+        item.className = 'p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-amber-500/40 transition flex flex-col lg:flex-row lg:items-center justify-between gap-3';
         
-        let giftOptionsHtml = BIRTHDAY_GIFTS.map(g => 
+        const giftOptionsHtml = BIRTHDAY_GIFTS.map(g => 
           `<option value="${g.id}">${g.name}</option>`
+        ).join('');
+
+        const defaultTplId = (idx % 5) + 1;
+        const tplOptionsHtml = BIRTHDAY_TEMPLATES.map(t =>
+          `<option value="${t.id}" ${t.id === defaultTplId ? 'selected' : ''}>${t.name}</option>`
         ).join('');
 
         item.innerHTML = `
@@ -7692,15 +7709,18 @@ ${roomingList || ('1. ' + b.khachHang)}
             </div>
           </div>
 
-          <div class="flex items-center gap-1.5 shrink-0 self-end md:self-auto w-full md:w-auto">
-            <select id="gift-select-${idx}" class="flex-1 md:w-44 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-amber-300 font-medium focus:outline-none focus:border-amber-500">
+          <div class="flex flex-wrap items-center gap-1.5 shrink-0 self-end lg:self-auto w-full lg:w-auto">
+            <select id="gift-select-${idx}" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-amber-300 font-medium focus:outline-none focus:border-amber-500">
               ${giftOptionsHtml}
             </select>
-            <button onclick="openGiftPreviewForIndex(${idx})" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-bold rounded-lg border border-slate-700 transition flex items-center gap-1 cursor-pointer" title="Xem thiệp mẫu">
-              <i class="fa-regular fa-eye text-xs"></i>
-              <span>Xem Thiệp</span>
+            <select id="tpl-select-${idx}" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-sky-300 font-medium focus:outline-none focus:border-sky-500" title="5 Mẫu thiệp đỡ trùng khách">
+              ${tplOptionsHtml}
+            </select>
+            <button onclick="openGiftPreviewForIndex(${idx})" class="px-2.5 py-1.5 bg-gradient-to-r from-amber-500/20 to-rose-500/20 hover:from-amber-500/30 hover:to-rose-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold rounded-lg transition flex items-center gap-1 cursor-pointer" title="Xem & lấy ảnh thiệp nét cao">
+              <i class="fa-regular fa-image text-xs"></i>
+              <span>Xem & Ảnh</span>
             </button>
-            <button onclick="quickCopyGift(${idx})" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-amber-200 text-xs font-bold rounded-lg border border-amber-500/30 transition flex items-center gap-1 cursor-pointer" title="Sao chép toàn bộ thiệp & mã">
+            <button onclick="quickCopyGift(${idx})" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-700 transition flex items-center gap-1 cursor-pointer" title="Sao chép toàn bộ thiệp & mã">
               <i class="fa-regular fa-copy text-xs"></i>
               <span>Copy</span>
             </button>
@@ -7772,6 +7792,131 @@ Với triết lý "Khách hàng là gia đình", Booking Travel xin trân trọn
 CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục vụ từ trái tim!`;
     }
 
+    function drawBirthdayCardCanvas(canvas, customer, gift, templateId) {
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      const tpl = BIRTHDAY_TEMPLATES.find(t => t.id === parseInt(templateId)) || BIRTHDAY_TEMPLATES[0];
+
+      ctx.clearRect(0, 0, 900, 620);
+
+      // 1. Nền Gradient Đa Dạng Theo Mẫu
+      const grad = ctx.createLinearGradient(0, 0, 900, 620);
+      grad.addColorStop(0, tpl.bgGrad[0]);
+      grad.addColorStop(0.5, tpl.bgGrad[1]);
+      grad.addColorStop(1, tpl.bgGrad[2]);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 900, 620);
+
+      // Họa tiết nền mờ ảo
+      ctx.save();
+      ctx.globalAlpha = 0.08;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(100, 100, 180, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(800, 520, 220, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // 2. Viền Khung Sang Trọng
+      ctx.strokeStyle = tpl.color;
+      ctx.lineWidth = 4;
+      ctx.strokeRect(18, 18, 864, 584);
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(26, 26, 848, 568);
+
+      // 4 Điểm nhấn góc
+      const drawCorner = (x, y) => {
+        ctx.fillStyle = tpl.color;
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fill();
+      };
+      drawCorner(26, 26);
+      drawCorner(874, 26);
+      drawCorner(26, 594);
+      drawCorner(874, 594);
+
+      // 3. Tiêu Đề Đầu Trang
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.font = 'bold 15px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('CÔNG TY TNHH BOOKING TRAVEL  •  "KHÁCH HÀNG LÀ GIA ĐÌNH"', 450, 58);
+
+      // 4. Lời Chúc Mừng Sinh Nhật
+      ctx.fillStyle = tpl.id === 1 ? '#fbbf24' : (tpl.id === 2 ? '#38bdf8' : (tpl.id === 3 ? '#fda4af' : (tpl.id === 4 ? '#67e8f9' : '#fde047')));
+      ctx.font = 'bold 28px sans-serif';
+      ctx.fillText('🎉 CHÚC MỪNG SINH NHẬT QUÝ KHÁCH 🎉', 450, 102);
+
+      // 5. Tên Khách Hàng
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 23px sans-serif';
+      ctx.fillText(`Kính gửi: ${customer.name}`, 450, 145);
+
+      // 6. Lời chúc riêng biệt theo từng mẫu
+      let wish = '"Kính chúc Quý khách tuổi mới tràn ngập niềm vui, vạn sự hanh thông và hạnh phúc bên gia đình!"';
+      if (tpl.id === 2) wish = '"Kỳ nghỉ tuyệt vời và những chuyến du lịch đáng nhớ đang chờ đón Quý khách và người thân!"';
+      else if (tpl.id === 3) wish = '"Cảm ơn Quý khách và gia đình đã luôn đồng hành, gắn bó thân thương cùng Booking Travel!"';
+      else if (tpl.id === 4) wish = '"Kính chúc Quý khách tuổi mới gặt hái nhiều thành công rực rỡ và luôn dồi dào sức khỏe!"';
+      else if (tpl.id === 5) wish = '"Chúc Quý khách một ngày sinh nhật bùng nổ niềm vui, quà ngập tràn và hạnh phúc bất tận!"';
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.font = 'italic 14px sans-serif';
+      ctx.fillText(wish, 450, 178);
+
+      // 7. Khung Hộp Quà Tặng Nổi Bật
+      ctx.fillStyle = 'rgba(7, 22, 47, 0.9)';
+      ctx.fillRect(60, 212, 780, 305);
+      ctx.strokeStyle = tpl.color;
+      ctx.lineWidth = 1.8;
+      ctx.strokeRect(60, 212, 780, 305);
+
+      // Huy hiệu quà tặng
+      ctx.fillStyle = tpl.color;
+      ctx.font = 'bold 13px sans-serif';
+      ctx.fillText('🎁 MÓN QUÀ TRI ÂN ĐẶC BIỆT  •  SỬ DỤNG 1 LẦN DUY NHẤT', 450, 250);
+
+      // Tên món quà
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 21px sans-serif';
+      ctx.fillText(gift.label.toUpperCase(), 450, 295);
+
+      // Chi tiết món quà
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.font = '14px sans-serif';
+      ctx.fillText(gift.detailText, 450, 335);
+
+      // Khung Mã Quà Tặng
+      const cleanPhone = (customer.phone || '').replace(/[^0-9]/g, '');
+      const safeSuffix = cleanPhone.slice(-4) || '2026';
+      const voucherCode = `BT-${gift.codePrefix}-${safeSuffix}`.toUpperCase();
+
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.18)';
+      ctx.fillRect(250, 370, 400, 62);
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(250, 370, 400, 62);
+
+      ctx.fillStyle = '#34d399';
+      ctx.font = 'bold 22px monospace';
+      ctx.fillText(`MÃ QUÀ: [ ${voucherCode} ]`, 450, 409);
+
+      // Điều kiện sử dụng
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.fillText(`Áp dụng: ${gift.usageNote} • Hạn dùng: 12 tháng kể từ ngày nhận`, 450, 475);
+
+      // 8. Chân Trang Hotline & Website
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+      ctx.font = '13px sans-serif';
+      ctx.fillText('☎️ Hotline hỗ trợ 24/7: 084.64.55.222 & 08.33.00.1000   •   🌐 Website: https://bookingtravel.vn', 450, 565);
+    }
+
     function openGiftPreviewForIndex(idx) {
       const customers = window._currentBirthdayCustomers || [];
       const customer = customers[idx];
@@ -7780,7 +7925,10 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const selEl = document.getElementById(`gift-select-${idx}`);
       const giftId = selEl ? selEl.value : BIRTHDAY_GIFTS[0].id;
 
-      currentPreviewCustomer = { ...customer, selectedGiftId: giftId };
+      const tplEl = document.getElementById(`tpl-select-${idx}`);
+      const templateId = tplEl ? parseInt(tplEl.value) : ((idx % 5) + 1);
+
+      currentPreviewCustomer = { ...customer, selectedGiftId: giftId, selectedTemplateId: templateId };
 
       // Populate preview modal select
       const prevSel = document.getElementById('preview-gift-select');
@@ -7788,6 +7936,11 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
         prevSel.innerHTML = BIRTHDAY_GIFTS.map(g => 
           `<option value="${g.id}" ${g.id === giftId ? 'selected' : ''}>${g.name} - ${g.desc}</option>`
         ).join('');
+      }
+
+      const prevTplSel = document.getElementById('preview-template-select');
+      if (prevTplSel) {
+        prevTplSel.value = templateId;
       }
 
       updatePreviewModalCard();
@@ -7803,32 +7956,76 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       updatePreviewModalCard();
     }
 
+    function onPreviewTemplateChange() {
+      if (!currentPreviewCustomer) return;
+      const prevTplSel = document.getElementById('preview-template-select');
+      if (prevTplSel) {
+        currentPreviewCustomer.selectedTemplateId = parseInt(prevTplSel.value);
+      }
+      updatePreviewModalCard();
+    }
+
     function updatePreviewModalCard() {
       if (!currentPreviewCustomer) return;
       const giftId = currentPreviewCustomer.selectedGiftId;
       const gift = BIRTHDAY_GIFTS.find(g => g.id === giftId) || BIRTHDAY_GIFTS[0];
-      const cleanPhone = (currentPreviewCustomer.phone || '').replace(/[^0-9]/g, '');
-      const safeSuffix = cleanPhone.slice(-4) || '2026';
-      const voucherCode = `BT-${gift.codePrefix}-${safeSuffix}`.toUpperCase();
+      const templateId = currentPreviewCustomer.selectedTemplateId || 1;
 
-      document.getElementById('preview-card-name').innerText = `Kính gửi Quý khách: ${currentPreviewCustomer.name}`;
-      document.getElementById('preview-card-title').innerHTML = `<i class="fa-solid fa-gift text-amber-400"></i> <span>${gift.label.toUpperCase()}</span>`;
-      document.getElementById('preview-card-desc').innerText = `${gift.detailText} (${gift.usageNote})`;
-      document.getElementById('preview-card-code').innerText = voucherCode;
-
-      const badgeEl = document.getElementById('preview-card-badge');
-      if (badgeEl) {
-        badgeEl.className = `px-2 py-0.5 rounded text-[10px] font-extrabold border ${gift.badgeColor}`;
-        badgeEl.innerText = gift.badge.toUpperCase();
+      // 1. Vẽ trực tiếp lên Canvas độ nét cao
+      const canvas = document.getElementById('preview-gift-canvas');
+      if (canvas) {
+        drawBirthdayCardCanvas(canvas, currentPreviewCustomer, gift, templateId);
       }
 
+      // 2. Cập nhật nội dung văn bản kèm theo
       const msgText = getGiftMessageText(currentPreviewCustomer, giftId);
-      document.getElementById('preview-message-text').value = msgText;
+      const txtEl = document.getElementById('preview-message-text');
+      if (txtEl) txtEl.value = msgText;
     }
 
     function closeGiftPreviewModal() {
       const modal = document.getElementById('modal-preview-birthday-gift');
       if (modal) modal.classList.add('hidden');
+    }
+
+    function copyCardImageToClipboard() {
+      const canvas = document.getElementById('preview-gift-canvas');
+      if (!canvas) return;
+
+      canvas.toBlob(blob => {
+        if (!blob) {
+          showToastNotification('⚠️ Không tạo được dữ liệu ảnh.', 'fa-triangle-exclamation');
+          return;
+        }
+
+        if (navigator.clipboard && navigator.clipboard.write) {
+          navigator.clipboard.write([
+            new ClipboardItem({ 'image/png': blob })
+          ]).then(() => {
+            showToastNotification('🖼️ <strong>ĐÃ SAO CHÉP ẢNH THIỆP VÀO CLIPBOARD!</strong><br>Bạn có thể mở Zalo và ấn <strong>Ctrl+V</strong> để dán ảnh gửi ngay cho khách.', 'fa-image');
+          }).catch(err => {
+            downloadCardImage();
+            showToastNotification('🖼️ Đã tự động tải file ảnh về máy để bạn đính kèm gửi Zalo!', 'fa-download');
+          });
+        } else {
+          downloadCardImage();
+          showToastNotification('🖼️ Đã tự động tải file ảnh về máy để bạn đính kèm gửi Zalo!', 'fa-download');
+        }
+      }, 'image/png');
+    }
+
+    function downloadCardImage() {
+      const canvas = document.getElementById('preview-gift-canvas');
+      if (!canvas) return;
+      const dataUrl = canvas.toDataURL('image/png');
+      const safeName = (currentPreviewCustomer?.name || 'khach_hang').replace(/[^a-zA-Z0-9]/g, '_');
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `Thiep_Sinh_Nhat_${safeName}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToastNotification(`⬇️ Đã tải ảnh thiệp cho khách <strong>${currentPreviewCustomer?.name || ''}</strong>!`, 'fa-download');
     }
 
     function copyPreviewMessageText() {
@@ -7837,11 +8034,11 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const text = textarea.value;
 
       navigator.clipboard.writeText(text).then(() => {
-        showToastNotification(`🎁 Đã sao chép toàn bộ thiệp & mã quà tặng cho khách <strong>${currentPreviewCustomer?.name || ''}</strong>!`, 'fa-copy');
+        showToastNotification(`📋 Đã sao chép nội dung lời chúc cho khách <strong>${currentPreviewCustomer?.name || ''}</strong>!`, 'fa-copy');
       }).catch(() => {
         textarea.select();
         document.execCommand('copy');
-        showToastNotification(`🎁 Đã sao chép toàn bộ thiệp & mã quà tặng!`, 'fa-copy');
+        showToastNotification(`📋 Đã sao chép nội dung lời chúc!`, 'fa-copy');
       });
     }
 
@@ -7908,9 +8105,9 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       const text = getGiftMessageText(customer, giftId);
       const cleanPhone = (customer.phone || '').replace(/[^0-9]/g, '');
 
-      // Tự động copy nội dung vào Clipboard mà không cần người dùng xác nhận
+      // Tự động copy nội dung vào Clipboard
       navigator.clipboard.writeText(text).then(() => {
-        showToastNotification(`🎁 Đã tự động sao chép thiệp & mã: <strong>${gift.label}</strong>! Đang mở Zalo để bạn dán (Ctrl+V) gửi ngay cho khách.`, 'fa-paper-plane');
+        showToastNotification(`🎁 Đã sao chép thiệp & mã: <strong>${gift.label}</strong>! Đang mở Zalo để bạn dán (Ctrl+V) gửi ngay cho khách. Bấm [Xem & Ảnh] nếu muốn copy thêm file ảnh thiệp!`, 'fa-paper-plane');
       }).catch(() => {
         showToastNotification(`🎁 Đang mở Zalo gửi thiệp quà tặng cho <strong>${customer.name}</strong>.`, 'fa-paper-plane');
       });
@@ -7919,6 +8116,12 @@ CÔNG TY TNHH BOOKING TRAVEL - "Khách hàng là gia đình" | Tận tâm phục
       if (cleanPhone) {
         window.open(`https://zalo.me/${cleanPhone}`, '_blank');
       }
+    }
+
+    // Giữ lại alias cũ để tương thích
+    function sendBirthdayWishZalo(phone, name, service) {
+      const customer = { name, phone, service };
+      quickSendGiftZalo(0);
     }
 
     // Giữ lại alias cũ để tương thích
