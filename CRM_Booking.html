@@ -2965,130 +2965,225 @@
   <!-- ========================================================================= -->
   <!-- MODAL: CHUYỂN ĐỔI VAI TRÒ & PHÂN QUYỀN CÔNG TY TNHH BOOKING TRAVEL -->
   <!-- ========================================================================= -->
-  <div id="modal-chuyen-tai-khoan" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+  <div id="modal-chuyen-tai-khoan" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-3 sm:p-4">
     <div class="absolute inset-0 bg-black/85 backdrop-blur-sm" onclick="closeModalChuyenTaiKhoan()"></div>
-    <div class="relative bg-slate-900 border border-blue-500/40 rounded-2xl max-w-2xl w-full p-6 shadow-2xl z-10 space-y-5">
+    <div class="relative bg-slate-900 border border-blue-500/40 rounded-2xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl z-10 space-y-4 max-h-[92vh] flex flex-col overflow-hidden">
       
       <!-- Header -->
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 shrink-0">
         <div class="flex items-center gap-2.5">
-          <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-sky-400 border border-blue-500/40 flex items-center justify-center text-lg font-bold">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-lg font-bold shadow-md shadow-blue-500/20">
             <i class="fa-solid fa-users-gear"></i>
           </div>
           <div>
-            <h3 class="text-base font-extrabold text-white">PHÂN QUYỀN & VAI TRÒ CÔNG VIỆC</h3>
-            <p class="text-xs text-sky-300 font-semibold">CÔNG TY TNHH BOOKING TRAVEL</p>
+            <h3 class="text-sm sm:text-base font-extrabold text-white">PHÂN QUYỀN & VAI TRÒ CÔNG VIỆC CHUẨN DOANH NGHIỆP</h3>
+            <p class="text-[11px] text-sky-300 font-semibold">CÔNG TY TNHH BOOKING TRAVEL • TRIẾT LÝ "KHÁCH HÀNG LÀ GIA ĐÌNH"</p>
           </div>
         </div>
-        <button type="button" onclick="closeModalChuyenTaiKhoan()" class="text-slate-400 hover:text-white text-lg cursor-pointer">
+        <button type="button" onclick="closeModalChuyenTaiKhoan()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <div class="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+      <!-- Danh Sách 5 Khối Nhân Sự: ADMIN, DR, TAX, ACC, SALES 1-10 -->
+      <div class="space-y-3.5 overflow-y-auto pr-1 flex-1 scrollbar-thin">
         
-        <!-- Khối 1: BAN GIÁM ĐỐC -->
-        <div class="p-3.5 rounded-xl bg-gradient-to-r from-amber-950/30 to-slate-900 border border-amber-500/40 space-y-2">
-          <div class="flex items-center justify-between">
+        <!-- Khối 1: ADMIN (QUẢN TRỊ VIÊN HỆ THỐNG) -->
+        <div class="p-3.5 rounded-xl bg-gradient-to-r from-rose-950/40 to-slate-900 border border-rose-500/40 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1">
-                <i class="fa-solid fa-crown text-[9px]"></i> BAN GIÁM ĐỐC
+              <span class="px-2 py-0.5 rounded text-[10px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/40 flex items-center gap-1">
+                <i class="fa-solid fa-shield-halved text-[9px]"></i> 1. ADMIN
               </span>
               <span class="text-sm font-extrabold text-white">Bùi Phạm Quỳnh Chi</span>
-              <span class="text-xs text-slate-400 font-mono hidden sm:inline">(crm@bookingtravel.vn)</span>
+              <span class="text-xs text-slate-400 font-mono">(admin@bookingtravel.vn)</span>
             </div>
-            <button type="button" onclick="chuyenNhanhTaiKhoan('crm@bookingtravel.vn')" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition cursor-pointer shadow-md shadow-amber-500/20 flex items-center gap-1">
-              <i class="fa-solid fa-arrow-right-to-bracket"></i> Đổi Sang BGĐ
+            <button type="button" onclick="chuyenNhanhTaiKhoan('admin@bookingtravel.vn')" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-black text-xs transition cursor-pointer shadow-md shadow-rose-600/30 flex items-center gap-1">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Chọn Vai Trò ADMIN
             </button>
           </div>
-          <div class="text-[11px] text-slate-300 space-y-0.5 bg-slate-950/40 p-2.5 rounded-lg border border-slate-800">
-            <p>• <b>Mục tiêu:</b> Quản trị chiến lược, kiểm soát rủi ro tài chính & phê duyệt chi phí lớn.</p>
-            <p>• <b>Quyền hạn:</b> Tầm nhìn toàn cảnh (Overview), duyệt lệnh chi NCC, duyệt hoàn tiền, chốt điều hành tour & P&L, toàn quyền xóa/sửa.</p>
+          <div class="text-[11px] text-slate-300 space-y-0.5 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
+            <p>• <b>Chức năng:</b> Quản trị toàn quyền hệ thống CRM, cấu hình tham số, phân quyền nhân sự, sao lưu & khôi phục dữ liệu.</p>
+            <p>• <b>Quyền xem & thao tác:</b> Toàn quyền xem mọi đơn, duyệt, sửa, và là <u>người duy nhất có quyền XÓA đơn hàng</u>.</p>
           </div>
         </div>
 
-        <!-- Khối 2: PHÒNG KẾ TOÁN -->
-        <div class="p-3.5 rounded-xl bg-gradient-to-r from-sky-950/30 to-slate-900 border border-sky-500/40 space-y-2">
-          <div class="flex items-center justify-between">
+        <!-- Khối 2: DR (DIRECTOR - BAN GIÁM ĐỐC) -->
+        <div class="p-3.5 rounded-xl bg-gradient-to-r from-amber-950/40 to-slate-900 border border-amber-500/40 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded text-[10px] font-black bg-sky-500/20 text-sky-300 border border-sky-500/40 flex items-center gap-1">
-                <i class="fa-solid fa-calculator text-[9px]"></i> PHÒNG KẾ TOÁN
+              <span class="px-2 py-0.5 rounded text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1">
+                <i class="fa-solid fa-crown text-[9px]"></i> 2. DR (DIRECTOR)
+              </span>
+              <span class="text-sm font-extrabold text-white">Bùi Thế Quang</span>
+              <span class="text-xs text-slate-400 font-mono">(dr@bookingtravel.vn)</span>
+            </div>
+            <button type="button" onclick="chuyenNhanhTaiKhoan('dr@bookingtravel.vn')" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition cursor-pointer shadow-md shadow-amber-500/30 flex items-center gap-1">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Chọn Vai Trò DR (Giám Đốc)
+            </button>
+          </div>
+          <div class="text-[11px] text-slate-300 space-y-0.5 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
+            <p>• <b>Chức năng:</b> Quản trị chiến lược công ty, theo dõi tổng doanh thu, lợi nhuận gộp P&L, dòng tiền thực tế & thi đua Sales.</p>
+            <p>• <b>Quyền hạn phê duyệt:</b> <u>Phê duyệt cấp cao (BGĐ Duyệt)</u> cho các đơn hàng kế toán đã thẩm định, phê duyệt các khoản chi lớn.</p>
+          </div>
+        </div>
+
+        <!-- Khối 3: TAX (KẾ TOÁN THUẾ & HÓA ĐƠN VAT) -->
+        <div class="p-3.5 rounded-xl bg-gradient-to-r from-purple-950/40 to-slate-900 border border-purple-500/40 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center gap-1">
+                <i class="fa-solid fa-receipt text-[9px]"></i> 3. TAX (KẾ TOÁN THUẾ)
+              </span>
+              <span class="text-sm font-extrabold text-white">Nguyễn Thu Hà</span>
+              <span class="text-xs text-slate-400 font-mono">(tax@bookingtravel.vn)</span>
+            </div>
+            <button type="button" onclick="chuyenNhanhTaiKhoan('tax@bookingtravel.vn')" class="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-black text-xs transition cursor-pointer shadow-md shadow-purple-600/30 flex items-center gap-1">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Chọn Vai Trò TAX (Thuế)
+            </button>
+          </div>
+          <div class="text-[11px] text-slate-300 space-y-0.5 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
+            <p>• <b>Chức năng:</b> Quản trị hóa đơn GTGT đầu vào NCC (đòi HĐ đối tác), phát hành hóa đơn đầu ra cho khách hàng, kiểm soát MST, lập bảng kê thuế.</p>
+            <p>• <b>Bảo mật:</b> Ẩn hoa hồng nội bộ cá nhân sales và các chi phí nội bộ không hạch toán thuế để giao diện tập trung 100% vào nghiệp vụ thuế.</p>
+          </div>
+        </div>
+
+        <!-- Khối 4: ACC (KẾ TOÁN TÀI CHÍNH & DÒNG TIỀN) -->
+        <div class="p-3.5 rounded-xl bg-gradient-to-r from-emerald-950/40 to-slate-900 border border-emerald-500/40 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+                <i class="fa-solid fa-calculator text-[9px]"></i> 4. ACC (KẾ TOÁN NỘI BỘ)
               </span>
               <span class="text-sm font-extrabold text-white">Vũ Khánh Linh</span>
-              <span class="text-xs text-slate-400 font-mono hidden sm:inline">(ketoan@bookingtravel.vn)</span>
+              <span class="text-xs text-slate-400 font-mono">(acc@bookingtravel.vn)</span>
             </div>
-            <button type="button" onclick="chuyenNhanhTaiKhoan('ketoan@bookingtravel.vn')" class="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs transition cursor-pointer shadow-md shadow-sky-500/20 flex items-center gap-1">
-              <i class="fa-solid fa-arrow-right-to-bracket"></i> Đổi Sang Kế Toán
+            <button type="button" onclick="chuyenNhanhTaiKhoan('acc@bookingtravel.vn')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition cursor-pointer shadow-md shadow-emerald-600/30 flex items-center gap-1">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Chọn Vai Trò ACC (Kế Toán)
             </button>
           </div>
-          <div class="text-[11px] text-slate-300 space-y-0.5 bg-slate-950/40 p-2.5 rounded-lg border border-slate-800">
-            <p>• <b>Mục tiêu:</b> Quản lý dòng tiền, kiểm soát công nợ AR/AP, hóa đơn chứng từ & đối soát tài chính.</p>
-            <p>• <b>Quyền hạn:</b> Xem toàn bộ đơn hàng, đối soát thu tiền Techcombank/MB Bank, lập đề xuất chi NCC trình BGĐ, thẩm định hoàn tiền trình BGĐ.</p>
+          <div class="text-[11px] text-slate-300 space-y-0.5 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
+            <p>• <b>Chức năng:</b> Kiểm soát dòng tiền thực tế (Thu khách, Chi đối tác NCC), duyệt tiền cọc, đối soát công nợ AR/AP, quản trị tuổi nợ, chi phí vận hành OpEx, tất toán lãi lỗ P&L.</p>
+            <p>• <b>Quyền hạn:</b> Thẩm định và duyệt tiền cọc (Kế toán duyệt), đối soát số phòng & trình BGĐ duyệt chi NCC.</p>
           </div>
         </div>
 
-        <!-- Khối 3: PHÒNG KINH DOANH (SALES) -->
-        <div class="p-3.5 rounded-xl bg-gradient-to-r from-blue-950/30 to-slate-900 border border-blue-500/40 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="px-2 py-0.5 rounded text-[10px] font-black bg-blue-500/20 text-blue-300 border border-blue-500/40 flex items-center gap-1">
-              <i class="fa-solid fa-briefcase text-[9px]"></i> PHÒNG KINH DOANH (SALES)
-            </span>
-            <span class="text-[11px] text-slate-400">Tập trung 100% chăm sóc khách & chốt đơn</span>
-          </div>
-          <div class="text-[11px] text-slate-300 bg-slate-950/40 p-2.5 rounded-lg border border-slate-800">
-            <p>• <b>Quy định:</b> Chỉ nhìn thấy và thao tác trên các đơn do chính mình phụ trách. Không thấy dữ liệu tài chính tổng quát (Dòng tiền / Lãi lỗ P&L) hay các bộ phận khác.</p>
+        <!-- Khối 5: SALES 1 ĐẾN SALES 10 (PHÒNG KINH DOANH) -->
+        <div class="p-3.5 rounded-xl bg-gradient-to-r from-blue-950/40 to-slate-900 border border-blue-500/40 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-black bg-blue-500/20 text-blue-300 border border-blue-500/40 flex items-center gap-1">
+                <i class="fa-solid fa-briefcase text-[9px]"></i> 5. PHÒNG KINH DOANH (SALES 1 - 10)
+              </span>
+              <span class="text-xs text-slate-300 font-semibold">Tập trung 100% bán hàng & chăm sóc khách</span>
+            </div>
+            <span class="text-[10px] text-amber-300 font-mono bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">10 Tài Khoản Sales</span>
           </div>
           
-          <!-- Danh sách 5 Sales -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <div class="text-[11px] text-slate-300 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
+            <p class="text-emerald-300 font-semibold">• <b>Quy định bảo mật & giao diện tối giản:</b> Sales <u>CHỈ NHÌN THẤY VÀ THAO TÁC TRÊN ĐƠN CỦA CHÍNH MÌNH</u>. Toàn bộ doanh số công ty, dòng tiền, chi phí, lãi lỗ toàn công ty và đơn của sales khác được ẩn hoàn toàn để giao diện nhẹ nhàng, dễ dùng nhất.</p>
+          </div>
+          
+          <!-- Lưới 10 Sales -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 pt-1">
             
-            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 flex items-center justify-between">
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
               <div class="min-w-0 pr-1">
                 <div class="font-bold text-xs text-white">Sales 1: Ngô Thị Băng Kiều</div>
                 <div class="text-[10px] text-slate-400 font-mono">sales1@bookingtravel.vn</div>
               </div>
               <button type="button" onclick="chuyenNhanhTaiKhoan('sales1@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
-                Chọn
+                Chọn Sales 1
               </button>
             </div>
 
-            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 flex items-center justify-between">
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
               <div class="min-w-0 pr-1">
                 <div class="font-bold text-xs text-white">Sales 2: Phạm Đức Thắng</div>
                 <div class="text-[10px] text-slate-400 font-mono">sales2@bookingtravel.vn</div>
               </div>
               <button type="button" onclick="chuyenNhanhTaiKhoan('sales2@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
-                Chọn
+                Chọn Sales 2
               </button>
             </div>
 
-            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 flex items-center justify-between">
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
               <div class="min-w-0 pr-1">
-                <div class="font-bold text-xs text-white">Sales 3: Vũ Khánh Linh</div>
+                <div class="font-bold text-xs text-white">Sales 3: Nguyễn Thu Phương</div>
                 <div class="text-[10px] text-slate-400 font-mono">sales3@bookingtravel.vn</div>
               </div>
               <button type="button" onclick="chuyenNhanhTaiKhoan('sales3@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
-                Chọn
+                Chọn Sales 3
               </button>
             </div>
 
-            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 flex items-center justify-between">
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
               <div class="min-w-0 pr-1">
                 <div class="font-bold text-xs text-white">Sales 4: Lê Nhật Quang</div>
                 <div class="text-[10px] text-slate-400 font-mono">sales4@bookingtravel.vn</div>
               </div>
               <button type="button" onclick="chuyenNhanhTaiKhoan('sales4@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
-                Chọn
+                Chọn Sales 4
               </button>
             </div>
 
-            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 flex items-center justify-between sm:col-span-2">
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
               <div class="min-w-0 pr-1">
                 <div class="font-bold text-xs text-white">Sales 5: Trần Thu Hồng</div>
                 <div class="text-[10px] text-slate-400 font-mono">sales5@bookingtravel.vn</div>
               </div>
               <button type="button" onclick="chuyenNhanhTaiKhoan('sales5@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
-                Chọn
+                Chọn Sales 5
+              </button>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
+              <div class="min-w-0 pr-1">
+                <div class="font-bold text-xs text-white">Sales 6: Hoàng Gia Bảo</div>
+                <div class="text-[10px] text-slate-400 font-mono">sales6@bookingtravel.vn</div>
+              </div>
+              <button type="button" onclick="chuyenNhanhTaiKhoan('sales6@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
+                Chọn Sales 6
+              </button>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
+              <div class="min-w-0 pr-1">
+                <div class="font-bold text-xs text-white">Sales 7: Đặng Phương Linh</div>
+                <div class="text-[10px] text-slate-400 font-mono">sales7@bookingtravel.vn</div>
+              </div>
+              <button type="button" onclick="chuyenNhanhTaiKhoan('sales7@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
+                Chọn Sales 7
+              </button>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
+              <div class="min-w-0 pr-1">
+                <div class="font-bold text-xs text-white">Sales 8: Đỗ Minh Khang</div>
+                <div class="text-[10px] text-slate-400 font-mono">sales8@bookingtravel.vn</div>
+              </div>
+              <button type="button" onclick="chuyenNhanhTaiKhoan('sales8@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
+                Chọn Sales 8
+              </button>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
+              <div class="min-w-0 pr-1">
+                <div class="font-bold text-xs text-white">Sales 9: Mai Thu Trang</div>
+                <div class="text-[10px] text-slate-400 font-mono">sales9@bookingtravel.vn</div>
+              </div>
+              <button type="button" onclick="chuyenNhanhTaiKhoan('sales9@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
+                Chọn Sales 9
+              </button>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-[#07162f] border border-blue-900/60 hover:border-sky-400/80 transition flex items-center justify-between">
+              <div class="min-w-0 pr-1">
+                <div class="font-bold text-xs text-white">Sales 10: Đặng Quốc Huy</div>
+                <div class="text-[10px] text-slate-400 font-mono">sales10@bookingtravel.vn</div>
+              </div>
+              <button type="button" onclick="chuyenNhanhTaiKhoan('sales10@bookingtravel.vn')" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] shrink-0 cursor-pointer">
+                Chọn Sales 10
               </button>
             </div>
 
@@ -3098,7 +3193,7 @@
       </div>
 
       <!-- Footer -->
-      <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400 shrink-0">
         <span>Mật khẩu mặc định toàn bộ tài khoản: <b class="text-amber-300 font-mono">123456</b></span>
         <button type="button" onclick="closeModalChuyenTaiKhoan()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer">
           Đóng
@@ -3108,7 +3203,6 @@
     </div>
   </div>
 
-  <!-- ========================================================================= -->
   <!-- MODAL: THÊM / SỬA PHIẾU CHI CÔNG TY (KẾ TOÁN & BAN GIÁM ĐỐC) -->
   <!-- ========================================================================= -->
   <div id="modal-them-chi-phi-cty" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
@@ -4124,128 +4218,220 @@
     // DANH SÁCH 11 TÀI KHOẢN: ID (EMAIL), PASS BÀN GIAO 123456, QUỸ 1.000.000 Đ
     // =========================================================================
     const DEFAULT_SYSTEM_USERS = [
+      // 1. ADMIN - QUẢN TRỊ VIÊN HỆ THỐNG
       {
-        email: "crm@bookingtravel.vn",
+        email: "admin@bookingtravel.vn",
         pass: "123456",
         name: "Bùi Phạm Quỳnh Chi",
         phone: "084.84.64.77.222",
         dob: "1988-06-15",
         role: "admin",
-        title: "Ban Giám Đốc (Quản Trị Chiến Lược & Phê Duyệt)",
-        target: 500000000,
-        walletBalance: 247800000,
+        title: "Quản Trị Hệ Thống CRM (ADMIN - Toàn Quyền)",
+        target: 0,
+        walletBalance: 500000000,
         permissions: {
           xem_tat_ca_don: true,
           xem_dong_tien: true,
           xem_lai_gop: true,
           xoa_don: true,
           duyet_chi_ncc: true,
-          duyet_hoan_tien: true
+          duyet_hoan_tien: true,
+          quan_tri_nhan_su: true
         }
       },
+      // 2. DR - BAN GIÁM ĐỐC (DIRECTOR)
       {
-        email: "ketoan@bookingtravel.vn",
+        email: "dr@bookingtravel.vn",
         pass: "123456",
-        name: "Vũ Khánh Linh",
-        phone: "0901234000",
-        dob: "1994-08-20",
-        role: "accountant",
-        title: "Phòng Kế Toán (Kiểm Soát Dòng Tiền & Công Nợ)",
-        target: 0,
-        walletBalance: 50000000,
+        name: "Bùi Thế Quang",
+        phone: "0912.888.999",
+        dob: "1985-08-21",
+        role: "dr",
+        title: "Giám Đốc Điều Hành (DIRECTOR / DR)",
+        target: 1000000000,
+        walletBalance: 300000000,
         permissions: {
           xem_tat_ca_don: true,
           xem_dong_tien: true,
           xem_lai_gop: true,
           xoa_don: false,
-          duyet_chi_ncc: false,
-          duyet_hoan_tien: false
+          duyet_chi_ncc: true,
+          duyet_bgd: true,
+          duyet_hoan_tien: true,
+          quan_tri_nhan_su: false
         }
       },
+      // 3. TAX - KẾ TOÁN THUẾ (HÓA ĐƠN VAT)
+      {
+        email: "tax@bookingtravel.vn",
+        pass: "123456",
+        name: "Nguyễn Thu Hà",
+        phone: "0934.567.890",
+        dob: "1992-04-18",
+        role: "tax",
+        title: "Kế Toán Thuế & Hóa Đơn VAT (TAX)",
+        target: 0,
+        walletBalance: 20000000,
+        permissions: {
+          xem_tat_ca_don: true,
+          xem_hoa_don_vat: true,
+          xuat_hoa_don: true,
+          lay_hoa_don_ncc: true,
+          xem_dong_tien: false,
+          xem_lai_gop: false,
+          xoa_don: false
+        }
+      },
+      // 4. ACC - KẾ TOÁN TÀI CHÍNH & DÒNG TIỀN (ACCOUNTANT)
+      {
+        email: "acc@bookingtravel.vn",
+        pass: "123456",
+        name: "Vũ Khánh Linh",
+        phone: "0901.234.000",
+        dob: "1994-08-20",
+        role: "acc",
+        title: "Kế Toán Tài Chính & Dòng Tiền (ACC)",
+        target: 0,
+        walletBalance: 80000000,
+        permissions: {
+          xem_tat_ca_don: true,
+          xem_dong_tien: true,
+          xem_lai_gop: true,
+          duyet_ke_toan: true,
+          tat_toan_pl: true,
+          doi_soat_ar_ap: true,
+          xoa_don: false
+        }
+      },
+      // 5. SALES 1
       {
         email: "sales1@bookingtravel.vn",
         pass: "123456",
         name: "Ngô Thị Băng Kiều",
-        phone: "0901234001",
+        phone: "0901.234.001",
         dob: "1998-05-15",
         role: "sale",
-        title: "Phòng Kinh Doanh (Sales Tour / Khách Sạn)",
+        title: "Phòng Kinh Doanh (Sales 1)",
         target: 200000000,
         walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: false,
-          xoa_don: false
-        }
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
       },
+      // 6. SALES 2
       {
         email: "sales2@bookingtravel.vn",
         pass: "123456",
         name: "Phạm Đức Thắng",
-        phone: "0901234002",
+        phone: "0901.234.002",
         dob: "1995-12-04",
         role: "sale",
-        title: "Phòng Kinh Doanh (Sales Tour / Khách Sạn)",
+        title: "Phòng Kinh Doanh (Sales 2)",
         target: 200000000,
         walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: false,
-          xoa_don: false
-        }
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
       },
+      // 7. SALES 3
       {
         email: "sales3@bookingtravel.vn",
         pass: "123456",
-        name: "Vũ Khánh Linh",
-        phone: "0901234003",
+        name: "Nguyễn Thu Phương",
+        phone: "0901.234.003",
         dob: "2000-11-12",
         role: "sale",
-        title: "Phòng Kinh Doanh (Sales Tour / Khách Sạn)",
+        title: "Phòng Kinh Doanh (Sales 3)",
         target: 200000000,
         walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: false,
-          xoa_don: false
-        }
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
       },
+      // 8. SALES 4
       {
         email: "sales4@bookingtravel.vn",
         pass: "123456",
         name: "Lê Nhật Quang",
-        phone: "0901234004",
+        phone: "0901.234.004",
         dob: "1996-03-08",
         role: "sale",
-        title: "Phòng Kinh Doanh (Sales Tour / Khách Sạn)",
+        title: "Phòng Kinh Doanh (Sales 4)",
         target: 200000000,
         walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: false,
-          xoa_don: false
-        }
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
       },
+      // 9. SALES 5
       {
         email: "sales5@bookingtravel.vn",
         pass: "123456",
         name: "Trần Thu Hồng",
-        phone: "0901234005",
+        phone: "0901.234.005",
         dob: "1999-10-22",
         role: "sale",
-        title: "Phòng Kinh Doanh (Sales Tour / Khách Sạn)",
+        title: "Phòng Kinh Doanh (Sales 5)",
         target: 200000000,
         walletBalance: 1000000,
-        permissions: {
-          xem_tat_ca_don: false,
-          xem_dong_tien: false,
-          xem_lai_gop: false,
-          xoa_don: false
-        }
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
+      },
+      // 10. SALES 6
+      {
+        email: "sales6@bookingtravel.vn",
+        pass: "123456",
+        name: "Hoàng Gia Bảo",
+        phone: "0901.234.006",
+        dob: "1997-07-19",
+        role: "sale",
+        title: "Phòng Kinh Doanh (Sales 6)",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
+      },
+      // 11. SALES 7
+      {
+        email: "sales7@bookingtravel.vn",
+        pass: "123456",
+        name: "Đặng Phương Linh",
+        phone: "0901.234.007",
+        dob: "1998-09-30",
+        role: "sale",
+        title: "Phòng Kinh Doanh (Sales 7)",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
+      },
+      // 12. SALES 8
+      {
+        email: "sales8@bookingtravel.vn",
+        pass: "123456",
+        name: "Đỗ Minh Khang",
+        phone: "0901.234.008",
+        dob: "1996-01-25",
+        role: "sale",
+        title: "Phòng Kinh Doanh (Sales 8)",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
+      },
+      // 13. SALES 9
+      {
+        email: "sales9@bookingtravel.vn",
+        pass: "123456",
+        name: "Mai Thu Trang",
+        phone: "0901.234.009",
+        dob: "1999-03-14",
+        role: "sale",
+        title: "Phòng Kinh Doanh (Sales 9)",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
+      },
+      // 14. SALES 10
+      {
+        email: "sales10@bookingtravel.vn",
+        pass: "123456",
+        name: "Đặng Quốc Huy",
+        phone: "0901.234.010",
+        dob: "1995-06-18",
+        role: "sale",
+        title: "Phòng Kinh Doanh (Sales 10)",
+        target: 200000000,
+        walletBalance: 1000000,
+        permissions: { xem_tat_ca_don: false, xem_dong_tien: false, xem_lai_gop: false, xoa_don: false }
       }
     ];
 
@@ -4256,19 +4442,19 @@
 
     function initAuth() {
       // 1. Tải danh sách tài khoản chuẩn quy trình 3 bước (BGĐ Bùi Phạm Quỳnh Chi, Kế Toán Vũ Khánh Linh, Sales Kiều/Thắng/Linh...)
-      const usersVer = localStorage.getItem('BOOKING_TRAVEL_USERS_VER_8');
+      const usersVer = localStorage.getItem('BOOKING_TRAVEL_USERS_VER_10');
       const storedUsers = localStorage.getItem('BOOKING_TRAVEL_USERS');
-      if (usersVer !== '7.0' || !storedUsers) {
+      if (usersVer !== '10.0' || !storedUsers) {
         systemUsers = DEFAULT_SYSTEM_USERS;
         localStorage.setItem('BOOKING_TRAVEL_USERS', JSON.stringify(systemUsers));
-        localStorage.setItem('BOOKING_TRAVEL_USERS_VER_8', '7.0');
+        localStorage.setItem('BOOKING_TRAVEL_USERS_VER_10', '10.0');
       } else {
         try {
           systemUsers = JSON.parse(storedUsers);
-          if (!systemUsers.some(u => u.email === 'ketoan@bookingtravel.vn') || !systemUsers.some(u => u.name && u.name.includes('Quỳnh Chi'))) {
+          if (!systemUsers.some(u => u.email === 'admin@bookingtravel.vn') || !systemUsers.some(u => u.role === 'dr') || !systemUsers.some(u => u.role === 'tax') || !systemUsers.some(u => u.email === 'sales10@bookingtravel.vn')) {
             systemUsers = DEFAULT_SYSTEM_USERS;
             localStorage.setItem('BOOKING_TRAVEL_USERS', JSON.stringify(systemUsers));
-            localStorage.setItem('BOOKING_TRAVEL_USERS_VER_8', '7.0');
+            localStorage.setItem('BOOKING_TRAVEL_USERS_VER_10', '10.0');
           }
         } catch(e) {
           systemUsers = DEFAULT_SYSTEM_USERS;
@@ -4324,11 +4510,15 @@
         
         let roleLabel = '';
         if (u.role === 'admin') {
-          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Ban Giám Đốc</span>';
-        } else if (u.role === 'accountant') {
-          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Kế Toán (Acc)</span>';
+          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">ADMIN</span>';
+        } else if (u.role === 'dr') {
+          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">DR (Giám Đốc)</span>';
+        } else if (u.role === 'tax') {
+          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">TAX (Thuế)</span>';
+        } else if (u.role === 'acc' || u.role === 'accountant') {
+          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">ACC (Kế Toán)</span>';
         } else {
-          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">Nhân Viên Sales</span>';
+          roleLabel = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/40">SALES</span>';
         }
         
         const displayName = u.name || u.email.split('@')[0].toUpperCase();
@@ -4912,9 +5102,17 @@
     }
 
     function chuyenNhanhTaiKhoan(email) {
-      const u = systemUsers.find(x => x.email.toLowerCase() === email.toLowerCase());
+      let targetEmail = email.toLowerCase().trim();
+      // Hỗ trợ alias cũ
+      if (targetEmail === 'crm@bookingtravel.vn') targetEmail = 'admin@bookingtravel.vn';
+      if (targetEmail === 'ketoan@bookingtravel.vn') targetEmail = 'acc@bookingtravel.vn';
+
+      let u = systemUsers.find(x => x.email.toLowerCase() === targetEmail);
       if (!u) {
-        alert('Không tìm thấy tài khoản ' + email);
+        u = systemUsers.find(x => x.email.toLowerCase() === email.toLowerCase());
+      }
+      if (!u) {
+        if (typeof showToast === 'function') showToast('Không tìm thấy tài khoản ' + email, 'error');
         return;
       }
       currentUser = u;
@@ -4926,15 +5124,24 @@
       updateMetrics();
       renderTable();
 
-      // Nếu đang ở view tài chính hoặc chi phí mà chuyển sang Sales -> quay về view bookings
-      if ((currentView === 'cashflow' || currentView === 'reports' || currentView === 'expenses' || currentView === 'staff') && u.role === 'sale') {
-        switchView('bookings');
-      } else if (currentView === 'staff' && u.role !== 'admin') {
+      // Phân bổ view an toàn theo vai trò
+      if (u.role === 'sale') {
+        if (currentView !== 'bookings' && currentView !== 'kpi_sales') switchView('bookings');
+      } else if (u.role === 'tax') {
+        if (currentView !== 'bookings') switchView('bookings');
+      } else if (u.role !== 'admin' && currentView === 'staff') {
         switchView('bookings');
       }
 
-      const roleTitle = u.role === 'admin' ? 'Ban Giám Đốc' : (u.role === 'accountant' ? 'Phòng Kế Toán' : 'Phòng Kinh Doanh');
-      alert('✅ ĐÃ CHUYỂN SANG VAI TRÒ: ' + roleTitle.toUpperCase() + '\n\n• Nhân sự: ' + u.name + ' (' + u.email + ')\n• Tiêu đề: ' + (u.title || roleTitle));
+      let roleTitle = 'Phòng Kinh Doanh';
+      if (u.role === 'admin') roleTitle = 'Quản Trị Hệ Thống (ADMIN)';
+      else if (u.role === 'dr') roleTitle = 'Ban Giám Đốc (DR)';
+      else if (u.role === 'tax') roleTitle = 'Kế Toán Thuế (TAX)';
+      else if (u.role === 'acc' || u.role === 'accountant') roleTitle = 'Kế Toán Tài Chính (ACC)';
+
+      if (typeof showToast === 'function') {
+        showToast('Đã đổi vai trò: ' + roleTitle + ' • ' + u.name, 'success');
+      }
     }
 
     // =========================================================================
@@ -4989,113 +5196,213 @@
 
     function updateSidebarAndTabsByRole(role) {
       const isSale = role === 'sale';
-      const isAcc = role === 'accountant';
+      const isTax = role === 'tax';
+      const isAcc = role === 'acc' || role === 'accountant';
+      const isDr = role === 'dr';
       const isAdmin = role === 'admin';
 
-      // 1. NHÓM 1: ĐIỀU HÀNH & BOOKING
-      const navAllText = document.getElementById('nav-all-text');
-      if (navAllText) {
-        navAllText.innerText = isSale ? 'Đơn Hàng Của Tôi' : 'Tất Cả Booking';
-      }
-      const navMyOrders = document.getElementById('nav-my_orders');
-      if (navMyOrders) navMyOrders.classList.add('hidden'); // Sales đã có All là Đơn Của Tôi; Kế toán & BGĐ xem all
-
-      const navChoBgd = document.getElementById('nav-cho_bgd');
-      if (navChoBgd) {
-        if (isSale) navChoBgd.classList.add('hidden');
-        else navChoBgd.classList.remove('hidden');
-      }
-
-      const navApPending = document.getElementById('nav-ap_pending');
-      if (navApPending) {
-        if (isSale) navApPending.classList.add('hidden');
-        else navApPending.classList.remove('hidden');
-      }
-
-      const navAgingDue = document.getElementById('nav-aging_due');
-      if (navAgingDue) {
-        if (isSale) navAgingDue.classList.add('hidden');
-        else navAgingDue.classList.remove('hidden');
-      }
-
-      // 2. NHÓM 3: TÀI CHÍNH & BÁO CÁO
+      // 1. THANH TOP NAVBAR NGANG (#top-navbar-horizontal)
+      const navKpi = document.getElementById('nav-kpi_sales');
+      const navBirthdays = document.getElementById('nav-birthdays');
       const navExpenses = document.getElementById('nav-expenses');
       const navCashflow = document.getElementById('nav-cashflow');
       const navReports = document.getElementById('nav-reports');
-      const titleFinance = document.getElementById('sidebar-title-finance');
+      const navStaff = document.getElementById('nav-staff');
+      const viewTitle = document.getElementById('current-view-title');
       const navKpiText = document.getElementById('nav-kpi-text');
 
-      if (isSale) {
-        // Sales không thấy phần kế toán & tài chính tổng quát
-        if (navExpenses) navExpenses.classList.add('hidden');
-        if (navCashflow) navCashflow.classList.add('hidden');
-        if (navReports) navReports.classList.add('hidden');
-        if (titleFinance) titleFinance.innerHTML = '<i class="fa-solid fa-trophy"></i> <span>Hiệu Suất & Hoa Hồng</span>';
-        if (navKpiText) navKpiText.innerText = 'Hoa Hồng & Doanh Số Của Tôi';
-      } else {
-        if (navExpenses) navExpenses.classList.remove('hidden');
-        if (navCashflow) navCashflow.classList.remove('hidden');
-        if (navReports) navReports.classList.remove('hidden');
-        if (titleFinance) titleFinance.innerHTML = '<i class="fa-solid fa-chart-pie"></i> <span>Tài Chính & Báo Cáo</span>';
-        if (navKpiText) navKpiText.innerText = 'Hiệu Suất Sales (KPI)';
+      // Tên phòng ban hiển thị trên Topbar
+      if (viewTitle) {
+        if (isSale) viewTitle.innerText = 'Phòng Kinh Doanh (Sales)';
+        else if (isTax) viewTitle.innerText = 'Phòng Kế Toán Thuế (Tax)';
+        else if (isAcc) viewTitle.innerText = 'Phòng Kế Toán & Dòng Tiền (Acc)';
+        else if (isDr) viewTitle.innerText = 'Ban Giám Đốc (Director)';
+        else if (isAdmin) viewTitle.innerText = 'Quản Trị Hệ Thống (Admin)';
       }
 
-      // 3. NHÓM 4: NHÂN SỰ & PHÂN QUYỀN
-      const navStaff = document.getElementById('nav-staff');
-      const titleStaff = document.getElementById('sidebar-title-staff');
-      if (isAdmin) {
-        if (navStaff) navStaff.classList.remove('hidden');
-        if (titleStaff) titleStaff.innerHTML = '<i class="fa-solid fa-users-gear"></i> <span>Nhân Sự & Phân Quyền</span>';
-      } else {
-        // Sales và Kế toán không quản lý nhân sự hệ thống
-        if (navStaff) navStaff.classList.add('hidden');
-        if (titleStaff) titleStaff.innerHTML = '<i class="fa-solid fa-id-card"></i> <span>Tài Khoản Cá Nhân</span>';
+      // Nút KPI Sales / Thi đua
+      if (navKpi) {
+        if (isSale) {
+          navKpi.classList.remove('hidden');
+          if (navKpiText) navKpiText.innerText = 'Hoa Hồng & Doanh Số Của Tôi';
+        } else if (isDr || isAdmin) {
+          navKpi.classList.remove('hidden');
+          if (navKpiText) navKpiText.innerText = 'Hiệu Suất Sales (KPI Toàn Cty)';
+        } else {
+          navKpi.classList.add('hidden'); // Tax và Acc không cần xem thi đua sales
+        }
       }
 
-      // 4. NHÓM 5: QUẢN LÝ HÓA ĐƠN & CSKH
-      const secInvoices = document.getElementById('sidebar-sec-invoices');
-      const navBackupRestore = document.getElementById('nav-backup_restore');
-      if (isSale) {
-        // Sales hoàn toàn không phải đi đòi hóa đơn hay xuất GTGT (việc của Kế Toán)
-        if (secInvoices) secInvoices.classList.add('hidden');
-      } else if (isAcc) {
-        if (secInvoices) secInvoices.classList.remove('hidden');
-        if (navBackupRestore) navBackupRestore.classList.add('hidden');
-      } else {
-        if (secInvoices) secInvoices.classList.remove('hidden');
-        if (navBackupRestore) navBackupRestore.classList.remove('hidden');
+      // Nút Tri Ân Khách Hàng (Sinh Nhật)
+      if (navBirthdays) {
+        if (isSale || isDr || isAdmin) {
+          navBirthdays.classList.remove('hidden');
+        } else {
+          navBirthdays.classList.add('hidden');
+        }
       }
 
-      // 5. CÁC TABS LỌC NHANH TRÊN BẢNG BOOKING (#filter-segmented)
+      // Nút Chi Phí Cty
+      if (navExpenses) {
+        if (isAcc || isDr || isAdmin) navExpenses.classList.remove('hidden');
+        else navExpenses.classList.add('hidden');
+      }
+
+      // Nút Dòng Tiền Thực Tế
+      if (navCashflow) {
+        if (isAcc || isDr || isAdmin) navCashflow.classList.remove('hidden');
+        else navCashflow.classList.add('hidden');
+      }
+
+      // Nút Báo Cáo P&L
+      if (navReports) {
+        if (isAcc || isDr || isAdmin) navReports.classList.remove('hidden');
+        else navReports.classList.add('hidden');
+      }
+
+      // Nút Phân Quyền Nhân Sự (CHỈ DUY NHẤT ADMIN)
+      if (navStaff) {
+        if (isAdmin) navStaff.classList.remove('hidden');
+        else navStaff.classList.add('hidden');
+      }
+
+      // 2. THANH TAB LỌC NHANH TRÊN BẢNG BOOKING (#filter-segmented)
+      const tabAll = document.querySelector('#filter-segmented button[data-filter="all"]');
+      const tabChoKeToan = document.querySelector('#filter-segmented button[data-filter="cho_ke_toan"]');
+      const tabDaCoc = document.querySelector('#filter-segmented button[data-filter="da_coc"]');
+      const tabChoBgd = document.querySelector('#filter-segmented button[data-filter="cho_bgd"]');
+      const tabDangDieuHanh = document.querySelector('#filter-segmented button[data-filter="dang_dieu_hanh"]');
+      const tabHoanTat = document.querySelector('#filter-segmented button[data-filter="hoan_tat"]');
+      const tabDaHuy = document.querySelector('#filter-segmented button[data-filter="da_huy"]');
       const tabDoiHd = document.querySelector('#filter-segmented button[data-filter="doi_hd_dau_vao"]');
       const tabXuatHd = document.querySelector('#filter-segmented button[data-filter="can_xuat_hd_ra"]');
+      const tabAr = document.querySelector('#filter-segmented button[data-filter="ar_pending"]');
       const tabAging = document.querySelector('#filter-segmented button[data-filter="aging_due"]');
-      const tabChoBgd = document.querySelector('#filter-segmented button[data-filter="cho_bgd"]');
-      const tabMyOrders = document.querySelector('#filter-segmented button[data-filter="my_orders"]');
-      const tabAll = document.querySelector('#filter-segmented button[data-filter="all"]');
 
-      if (isSale) {
-        if (tabDoiHd) tabDoiHd.classList.add('hidden');
-        if (tabXuatHd) tabXuatHd.classList.add('hidden');
-        if (tabAging) tabAging.classList.add('hidden');
-        if (tabChoBgd) tabChoBgd.classList.add('hidden');
-        if (tabMyOrders) tabMyOrders.classList.add('hidden');
-      } else {
-        if (tabDoiHd) tabDoiHd.classList.remove('hidden');
-        if (tabXuatHd) tabXuatHd.classList.remove('hidden');
-        if (tabAging) tabAging.classList.remove('hidden');
-        if (tabChoBgd) tabChoBgd.classList.remove('hidden');
-        if (tabMyOrders) tabMyOrders.classList.add('hidden');
+      // Đổi tiêu đề Tab All cho từng vai trò mà không thay thế DOM id
+      if (tabAll) {
+        const spanText = tabAll.querySelector('span.font-bold');
+        if (spanText && spanText.childNodes && spanText.childNodes.length > 0) {
+          let tName = 'Tất Cả';
+          if (isSale) tName = 'Đơn Của Tôi';
+          else if (isTax) tName = 'Tất Cả Đơn Thuế';
+          else if (isAcc) tName = 'Tất Cả Đơn Tài Chính';
+          else if (isDr) tName = 'Tất Cả Đơn Toàn Cty';
+          spanText.childNodes[0].nodeValue = tName + ' (';
+        }
       }
 
-      // 6. CẬP NHẬT GIAO DIỆN THẺ METRIC CARD 4
-      updateCard4UI(role);
+      // Phân quyền hiển thị từng tab cụ thể
+      if (isSale) {
+        // SALES: Tối giản nhất có thể - chỉ thấy 5 tab của mình!
+        if (tabChoKeToan) tabChoKeToan.classList.remove('hidden');
+        if (tabDaCoc) tabDaCoc.classList.remove('hidden');
+        if (tabDangDieuHanh) tabDangDieuHanh.classList.remove('hidden');
+        if (tabDaHuy) tabDaHuy.classList.remove('hidden');
 
-      // 7. ẨN PHẦN HÓA ĐƠN ĐẦU VÀO TRONG MODAL ĐỐI VỚI SALES (DO KẾ TOÁN QUẢN LÝ)
-      const modalSecHdVao = document.getElementById('modal-sec-hd-vao');
-      if (modalSecHdVao) {
-        if (isSale) modalSecHdVao.classList.add('hidden');
-        else modalSecHdVao.classList.remove('hidden');
+        if (tabChoBgd) tabChoBgd.classList.add('hidden');
+        if (tabHoanTat) tabHoanTat.classList.add('hidden');
+        if (tabDoiHd) tabDoiHd.classList.add('hidden');
+        if (tabXuatHd) tabXuatHd.classList.add('hidden');
+        if (tabAr) tabAr.classList.add('hidden');
+        if (tabAging) tabAging.classList.add('hidden');
+
+      } else if (isTax) {
+        // TAX: Chỉ tập trung vào hóa đơn VAT
+        if (tabDoiHd) tabDoiHd.classList.remove('hidden');
+        if (tabXuatHd) tabXuatHd.classList.remove('hidden');
+
+        if (tabChoKeToan) tabChoKeToan.classList.add('hidden');
+        if (tabDaCoc) tabDaCoc.classList.add('hidden');
+        if (tabChoBgd) tabChoBgd.classList.add('hidden');
+        if (tabDangDieuHanh) tabDangDieuHanh.classList.add('hidden');
+        if (tabHoanTat) tabHoanTat.classList.add('hidden');
+        if (tabDaHuy) tabDaHuy.classList.add('hidden');
+        if (tabAr) tabAr.classList.add('hidden');
+        if (tabAging) tabAging.classList.add('hidden');
+
+      } else if (isAcc) {
+        // ACC: Tập trung vào dòng tiền, cọc, duyệt, công nợ AR/AP, tuổi nợ
+        if (tabChoKeToan) tabChoKeToan.classList.remove('hidden');
+        if (tabDaCoc) tabDaCoc.classList.remove('hidden');
+        if (tabDangDieuHanh) tabDangDieuHanh.classList.remove('hidden');
+        if (tabHoanTat) tabHoanTat.classList.remove('hidden');
+        if (tabDaHuy) tabDaHuy.classList.remove('hidden');
+        if (tabAr) tabAr.classList.remove('hidden');
+        if (tabAging) tabAging.classList.remove('hidden');
+        if (tabDoiHd) tabDoiHd.classList.remove('hidden');
+        if (tabXuatHd) tabXuatHd.classList.remove('hidden');
+        if (tabChoBgd) tabChoBgd.classList.remove('hidden');
+
+      } else if (isDr) {
+        // DR: Giám đốc tập trung duyệt đơn, điều hành, P&L, tuổi nợ
+        if (tabChoBgd) tabChoBgd.classList.remove('hidden');
+        if (tabDangDieuHanh) tabDangDieuHanh.classList.remove('hidden');
+        if (tabHoanTat) tabHoanTat.classList.remove('hidden');
+        if (tabDaHuy) tabDaHuy.classList.remove('hidden');
+        if (tabAr) tabAr.classList.remove('hidden');
+        if (tabAging) tabAging.classList.remove('hidden');
+
+        if (tabChoKeToan) tabChoKeToan.classList.add('hidden');
+        if (tabDaCoc) tabDaCoc.classList.add('hidden');
+        if (tabDoiHd) tabDoiHd.classList.add('hidden');
+        if (tabXuatHd) tabXuatHd.classList.add('hidden');
+
+      } else {
+        // ADMIN: Thấy tất cả các tab
+        if (tabChoKeToan) tabChoKeToan.classList.remove('hidden');
+        if (tabDaCoc) tabDaCoc.classList.remove('hidden');
+        if (tabChoBgd) tabChoBgd.classList.remove('hidden');
+        if (tabDangDieuHanh) tabDangDieuHanh.classList.remove('hidden');
+        if (tabHoanTat) tabHoanTat.classList.remove('hidden');
+        if (tabDaHuy) tabDaHuy.classList.remove('hidden');
+        if (tabDoiHd) tabDoiHd.classList.remove('hidden');
+        if (tabXuatHd) tabXuatHd.classList.remove('hidden');
+        if (tabAr) tabAr.classList.remove('hidden');
+        if (tabAging) tabAging.classList.remove('hidden');
+      }
+
+      // 3. CẬP NHẬT NHÃN CỦA 5 THẺ CHỈ SỐ METRIC CARDS
+      updateMetricCardsLabels(role);
+    }
+
+    function updateMetricCardsLabels(role) {
+      const isSale = role === 'sale';
+      const isTax = role === 'tax';
+      const isAcc = role === 'acc' || role === 'accountant';
+      const isDr = role === 'dr';
+      const isAdmin = role === 'admin';
+
+      const card1Label = document.querySelector('#view-bookings .grid > div:nth-child(1) span');
+      const card2Label = document.querySelector('#view-bookings .grid > div:nth-child(2) span');
+      const card3Label = document.querySelector('#view-bookings .grid > div:nth-child(3) span');
+      const card4Label = document.querySelector('#view-bookings .grid > div:nth-child(4) span');
+      const card5Label = document.querySelector('#view-bookings .grid > div:nth-child(5) span');
+
+      if (isSale) {
+        if (card1Label) card1Label.innerText = 'Doanh Số Của Tôi';
+        if (card2Label) card2Label.innerText = 'Giá Vốn Đơn Tôi';
+        if (card3Label) card3Label.innerText = 'Hoa Hồng Của Tôi';
+        if (card4Label) card4Label.innerText = 'Khách Cần Thu (Đơn Tôi)';
+        if (card5Label) card5Label.innerText = 'Nợ Đối Tác (Đơn Tôi)';
+      } else if (isTax) {
+        if (card1Label) card1Label.innerText = 'Doanh Thu Có HĐ VAT';
+        if (card2Label) card2Label.innerText = 'Chi Phí Có HĐ VAT';
+        if (card3Label) card3Label.innerText = 'Thuế GTGT Tạm Tính (10%)';
+        if (card4Label) card4Label.innerText = 'Chờ Xuất HĐ Ra Khách';
+        if (card5Label) card5Label.innerText = 'Chưa Có HĐ Vào NCC';
+      } else if (isAcc) {
+        if (card1Label) card1Label.innerText = 'Tổng Doanh Thu Đơn';
+        if (card2Label) card2Label.innerText = 'Tổng Chi Phí Net';
+        if (card3Label) card3Label.innerText = 'Lợi Nhuận Gộp';
+        if (card4Label) card4Label.innerText = 'Công Nợ Phải Thu (AR)';
+        if (card5Label) card5Label.innerText = 'Nợ Đối Tác (AP)';
+      } else {
+        if (card1Label) card1Label.innerText = 'Tổng Doanh Thu Cty';
+        if (card2Label) card2Label.innerText = 'Tổng Giá Vốn Net';
+        if (card3Label) card3Label.innerText = 'Lợi Nhuận Gộp Cty';
+        if (card4Label) card4Label.innerText = 'Công Nợ Phải Thu (AR)';
+        if (card5Label) card5Label.innerText = 'Nợ Đối Tác (AP)';
       }
     }
 
@@ -5125,14 +5432,20 @@
       const roleBadge = document.getElementById('topbar-user-role-badge');
       if (roleBadge) {
         if (currentUser.role === 'admin') {
-          roleBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30';
-          roleBadge.innerHTML = '<i class="fa-solid fa-crown text-[9px] mr-1"></i>BGĐ';
-        } else if (currentUser.role === 'accountant') {
-          roleBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-sky-500/20 text-sky-300 border border-sky-500/30';
-          roleBadge.innerHTML = '<i class="fa-solid fa-calculator text-[9px] mr-1"></i>Kế Toán';
+          roleBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/40';
+          roleBadge.innerHTML = '<i class="fa-solid fa-shield-halved text-[9px] mr-1"></i>ADMIN';
+        } else if (currentUser.role === 'dr') {
+          roleBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/40';
+          roleBadge.innerHTML = '<i class="fa-solid fa-crown text-[9px] mr-1"></i>DR (GIÁM ĐỐC)';
+        } else if (currentUser.role === 'tax') {
+          roleBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-purple-500/20 text-purple-300 border border-purple-500/40';
+          roleBadge.innerHTML = '<i class="fa-solid fa-receipt text-[9px] mr-1"></i>TAX (THUẾ)';
+        } else if (currentUser.role === 'acc' || currentUser.role === 'accountant') {
+          roleBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+          roleBadge.innerHTML = '<i class="fa-solid fa-calculator text-[9px] mr-1"></i>ACC (KẾ TOÁN)';
         } else {
-          roleBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-blue-500/20 text-blue-300 border border-blue-500/30';
-          roleBadge.innerHTML = '<i class="fa-solid fa-briefcase text-[9px] mr-1"></i>Sales';
+          roleBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-blue-500/20 text-blue-300 border border-blue-500/40';
+          roleBadge.innerHTML = '<i class="fa-solid fa-briefcase text-[9px] mr-1"></i>SALES';
         }
       }
 
@@ -8771,11 +9084,14 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
       const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
       const isAdmin = currentUser && currentUser.role === 'admin';
-      const isAccountant = currentUser && currentUser.role === 'accountant';
+      const isDr = currentUser && currentUser.role === 'dr';
+      const isTax = currentUser && currentUser.role === 'tax';
+      const isAcc = currentUser && (currentUser.role === 'acc' || currentUser.role === 'accountant');
+      const isAccountant = isAcc;
       const isSale = currentUser && currentUser.role === 'sale';
 
-      // Sales chỉ tính metrics trên các đơn của chính mình, Kế toán & BGĐ tính toàn công ty
-      const canViewAll = isAdmin || isAccountant;
+      // Sales chỉ tính metrics trên các đơn của chính mình, Kế toán, Tax, DR & Admin tính toàn công ty
+      const canViewAll = isAdmin || isDr || isTax || isAcc;
 
       bookings.forEach(b => {
         const isMine = b.saleEmail && b.saleEmail.toLowerCase() === myEmail;
@@ -8935,7 +9251,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       return 'Khách sạn Booking Travel';
     }
 
-    // HELPER LẤY TÊN NHÂN VIÊN PHỤ TRÁCH THAY VÌ HIỂN THỊ EMAIL (sales1 -> Ngô Thị Băng Kiều)
+    // HELPER LẤY TÊN NHÂN VIÊN PHỤ TRÁCH THAY VÌ HIỂN THỊ EMAIL
     function getStaffDisplayName(email) {
       if (!email) return 'Nhân viên';
       const clean = email.toLowerCase().trim();
@@ -8944,13 +9260,18 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       const prefix = clean.split('@')[0];
       if (prefix === 'sales1') return 'Ngô Thị Băng Kiều';
       if (prefix === 'sales2') return 'Phạm Đức Thắng';
-      if (prefix === 'sales3') return 'Vũ Khánh Linh';
+      if (prefix === 'sales3') return 'Nguyễn Thu Phương';
       if (prefix === 'sales4') return 'Lê Nhật Quang';
       if (prefix === 'sales5') return 'Trần Thu Hồng';
-      if (prefix === 'sales6') return 'Nguyễn Hoàng Nam';
-      if (prefix === 'ketoan') return 'Vũ Khánh Linh';
-      if (prefix === 'crm') return 'Bùi Phạm Quỳnh Chi';
-      if (prefix === 'admin') return 'Ban Giám Đốc';
+      if (prefix === 'sales6') return 'Hoàng Gia Bảo';
+      if (prefix === 'sales7') return 'Đặng Phương Linh';
+      if (prefix === 'sales8') return 'Đỗ Minh Khang';
+      if (prefix === 'sales9') return 'Mai Thu Trang';
+      if (prefix === 'sales10') return 'Đặng Quốc Huy';
+      if (prefix === 'tax') return 'Nguyễn Thu Hà';
+      if (prefix === 'acc' || prefix === 'ketoan') return 'Vũ Khánh Linh';
+      if (prefix === 'dr' || prefix === 'director') return 'Bùi Thế Quang';
+      if (prefix === 'admin' || prefix === 'crm') return 'Bùi Phạm Quỳnh Chi';
       return prefix;
     }
 
@@ -8997,16 +9318,20 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
       
       const isAdmin = currentUser && currentUser.role === 'admin';
-      const isAccountant = currentUser && currentUser.role === 'accountant';
+      const isDr = currentUser && currentUser.role === 'dr';
+      const isTax = currentUser && currentUser.role === 'tax';
+      const isAcc = currentUser && (currentUser.role === 'acc' || currentUser.role === 'accountant');
       const isSale = currentUser && currentUser.role === 'sale';
 
       // QUY ĐỊNH PHÂN QUYỀN CÔNG VIỆC CÔNG TY TNHH BOOKING TRAVEL:
-      // 1. Phòng Kinh Doanh (Sales): Chỉ nhìn thấy và thao tác trên các đơn do chính mình phụ trách. Không thấy dữ liệu tài chính tổng quát.
-      // 2. Phòng Kế Toán: Thấy toàn bộ đơn để kiểm soát dòng tiền, đối soát AR/AP, hóa đơn.
-      // 3. Ban Giám Đốc: Tầm nhìn toàn cảnh (Overview), toàn quyền phê duyệt và xóa đơn.
-      const canViewAll = isAdmin || isAccountant;
+      // 1. Sales 1 -> 10: Chỉ nhìn thấy và thao tác trên các đơn do chính mình phụ trách. Không thấy dữ liệu của sales khác hay tài chính cty.
+      // 2. Tax: Thấy toàn bộ đơn để theo dõi HĐ VAT đầu vào, đầu ra, MST và báo cáo thuế.
+      // 3. Acc: Thấy toàn bộ đơn để kiểm soát dòng tiền thu/chi, đối soát AR/AP, quản trị tuổi nợ, chốt P&L.
+      // 4. DR (Director): Tầm nhìn chiến lược toàn cảnh, phê duyệt cấp cao các đơn hàng và chi phí lớn.
+      // 5. Admin: Toàn quyền quản trị hệ thống, phân quyền, cấu hình và xóa đơn.
+      const canViewAll = isAdmin || isDr || isTax || isAcc;
       const canDelete = isAdmin;
-      const canViewProfit = isAdmin || isAccountant;
+      const canViewProfit = isAdmin || isDr || isAcc || isSale;
 
       const filtered = bookings.filter(b => {
         const isMine = b.saleEmail && b.saleEmail.toLowerCase() === myEmail;
@@ -9306,7 +9631,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
         const isMine = b.saleEmail && b.saleEmail.toLowerCase() === myEmail;
         // Sales xem vốn & lợi nhuận trên chính đơn của mình để tính hoa hồng. Kế toán & BGĐ xem all
-        const canViewThisProfit = isAdmin || isAccountant || isMine;
+        const canViewThisProfit = isAdmin || isDr || isAcc || isMine;
         const costDisplay = canViewThisProfit ? `${cst.toLocaleString('vi-VN')} đ` : '<span class="text-slate-600">***</span>';
         const commission = Math.round(profit * 0.1);
         let profitDisplay = '<span class="text-slate-600">***</span>';
@@ -9454,7 +9779,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               <div class="flex items-center justify-end gap-1.5">
                 ${!isSale ? workflowActionBtn : ''}
                 ${cancelBtn}
-                ${(isAdmin || isAccountant) && remainAP > 0 ? `
+                ${(isAdmin || isDr || isAcc) && remainAP > 0 ? `
                   <button onclick="openModalDeXuatChiNCC('${b.id}')" title="Kế toán lập đề xuất chi trả khách sạn / BGĐ duyệt chi" class="p-1.5 rounded-lg text-amber-400 hover:text-white hover:bg-amber-500/20 transition text-xs cursor-pointer">
                     <i class="fa-solid fa-money-check-dollar"></i>
                   </button>
@@ -9609,7 +9934,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                 <i class="fa-solid fa-file-invoice"></i>
               </button>
 
-              ${(isAdmin || isAccountant) && remainAP > 0 ? `
+              ${(isAdmin || isDr || isAcc) && remainAP > 0 ? `
                 <button onclick="openModalDeXuatChiNCC('${b.id}')" class="min-w-[46px] min-h-[46px] rounded-xl bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 border border-amber-800/60 flex items-center justify-center transition cursor-pointer active:scale-95" title="Kế toán đề xuất chi trả NCC / BGĐ duyệt chi">
                   <i class="fa-solid fa-money-check-dollar text-sm"></i>
                 </button>
