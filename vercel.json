@@ -1,23 +1,10 @@
 {
-  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    { "src": "/CRM_Booking", "dest": "/CRM_Booking.html" },
-    { "src": "/CRM_Pro", "dest": "/CRM_Pro.html" },
-    { "src": "/crm_pro", "dest": "/crm_pro.html" },
-    { "src": "/kho-khach-san", "dest": "/demo_kho_khach_san_nha_trang.html" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/CRM_Booking.html" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
-      ]
-    }
+  "rewrites": [
+    { "source": "/", "destination": "/CRM_Booking.html" },
+    { "source": "/CRM_Booking", "destination": "/CRM_Booking.html" }
   ]
 }
