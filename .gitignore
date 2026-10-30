@@ -2,6 +2,7 @@ node_modules/
 service-account.json
 credentials.json
 .env
+.env.local
 zalo_profile/
 uploads/
 *.log

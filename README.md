@@ -138,18 +138,15 @@ Hệ thống **Booking Travel ERP v4.0** giải quyết triệt để bài toán
 ### 1. Yêu cầu môi trường
 * **Hệ điều hành:** Windows 10/11 hoặc Linux Server / VPS
 * **Node.js:** Phiên bản 18+ trở lên
-* **Máy chủ Web cục bộ:** XAMPP (Apache + PHP 8.x + MySQL / MariaDB)
+* **Máy chủ Web:** Máy chủ tĩnh Node.js / Vercel / GitHub Pages (hoàn toàn độc lập, không cần XAMPP)
 
-### 2. Cài đặt các gói phụ thuộc
+### 2. Cài đặt các gói phụ thuộc & Khởi chạy máy chủ Web (Port 3000)
 ```bash
-npm install
+# Khởi chạy máy chủ Web CRM (Port 3000):
+npm run dev
 ```
-
-### 3. Vận hành máy chủ XAMPP (Port 80)
-1. Đảm bảo Apache và MySQL đang chạy tại thư mục `E:\xampp_booking` (hoặc `C:\xampp`).
-2. Truy cập hệ thống CRM tại:
-   👉 **[http://localhost/CRM_Booking.html](http://localhost/CRM_Booking.html)** (Bản Hệ Thống ERP Đầy Đủ)
-   👉 **[http://localhost/CRM_Pro.html](http://localhost/CRM_Pro.html)** (Bản Giao Diện Executive Pro Hiện Đại)
+Truy cập hệ thống CRM tại:
+👉 **[http://localhost:3000/CRM_Booking.html](http://localhost:3000/CRM_Booking.html)** (Hoặc: http://localhost:3000/)
 
 ### 4. Vận hành Trạm Phát Tin Tự Động Zalo (Port 5000)
 ```bash

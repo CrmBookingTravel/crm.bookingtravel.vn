@@ -1,21 +1,13 @@
 {
-  "name": "bookingtravel-crm-erp",
-  "version": "4.0.0",
-  "description": "Hệ thống Quản Trị Lữ Hành, Kế Toán Thuế & Dòng Tiền Thực, Tự Động Hóa Phát Tin Zalo - Công ty TNHH Booking Travel (bookingtravel.vn)",
-  "main": "server.js",
-  "type": "commonjs",
+  "name": "booking-travel-crm",
+  "version": "1.0.0",
+  "description": "He thong CRM va Booking cho CTY TNHH BOOKING TRAVEL",
+  "main": "index.html",
   "scripts": {
-    "build": "node -e \"console.log('Build OK')\"",
-    "start": "node server.js",
-    "dev": "node server.js",
-    "sheets:manage": "node manager-client.js",
-    "sheets:export": "node export-list.js"
+    "dev": "npx serve . -p 3000"
   },
-  "dependencies": {
-    "express": "^5.3.0",
-    "googleapis": "^144.0.0",
-    "puppeteer-core": "^25.15.0"
-  },
-  "author": "Công ty TNHH Booking Travel <crm@bookingtravel.vn>",
-  "license": "PROPRIETARY"
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
 }
