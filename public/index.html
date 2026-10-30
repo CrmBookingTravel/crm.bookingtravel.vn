@@ -902,6 +902,130 @@
 
           </div>
 
+          <!-- BỘ LỌC THEO NGÀY (CHECK-IN / CHECK-OUT / NGÀY TẠO) -->
+          <div class="px-3 sm:px-5 py-2.5 bg-[#071326] border-b border-slate-800/90 flex flex-wrap items-center justify-between gap-2.5 text-xs" id="date-filter-toolbar">
+            
+            <!-- Nhóm lọc chính: Dropdown chọn loại ngày + Từ ngày + Đến ngày + Nút nhanh -->
+            <div class="flex flex-wrap items-center gap-2 max-w-full">
+              <!-- Label -->
+              <div class="flex items-center gap-1.5 text-slate-300 font-bold shrink-0">
+                <span class="w-6 h-6 rounded-md bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20">
+                  <i class="fa-solid fa-calendar-days text-xs"></i>
+                </span>
+                <span class="text-xs">Lọc Ngày:</span>
+              </div>
+
+              <!-- Chọn Loại Ngày: Check-In, Check-Out, Ngày Tạo, Hoặc Cả 3 -->
+              <div class="relative shrink-0">
+                <select id="filter-date-type" onchange="onDateFilterChange()" class="bg-slate-900/90 border border-slate-700/80 hover:border-sky-500/60 text-slate-200 text-xs rounded-lg px-2.5 py-1.5 font-medium focus:outline-none focus:border-sky-500 transition cursor-pointer">
+                  <option value="checkin">🧳 Ngày Check-In (IN)</option>
+                  <option value="checkout">🚪 Ngày Check-Out (OUT)</option>
+                  <option value="ngayTao">📝 Ngày Tạo Đơn</option>
+                  <option value="all_dates">🔄 Cả 3 Loại Ngày (Bất kỳ)</option>
+                </select>
+              </div>
+
+              <!-- Từ Ngày -->
+              <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-700/80 rounded-lg px-2.5 py-1 focus-within:border-sky-500 transition shrink-0">
+                <span class="text-slate-400 text-[11px] font-medium">Từ:</span>
+                <input type="date" id="filter-date-from" onchange="onDateFilterChange()" class="bg-transparent text-slate-200 text-xs focus:outline-none cursor-pointer scheme-dark">
+              </div>
+
+              <!-- Đến Ngày -->
+              <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-700/80 rounded-lg px-2.5 py-1 focus-within:border-sky-500 transition shrink-0">
+                <span class="text-slate-400 text-[11px] font-medium">Đến:</span>
+                <input type="date" id="filter-date-to" onchange="onDateFilterChange()" class="bg-transparent text-slate-200 text-xs focus:outline-none cursor-pointer scheme-dark">
+              </div>
+
+              <!-- Presets Nhanh -->
+              <div class="flex items-center gap-1 shrink-0 overflow-x-auto scrollbar-none py-0.5">
+                <button type="button" onclick="setDatePreset('today')" class="px-2 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-medium transition cursor-pointer" title="Lọc ngày hôm nay">Hôm nay</button>
+                <button type="button" onclick="setDatePreset('tomorrow')" class="px-2 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-medium transition cursor-pointer" title="Lọc ngày mai">Ngày mai</button>
+                <button type="button" onclick="setDatePreset('this_month')" class="px-2 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-medium transition cursor-pointer" title="Lọc trong tháng hiện tại">Tháng này</button>
+                <button type="button" onclick="setDatePreset('next_7_days')" class="px-2 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-medium transition cursor-pointer" title="Lọc trong 7 ngày tới">7 ngày tới</button>
+              </div>
+
+              <!-- Nút Xóa Lọc Ngày -->
+              <button type="button" onclick="clearDateFilter()" id="btn-clear-date-filter" class="hidden px-2.5 py-1 rounded-md bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 border border-rose-500/30 text-[11px] font-semibold transition items-center gap-1 cursor-pointer shrink-0" title="Xóa bộ lọc ngày để hiển thị lại tất cả">
+                <i class="fa-solid fa-xmark text-xs"></i> <span>Xóa Lọc Ngày</span>
+              </button>
+            </div>
+
+            <!-- Bên Phải: Nút mở rộng Lọc riêng cả 3 ngày cùng lúc -->
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" onclick="toggleMultiDateFilter()" id="btn-toggle-multi-date" class="px-2.5 py-1 rounded-lg border border-slate-700 hover:border-slate-600 bg-slate-800/70 hover:bg-slate-800 text-slate-300 hover:text-white text-[11px] font-medium transition flex items-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-sliders text-indigo-400 text-xs"></i>
+                <span id="btn-toggle-multi-date-text">Lọc Riêng Cả 3 Ngày</span>
+              </button>
+            </div>
+
+            <!-- Panel Mở Rộng: 3 Khung Riêng Cho Check-In, Check-Out, Ngày Tạo -->
+            <div id="multi-date-filter-panel" class="hidden w-full pt-2.5 mt-1 border-t border-slate-800/90 grid grid-cols-1 md:grid-cols-3 gap-2.5">
+              
+              <!-- 1. Ngày Check In -->
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-sky-900/40 shadow-sm">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[11px] font-bold text-sky-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-plane-arrival text-[10px]"></i> 1. Ngày Check-In (IN)
+                  </span>
+                  <button type="button" onclick="clearSpecificDateFilter('checkin')" class="text-[10px] text-slate-400 hover:text-rose-400 cursor-pointer">Xóa</button>
+                </div>
+                <div class="grid grid-cols-2 gap-1.5">
+                  <div>
+                    <span class="text-[10px] text-slate-400 block mb-0.5 font-medium">Từ ngày:</span>
+                    <input type="date" id="multi-filter-checkin-from" onchange="onMultiDateFilterChange()" class="w-full bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-slate-200 text-xs scheme-dark">
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-slate-400 block mb-0.5 font-medium">Đến ngày:</span>
+                    <input type="date" id="multi-filter-checkin-to" onchange="onMultiDateFilterChange()" class="w-full bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-slate-200 text-xs scheme-dark">
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Ngày Check Out -->
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-amber-900/40 shadow-sm">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-door-open text-[10px]"></i> 2. Ngày Check-Out (OUT)
+                  </span>
+                  <button type="button" onclick="clearSpecificDateFilter('checkout')" class="text-[10px] text-slate-400 hover:text-rose-400 cursor-pointer">Xóa</button>
+                </div>
+                <div class="grid grid-cols-2 gap-1.5">
+                  <div>
+                    <span class="text-[10px] text-slate-400 block mb-0.5 font-medium">Từ ngày:</span>
+                    <input type="date" id="multi-filter-checkout-from" onchange="onMultiDateFilterChange()" class="w-full bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-slate-200 text-xs scheme-dark">
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-slate-400 block mb-0.5 font-medium">Đến ngày:</span>
+                    <input type="date" id="multi-filter-checkout-to" onchange="onMultiDateFilterChange()" class="w-full bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-slate-200 text-xs scheme-dark">
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3. Ngày Tạo Đơn -->
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-emerald-900/40 shadow-sm">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-circle-plus text-[10px]"></i> 3. Ngày Tạo Đơn
+                  </span>
+                  <button type="button" onclick="clearSpecificDateFilter('created')" class="text-[10px] text-slate-400 hover:text-rose-400 cursor-pointer">Xóa</button>
+                </div>
+                <div class="grid grid-cols-2 gap-1.5">
+                  <div>
+                    <span class="text-[10px] text-slate-400 block mb-0.5 font-medium">Từ ngày:</span>
+                    <input type="date" id="multi-filter-created-from" onchange="onMultiDateFilterChange()" class="w-full bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-slate-200 text-xs scheme-dark">
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-slate-400 block mb-0.5 font-medium">Đến ngày:</span>
+                    <input type="date" id="multi-filter-created-to" onchange="onMultiDateFilterChange()" class="w-full bg-slate-950 border border-slate-800 rounded px-1.5 py-1 text-slate-200 text-xs scheme-dark">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
           <!-- BẢNG THEO DÕI ĐƠN HÀNG TRÊN MÁY TÍNH (DESKTOP VIEW: >= MD) -->
           <div class="hidden md:block overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse responsive-mobile-table">
@@ -8911,6 +9035,57 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         if (currentFilter === 'ap_pending' && remainAP <= 0) return false;
         if (currentFilter === 'aging_due' && (remainAR <= 0 && remainAP <= 0)) return false;
 
+        // BỘ LỌC THEO NGÀY (CHECK-IN / CHECK-OUT / NGÀY TẠO)
+        const multiPanelEl = document.getElementById('multi-date-filter-panel');
+        const isMultiMode = multiPanelEl && !multiPanelEl.classList.contains('hidden');
+
+        const bCheckIn = (b.checkIn || '').substring(0, 10);
+        const bCheckOut = (b.checkOut || '').substring(0, 10);
+        const bNgayTao = (b.ngayTao || '').substring(0, 10);
+
+        if (isMultiMode) {
+          const ciFrom = document.getElementById('multi-filter-checkin-from')?.value || '';
+          const ciTo = document.getElementById('multi-filter-checkin-to')?.value || '';
+          const coFrom = document.getElementById('multi-filter-checkout-from')?.value || '';
+          const coTo = document.getElementById('multi-filter-checkout-to')?.value || '';
+          const crFrom = document.getElementById('multi-filter-created-from')?.value || '';
+          const crTo = document.getElementById('multi-filter-created-to')?.value || '';
+
+          // 1. Lọc theo Check-In
+          if (ciFrom && (!bCheckIn || bCheckIn < ciFrom)) return false;
+          if (ciTo && (!bCheckIn || bCheckIn > ciTo)) return false;
+
+          // 2. Lọc theo Check-Out
+          if (coFrom && (!bCheckOut || bCheckOut < coFrom)) return false;
+          if (coTo && (!bCheckOut || bCheckOut > coTo)) return false;
+
+          // 3. Lọc theo Ngày Tạo
+          if (crFrom && (!bNgayTao || bNgayTao < crFrom)) return false;
+          if (crTo && (!bNgayTao || bNgayTao > crTo)) return false;
+        } else {
+          const dateType = document.getElementById('filter-date-type')?.value || 'checkin';
+          const dFrom = document.getElementById('filter-date-from')?.value || '';
+          const dTo = document.getElementById('filter-date-to')?.value || '';
+
+          if (dFrom || dTo) {
+            if (dateType === 'checkin') {
+              if (dFrom && (!bCheckIn || bCheckIn < dFrom)) return false;
+              if (dTo && (!bCheckIn || bCheckIn > dTo)) return false;
+            } else if (dateType === 'checkout') {
+              if (dFrom && (!bCheckOut || bCheckOut < dFrom)) return false;
+              if (dTo && (!bCheckOut || bCheckOut > dTo)) return false;
+            } else if (dateType === 'ngayTao') {
+              if (dFrom && (!bNgayTao || bNgayTao < dFrom)) return false;
+              if (dTo && (!bNgayTao || bNgayTao > dTo)) return false;
+            } else if (dateType === 'all_dates') {
+              const inCheckIn = bCheckIn && (!dFrom || bCheckIn >= dFrom) && (!dTo || bCheckIn <= dTo);
+              const inCheckOut = bCheckOut && (!dFrom || bCheckOut >= dFrom) && (!dTo || bCheckOut <= dTo);
+              const inNgayTao = bNgayTao && (!dFrom || bNgayTao >= dFrom) && (!dTo || bNgayTao <= dTo);
+              if (!inCheckIn && !inCheckOut && !inNgayTao) return false;
+            }
+          }
+        }
+
         if (query) {
           const hay = `${b.maBooking} ${b.khachHang} ${b.sdt} ${b.email || ''} ${b.cccd || ''} ${b.dichVu} ${b.doiTac} ${b.saleEmail} ${b.soHdVao} ${b.soHdRa} ${b.mst}`.toLowerCase();
           if (!hay.includes(query)) return false;
@@ -8920,6 +9095,35 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       });
 
       document.getElementById('showing-count').innerText = filtered.length;
+
+      // Cập nhật trạng thái hiển thị của nút "Xóa Lọc Ngày"
+      const btnClearDate = document.getElementById('btn-clear-date-filter');
+      if (btnClearDate) {
+        let hasDateFilter = false;
+        const multiPanelElCheck = document.getElementById('multi-date-filter-panel');
+        const isMultiCheck = multiPanelElCheck && !multiPanelElCheck.classList.contains('hidden');
+        if (isMultiCheck) {
+          const ciFrom = document.getElementById('multi-filter-checkin-from')?.value || '';
+          const ciTo = document.getElementById('multi-filter-checkin-to')?.value || '';
+          const coFrom = document.getElementById('multi-filter-checkout-from')?.value || '';
+          const coTo = document.getElementById('multi-filter-checkout-to')?.value || '';
+          const crFrom = document.getElementById('multi-filter-created-from')?.value || '';
+          const crTo = document.getElementById('multi-filter-created-to')?.value || '';
+          if (ciFrom || ciTo || coFrom || coTo || crFrom || crTo) hasDateFilter = true;
+        } else {
+          const dFrom = document.getElementById('filter-date-from')?.value || '';
+          const dTo = document.getElementById('filter-date-to')?.value || '';
+          if (dFrom || dTo) hasDateFilter = true;
+        }
+
+        if (hasDateFilter) {
+          btnClearDate.classList.remove('hidden');
+          btnClearDate.classList.add('inline-flex');
+        } else {
+          btnClearDate.classList.remove('inline-flex');
+          btnClearDate.classList.add('hidden');
+        }
+      }
 
       // CẬP NHẬT TIÊU ĐỀ CỘT BẢNG (KINH DOANH SALES KHÔNG CẦN: HĐ Đầu Vào, HĐ Đầu Ra, Tài Liệu)
             // CẬP NHẬT TIÊU ĐỀ CỘT BẢNG THEO YÊU CẦU:
@@ -9426,6 +9630,108 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
 
       tbody.innerHTML = html;
       if (mobileCardsEl) mobileCardsEl.innerHTML = mobileCardsHtml;
+    }
+
+    // =========================================================================
+    // XỬ LÝ BỘ LỌC NGÀY (CHECK-IN, CHECK-OUT, NGÀY TẠO)
+    // =========================================================================
+    function onDateFilterChange() {
+      renderTable();
+    }
+
+    function onMultiDateFilterChange() {
+      renderTable();
+    }
+
+    function setDatePreset(preset) {
+      const now = new Date();
+      const formatYMD = (d) => {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
+
+      let fromStr = '';
+      let toStr = '';
+
+      if (preset === 'today') {
+        fromStr = formatYMD(now);
+        toStr = formatYMD(now);
+      } else if (preset === 'tomorrow') {
+        const tmr = new Date(now);
+        tmr.setDate(tmr.getDate() + 1);
+        fromStr = formatYMD(tmr);
+        toStr = formatYMD(tmr);
+      } else if (preset === 'next_7_days') {
+        fromStr = formatYMD(now);
+        const n7 = new Date(now);
+        n7.setDate(n7.getDate() + 7);
+        toStr = formatYMD(n7);
+      } else if (preset === 'this_month') {
+        const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+        const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        fromStr = formatYMD(firstDay);
+        toStr = formatYMD(lastDay);
+      }
+
+      const elFrom = document.getElementById('filter-date-from');
+      const elTo = document.getElementById('filter-date-to');
+      if (elFrom) elFrom.value = fromStr;
+      if (elTo) elTo.value = toStr;
+
+      onDateFilterChange();
+    }
+
+    function clearDateFilter() {
+      const elFrom = document.getElementById('filter-date-from');
+      const elTo = document.getElementById('filter-date-to');
+      if (elFrom) elFrom.value = '';
+      if (elTo) elTo.value = '';
+
+      ['multi-filter-checkin-from', 'multi-filter-checkin-to',
+       'multi-filter-checkout-from', 'multi-filter-checkout-to',
+       'multi-filter-created-from', 'multi-filter-created-to'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+
+      renderTable();
+    }
+
+    function clearSpecificDateFilter(type) {
+      if (type === 'checkin') {
+        const f = document.getElementById('multi-filter-checkin-from');
+        const t = document.getElementById('multi-filter-checkin-to');
+        if (f) f.value = '';
+        if (t) t.value = '';
+      } else if (type === 'checkout') {
+        const f = document.getElementById('multi-filter-checkout-from');
+        const t = document.getElementById('multi-filter-checkout-to');
+        if (f) f.value = '';
+        if (t) t.value = '';
+      } else if (type === 'created') {
+        const f = document.getElementById('multi-filter-created-from');
+        const t = document.getElementById('multi-filter-created-to');
+        if (f) f.value = '';
+        if (t) t.value = '';
+      }
+      renderTable();
+    }
+
+    function toggleMultiDateFilter() {
+      const panel = document.getElementById('multi-date-filter-panel');
+      const btnText = document.getElementById('btn-toggle-multi-date-text');
+      if (!panel) return;
+
+      if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+        if (btnText) btnText.innerText = 'Thu Gọn Lọc Riêng';
+      } else {
+        panel.classList.add('hidden');
+        if (btnText) btnText.innerText = 'Lọc Riêng Cả 3 Ngày';
+      }
+      renderTable();
     }
 
     function setFilter(filterKey) {
