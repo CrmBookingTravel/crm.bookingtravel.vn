@@ -281,6 +281,62 @@
         padding-bottom: 84px !important;
       }
     }
+  
+    /* =========================================================================
+       5-STAR LUXURY CUSTOMER VOUCHER STYLES (EDIT & PREVIEW MODES)
+       ========================================================================= */
+    #voucher-modal .editable-field,
+    #voucher-modal .editable-input {
+      transition: all 0.15s ease;
+      border-radius: 6px;
+      outline: none;
+    }
+    #voucher-modal.edit-mode .editable-field {
+      background-color: rgba(241, 245, 249, 0.75);
+      box-shadow: inset 0 0 0 1px #cbd5e1;
+      padding-left: 7px;
+      padding-right: 7px;
+      cursor: text;
+    }
+    #voucher-modal.edit-mode .editable-field:hover,
+    #voucher-modal.edit-mode .editable-input:hover {
+      background-color: #f1f5f9;
+      box-shadow: inset 0 0 0 1px #94a3b8;
+    }
+    #voucher-modal.edit-mode .editable-field:focus,
+    #voucher-modal.edit-mode .editable-input:focus {
+      background-color: #ffffff;
+      box-shadow: 0 0 0 2px #0284c7;
+    }
+    #voucher-modal.edit-mode .editable-input {
+      background-color: rgba(241, 245, 249, 0.75);
+      box-shadow: inset 0 0 0 1px #cbd5e1;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    #voucher-modal.preview-mode .editable-field,
+    #voucher-modal.preview-mode .editable-input {
+      background-color: transparent !important;
+      box-shadow: none !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      border-color: transparent !important;
+      pointer-events: none;
+    }
+    #voucher-modal.preview-mode .edit-only-hint {
+      display: none !important;
+    }
+    #voucher-modal input[type="number"]::-webkit-inner-spin-button,
+    #voucher-modal input[type="number"]::-webkit-outer-spin-button {
+      opacity: 1;
+    }
+    #voucher-modal.preview-mode input[type="number"]::-webkit-inner-spin-button,
+    #voucher-modal.preview-mode input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      display: none;
+    }
+
   </style>
 </head>
 <body class="h-full flex overflow-hidden text-slate-200 antialiased bg-[#07162f] font-sans">
@@ -4399,224 +4455,547 @@
   <!-- ========================================================================= -->
   <!-- MODAL 2: PHIẾU XÁC NHẬN DỊCH VỤ & ROOMING LIST (CHUẨN LỮ HÀNH 5 SAO) -->
   <!-- ========================================================================= -->
-  <div id="voucher-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm">
+    <!-- ========================================================================= -->
+  <!-- MODAL: PHIẾU XÁC NHẬN DỊCH VỤ GỬI KHÁCH HÀNG (CUSTOMER VOUCHER 5 SAO)    -->
+  <!-- ========================================================================= -->
+  <div id="voucher-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-2 sm:p-4 bg-slate-950/85 backdrop-blur-md edit-mode">
     <!-- Click backdrop outside to close -->
     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeVoucherModal()" title="Bấm ra ngoài để đóng"></div>
-    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl overflow-hidden z-10">
-      <!-- Header -->
-      <div class="px-6 py-4 border-b border-slate-800 bg-[#07162f] flex items-center justify-between shrink-0">
+    <div class="relative bg-slate-900 border border-slate-700/80 rounded-2xl max-w-5xl w-full max-h-[96vh] flex flex-col shadow-2xl overflow-hidden z-10">
+      
+      <!-- TOP MODAL ACTION BAR -->
+      <div class="no-print px-4 sm:px-6 py-3.5 border-b border-slate-800 bg-[#0f172a] flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-600 flex items-center justify-center text-white text-lg shadow-lg shadow-sky-500/20">
-            <i class="fa-solid fa-file-invoice"></i>
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20 shrink-0 text-white">
+            <i class="fa-solid fa-file-shield text-base"></i>
           </div>
           <div>
-            <h3 class="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
-              <span>PHIẾU XÁC NHẬN DỊCH VỤ - GỬI KHÁCH HÀNG (CUSTOMER VOUCHER)</span>
-              <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Chuẩn Lữ Hành 5 Sao</span>
-            </h3>
-            <p class="text-[11px] text-slate-300">Đầy đủ Hạng phòng, Số lượng phòng, Số người & Số đêm – Xuất phiếu gửi Khách Hàng (Kèm Rooming List)</p>
-          </div>
-        </div>
-        <button onclick="closeVoucherModal()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border border-slate-700 shadow" title="Đóng phiếu">
-          <i class="fa-solid fa-xmark text-sm"></i>
-          <span>Đóng</span>
-        </button>
-      </div>
-
-      <!-- Voucher Printable Container -->
-      <div class="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#0b192c]/50">
-        <div id="voucher-printable-area" class="bg-white text-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl max-w-3xl mx-auto space-y-5 border border-slate-200">
-          <!-- Brand Header -->
-          <div class="flex items-center justify-between border-b pb-4 border-slate-200">
-            <div class="flex items-center gap-3">
-              <img src="logo.png?v=4.0" alt="Booking Travel - Khách hàng là gia đình" width="180" height="62" class="h-12 sm:h-14 w-auto object-contain shrink-0" title="Booking Travel - Khách hàng là gia đình">
-              <div>
-                <h2 class="text-sm sm:text-base font-black text-slate-900 uppercase tracking-tight">CÔNG TY TNHH BOOKING TRAVEL</h2>
-                <p class="text-[11px] sm:text-xs text-blue-700 font-bold">"Khách hàng là gia đình" • Hotline: 0846477222 & 08.33.00.1000</p>
-                <p class="text-[10px] text-slate-500">MÃ SỐ DOANH NGHIỆP: 4201954356 • 38 Tầng Trệt chung cư A - Nguyễn Thái Học, Phường Nha Trang, Tỉnh Khánh Hòa • Email: info@bookingtravel.vn</p>
-              </div>
-            </div>
-            <div class="text-right">
-              <span class="text-[10px] font-bold text-slate-500 block uppercase">MÃ VOUCHER</span>
-              <span id="vc-code" class="text-base sm:text-lg font-mono font-black text-blue-700">BT-2026-001</span>
-              <span id="vc-booking-date" class="text-[10px] text-slate-400 block font-mono">Ngày tạo: 26/10/2026</span>
-            </div>
-          </div>
-
-          <!-- Title -->
-          <div class="text-center py-1">
-            <h1 class="text-lg sm:text-2xl font-black text-slate-900 uppercase tracking-wide">PHIẾU XÁC NHẬN ĐẶT PHÒNG & DỊCH VỤ</h1>
-            <p class="text-xs text-slate-500 font-medium">HOTEL / RESORT BOOKING CONFIRMATION & ROOMING LIST</p>
-          </div>
-
-          <!-- BẢNG CHI TIẾT HẠNG PHÒNG, SỐ LƯỢNG, SỐ NGƯỜI & SỐ ĐÊM (THEO YÊU CẦU NGƯỜI DÙNG) -->
-          <div class="rounded-xl border-2 border-blue-600/30 overflow-hidden shadow-sm">
-            <div class="bg-[#07162f] text-white px-4 py-2.5 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <i class="fa-solid fa-hotel text-amber-400 text-sm"></i>
-                <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-white">THÔNG TIN KHÁCH SẠN & DỊCH VỤ LƯU TRÚ</span>
-              </div>
-              <span class="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-extrabold border border-amber-400/40">TIÊU CHUẨN VIP</span>
-            </div>
-
-            <!-- Khách sạn & Mã xác nhận resort -->
-            <div class="p-4 bg-slate-50/80 border-b border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div>
-                <span class="text-slate-500 block text-[11px] font-semibold">🏨 Khách Sạn / Resort Tiếp Nhận:</span>
-                <strong id="vc-supplier" class="text-slate-900 text-sm sm:text-base font-black block mt-0.5">King Town Grand Hotel</strong>
-              </div>
-              <div>
-                <span class="text-slate-500 block text-[11px] font-semibold">🔑 Mã Xác Nhận Resort (Hotel Conf Code):</span>
-                <div class="flex items-center gap-2 mt-0.5">
-                  <input type="text" id="vc-resort-code" placeholder="Nhập mã xác nhận resort (VD: KTG-8899)..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-blue-700 font-mono font-bold focus:outline-none focus:border-blue-500 shadow-sm">
-                </div>
-              </div>
-            </div>
-
-            <!-- LƯỚI 4 YẾU TỐ CỐT LÕI: HẠNG PHÒNG - SỐ PHÒNG - SỐ KHÁCH - SỐ ĐÊM -->
-            <div class="p-4 bg-white grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <!-- 1. Hạng Phòng -->
-              <div class="col-span-2 bg-blue-50/60 p-3 rounded-xl border border-blue-200/80">
-                <span class="text-slate-600 block text-[11px] font-bold flex items-center gap-1.5">
-                  <i class="fa-solid fa-bed text-blue-600"></i> Hạng Phòng (Room Category):
-                </span>
-                <input type="text" id="vc-room-category-input" placeholder="VD: Executive Ocean View" class="mt-1 w-full bg-white border border-blue-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm font-extrabold text-blue-900 focus:outline-none focus:border-blue-500">
-              </div>
-
-              <!-- 2. Số Lượng Phòng -->
-              <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-200/80 text-center">
-                <span class="text-slate-600 block text-[11px] font-bold flex items-center justify-center gap-1">
-                  <i class="fa-solid fa-door-open text-blue-600"></i> Số Lượng Phòng:
-                </span>
-                <div class="mt-1 flex items-center justify-center gap-1">
-                  <input type="number" id="vc-room-qty-input" min="1" value="1" class="w-16 bg-white border border-blue-300 rounded-lg px-2 py-1 text-xs sm:text-sm font-black text-center text-blue-900 focus:outline-none focus:border-blue-500">
-                  <span class="text-xs font-bold text-slate-700">Phòng</span>
-                </div>
-              </div>
-
-              <!-- 3. Số Lượng Khách -->
-              <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/80 text-center">
-                <span class="text-slate-600 block text-[11px] font-bold flex items-center justify-center gap-1">
-                  <i class="fa-solid fa-users text-amber-600"></i> Số Lượng Khách:
-                </span>
-                <input type="text" id="vc-guest-qty-input" placeholder="VD: 4 Người lớn" class="mt-1 w-full bg-white border border-amber-300 rounded-lg px-2 py-1 text-xs sm:text-sm font-black text-center text-amber-950 focus:outline-none focus:border-amber-500">
-              </div>
-
-              <!-- Check-In -->
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="text-slate-500 block text-[11px] font-semibold flex items-center gap-1">
-                  <i class="fa-solid fa-calendar-check text-emerald-600"></i> Nhận Phòng (Check-In):
-                </span>
-                <strong id="vc-checkin-date" class="text-xs sm:text-sm font-mono font-bold text-slate-900 block mt-1">14:00 - 29/10/2026</strong>
-              </div>
-
-              <!-- Check-Out -->
-              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-                <span class="text-slate-500 block text-[11px] font-semibold flex items-center gap-1">
-                  <i class="fa-solid fa-calendar-xmark text-rose-600"></i> Trả Phòng (Check-Out):
-                </span>
-                <strong id="vc-checkout-date" class="text-xs sm:text-sm font-mono font-bold text-slate-900 block mt-1">12:00 - 31/10/2026</strong>
-              </div>
-
-              <!-- 4. Số Đêm Lưu Trú -->
-              <div class="bg-emerald-50/60 p-3 rounded-xl border border-emerald-200/80 text-center">
-                <span class="text-slate-600 block text-[11px] font-bold flex items-center justify-center gap-1">
-                  <i class="fa-solid fa-moon text-emerald-600"></i> Tổng Số Đêm:
-                </span>
-                <span id="vc-night-qty" class="inline-block mt-1 px-3 py-0.5 bg-emerald-100 text-emerald-900 text-xs sm:text-sm font-black rounded-lg border border-emerald-300">2 Đêm</span>
-              </div>
-
-              <!-- Bữa ăn kèm theo -->
-              <div class="bg-purple-50/60 p-3 rounded-xl border border-purple-200/80 text-center">
-                <span class="text-slate-600 block text-[11px] font-bold flex items-center justify-center gap-1">
-                  <i class="fa-solid fa-utensils text-purple-600"></i> Tiêu Chuẩn Bữa Ăn:
-                </span>
-                <span id="vc-meal-plan" class="inline-block mt-1 px-2 py-0.5 bg-purple-100 text-purple-900 text-[11px] font-bold rounded-lg border border-purple-200">Ăn sáng buffet hàng ngày</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- THÔNG TIN KHÁCH HÀNG & THANH TOÁN -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
-            <div>
-              <span class="text-slate-500 block text-[11px]">Khách Hàng Đại Diện:</span>
-              <strong id="vc-customer-name" class="text-slate-900 text-xs sm:text-sm font-bold block mt-0.5">Nguyễn Văn A</strong>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[11px]">Số Điện Thoại Khách:</span>
-              <strong id="vc-customer-phone" class="text-slate-900 font-mono text-xs sm:text-sm font-bold block mt-0.5">0901234567</strong>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[11px]">Số CCCD / Hộ Chiếu:</span>
-              <strong id="vc-customer-cccd" class="text-slate-900 font-mono block mt-0.5">Đang cập nhật</strong>
-            </div>
-            <div>
-              <span class="text-slate-500 block text-[11px]">Email Nhận Xác Nhận:</span>
-              <strong id="vc-customer-email" class="text-slate-900 font-mono truncate block mt-0.5">Chưa có email</strong>
-            </div>
-            <div class="col-span-2">
-              <span class="text-slate-500 block text-[11px]">Tình Trạng Thanh Toán Với Đối Tác:</span>
-              <span id="vc-status-badge" class="inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">ĐÃ XÁC NHẬN</span>
-            </div>
-            <div class="col-span-2">
-              <span class="text-slate-500 block text-[11px]">Nhân Viên Điều Hành / Phụ Trách:</span>
-              <strong id="vc-staff" class="text-slate-900 font-bold block mt-1">Ban Giám Đốc • Booking Travel</strong>
-            </div>
-          </div>
-
-          <!-- Danh Sách Khách Đi Cùng (Rooming List) -->
-          <div class="space-y-1.5">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <i class="fa-solid fa-users text-blue-600"></i> DANH SÁCH KHÁCH LƯU TRÚ (ROOMING LIST):
+            <div class="flex flex-wrap items-center gap-2">
+              <h3 class="font-bold text-white text-sm sm:text-base tracking-tight">
+                PHIẾU XÁC NHẬN DỊCH VỤ – GỬI KHÁCH HÀNG (CUSTOMER VOUCHER)
+              </h3>
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i>
+                Chuẩn Lữ Hành 5 Sao
               </span>
-              <span class="text-[11px] text-slate-500 italic">Có thể thêm sửa trực tiếp tên & CCCD từng khách</span>
             </div>
-            <textarea id="vc-rooming-list" rows="3" placeholder="Nhập danh sách khách: 1. Nguyễn Văn A (Đại diện - SĐT: 091...) - 2. Trần Thị B (CCCD: 001...)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-sans focus:outline-none focus:border-blue-500 shadow-inner"></textarea>
-          </div>
-
-          <!-- Ghi Chú Đặc Biệt & Tiêu Chuẩn Phục Vụ Chuẩn "Khách Hàng Là Gia Đình" -->
-          <div class="text-[11px] text-slate-700 bg-amber-50/80 border border-amber-200/90 p-3.5 rounded-xl space-y-1 leading-relaxed">
-            <strong class="text-amber-900 font-extrabold flex items-center gap-1">
-              <i class="fa-solid fa-shield-heart text-amber-600"></i> QUYỀN LỢI & TIÊU CHUẨN DỊCH VỤ BAO GỒM:
-            </strong>
-            <p>• <strong>Bữa ăn:</strong> Đã bao gồm buffet sáng hàng ngày theo đúng số lượng khách tiêu chuẩn của phòng.</p>
-            <p>• <strong>Tiện ích resort:</strong> Miễn phí sử dụng hồ bơi, phòng gym, wifi toàn khu, trà / cà phê / nước suối setup hàng ngày.</p>
-            <p>• <strong>Hỗ trợ đặc biệt:</strong> Kính nhờ Quý khách sạn đón tiếp chu đáo, hỗ trợ nhận phòng thuận tiện theo tinh thần <em>"Khách hàng là gia đình"</em>.</p>
-          </div>
-
-          <!-- Chân Ký 2 Bên -->
-          <div class="flex items-center justify-between pt-4 border-t border-slate-200 text-xs text-slate-500">
-            <div>
-              <p class="font-extrabold text-slate-900 uppercase">ĐẠI DIỆN ĐẶT PHÒNG</p>
-              <p class="text-[11px] font-semibold text-blue-700">CÔNG TY TNHH BOOKING TRAVEL</p>
-              <p class="text-[10px] text-slate-400 mt-6">(Ký, đóng dấu xác nhận)</p>
-            </div>
-            <div class="text-right">
-              <p class="font-extrabold text-slate-900 uppercase">XÁC NHẬN KHÁCH SẠN / RESORT</p>
-              <p class="text-[11px] font-semibold text-slate-700">BỘ PHẬN ĐẶT PHÒNG & LỄ TÂN</p>
-              <p class="text-[10px] text-slate-400 mt-6">(Ký & xác nhận mã phòng)</p>
-            </div>
+            <p class="text-[11.5px] text-slate-400 mt-0.5">
+              Đầy đủ Hạng phòng, Số lượng phòng, Người lớn & Trẻ em, Địa chỉ khách sạn – Xuất phiếu gửi Khách Hàng
+            </p>
           </div>
         </div>
-      </div>
 
-      <!-- Actions -->
-      <div class="px-6 py-3.5 border-t border-slate-800 bg-[#07162f] flex flex-wrap items-center justify-between gap-3 shrink-0">
-        <span class="text-xs text-slate-300 font-medium">Phiếu đầy đủ thông tin gửi cho Khách Hàng (Voucher Lữ Hành 5 Sao)</span>
-        <div class="flex flex-wrap items-center gap-2">
-          <button type="button" onclick="closeVoucherModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-700 cursor-pointer flex items-center gap-1.5" title="Đóng modal phiếu xác nhận">
+        <!-- Top Actions -->
+        <div class="flex flex-wrap items-center gap-2 self-end md:self-auto">
+          <!-- Toggle Edit / Preview -->
+          <button
+            id="toggleVoucherModeBtn"
+            type="button"
+            onclick="toggleVoucherEditMode()"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer"
+            title="Chuyển đổi giữa Chế độ chỉnh sửa và Xem bản in sạch"
+          >
+            <i id="voucherModeIcon" class="fa-solid fa-eye text-sky-400"></i>
+            <span id="voucherModeText">Xem bản in sạch</span>
+          </button>
+
+          <!-- Print / Export PDF -->
+          <button
+            type="button"
+            onclick="printVoucher()"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white shadow-sm shadow-sky-500/30 transition cursor-pointer"
+          >
+            <i class="fa-solid fa-print"></i>
+            <span>In / Xuất PDF</span>
+          </button>
+
+          <!-- Close Button -->
+          <button
+            type="button"
+            onclick="closeVoucherModal()"
+            class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800/80 hover:bg-rose-950/60 hover:text-rose-300 hover:border-rose-800/60 text-slate-300 border border-slate-700/80 transition cursor-pointer"
+          >
             <i class="fa-solid fa-xmark"></i>
             <span>Đóng</span>
           </button>
-          <button type="button" onclick="saveVoucherData()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition border border-slate-700 cursor-pointer">
-            <i class="fa-solid fa-floppy-disk mr-1"></i> Lưu Thông Tin
+        </div>
+      </div>
+
+      <!-- SCROLLABLE PAPER VIEW -->
+      <div class="flex-1 overflow-y-auto p-3 sm:p-6 bg-[#090f1d] scrollbar-thin">
+        <div id="voucher-printable-area" class="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transition-all text-slate-900">
+          <!-- Top Accent Bar -->
+          <div class="h-1.5 w-full bg-gradient-to-r from-[#0f172a] via-[#1492d8] to-amber-500"></div>
+
+          <div class="p-5 sm:p-7 space-y-5">
+            <!-- HEADER: LOGO BOOKING TRAVEL + COMPANY INFO + MÃ ĐƠN BOOKING -->
+            <div class="grid grid-cols-1 md:grid-cols-12 items-center gap-4 pb-4 border-b border-slate-200">
+              <!-- Left (8 Cols): Exact Booking Travel Logo + Clean Company Info -->
+              <div class="md:col-span-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                
+                <!-- Clickable Logo Container (Exact SVG from User Reference Image + File Upload Support) -->
+                <div
+                  onclick="triggerLogoUpload()"
+                  class="group relative w-56 h-24 rounded-xl bg-white border-[1.5px] border-[#0c6395] flex items-center justify-center p-1.5 shrink-0 cursor-pointer shadow-sm hover:border-sky-500 transition"
+                  title="Nhấp để tải ảnh Logo từ máy tính (nếu muốn thay đổi)"
+                >
+                  <input
+                    type="file"
+                    id="logoUploadInput"
+                    accept="image/*"
+                    class="hidden"
+                    onchange="handleLogoChange(event)"
+                  />
+                  <!-- Uploaded Image Preview -->
+                  <img
+                    id="customLogoImg"
+                    src=""
+                    alt="Booking Travel Logo"
+                    class="hidden w-full h-full object-contain"
+                  />
+                  <!-- Exact Vector Recreation of Booking Travel Logo -->
+                  <svg
+                    id="defaultLogoSvg"
+                    viewBox="0 0 380 155"
+                    class="w-full h-full"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <!-- Black Seagull -->
+                    <path d="M110 38 C122 41, 131 45, 137 52 C141 46, 152 43, 165 37 C157 44, 148 51, 143 56 C146 57, 150 59, 151 61 C146 61, 142 61, 138 63 C133 65, 128 65, 123 63 C128 60, 131 58, 132 55 C125 49, 117 43, 110 38 Z" fill="#000000"/>
+                    <!-- Left Sail -->
+                    <path d="M92 26 C79 50, 69 76, 65 103 L86 103" stroke="#000000" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Right Sail Inner Yellow Triangle -->
+                    <path d="M93 38 L121 91 L87 101 Z" fill="#ffee00"/>
+                    <!-- Mast & Right Sail Black Outline -->
+                    <path d="M86 108 L93 25 L125 95 L93 102" stroke="#000000" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Boat Hull -->
+                    <path d="M57 104 C75 115, 97 115, 116 105 C110 119, 97 127, 84 127 C71 127, 62 119, 55 110" stroke="#000000" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Upper Ocean Wave -->
+                    <path d="M52 116 C69 136, 94 137, 118 122 C136 110, 156 111, 177 129 C156 120, 139 122, 119 133 C94 146, 68 141, 52 116 Z" fill="#0c6395"/>
+                    <!-- Lower Ocean Wave -->
+                    <path d="M103 141 C121 134, 138 123, 155 123 C164 123, 171 127, 176 132 C164 128, 152 130, 137 137 C125 142, 113 143, 103 141 Z" fill="#1da1f2"/>
+                    <!-- "Booking" -->
+                    <text x="133" y="97" fill="#1492d8" font-family="'Plus Jakarta Sans', Inter, sans-serif" font-weight="800" font-style="italic" font-size="31" letter-spacing="-0.5">Booking</text>
+                    <!-- "Travel" -->
+                    <text x="265" y="97" fill="#115e8c" font-family="'Plus Jakarta Sans', Inter, sans-serif" font-weight="800" font-style="italic" font-size="31" letter-spacing="-0.5">Travel</text>
+                    <!-- "KHÁCH HÀNG LÀ GIA ĐÌNH" -->
+                    <text x="183" y="125" fill="#000000" font-family="Inter, sans-serif" font-weight="800" font-style="italic" font-size="13.5" letter-spacing="0.4">KHÁCH HÀNG LÀ GIA ĐÌNH</text>
+                  </svg>
+                  <!-- Hover Hint -->
+                  <span class="edit-only-hint no-print absolute bottom-1 right-1.5 px-1.5 py-0.5 rounded bg-slate-900/75 text-[9px] font-medium text-white opacity-0 group-hover:opacity-100 transition">
+                    Đổi ảnh logo
+                  </span>
+                </div>
+
+                <!-- Clean Company Details -->
+                <div class="space-y-1">
+                  <h2 contenteditable="true" class="editable-field font-extrabold text-slate-900 text-base sm:text-lg tracking-tight uppercase">
+                    CÔNG TY TNHH BOOKING TRAVEL
+                  </h2>
+                  <p class="text-xs sm:text-[13px] font-semibold text-[#0c6395]">
+                    <span contenteditable="true" class="editable-field">"Khách hàng là gia đình"</span>
+                    <span class="mx-1 text-slate-400">•</span>
+                    <span>Hotline: </span>
+                    <span id="vc-hotline" contenteditable="true" class="editable-field font-bold text-slate-900">0846477222</span>
+                  </p>
+                  <p class="text-xs text-slate-600">
+                    Email: <span id="vc-company-email" contenteditable="true" class="editable-field font-medium text-slate-800">info@bookingtravel.vn</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Right (4 Cols): MÃ ĐƠN BOOKING & Ngày tạo -->
+              <div class="md:col-span-4 flex flex-col md:items-end justify-center bg-slate-50 md:bg-transparent p-3 md:p-0 rounded-xl border border-slate-200/80 md:border-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">MÃ ĐƠN BOOKING</span>
+                </div>
+                <div class="flex items-center gap-1.5 mt-0.5">
+                  <span id="vc-code" class="font-extrabold text-xl sm:text-2xl text-blue-600 tracking-tight font-mono">DH1793116655774</span>
+                  <button
+                    type="button"
+                    onclick="copyElementText('vc-code', 'Mã Đơn Booking')"
+                    class="no-print p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition cursor-pointer"
+                    title="Sao chép Mã Đơn Booking"
+                  >
+                    <i class="fa-solid fa-copy text-sm"></i>
+                  </button>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  <span id="vc-booking-date" class="font-semibold text-slate-700">Ngày tạo: 25/10/2026</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- CENTER VOUCHER TITLE -->
+            <div class="text-center py-1">
+              <h2 class="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight uppercase">
+                PHIẾU XÁC NHẬN ĐẶT PHÒNG & DỊCH VỤ
+              </h2>
+              <p class="text-[11px] font-semibold text-slate-400 tracking-widest uppercase mt-0.5">
+                HOTEL / RESORT BOOKING CONFIRMATION & ROOMING LIST
+              </p>
+            </div>
+
+            <!-- SECTION 1: THÔNG TIN KHÁCH SẠN & DỊCH VỤ LƯU TRÚ -->
+            <section class="rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+              <!-- Section Bar -->
+              <div class="bg-[#0f172a] px-5 py-2.5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-hotel text-amber-400 text-sm"></i>
+                  <h3 class="font-bold text-white text-xs sm:text-[13px] tracking-wide uppercase">
+                    THÔNG TIN KHÁCH SẠN & DỊCH VỤ LƯU TRÚ
+                  </h3>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-amber-500/15 text-amber-300 border border-amber-400/40 tracking-wide">
+                  <i class="fa-solid fa-crown text-[10px]"></i>
+                  TIÊU CHUẨN VIP
+                </span>
+              </div>
+
+              <!-- ROW 1: Khách Sạn + Địa chỉ (7 Cols) | Mã Xác Nhận Resort (5 Cols) -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 bg-white border-b border-slate-200">
+                <!-- Left 7 Cols -->
+                <div class="lg:col-span-7 p-4 flex flex-col justify-center space-y-1.5">
+                  <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                    <i class="fa-solid fa-building text-sky-600"></i>
+                    <span>Khách Sạn / Resort:</span>
+                  </div>
+                  <input
+                    type="text"
+                    id="vc-hotel-name"
+                    value=""
+                    placeholder="Nhập tên Khách sạn / Resort..."
+                    class="editable-input w-full font-bold text-lg sm:text-xl text-slate-900 py-1"
+                  />
+                  <!-- Editable Hotel Address -->
+                  <div class="flex items-start sm:items-center gap-1.5 text-xs text-slate-600 pt-0.5">
+                    <i class="fa-solid fa-location-dot text-rose-500 shrink-0 mt-0.5 sm:mt-0"></i>
+                    <span class="font-semibold text-slate-500 shrink-0">Địa chỉ:</span>
+                    <input
+                      type="text"
+                      id="vc-hotel-address"
+                      value=""
+                      placeholder="Nhập địa chỉ khách sạn / resort..."
+                      class="editable-input w-full text-xs font-medium text-slate-700 py-0.5"
+                    />
+                  </div>
+                </div>
+
+                <!-- Right 5 Cols: Mã Xác Nhận Resort -->
+                <div class="lg:col-span-5 p-4 bg-amber-50/40 flex flex-col justify-center space-y-1.5">
+                  <label class="flex items-center justify-between text-xs font-semibold text-amber-900">
+                    <span class="flex items-center gap-1.5">
+                      <i class="fa-solid fa-key text-amber-600"></i>
+                      <span>Mã Xác Nhận Resort (Hotel Conf Code):</span>
+                    </span>
+                  </label>
+                  <div class="flex items-center gap-2">
+                    <input
+                      id="vc-resort-code"
+                      type="text"
+                      value=""
+                      placeholder="Nhập mã xác nhận resort (VD: KTG-8899)..."
+                      class="editable-input w-full bg-white px-3 py-2 rounded-lg border border-amber-300 text-sm font-bold text-slate-900 placeholder:text-slate-400 placeholder:font-normal font-mono"
+                    />
+                    <button
+                      type="button"
+                      onclick="copyInput('vc-resort-code', 'Mã xác nhận Resort')"
+                      class="no-print p-2 rounded-lg bg-white hover:bg-amber-100 text-amber-700 border border-amber-200 transition cursor-pointer shrink-0"
+                      title="Sao chép mã xác nhận Resort"
+                    >
+                      <i class="fa-solid fa-copy text-sm"></i>
+                    </button>
+                  </div>
+                  <p class="text-[11px] text-slate-500">
+                    Xuất trình mã này tại Quầy Lễ Tân khi làm thủ tục Check-in
+                  </p>
+                </div>
+              </div>
+
+              <!-- ROW 2: Hạng Phòng (3 Cols) | Số Lượng Phòng (2 Cols) | Số Lượng Khách (4 Cols) | Tiêu Chuẩn Bữa Ăn (3 Cols) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 bg-white border-b border-slate-200">
+                <!-- Col 1: Hạng Phòng (3/12) -->
+                <div class="lg:col-span-3 p-4 flex flex-col justify-between space-y-1.5">
+                  <label class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                    <i class="fa-solid fa-bed text-sky-600"></i>
+                    <span>Hạng Phòng (Room Category):</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="vc-room-category-input"
+                    value=""
+                    placeholder="Nhập hạng phòng..."
+                    class="editable-input w-full font-bold text-[15px] text-blue-950 py-1"
+                  />
+                </div>
+
+                <!-- Col 2: Số Lượng Phòng (2/12) -->
+                <div class="lg:col-span-2 p-4 flex flex-col justify-between space-y-1.5">
+                  <label class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                    <i class="fa-solid fa-door-open text-sky-600"></i>
+                    <span>Số Lượng Phòng:</span>
+                  </label>
+                  <div class="flex items-center gap-1.5">
+                    <input
+                      type="number"
+                      id="vc-room-qty-input"
+                      min="1"
+                      value="1"
+                      class="editable-input w-14 text-center font-bold text-[15px] text-slate-900 py-1"
+                    />
+                    <span class="text-sm font-semibold text-slate-700">Phòng</span>
+                  </div>
+                </div>
+
+                <!-- Col 3: Số Lượng Khách (4/12) -->
+                <div class="lg:col-span-4 p-4 flex flex-col justify-between space-y-1.5">
+                  <label class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                    <i class="fa-solid fa-users text-amber-600"></i>
+                    <span>Số Lượng Khách (Người lớn & Trẻ em):</span>
+                  </label>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <!-- Người lớn -->
+                    <div class="flex items-center gap-1">
+                      <input
+                        type="number"
+                        id="vc-adults-input"
+                        min="1"
+                        value="2"
+                        class="editable-input w-12 text-center font-bold text-[15px] text-slate-900 py-1"
+                      />
+                      <span class="text-xs sm:text-sm font-semibold text-slate-800">Người lớn</span>
+                    </div>
+                    <span class="text-slate-300 font-bold">+</span>
+                    <!-- Trẻ em -->
+                    <div class="flex items-center gap-1">
+                      <input
+                        type="number"
+                        id="vc-children-input"
+                        min="0"
+                        value="0"
+                        class="editable-input w-12 text-center font-bold text-[15px] text-slate-900 py-1"
+                      />
+                      <span class="text-xs sm:text-sm font-semibold text-slate-800">Trẻ em</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Col 4: Tiêu Chuẩn Bữa Ăn (3/12) -->
+                <div class="lg:col-span-3 p-4 flex flex-col justify-between space-y-1.5">
+                  <label class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                    <i class="fa-solid fa-utensils text-purple-600"></i>
+                    <span>Tiêu Chuẩn Bữa Ăn:</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="vc-meal-plan-input"
+                    list="mealPlanOptions"
+                    value="Ăn sáng buffet hàng ngày"
+                    placeholder="Nhập hoặc chọn bữa ăn..."
+                    class="editable-input w-full font-bold text-sm text-purple-900 py-1"
+                  />
+                  <datalist id="mealPlanOptions">
+                    <option value="Ăn sáng buffet hàng ngày"></option>
+                    <option value="Không bao gồm ăn sáng (Room Only)"></option>
+                    <option value="Ăn 2 bữa (Sáng + Tối)"></option>
+                    <option value="Ăn 3 bữa (Full Board)"></option>
+                    <option value="Trọn gói (All Inclusive)"></option>
+                  </datalist>
+                </div>
+              </div>
+
+              <!-- ROW 3: Check-In (5 Cols) | Check-Out (5 Cols) | Tổng Số Đêm (2 Cols) -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 bg-[#f8fafc]">
+                <!-- Check-In (5/12) -->
+                <div class="lg:col-span-5 p-4 flex items-center justify-between gap-3">
+                  <div class="space-y-1 w-full">
+                    <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                      <i class="fa-solid fa-calendar-check text-emerald-600"></i>
+                      <span>Nhận Phòng (Check-In):</span>
+                    </div>
+                    <input
+                      type="text"
+                      id="vc-checkin-input"
+                      value="14:00 - 15/11/2026"
+                      class="editable-input w-full font-bold text-base text-slate-900 py-0.5"
+                    />
+                  </div>
+                </div>
+
+                <!-- Check-Out (5/12) -->
+                <div class="lg:col-span-5 p-4 flex items-center justify-between gap-3">
+                  <div class="space-y-1 w-full">
+                    <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                      <i class="fa-solid fa-calendar-xmark text-rose-600"></i>
+                      <span>Trả Phòng (Check-Out):</span>
+                    </div>
+                    <input
+                      type="text"
+                      id="vc-checkout-input"
+                      value="12:00 - 16/11/2026"
+                      class="editable-input w-full font-bold text-base text-slate-900 py-0.5"
+                    />
+                  </div>
+                </div>
+
+                <!-- Tổng Số Đêm (2/12) -->
+                <div class="lg:col-span-2 p-4 flex flex-col justify-center bg-emerald-50/50">
+                  <div class="flex items-center gap-1.5 text-xs font-semibold text-emerald-800">
+                    <i class="fa-solid fa-moon text-emerald-600"></i>
+                    <span>Tổng Số Đêm:</span>
+                  </div>
+                  <div class="mt-1">
+                    <input
+                      type="text"
+                      id="vc-night-qty-input"
+                      value="1 Đêm"
+                      class="editable-input w-full font-extrabold text-base text-emerald-700 py-0.5"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- SECTION 2: THÔNG TIN KHÁCH HÀNG & THANH TOÁN -->
+            <section class="rounded-xl border border-slate-200 overflow-hidden shadow-sm bg-white">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 border-b border-slate-200">
+                <!-- Khách Hàng Đại Diện (4/12) -->
+                <div class="lg:col-span-4 p-4 space-y-1">
+                  <label class="text-xs font-semibold text-slate-400 block">Khách Hàng Đại Diện:</label>
+                  <input
+                    type="text"
+                    id="vc-customer-name-input"
+                    value=""
+                    class="editable-input w-full font-extrabold text-[15px] text-slate-900 uppercase py-0.5"
+                  />
+                </div>
+
+                <!-- Số Điện Thoại Khách (2/12) -->
+                <div class="lg:col-span-2 p-4 space-y-1">
+                  <label class="text-xs font-semibold text-slate-400 block">Số Điện Thoại Khách:</label>
+                  <input
+                    type="text"
+                    id="vc-customer-phone-input"
+                    value=""
+                    class="editable-input w-full font-bold text-[15px] text-slate-900 py-0.5 font-mono"
+                  />
+                </div>
+
+                <!-- Số CCCD / Hộ Chiếu (3/12) -->
+                <div class="lg:col-span-3 p-4 space-y-1">
+                  <label class="text-xs font-semibold text-slate-400 block">Số CCCD / Hộ Chiếu:</label>
+                  <input
+                    type="text"
+                    id="vc-customer-cccd-input"
+                    value=""
+                    placeholder="Nhập số CCCD..."
+                    class="editable-input w-full font-bold text-[15px] text-slate-900 py-0.5 font-mono"
+                  />
+                </div>
+
+                <!-- Email Nhận Xác Nhận (3/12) -->
+                <div class="lg:col-span-3 p-4 space-y-1">
+                  <label class="text-xs font-semibold text-slate-400 block">Email Nhận Xác Nhận:</label>
+                  <input
+                    type="email"
+                    id="vc-customer-email-input"
+                    value=""
+                    placeholder="Nhập email..."
+                    class="editable-input w-full font-semibold text-sm text-slate-800 py-0.5"
+                  />
+                </div>
+              </div>
+
+              <!-- Bottom Row: Tình Trạng Thanh Toán (7/12) | Nhân Viên Điều Hành (5/12) -->
+              <div class="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-200 bg-slate-50/60">
+                <!-- Tình Trạng Thanh Toán Với Đối Tác -->
+                <div class="md:col-span-7 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span class="text-xs font-semibold text-slate-500">Tình Trạng Thanh Toán Với Đối Tác:</span>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-700">
+                    <i class="fa-solid fa-circle-check text-emerald-600 shrink-0"></i>
+                    <input
+                      type="text"
+                      id="vc-partner-payment-status"
+                      value="ĐÃ THANH TOÁN 100% CHO RESORT"
+                      class="editable-input bg-transparent font-bold text-xs text-emerald-800 tracking-wide w-64 sm:w-72"
+                    />
+                  </div>
+                </div>
+
+                <!-- Nhân Viên Điều Hành / Phụ Trách -->
+                <div class="md:col-span-5 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <span class="text-xs font-semibold text-slate-500 shrink-0">Nhân Viên Điều Hành / Phụ Trách:</span>
+                  <input
+                    type="text"
+                    id="vc-staff-input"
+                    value="Ban Giám Đốc • Booking Travel"
+                    class="editable-input font-bold text-sm text-slate-900 sm:text-right w-full sm:w-48 py-0.5"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <!-- SECTION 3: ROOMING LIST -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <i class="fa-solid fa-users text-blue-600"></i> DANH SÁCH KHÁCH LƯU TRÚ (ROOMING LIST):
+                </span>
+                <span class="text-[11px] text-slate-500 italic">Có thể thêm sửa trực tiếp tên & CCCD từng khách</span>
+              </div>
+              <textarea
+                id="vc-rooming-list"
+                rows="3"
+                placeholder="Nhập danh sách khách: 1. NGUYỄN VĂN A (Đại diện - SĐT: 091...) - 2. TRẦN THỊ B (CCCD: 001...)"
+                class="editable-input w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-800 font-sans focus:outline-none focus:border-blue-500 shadow-inner"
+              ></textarea>
+            </div>
+
+            <!-- QUYỀN LỢI & TIÊU CHUẨN DỊCH VỤ -->
+            <div class="text-[11px] text-slate-700 bg-amber-50/80 border border-amber-200/90 p-3.5 rounded-xl space-y-1 leading-relaxed">
+              <strong class="text-amber-900 font-extrabold flex items-center gap-1">
+                <i class="fa-solid fa-shield-heart text-amber-600"></i> QUYỀN LỢI & TIÊU CHUẨN DỊCH VỤ BAO GỒM:
+              </strong>
+              <p>• <strong>Bữa ăn:</strong> Đã bao gồm buffet sáng hàng ngày theo đúng số lượng khách tiêu chuẩn của phòng.</p>
+              <p>• <strong>Tiện ích resort:</strong> Miễn phí sử dụng hồ bơi, phòng gym, wifi toàn khu, trà / cà phê / nước suối setup hàng ngày.</p>
+              <p>• <strong>Hỗ trợ đặc biệt:</strong> Kính nhờ Quý khách sạn đón tiếp chu đáo, hỗ trợ nhận phòng thuận tiện theo tinh thần <em>"Khách hàng là gia đình"</em>.</p>
+            </div>
+
+            <!-- CHÂN KÝ 2 BÊN -->
+            <div class="flex items-center justify-between pt-4 border-t border-slate-200 text-xs text-slate-500">
+              <div>
+                <p class="font-extrabold text-slate-900 uppercase">ĐẠI DIỆN ĐẶT PHÒNG</p>
+                <p class="text-[11px] font-semibold text-blue-700">CÔNG TY TNHH BOOKING TRAVEL</p>
+                <p class="text-[10px] text-slate-400 mt-6">(Ký, đóng dấu xác nhận)</p>
+              </div>
+              <div class="text-right">
+                <p class="font-extrabold text-slate-900 uppercase">XÁC NHẬN KHÁCH SẠN / RESORT</p>
+                <p class="text-[11px] font-semibold text-slate-700">BỘ PHẬN ĐẶT PHÒNG & LỄ TÂN</p>
+                <p class="text-[10px] text-slate-400 mt-6">(Ký & xác nhận mã phòng)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ACTION BAR -->
+      <div class="no-print px-4 sm:px-6 py-3 border-t border-slate-800 bg-[#0f172a] flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <span class="text-xs text-slate-400 font-medium">Phiếu đầy đủ thông tin gửi cho Khách Hàng (Chuẩn Lữ Hành 5 Sao)</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="closeVoucherModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-700 cursor-pointer flex items-center gap-1.5" title="Đóng modal">
+            <i class="fa-solid fa-xmark"></i>
+            <span>Đóng</span>
           </button>
-          <button type="button" onclick="copyVoucherToCustomerZalo()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer">
+          <button type="button" onclick="saveVoucherData()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition border border-slate-700 cursor-pointer flex items-center gap-1.5">
+            <i class="fa-solid fa-floppy-disk text-sky-400"></i>
+            <span>Lưu Thông Tin</span>
+          </button>
+          <button type="button" onclick="copyVoucherToCustomerZalo()" class="px-3.5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer">
             <i class="fa-solid fa-paper-plane"></i>
             <span>Copy Zalo Gửi Khách Hàng</span>
           </button>
-          <button type="button" onclick="openHotelVoucherModal(currentVoucherBookingId)" class="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer" title="Mở Phiếu Đặt Phòng gửi Khách Sạn / Resort (Kèm Thông Tin Hóa Đơn)">
+          <button type="button" onclick="openHotelVoucherModal(currentVoucherBookingId)" class="px-3.5 py-2 bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center gap-1.5 cursor-pointer" title="Mở Phiếu Đặt Phòng gửi Khách Sạn / Resort">
             <i class="fa-solid fa-file-contract"></i>
             <span>Mở Phiếu Gửi KS/Resort</span>
           </button>
@@ -4626,12 +5005,11 @@
           </button>
         </div>
       </div>
+
     </div>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- MODAL: PHIẾU ĐẶT PHÒNG & DỊCH VỤ GỬI KHÁCH SẠN / RESORT (KÈM HÓA ĐƠN VAT) -->
-  <!-- ========================================================================= -->
+
   <div id="hotel-voucher-modal" class="fixed inset-0 z-50 overflow-hidden hidden flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm">
     <!-- Click backdrop outside to close -->
     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeHotelVoucherModal()" title="Bấm ra ngoài để đóng"></div>
@@ -7246,9 +7624,9 @@
         else navReports.classList.add('hidden');
       }
 
-      // Nút Phân Quyền Nhân Sự (CHỈ DUY NHẤT ADMIN)
+      // Nút Phân Quyền Nhân Sự (ADMIN & BAN GIÁM ĐỐC)
       if (navStaff) {
-        if (isAdmin) navStaff.classList.remove('hidden');
+        if (isAdmin || isDr) navStaff.classList.remove('hidden');
         else navStaff.classList.add('hidden');
       }
 
@@ -9665,84 +10043,113 @@
           s = s.replace(/\(.*\)/g, '').trim();
           roomCategory = s || b.dichVu;
         }
+        if (!roomCategory) roomCategory = 'Suite City View';
 
-        // PHÂN TÍCH SỐ LƯỢNG KHÁCH
-        let guestQty = b.soKhach || '';
-        if (!guestQty) {
-          guestQty = `${roomQty * 2} Người lớn`;
+        // PHÂN TÍCH SỐ LƯỢNG KHÁCH: NGƯỜI LỚN & TRẺ EM
+        let adults = b.soNguoiLon ? parseInt(b.soNguoiLon, 10) : (roomQty * 2);
+        let children = b.soTreEm ? parseInt(b.soTreEm, 10) : (b.childSurcharge?.count ? parseInt(b.childSurcharge.count, 10) : 0);
+        if (!b.soNguoiLon && b.soKhach) {
+          const mAdult = b.soKhach.match(/(\d+)\s*(?:người lớn|nl|nguoi lon|adult)/i);
+          if (mAdult) adults = parseInt(mAdult[1], 10);
+          const mChild = b.soKhach.match(/(\d+)\s*(?:trẻ em|te|tre em|child)/i);
+          if (mChild) children = parseInt(mChild[1], 10);
         }
 
         // ĐIỀN THÔNG TIN VÀO PHIẾU VOUCHER
         const vcCodeEl = document.getElementById('vc-code');
-        if (vcCodeEl) vcCodeEl.innerText = b.maBooking || 'BT-2026-001';
+        if (vcCodeEl) vcCodeEl.innerText = b.maBooking || 'DH1793116655774';
+        
         const createdDateEl = document.getElementById('vc-booking-date');
         if (createdDateEl) {
-          const cDate = b.ngayTao ? b.ngayTao.substring(0, 10).split('-').reverse().join('/') : '26/10/2026';
+          const cDate = b.ngayTao ? b.ngayTao.substring(0, 10).split('-').reverse().join('/') : '25/10/2026';
           createdDateEl.innerText = `Ngày tạo: ${cDate}`;
         }
 
-        const vcSupplierEl = document.getElementById('vc-supplier');
-        if (vcSupplierEl) vcSupplierEl.innerText = b.doiTac || 'Khách sạn / Resort';
-        const vcResortCodeEl = document.getElementById('vc-resort-code');
-        if (vcResortCodeEl) vcResortCodeEl.value = b.codePhong || b.resortCode || '';
+        // Khách sạn & Địa chỉ
+        const vcHotelName = document.getElementById('vc-hotel-name');
+        if (vcHotelName) vcHotelName.value = b.doiTac || b.khachSan || 'Khách Sạn Rova Nha Trang';
 
-        // Điền 4 yếu tố người dùng yêu cầu
+        const vcHotelAddr = document.getElementById('vc-hotel-address');
+        if (vcHotelAddr) vcHotelAddr.value = b.diaChiKS || b.hotelAddress || 'Số 07 Nguyễn Thiện Thuật, P. Lộc Thọ, TP. Nha Trang, Khánh Hòa';
+
+        const vcResortCode = document.getElementById('vc-resort-code');
+        if (vcResortCode) vcResortCode.value = b.codePhong || b.resortCode || '';
+
+        // Hạng phòng, Số phòng, Số khách, Bữa ăn
         const roomCatInput = document.getElementById('vc-room-category-input');
         if (roomCatInput) roomCatInput.value = roomCategory;
 
         const roomQtyInput = document.getElementById('vc-room-qty-input');
         if (roomQtyInput) roomQtyInput.value = roomQty;
 
-        const guestQtyInput = document.getElementById('vc-guest-qty-input');
-        if (guestQtyInput) guestQtyInput.value = guestQty;
+        const adultsInput = document.getElementById('vc-adults-input');
+        if (adultsInput) adultsInput.value = adults;
 
-        const vcInEl = document.getElementById('vc-checkin-date');
-        if (vcInEl) vcInEl.innerText = `14:00 - ${dIn}`;
-        const vcOutEl = document.getElementById('vc-checkout-date');
-        if (vcOutEl) vcOutEl.innerText = `12:00 - ${dOut}`;
-        const vcNightEl = document.getElementById('vc-night-qty');
-        if (vcNightEl) vcNightEl.innerText = `${nights} Đêm`;
-        const mealPlanEl = document.getElementById('vc-meal-plan');
-        if (mealPlanEl) mealPlanEl.innerText = b.buaAn || 'Ăn sáng buffet hàng ngày';
+        const childrenInput = document.getElementById('vc-children-input');
+        if (childrenInput) childrenInput.value = children;
 
-        // Thông tin khách hàng (IN HOA MẶC ĐỊNH)
-        const vcCustNameEl = document.getElementById('vc-customer-name');
-        if (vcCustNameEl) vcCustNameEl.innerText = (b.khachHang || 'Khách Hàng').toUpperCase();
-        const vcCustPhoneEl = document.getElementById('vc-customer-phone');
-        if (vcCustPhoneEl) vcCustPhoneEl.innerText = b.sdt || '---';
+        const mealPlanInput = document.getElementById('vc-meal-plan-input');
+        if (mealPlanInput) mealPlanInput.value = b.buaAn || 'Ăn sáng buffet hàng ngày';
 
-        const cccdEl = document.getElementById('vc-customer-cccd');
-        if (cccdEl) cccdEl.innerText = b.cccd || 'Đang cập nhật';
-        const emailEl = document.getElementById('vc-customer-email');
-        if (emailEl) emailEl.innerText = b.email || 'Chưa có email';
+        // Checkin / Checkout / Nights
+        const checkinInput = document.getElementById('vc-checkin-input');
+        if (checkinInput) checkinInput.value = `14:00 - ${dIn}`;
 
-        const vcStaffEl = document.getElementById('vc-staff');
-        if (vcStaffEl) vcStaffEl.innerText = b.saleName || (currentUser ? currentUser.name : 'Ban Giám Đốc • Booking Travel');
+        const checkoutInput = document.getElementById('vc-checkout-input');
+        if (checkoutInput) checkoutInput.value = `12:00 - ${dOut}`;
 
-        // Rooming List
-        const defaultRooming = b.cccd ? 
-          `1. ${(b.khachHang || '').toUpperCase()} (Đại diện đoàn - CCCD: ${b.cccd} - SĐT: ${b.sdt})` : 
-          `1. ${(b.khachHang || '').toUpperCase()} (Đại diện đoàn - SĐT: ${b.sdt})`;
-        const vcRoomingEl = document.getElementById('vc-rooming-list');
-        if (vcRoomingEl) vcRoomingEl.value = b.roomingList || defaultRooming;
+        const nightInput = document.getElementById('vc-night-qty-input');
+        if (nightInput) nightInput.value = `${nights} Đêm`;
 
-        // Trạng thái thanh toán
-        const statusBadge = document.getElementById('vc-status-badge');
-        if (statusBadge) {
+        // Thông tin khách hàng
+        const custNameInput = document.getElementById('vc-customer-name-input');
+        if (custNameInput) custNameInput.value = (b.khachHang || 'Khách Hàng').toUpperCase();
+
+        const custPhoneInput = document.getElementById('vc-customer-phone-input');
+        if (custPhoneInput) custPhoneInput.value = b.sdt || '';
+
+        const custCccdInput = document.getElementById('vc-customer-cccd-input');
+        if (custCccdInput) custCccdInput.value = b.cccd || '';
+
+        const custEmailInput = document.getElementById('vc-customer-email-input');
+        if (custEmailInput) custEmailInput.value = b.email || '';
+
+        // Tình trạng thanh toán đối tác
+        const partnerStatusInput = document.getElementById('vc-partner-payment-status');
+        if (partnerStatusInput) {
           if (parseFloat(b.daTraDoiTac) >= parseFloat(b.giaVon) && parseFloat(b.giaVon) > 0) {
-            statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300';
-            statusBadge.innerText = 'ĐÃ THANH TOÁN 100% CHO RESORT';
+            partnerStatusInput.value = 'ĐÃ THANH TOÁN 100% CHO RESORT';
           } else if (parseFloat(b.daTraDoiTac) > 0) {
-            statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300';
-            statusBadge.innerText = 'ĐÃ CỌC GIỮ CHỖ VỚI RESORT';
+            partnerStatusInput.value = 'ĐÃ CỌC GIỮ CHỖ VỚI RESORT';
           } else {
-            statusBadge.className = 'inline-block mt-1 px-2.5 py-1 rounded text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300';
-            statusBadge.innerText = 'ĐÃ XÁC NHẬN ĐẶT PHÒNG';
+            partnerStatusInput.value = 'ĐÃ XÁC NHẬN ĐẶT PHÒNG';
           }
         }
 
-        const voucherModalEl = document.getElementById('voucher-modal');
-        if (voucherModalEl) voucherModalEl.classList.remove('hidden');
+        // Nhân viên điều hành
+        const staffInput = document.getElementById('vc-staff-input');
+        if (staffInput) staffInput.value = b.tuVanName || b.saleName || (currentUser ? currentUser.name : 'Ban Giám Đốc • Booking Travel');
+
+        // Rooming List
+        const defaultRooming = b.cccd ? 
+          `1. ${(b.khachHang || '').toUpperCase()} (Đại diện đoàn - CCCD: ${b.cccd} - SĐT: ${b.sdt || ''})` : 
+          `1. ${(b.khachHang || '').toUpperCase()} (Đại diện đoàn - SĐT: ${b.sdt || ''})`;
+        const vcRoomingEl = document.getElementById('vc-rooming-list');
+        if (vcRoomingEl) vcRoomingEl.value = b.roomingList || defaultRooming;
+
+        // Reset edit mode to true by default
+        isVoucherEditMode = true;
+        const modalEl = document.getElementById('voucher-modal');
+        if (modalEl) {
+          modalEl.classList.remove('hidden', 'preview-mode');
+          modalEl.classList.add('edit-mode');
+        }
+        const modeIcon = document.getElementById('voucherModeIcon');
+        const modeText = document.getElementById('voucherModeText');
+        if (modeIcon) modeIcon.className = 'fa-solid fa-eye text-sky-400';
+        if (modeText) modeText.textContent = 'Xem bản in sạch';
+        const inputs = modalEl ? modalEl.querySelectorAll('.editable-input') : [];
+        inputs.forEach(inp => inp.removeAttribute('readonly'));
       } catch (err) {
         console.error('Lỗi khi mở Voucher:', err);
         closeVoucherModal();
@@ -10129,8 +10536,106 @@ Mail xuất hóa đơn: hoadon@bookingtravel.vn
       }
     }
 
+    let isVoucherEditMode = true;
+
+    function toggleVoucherEditMode() {
+      isVoucherEditMode = !isVoucherEditMode;
+      const modal = document.getElementById('voucher-modal');
+      const modeIcon = document.getElementById('voucherModeIcon');
+      const modeText = document.getElementById('voucherModeText');
+      const inputs = modal ? modal.querySelectorAll('.editable-input') : [];
+      const fields = modal ? modal.querySelectorAll('.editable-field') : [];
+
+      if (isVoucherEditMode) {
+        if (modal) {
+          modal.classList.remove('preview-mode');
+          modal.classList.add('edit-mode');
+        }
+        if (modeIcon) modeIcon.className = 'fa-solid fa-eye text-sky-400';
+        if (modeText) modeText.textContent = 'Xem bản in sạch';
+        inputs.forEach(inp => inp.removeAttribute('readonly'));
+        fields.forEach(f => f.setAttribute('contenteditable', 'true'));
+        if (typeof showToast === 'function') showToast('Đã bật Chế độ chỉnh sửa Voucher', 'info');
+      } else {
+        if (modal) {
+          modal.classList.remove('edit-mode');
+          modal.classList.add('preview-mode');
+        }
+        if (modeIcon) modeIcon.className = 'fa-solid fa-pen-to-square text-amber-400';
+        if (modeText) modeText.textContent = 'Bật chỉnh sửa';
+        inputs.forEach(inp => inp.setAttribute('readonly', 'true'));
+        fields.forEach(f => f.setAttribute('contenteditable', 'false'));
+        if (typeof showToast === 'function') showToast('Đang hiển thị Bản in sạch gửi Khách hàng', 'success');
+      }
+    }
+
+    function triggerLogoUpload() {
+      if (!isVoucherEditMode) return;
+      const input = document.getElementById('logoUploadInput');
+      if (input) input.click();
+    }
+
+    function handleLogoChange(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.getElementById('customLogoImg');
+        const svg = document.getElementById('defaultLogoSvg');
+        if (img && svg) {
+          img.src = e.target.result;
+          img.classList.remove('hidden');
+          svg.classList.add('hidden');
+        }
+        if (typeof showToast === 'function') showToast('Đã cập nhật Logo từ máy tính của bạn', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function copyInput(inputId, label) {
+      const el = document.getElementById(inputId);
+      const val = el ? el.value.trim() : '';
+      if (!val) {
+        if (typeof showToast === 'function') showToast(`Chưa có nội dung ${label} để sao chép`, 'warning');
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val).then(() => {
+          if (typeof showToast === 'function') showToast(`Đã sao chép ${label}: ${val}`, 'success');
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = val;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (typeof showToast === 'function') showToast(`Đã sao chép ${label}: ${val}`, 'success');
+      }
+    }
+
+    function copyElementText(elementId, label) {
+      const el = document.getElementById(elementId);
+      const val = el ? (el.value !== undefined ? el.value : el.innerText).trim() : '';
+      if (!val) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val).then(() => {
+          if (typeof showToast === 'function') showToast(`Đã sao chép ${label}: ${val}`, 'success');
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = val;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (typeof showToast === 'function') showToast(`Đã sao chép ${label}: ${val}`, 'success');
+      }
+    }
+
     function closeVoucherModal() {
-      document.getElementById('voucher-modal').classList.add('hidden');
+      const modal = document.getElementById('voucher-modal');
+      if (modal) modal.classList.add('hidden');
     }
 
     function saveVoucherData() {
@@ -10138,19 +10643,53 @@ Mail xuất hóa đơn: hoadon@bookingtravel.vn
       const b = bookings.find(x => x.id === currentVoucherBookingId);
       if (!b) return;
 
-      b.resortCode = document.getElementById('vc-resort-code').value.trim();
+      const rCodeInp = document.getElementById('vc-resort-code');
+      if (rCodeInp) {
+        b.codePhong = rCodeInp.value.trim();
+        b.resortCode = rCodeInp.value.trim();
+      }
+
+      const hotelNameInp = document.getElementById('vc-hotel-name');
+      if (hotelNameInp && hotelNameInp.value.trim()) b.doiTac = hotelNameInp.value.trim();
+
+      const hotelAddrInp = document.getElementById('vc-hotel-address');
+      if (hotelAddrInp) b.diaChiKS = hotelAddrInp.value.trim();
+
       const roomCatInput = document.getElementById('vc-room-category-input');
       if (roomCatInput) b.hangPhong = roomCatInput.value.trim();
 
       const roomQtyInput = document.getElementById('vc-room-qty-input');
       if (roomQtyInput) b.soLuongPhong = parseInt(roomQtyInput.value, 10) || 1;
 
-      const guestQtyInput = document.getElementById('vc-guest-qty-input');
-      if (guestQtyInput) b.soKhach = guestQtyInput.value.trim();
+      const adultsInput = document.getElementById('vc-adults-input');
+      const childrenInput = document.getElementById('vc-children-input');
+      if (adultsInput) {
+        const adults = parseInt(adultsInput.value, 10) || 0;
+        const children = childrenInput ? (parseInt(childrenInput.value, 10) || 0) : 0;
+        b.soNguoiLon = adults;
+        b.soTreEm = children;
+        b.soKhach = `${adults} Người lớn` + (children > 0 ? ` + ${children} Trẻ em` : '');
+      }
 
-      b.roomingList = document.getElementById('vc-rooming-list').value.trim();
+      const mealInp = document.getElementById('vc-meal-plan-input');
+      if (mealInp) b.buaAn = mealInp.value.trim();
+
+      const cccdInp = document.getElementById('vc-customer-cccd-input');
+      if (cccdInp) b.cccd = cccdInp.value.trim();
+
+      const emailInp = document.getElementById('vc-customer-email-input');
+      if (emailInp) b.email = emailInp.value.trim();
+
+      const roomingEl = document.getElementById('vc-rooming-list');
+      if (roomingEl) b.roomingList = roomingEl.value.trim();
+
       saveData();
-      alert('✅ ĐÃ LƯU THÀNH CÔNG VOUCHER & ROOMING LIST CHO BOOKING [' + b.maBooking + ']!');
+      renderTable();
+      if (typeof showToast === 'function') {
+        showToast(`Đã lưu thành công thông tin Voucher cho đơn [${b.maBooking}]!`, 'success');
+      } else {
+        alert('✅ ĐÃ LƯU THÀNH CÔNG VOUCHER & ROOMING LIST CHO BOOKING [' + b.maBooking + ']!');
+      }
     }
 
     // 1. COPY SOẠN TIN NHẮN ZALO GỬI KHÁCH HÀNG (ĐẦY ĐỦ THÔNG TIN SỐ PHÒNG, SỐ NGƯỜI, SỐ ĐÊM, HẠNG PHÒNG)
@@ -10161,12 +10700,20 @@ Mail xuất hóa đơn: hoadon@bookingtravel.vn
 
       const dIn = b.checkIn ? b.checkIn.split('-').reverse().join('/') : (b.ngayDi || '---');
       const dOut = b.checkOut ? b.checkOut.split('-').reverse().join('/') : (b.ngayVe || '---');
-      const resortCode = document.getElementById('vc-resort-code').value.trim();
-      const roomCat = document.getElementById('vc-room-category-input') ? document.getElementById('vc-room-category-input').value.trim() : (b.hangPhong || b.dichVu);
+      
+      const resortCode = document.getElementById('vc-resort-code') ? document.getElementById('vc-resort-code').value.trim() : (b.codePhong || b.resortCode || '');
+      const hotelName = document.getElementById('vc-hotel-name') ? document.getElementById('vc-hotel-name').value.trim() : (b.doiTac || 'Khách sạn / Resort');
+      const hotelAddr = document.getElementById('vc-hotel-address') ? document.getElementById('vc-hotel-address').value.trim() : (b.diaChiKS || '');
+      const roomCat = document.getElementById('vc-room-category-input') ? document.getElementById('vc-room-category-input').value.trim() : (b.hangPhong || b.dichVu || 'Hạng phòng cao cấp');
       const roomQty = document.getElementById('vc-room-qty-input') ? document.getElementById('vc-room-qty-input').value.trim() : (b.soLuongPhong || '1');
-      const guestQty = document.getElementById('vc-guest-qty-input') ? document.getElementById('vc-guest-qty-input').value.trim() : (b.soKhach || '2 Người lớn');
-      const nights = document.getElementById('vc-night-qty') ? document.getElementById('vc-night-qty').innerText : '2 Đêm';
-      const roomingList = document.getElementById('vc-rooming-list').value.trim();
+      
+      const adults = document.getElementById('vc-adults-input') ? document.getElementById('vc-adults-input').value.trim() : (b.soNguoiLon || '2');
+      const children = document.getElementById('vc-children-input') ? document.getElementById('vc-children-input').value.trim() : (b.soTreEm || '0');
+      const guestText = parseInt(children, 10) > 0 ? `${adults} Người lớn + ${children} Trẻ em` : `${adults} Người lớn`;
+      
+      const nights = document.getElementById('vc-night-qty-input') ? document.getElementById('vc-night-qty-input').value.trim() : '1 Đêm';
+      const mealPlan = document.getElementById('vc-meal-plan-input') ? document.getElementById('vc-meal-plan-input').value.trim() : (b.buaAn || 'Ăn sáng buffet hàng ngày');
+      const roomingList = document.getElementById('vc-rooming-list') ? document.getElementById('vc-rooming-list').value.trim() : '';
 
       const text = 
 `🎉 [BOOKING TRAVEL] XÁC NHẬN ĐẶT PHÒNG THÀNH CÔNG 🎉
@@ -10177,31 +10724,46 @@ Booking Travel xin trân trọng gửi Quý khách thông tin Phiếu xác nhậ
 
 🏷️ Mã Đặt Chỗ: ${b.maBooking}
 🔑 Mã Xác Nhận Khách Sạn: ${resortCode || 'Đã chốt giữ phòng thành công'}
-🏨 Khách Sạn / Resort: ${b.doiTac || 'Khách sạn / Resort'}
+🏨 Khách Sạn / Resort: ${hotelName}
+📍 Địa chỉ: ${hotelAddr || 'Trung tâm thành phố'}
 🛏️ Hạng Phòng: ${roomCat}
 🔢 Số Lượng Phòng: ${roomQty} Phòng
-👥 Số Lượng Khách: ${guestQty}
+👥 Số Lượng Khách: ${guestText}
 🌙 Tổng Số Đêm: ${nights}
 📅 Thời Gian Lưu Trú:
    • Check-in (Nhận phòng): Từ 14:00 ngày ${dIn}
    • Check-out (Trả phòng): Trước 12:00 ngày ${dOut}
-🍽️ Tiêu Chuẩn Bữa Ăn: Ăn sáng buffet hàng ngày theo tiêu chuẩn phòng
+🍽️ Tiêu Chuẩn Bữa Ăn: ${mealPlan}
 ✨ Tiện Ích Miễn Phí: Sử dụng hồ bơi, phòng gym, wifi toàn khu, trà/cà phê/nước suối trong phòng mỗi ngày.
 
 👥 Danh Sách Khách Lưu Trú (Rooming List):
 ${roomingList || ('1. ' + (b.khachHang || '').toUpperCase())}
 
-❤️ Quý khách chỉ cần đọc Họ Tên đại diện (${(b.khachHang || '').toUpperCase()}) hoặc Số điện thoại (${b.sdt}) tại quầy Lễ tân để nhận phòng dễ dàng.
+❤️ Quý khách chỉ cần đọc Họ Tên đại diện (${(b.khachHang || '').toUpperCase()}) hoặc Số điện thoại (${b.sdt || ''}) tại quầy Lễ tân để nhận phòng dễ dàng.
 Booking Travel kính chúc Quý khách và gia đình có một kỳ nghỉ thật vui vẻ, hạnh phúc và trọn vẹn!
-☎️ Tổng đài hỗ trợ 24/7: 0846.477.222 & 08.33.00.1000
+☎️ Tổng đài hỗ trợ 24/7: 0846.477.222
 🌐 Cổng thông tin: https://bookingtravel.vn`;
 
-      navigator.clipboard.writeText(text).then(() => {
-        alert('📋 ĐÃ SAO CHÉP MẪU TIN NHẮN ĐẦY ĐỦ CHO KHÁCH HÀNG!\nBạn có thể dán (Ctrl+V) gửi ngay cho khách qua Zalo.');
-      });
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (typeof showToast === 'function') showToast('Đã sao chép mẫu Zalo gửi Khách hàng thành công!', 'success');
+          else alert('📋 ĐÃ SAO CHÉP MẪU TIN NHẮN ĐẦY ĐỦ CHO KHÁCH HÀNG!\nBạn có thể dán (Ctrl+V) gửi ngay cho khách qua Zalo.');
+        }).catch(() => {
+          alert('Vui lòng cấp quyền clipboard để sao chép.');
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (typeof showToast === 'function') showToast('Đã sao chép mẫu Zalo gửi Khách hàng thành công!', 'success');
+        else alert('📋 ĐÃ SAO CHÉP MẪU TIN NHẮN ĐẦY ĐỦ CHO KHÁCH HÀNG!');
+      }
     }
 
-    // 2. COPY SOẠN TIN NHẮN ZALO GỬI RESORT (CHUẨN LỮ HÀNH)
+    // 2. COPY XÁC NHẬN GỬI BỘ PHẬN ĐẶT PHÒNG KHÁCH SẠN / RESORT
     function copyVoucherToZalo() {
       if (!currentVoucherBookingId) return;
       const b = bookings.find(x => x.id === currentVoucherBookingId);
@@ -10209,12 +10771,14 @@ Booking Travel kính chúc Quý khách và gia đình có một kỳ nghỉ th�
 
       const dIn = b.checkIn ? b.checkIn.split('-').reverse().join('/') : (b.ngayDi || '---');
       const dOut = b.checkOut ? b.checkOut.split('-').reverse().join('/') : (b.ngayVe || '---');
-      const resortCode = document.getElementById('vc-resort-code').value.trim();
+      const resortCode = document.getElementById('vc-resort-code') ? document.getElementById('vc-resort-code').value.trim() : (b.codePhong || b.resortCode || '');
       const roomCat = document.getElementById('vc-room-category-input') ? document.getElementById('vc-room-category-input').value.trim() : (b.hangPhong || b.dichVu);
       const roomQty = document.getElementById('vc-room-qty-input') ? document.getElementById('vc-room-qty-input').value.trim() : (b.soLuongPhong || '1');
-      const guestQty = document.getElementById('vc-guest-qty-input') ? document.getElementById('vc-guest-qty-input').value.trim() : (b.soKhach || '2 Người lớn');
-      const nights = document.getElementById('vc-night-qty') ? document.getElementById('vc-night-qty').innerText : '2 Đêm';
-      const roomingList = document.getElementById('vc-rooming-list').value.trim();
+      const adults = document.getElementById('vc-adults-input') ? document.getElementById('vc-adults-input').value.trim() : (b.soNguoiLon || '2');
+      const children = document.getElementById('vc-children-input') ? document.getElementById('vc-children-input').value.trim() : (b.soTreEm || '0');
+      const guestText = parseInt(children, 10) > 0 ? `${adults} Người lớn + ${children} Trẻ em` : `${adults} Người lớn`;
+      const nights = document.getElementById('vc-night-qty-input') ? document.getElementById('vc-night-qty-input').value.trim() : '1 Đêm';
+      const roomingList = document.getElementById('vc-rooming-list') ? document.getElementById('vc-rooming-list').value.trim() : '';
 
       const text = 
 `📄 [BOOKING TRAVEL] PHIẾU XÁC NHẬN DỊCH VỤ & ROOMING LIST 📄
@@ -10223,10 +10787,10 @@ Booking Travel xin gửi thông tin xác nhận đoàn khách lưu trú:
 
 🏷️ Mã Booking CRM: ${b.maBooking}
 🔑 Mã Xác Nhận Resort: ${resortCode || 'Chờ cấp mã'}
-👤 Khách hàng đại diện: ${(b.khachHang || '').toUpperCase()} - SĐT: ${b.sdt}${b.cccd ? ' - CCCD: ' + b.cccd : ''}${b.email ? ' - Email: ' + b.email : ''}
+👤 Khách hàng đại diện: ${(b.khachHang || '').toUpperCase()} - SĐT: ${b.sdt || ''}${b.cccd ? ' - CCCD: ' + b.cccd : ''}${b.email ? ' - Email: ' + b.email : ''}
 🏨 Hạng Phòng: ${roomCat}
 🔢 Số Lượng Phòng: ${roomQty} Phòng
-👥 Số Lượng Khách: ${guestQty}
+👥 Số Lượng Khách: ${guestText}
 🌙 Tổng Số Đêm: ${nights}
 📅 Thời Gian Lưu Trú: ${dIn} đến ${dOut}
    • Check-in: Từ 14:00 ngày ${dIn}
@@ -10236,11 +10800,23 @@ Booking Travel xin gửi thông tin xác nhận đoàn khách lưu trú:
 ${roomingList || ('1. ' + (b.khachHang || '').toUpperCase())}
 
 ✨ Kính nhờ Quý khách sạn setup phòng sạch đẹp, đón tiếp khách chu đáo theo tinh thần "Khách hàng là gia đình"!
-☎️ Hotline Điều hành Booking Travel: 0846.477.222 & 08.33.00.1000`;
+☎️ Hotline Điều hành Booking Travel: 0846.477.222`;
 
-      navigator.clipboard.writeText(text).then(() => {
-        alert('📋 ĐÃ SAO CHÉP MẪU TIN NHẮN GỬI RESORT!\nBạn có thể dán (Ctrl+V) gửi ngay cho bộ phận đặt phòng của khách sạn.');
-      });
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (typeof showToast === 'function') showToast('Đã sao chép mẫu xác nhận gửi Resort!', 'success');
+          else alert('📋 ĐÃ SAO CHÉP MẪU TIN NHẮN GỬI RESORT!\nBạn có thể dán (Ctrl+V) gửi ngay cho bộ phận đặt phòng của khách sạn.');
+        });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (typeof showToast === 'function') showToast('Đã sao chép mẫu xác nhận gửi Resort!', 'success');
+        else alert('📋 ĐÃ SAO CHÉP MẪU TIN NHẮN GỬI RESORT!');
+      }
     }
 
     // 2.3 BẮN THÔNG BÁO VÀO NHÓM ZALO ĐIỀU HÀNH NỘI BỘ (https://zalo.me/g/mtbelj694)
@@ -10301,75 +10877,66 @@ ${roomingList || ('1. ' + (b.khachHang || '').toUpperCase())}
 
     // 3. IN VOUCHER CHUẨN A4 ĐẦY ĐỦ THÔNG TIN
     function printVoucher() {
-      // Sao lưu giá trị các ô input thành chữ để khi in hiển thị đẹp nhất
-      const resortCodeVal = document.getElementById('vc-resort-code').value.trim() || 'Đang cập nhật';
-      const roomCatVal = document.getElementById('vc-room-category-input') ? document.getElementById('vc-room-category-input').value.trim() : '';
-      const roomQtyVal = document.getElementById('vc-room-qty-input') ? document.getElementById('vc-room-qty-input').value.trim() : '1';
-      const guestQtyVal = document.getElementById('vc-guest-qty-input') ? document.getElementById('vc-guest-qty-input').value.trim() : '';
-      const roomingVal = document.getElementById('vc-rooming-list').value.trim();
-
-      // Clone area
       const printableArea = document.getElementById('voucher-printable-area').cloneNode(true);
 
-      // Thay thế input thành text
-      const rCodeInp = printableArea.querySelector('#vc-resort-code');
-      if (rCodeInp) {
+      // Convert inputs to plain typography spans for clean print
+      const allInputs = printableArea.querySelectorAll('input, textarea');
+      allInputs.forEach(inp => {
+        if (inp.type === 'file') {
+          inp.remove();
+          return;
+        }
+        const val = inp.value !== undefined ? inp.value : '';
         const span = document.createElement('span');
-        span.className = 'text-xs font-mono font-black text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-200';
-        span.innerText = resortCodeVal;
-        rCodeInp.parentNode.replaceChild(span, rCodeInp);
-      }
+        span.className = (inp.className || '').replace(/editable-input/g, '') + ' inline-block';
+        span.style.background = 'transparent';
+        span.style.border = 'none';
+        span.style.boxShadow = 'none';
+        span.style.padding = '0';
+        span.innerText = val;
+        inp.parentNode.replaceChild(span, inp);
+      });
 
-      const rCatInp = printableArea.querySelector('#vc-room-category-input');
-      if (rCatInp) {
-        const strong = document.createElement('strong');
-        strong.className = 'text-xs sm:text-sm font-extrabold text-blue-900 block mt-1';
-        strong.innerText = roomCatVal;
-        rCatInp.parentNode.replaceChild(strong, rCatInp);
-      }
+      // Remove no-print and hint elements
+      printableArea.querySelectorAll('.no-print, .edit-only-hint').forEach(el => el.remove());
 
-      const rQtyInp = printableArea.querySelector('#vc-room-qty-input');
-      if (rQtyInp) {
-        const span = document.createElement('span');
-        span.className = 'text-xs sm:text-sm font-black text-blue-900';
-        span.innerText = roomQtyVal + ' Phòng';
-        rQtyInp.parentNode.replaceChild(span, rQtyInp);
-      }
-
-      const gQtyInp = printableArea.querySelector('#vc-guest-qty-input');
-      if (gQtyInp) {
-        const strong = document.createElement('strong');
-        strong.className = 'text-xs sm:text-sm font-black text-amber-950 block mt-1';
-        strong.innerText = guestQtyVal;
-        gQtyInp.parentNode.replaceChild(strong, gQtyInp);
-      }
-
-      const roomingInp = printableArea.querySelector('#vc-rooming-list');
-      if (roomingInp) {
-        const div = document.createElement('div');
-        div.className = 'p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs whitespace-pre-line text-slate-800 font-sans';
-        div.innerText = roomingVal;
-        roomingInp.parentNode.replaceChild(div, roomingInp);
-      }
-
-      const win = window.open('', '_blank', 'width=850,height=900');
+      const win = window.open('', '_blank', 'width=900,height=950');
       win.document.write(`
-        <html>
+        <!DOCTYPE html>
+        <html lang="vi">
           <head>
+            <meta charset="UTF-8">
             <title>Phiếu Xác Nhận Dịch Vụ - Booking Travel</title>
             <script src="https://cdn.tailwindcss.com"><\/script>
-            <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
             <style>
-              body { font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px; background: #fff; }
-              @media print { 
-                body { -webkit-print-color-adjust: exact; padding: 0; }
-                @page { margin: 10mm; }
+              body { 
+                font-family: 'Inter', sans-serif; 
+                padding: 16px; 
+                background: #ffffff; 
+                color: #0f172a; 
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+              }
+              @page { 
+                size: A4 portrait; 
+                margin: 8mm; 
+              }
+              @media print {
+                body { padding: 0 !important; }
+                .no-print { display: none !important; }
+                #voucher-printable-area { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
               }
             </style>
           </head>
           <body onload="setTimeout(function(){ window.print(); }, 400)">
-            ${printableArea.innerHTML}
-</body>
+            <div class="max-w-4xl mx-auto">
+              ${printableArea.outerHTML}
+            </div>
+          </body>
         </html>
       `);
       win.document.close();
@@ -11373,8 +11940,9 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
         return;
       }
 
-      // 2. Phân Quyền Nhân Sự: Chỉ Ban Giám Đốc được cấu hình -> Tự động chuyển về bookings
-      if (viewName === 'staff' && !isAdmin) {
+      // 2. Phân Quyền Nhân Sự: Ban Giám Đốc & Admin được cấu hình -> Tự động chuyển về bookings nếu không có quyền
+      const isDrCheck = currentUser && currentUser.role === 'dr';
+      if (viewName === 'staff' && !isAdmin && !isDrCheck) {
         currentView = 'bookings';
         renderTable();
         updateMetrics();
@@ -12226,7 +12794,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <th class="py-3 px-3">Số Điện Thoại</th>
             <th class="py-3 px-3 text-right">Doanh Thu</th>
             <th class="py-3 px-3 text-right">Giá Nét</th>
-            <th class="py-3 px-3 text-right">Hoa Hồng</th>
+            <th class="py-3 px-3 text-right" title="Lợi nhuận thực tế sau khi trừ giá vốn đối tác và chi phí phát sinh">Lợi Nhuận Thực Tế</th>
             <th class="py-3 px-3 text-center">Thu Khách</th>
             <th class="py-3 px-3 text-center">Nợ Đối Tác</th>
             <th class="py-3 px-3 text-right">Thao Tác</th>
@@ -12241,7 +12809,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
             <th class="py-3 px-3">Số Điện Thoại</th>
             <th class="py-3 px-3 text-right">Doanh Thu</th>
             <th class="py-3 px-3 text-right">Giá Vốn</th>
-            <th class="py-3 px-3 text-right">Hoa Hồng</th>
+            <th class="py-3 px-3 text-right" title="Lợi nhuận thực tế sau khi trừ giá vốn đối tác và chi phí phát sinh">Lợi Nhuận Thực Tế</th>
             <th class="py-3 px-3 text-center">Thu Khách</th>
             <th class="py-3 px-3 text-center">Nợ Đối Tác</th>
             <th class="py-3 px-3 text-center">HĐ Đầu Vào</th>
@@ -12297,7 +12865,8 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
       pageBookings.forEach((b) => {
         const rev = parseFloat(b.giaBan) || 0;
         const cst = parseFloat(b.giaVon) || 0;
-        const profit = rev - cst;
+        const extra = parseFloat(b.chiPhiPhatSinh) || 0;
+        const profit = Math.max(0, rev - cst - extra);
         const paidAR = parseFloat(b.khachDaCoc) || 0;
         const paidAP = parseFloat(b.daTraDoiTac) || 0;
         const remainAR = Math.max(0, rev - paidAR);
@@ -12441,10 +13010,16 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
                   <i class="fa-solid fa-clock-rotate-left text-[8px]"></i> ${(b.editHistory && b.editHistory.length > 0) ? b.editHistory.length + ' thao tác' : 'Lịch sử'}
                 </button>
               </div>
-              <div class="text-[11px] text-slate-300 font-medium flex items-center gap-1.5 mt-0.5 truncate max-w-[145px]" title="Nhân viên phụ trách: ${escapeHtml(staffDisplayName)}">
+              <div class="text-[11px] text-slate-300 font-medium flex items-center gap-1.5 mt-0.5 truncate max-w-[145px]" title="Nhân viên tư vấn chính: ${escapeHtml(staffDisplayName)}">
                 <i class="fa-solid fa-user-tie text-[10px] text-sky-400/80 shrink-0"></i>
                 <span class="truncate">${escapeHtml(staffDisplayName)}</span>
               </div>
+              ${(b.hoTroEmail && b.hoTroEmail.toLowerCase() !== (b.saleEmail || '').toLowerCase()) ? `
+                <div class="text-[10px] text-cyan-300 font-medium flex items-center gap-1 mt-0.5 truncate max-w-[145px]" title="Nhân viên hỗ trợ: ${escapeHtml(b.hoTroName || b.hoTroEmail)} (${b.tyLeTuVan || 70}/${b.tyLeHoTro || 30})">
+                  <i class="fa-solid fa-hands-holding-circle text-[9px] text-cyan-400 shrink-0"></i>
+                  <span class="truncate">Hỗ trợ: ${escapeHtml((b.hoTroName || b.hoTroEmail.split('@')[0]))}</span>
+                </div>
+              ` : ''}
             </td>
 
             <!-- 1B. TRẠNG THÁI QUY TRÌNH (6 BƯỚC NỐI TIẾP) -->
@@ -12536,15 +13111,16 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               ${costDisplay}
             </td>
 
-            <!-- 8. HOA HỒNG (DOANH THU - GIÁ NET = HOA HỒNG. VÍ DỤ: 1.000.000 - 800.000 = 200.000) -->
+            <!-- 8. LỢI NHUẬN THỰC TẾ (DOANH THU - GIÁ VỐN - CHI PHÍ PHÁT SINH) -->
             <td class="py-3 px-3.5 text-right whitespace-nowrap">
               ${canViewThisProfit ? `
                 <div class="inline-flex flex-col items-end">
                   <span class="px-2 py-0.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono font-bold text-xs num-tabular shadow-sm">
-                    +${(rev - cst).toLocaleString('vi-VN')} đ
+                    +${profit.toLocaleString('vi-VN')} đ
                   </span>
-                  <span class="text-[10px] text-cyan-300 font-mono font-bold mt-0.5" title="Hoa hồng thực nhận sau khi trừ 30% chi phí thuế: ${(rev - cst).toLocaleString('vi-VN')} đ - 30% = ${Math.round((rev - cst) * 0.7).toLocaleString('vi-VN')} đ">
-                    Thực nhận (-30%): +${Math.round((rev - cst) * 0.7).toLocaleString('vi-VN')} đ
+                  ${extra > 0 ? `<span class="text-[9px] text-rose-300 font-mono block mt-0.5" title="Chi phí phát sinh: ${extra.toLocaleString('vi-VN')} đ">Phát sinh: -${extra.toLocaleString('vi-VN')} đ</span>` : ''}
+                  <span class="text-[10px] text-cyan-300 font-mono font-bold mt-0.5" title="Hoa hồng thực nhận sau khi trừ 30% chi phí thuế: ${profit.toLocaleString('vi-VN')} đ - 30% = ${Math.round(profit * 0.7).toLocaleString('vi-VN')} đ">
+                    Thực nhận (-30%): +${Math.round(profit * 0.7).toLocaleString('vi-VN')} đ
                   </span>
                 </div>
               ` : '<span class="text-slate-600">***</span>'}
@@ -12698,7 +13274,7 @@ CÔNG TY TNHH BOOKING TRAVEL - \"Khách hàng là gia đình\" | Tận tâm ph�
               <div class="text-right">
                 <div class="font-mono font-black text-base text-white">${rev.toLocaleString('vi-VN')} đ</div>
                 <div class="text-[10px] text-slate-400 font-mono">Đặt: ${createDateVN}</div>
-                ${canViewThisProfit ? (isSale ? `<div class="text-[10px] font-mono text-emerald-400 font-bold mt-0.5">HH Gộp: +${(rev - cst).toLocaleString('vi-VN')} đ</div><div class="text-[10px] font-mono text-cyan-300 font-bold">Thực nhận (-30%): +${Math.round((rev - cst) * 0.7).toLocaleString('vi-VN')} đ</div>` : `<div class="text-[10px] font-mono text-emerald-400 font-semibold mt-0.5">Lãi: +${profit.toLocaleString('vi-VN')} đ • <span class="text-cyan-300 font-bold">Thực nhận (-30%): +${Math.round(profit * 0.7).toLocaleString('vi-VN')} đ</span></div>`) : ''}
+                ${canViewThisProfit ? `<div class="text-[10px] font-mono text-emerald-400 font-bold mt-0.5">LN Thực Tế: +${profit.toLocaleString('vi-VN')} đ</div>${extra > 0 ? `<div class="text-[9px] font-mono text-rose-300">Phát sinh: -${extra.toLocaleString('vi-VN')} đ</div>` : ''}<div class="text-[10px] font-mono text-cyan-300 font-bold">Thực nhận (-30%): +${Math.round(profit * 0.7).toLocaleString('vi-VN')} đ</div>` : ''}
               </div>
             </div>
 
