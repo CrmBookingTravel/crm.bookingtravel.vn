@@ -1,10 +1,6 @@
 {
   "buildCommand": null,
   "outputDirectory": ".",
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/", "destination": "/CRM_Booking.html" },
-    { "source": "/CRM_Booking", "destination": "/CRM_Booking.html" }
-  ]
+  "cleanUrls": false,
+  "trailingSlash": false
 }

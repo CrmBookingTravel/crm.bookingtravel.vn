@@ -1,0 +1,8 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/zalo_crm", "destination": "/zalo_crm.html" },
+    { "source": "/CRM_Booking", "destination": "/CRM_Booking.html" },
+    { "source": "/CRM_Pro", "destination": "/CRM_Pro.html" }
+  ]
+}

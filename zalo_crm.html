@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zalo CRM Tool - Hệ Thống CSKH & Điều Hành | Booking Travel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .zalo-blue { background-color: #0068ff; }
+    .zalo-text { color: #0068ff; }
+    .scrollbar-thin::-webkit-scrollbar { width: 5px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-slate-100 h-screen flex flex-col overflow-hidden">
+
+  <!-- MODAL ĐĂNG NHẬP ZALO (QR & ID/PASS) -->
+  <div id="loginModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-xl shadow-2xl w-96 overflow-hidden">
+      <div class="zalo-blue p-4 text-white flex justify-between items-center">
+        <h3 class="font-bold text-lg"><i class="fa-solid fa-shield-halved mr-2"></i>Đăng nhập Zalo CSKH</h3>
+        <button onclick="toggleLoginModal()" class="text-white hover:text-gray-200 cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      <!-- Tabs Chuyển đổi QR & ID/Pass -->
+      <div class="flex border-b">
+        <button id="tabQR" onclick="switchLoginTab('qr')" class="w-1/2 py-3 font-semibold text-sm border-b-2 border-blue-600 text-blue-600 cursor-pointer">Quét Mã QR</button>
+        <button id="tabPass" onclick="switchLoginTab('pass')" class="w-1/2 py-3 font-semibold text-sm text-gray-500 hover:text-gray-700 cursor-pointer">SĐT & Mật khẩu</button>
+      </div>
+      <!-- Nội dung QR -->
+      <div id="contentQR" class="p-6 text-center">
+        <div class="w-44 h-44 mx-auto border-2 border-dashed border-blue-400 rounded-lg flex flex-col items-center justify-center bg-blue-50/40 mb-3">
+          <i class="fa-solid fa-qrcode text-7xl text-slate-700 mb-2"></i>
+          <span class="text-xs text-blue-600 font-medium">Quét bằng ứng dụng Zalo</span>
+        </div>
+        <p class="text-xs text-gray-500">Tự động lưu phiên làm việc trên Google Chrome</p>
+        <button onclick="window.open('https://chat.zalo.me', 'ZaloBridge', 'width=550,height=820,left=950,top=40'); toggleLoginModal();" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition cursor-pointer">
+          Mở Cửa Sổ Quét QR Zalo
+        </button>
+      </div>
+      <!-- Nội dung ID & Pass -->
+      <div id="contentPass" class="p-6 hidden space-y-3">
+        <div>
+          <label class="text-xs font-semibold text-gray-600">Số điện thoại / ID Zalo</label>
+          <input id="loginPhoneInput" type="text" placeholder="Nhập số điện thoại..." class="w-full mt-1 px-3 py-2 border rounded-lg text-sm focus:outline-blue-500">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-600">Mật khẩu</label>
+          <input id="loginPassInput" type="password" placeholder="••••••••" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm focus:outline-blue-500">
+        </div>
+        <div class="flex items-center text-xs text-gray-600">
+          <input type="checkbox" checked id="rememberLoginCheckbox" class="mr-2"> Ghi nhớ đăng nhập cho ca trực
+        </div>
+        <button onclick="saveLoginCredentials()" class="w-full zalo-blue text-white py-2 rounded-lg font-semibold text-sm hover:bg-blue-700 cursor-pointer">Đăng nhập ngay</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER ĐIỀU KHIỂN CHÍNH -->
+  <header class="zalo-blue text-white px-4 py-2.5 flex justify-between items-center shadow-md">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center text-xl">
+        <i class="fa-solid fa-comments"></i>
+      </div>
+      <div>
+        <h1 class="font-bold text-base leading-tight flex items-center gap-2">
+          <span>ZALO CRM WORKSPACE - BOOKING TRAVEL</span>
+          <span class="text-[10px] bg-white/20 text-white font-bold px-2 py-0.5 rounded-full">Phân Hệ Điều Hành</span>
+        </h1>
+        <p class="text-xs text-blue-100">Trình duyệt Google Chrome • Phiên bản Chăm sóc Khách hàng & Điều hành</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2.5">
+      <span class="bg-green-500/20 border border-green-300 text-green-100 text-xs px-2.5 py-1 rounded-full flex items-center">
+        <span class="w-2 h-2 bg-green-400 rounded-full mr-1.5 animate-pulse"></span> Đã kết nối Zalo Web
+      </span>
+      <button onclick="toggleLoginModal()" class="bg-white text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold shadow hover:bg-blue-50 transition cursor-pointer">
+        <i class="fa-solid fa-user-lock mr-1"></i> Đổi Tài khoản (QR / ID-Pass)
+      </button>
+      <a href="CRM_Booking.html" class="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-3 py-1.5 rounded-lg text-xs font-bold shadow transition flex items-center cursor-pointer">
+        <i class="fa-solid fa-arrow-left mr-1.5"></i> Về CRM
+      </a>
+    </div>
+  </header>
+
+  <!-- BỐ CỤC 3 CỘT: DANH BẠ & GROUP | KHUNG CHAT ZALO | CÔNG CỤ CSKH & NHẮC LỊCH -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- CỘT 1: PHÂN LOẠI KHÁCH HÀNG & QUẢN LÝ GROUP (26%) -->
+    <aside class="w-1/4 bg-white border-r flex flex-col">
+      <!-- Thanh tìm kiếm -->
+      <div class="p-3 border-b">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-sm"></i>
+          <input id="searchInput" oninput="searchContacts(this.value)" type="text" placeholder="Tìm khách hàng, SĐT, mã booking, group..." class="w-full pl-9 pr-3 py-1.5 bg-slate-100 rounded-lg text-sm focus:outline-blue-500">
+        </div>
+        <!-- Bộ lọc Nhãn Khách Hàng -->
+        <div class="flex gap-1.5 mt-2.5 overflow-x-auto pb-1">
+          <button onclick="filterContacts('all')" class="px-2.5 py-1 rounded text-xs font-semibold bg-slate-800 text-white cursor-pointer">Tất cả</button>
+          <button onclick="filterContacts('khach-le')" class="px-2.5 py-1 rounded text-xs font-semibold bg-blue-100 text-blue-700 hover:bg-blue-200 cursor-pointer">Khách lẻ</button>
+          <button onclick="filterContacts('ctv')" class="px-2.5 py-1 rounded text-xs font-semibold bg-orange-100 text-orange-700 hover:bg-orange-200 cursor-pointer">CTV</button>
+          <button onclick="filterContacts('cong-ty')" class="px-2.5 py-1 rounded text-xs font-semibold bg-purple-100 text-purple-700 hover:bg-purple-200 cursor-pointer">Công ty</button>
+        </div>
+      </div>
+
+      <!-- Phân mục Group Phòng Ban & Đối tác -->
+      <div class="px-3 py-2 bg-slate-50 border-b">
+        <div class="text-xs font-bold text-gray-500 uppercase mb-1.5 flex justify-between items-center">
+          <span><i class="fa-solid fa-people-group mr-1 text-blue-600"></i>Phân loại Group Zalo</span>
+        </div>
+        <div class="grid grid-cols-2 gap-1.5 text-xs">
+          <button onclick="filterContacts('grp-dept')" class="p-1.5 bg-red-50 text-red-700 border border-red-200 rounded font-medium text-left truncate cursor-pointer hover:bg-red-100">
+            <i class="fa-solid fa-building-user mr-1"></i>Group Phòng ban
+          </button>
+          <button onclick="filterContacts('grp-sup')" class="p-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded font-medium text-left truncate cursor-pointer hover:bg-emerald-100">
+            <i class="fa-solid fa-hotel mr-1"></i>Group Đối tác/Xe
+          </button>
+        </div>
+      </div>
+
+      <!-- Danh sách hội thoại & Group -->
+      <div id="contactList" class="flex-1 overflow-y-auto scrollbar-thin divide-y">
+        <!-- Item 1: Khách lẻ -->
+        <div data-type="khach-le" data-phone="0905123456" onclick="selectChat('Anh Minh - Đặt phòng Vinpearl', 'Khách lẻ', 'Cần đón sân bay', '0905123456', 'BT-2026-889', 'Vinpearl Resort Nha Trang', '01/11/2026', '03/11/2026')" class="p-3 hover:bg-blue-50 cursor-pointer bg-blue-50/50 transition">
+          <div class="flex justify-between items-start">
+            <span class="font-bold text-sm text-slate-800">Anh Minh - Đặt phòng Vinpearl</span>
+            <span class="text-[11px] text-gray-400">10:15</span>
+          </div>
+          <p class="text-xs text-gray-600 truncate mt-0.5">Nhớ đặt xe đón sân bay giúp anh lúc 14h nhé</p>
+          <div class="flex gap-1 mt-1.5 flex-wrap">
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-blue-100 text-blue-700 rounded">Khách lẻ</span>
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-700 rounded"><i class="fa-solid fa-bell mr-1"></i>Nhắc đón sân bay</span>
+          </div>
+        </div>
+
+        <!-- Item 2: CTV -->
+        <div data-type="ctv" data-phone="0912888999" onclick="selectChat('Chị Lan - CTV Miền Bắc', 'Cộng tác viên', 'Chờ cọc đoàn', '0912888999', 'BT-2026-892', 'Duyên Hà Resort Cam Ranh', '02/11/2026', '05/11/2026')" class="p-3 hover:bg-blue-50 cursor-pointer transition">
+          <div class="flex justify-between items-start">
+            <span class="font-bold text-sm text-slate-800">Chị Lan - CTV Miền Bắc</span>
+            <span class="text-[11px] text-gray-400">09:40</span>
+          </div>
+          <p class="text-xs text-gray-600 truncate mt-0.5">Check giúp chị 5 phòng Duyên Hà cuối tuần này</p>
+          <div class="flex gap-1 mt-1.5 flex-wrap">
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-orange-100 text-orange-700 rounded">Cộng tác viên</span>
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-rose-100 text-rose-700 rounded">Đang báo giá</span>
+          </div>
+        </div>
+
+        <!-- Item 3: Công ty -->
+        <div data-type="cong-ty" data-phone="0988777666" onclick="selectChat('Công ty Sự Kiện Á Châu (B2B)', 'Công ty', 'Xuất VAT', '0988777666', 'BT-2026-901', 'Khách sạn Rigel Nha Trang + Tour 3 Đảo', '31/10/2026', '02/11/2026')" class="p-3 hover:bg-blue-50 cursor-pointer transition">
+          <div class="flex justify-between items-start">
+            <span class="font-bold text-sm text-slate-800">Công ty Sự Kiện Á Châu (B2B)</span>
+            <span class="text-[11px] text-gray-400">Hôm qua</span>
+          </div>
+          <p class="text-xs text-gray-600 truncate mt-0.5">Đã thanh toán đợt 2, gửi xác nhận booking nhé</p>
+          <div class="flex gap-1 mt-1.5 flex-wrap">
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-purple-100 text-purple-700 rounded">Công ty</span>
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded">Đã cọc • Chờ Check-in</span>
+          </div>
+        </div>
+
+        <!-- Item 4: Group Phòng ban nội bộ -->
+        <div data-type="grp-dept" onclick="selectChat('[NỘI BỘ] Sales - Điều Hành Tour & Xe', 'Group Phòng ban', 'Trực điều hành', '', 'GRP-DH', 'Điều hành Tour & Xe', 'Hôm nay', 'Ngày mai')" class="p-3 hover:bg-blue-50 cursor-pointer transition bg-red-50/20">
+          <div class="flex justify-between items-start">
+            <span class="font-bold text-sm text-red-800"><i class="fa-solid fa-users-gear mr-1"></i>[NỘI BỘ] Sales - Điều Hành</span>
+            <span class="text-[11px] text-gray-400">10:20</span>
+          </div>
+          <p class="text-xs text-gray-600 truncate mt-0.5">Thắng: Đã điều 2 xe máy giao qua sảnh khách sạn</p>
+          <div class="flex gap-1 mt-1.5">
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-red-100 text-red-700 rounded">Kết nối Phòng ban</span>
+          </div>
+        </div>
+
+        <!-- Item 5: Group Phòng ban Kế toán -->
+        <div data-type="grp-dept" onclick="selectChat('[NỘI BỘ] Sales - Kế Toán Đối Soát Cọc', 'Group Phòng ban', 'Check UNC', '', 'GRP-KT', 'Kế toán đối soát', 'Hôm nay', 'Ngày mai')" class="p-3 hover:bg-blue-50 cursor-pointer transition bg-red-50/20">
+          <div class="flex justify-between items-start">
+            <span class="font-bold text-sm text-red-800"><i class="fa-solid fa-file-invoice-dollar mr-1"></i>[NỘI BỘ] Sales - Kế Toán</span>
+            <span class="text-[11px] text-gray-400">08:50</span>
+          </div>
+          <p class="text-xs text-gray-600 truncate mt-0.5">Linh: Kế toán kiểm tra khoản cọc 5.000.000đ đoàn Á Châu</p>
+          <div class="flex gap-1 mt-1.5">
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-red-100 text-red-700 rounded">Kết nối Phòng ban</span>
+          </div>
+        </div>
+
+        <!-- Item 6: Group Đối tác -->
+        <div data-type="grp-sup" onclick="selectChat('[ĐỐI TÁC] Đội Xe Sân Bay Cam Ranh & Xe Máy', 'Group Đối tác', 'Điều xe', '', 'GRP-XE', 'Đội xe sân bay & xe máy', 'Hôm nay', 'Ngày mai')" class="p-3 hover:bg-blue-50 cursor-pointer transition">
+          <div class="flex justify-between items-start">
+            <span class="font-bold text-sm text-emerald-800"><i class="fa-solid fa-car-side mr-1"></i>[ĐỐI TÁC] Đội Xe Sân Bay & Xe Máy</span>
+            <span class="text-[11px] text-gray-400">09:10</span>
+          </div>
+          <p class="text-xs text-gray-600 truncate mt-0.5">Tài xế Tuấn nhận cuốc đón sân bay 14h00 nhé</p>
+          <div class="flex gap-1 mt-1.5">
+            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded">Group Nhà cung cấp</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CỘT 2: MÀN HÌNH CHAT ZALO TRUNG TÂM (42%) -->
+    <main class="flex-1 flex flex-col bg-slate-200">
+      <!-- Header cuộc trò chuyện -->
+      <div class="bg-white p-3 border-b flex justify-between items-center shadow-sm">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 id="chatTitle" class="font-bold text-slate-800 text-base">Anh Minh - Đặt phòng Vinpearl</h2>
+            <span id="chatBadge" class="px-2 py-0.5 text-xs font-bold bg-blue-100 text-blue-700 rounded">Khách lẻ</span>
+            <span id="chatReminderBadge" class="px-2 py-0.5 text-xs font-bold bg-amber-100 text-amber-700 rounded">Cần đón sân bay</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-0.5">
+            SĐT: <b id="chatPhoneDisplay" class="text-blue-600 font-mono">0905123456</b> • Mã đơn: <b id="chatCodeDisplay" class="font-mono">BT-2026-889</b> • Phụ trách: <b>CSKH Booking Travel</b>
+          </p>
+        </div>
+        <!-- Gắn nhãn nhanh & Nút Mở Zalo -->
+        <div class="flex items-center space-x-2">
+          <select onchange="changeCustomerTag(this.value)" class="text-xs border rounded px-2 py-1 bg-slate-50 font-medium">
+            <option value="Khách lẻ">+ Đổi phân loại</option>
+            <option value="Khách lẻ">Khách lẻ</option>
+            <option value="Cộng tác viên">Cộng tác viên (CTV)</option>
+            <option value="Công ty">Công ty (B2B)</option>
+          </select>
+          <button onclick="openCurrentChatZaloDirect()" class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded text-xs font-bold flex items-center gap-1 shadow cursor-pointer">
+            <i class="fa-solid fa-up-right-from-square"></i> Chat Zalo
+          </button>
+        </div>
+      </div>
+
+      <!-- Lịch sử tin nhắn -->
+      <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 scrollbar-thin">
+        <div class="bg-white p-3 rounded-lg shadow-sm max-w-md">
+          <p id="msgSenderName" class="text-xs font-bold text-blue-600 mb-1">Anh Minh</p>
+          <p class="text-sm text-gray-800 leading-relaxed">Em ơi, anh chuyển khoản cọc phòng rồi. Nhớ đặt xe đón sân bay giúp anh lúc 14h ngày mai và giao 1 chiếc xe máy tay ga tại khách sạn nhé!</p>
+          <span class="text-[10px] text-gray-400 block text-right mt-1">10:15</span>
+        </div>
+      </div>
+
+      <!-- Khung soạn thảo tin nhắn -->
+      <div class="bg-white p-3 border-t">
+        <textarea id="messageInput" rows="3" placeholder="Nhập tin nhắn hoặc chọn Biểu mẫu có sẵn ở cột bên phải..." class="w-full p-2.5 border rounded-lg text-sm focus:outline-blue-500 resize-none font-sans"></textarea>
+        <div class="flex justify-between items-center mt-2 flex-wrap gap-2">
+          <div class="flex space-x-2 text-gray-500 text-sm flex-wrap">
+            <button onclick="insertTemplate('gui_qr')" title="Đính kèm thông tin tài khoản" class="hover:text-blue-600 px-2 py-1 rounded hover:bg-slate-100 text-xs font-semibold cursor-pointer">
+              <i class="fa-solid fa-qrcode mr-1"></i>STK Techcombank
+            </button>
+            <button onclick="forwardToDepartment()" title="Chuyển tiếp sang Group Điều hành" class="text-red-600 hover:bg-red-50 px-2 py-1 rounded font-medium text-xs border border-red-200 cursor-pointer">
+              <i class="fa-solid fa-share-nodes mr-1"></i>Bắn tin sang Group Điều Hành
+            </button>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="copyCurrentMessage()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold border transition cursor-pointer">
+              <i class="fa-solid fa-copy mr-1"></i> Copy
+            </button>
+            <button onclick="sendMessage()" class="zalo-blue text-white px-5 py-1.5 rounded-lg text-sm font-bold hover:bg-blue-700 transition cursor-pointer flex items-center gap-1.5">
+              <i class="fa-solid fa-paper-plane"></i> Gửi Zalo
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- CỘT 3: THANH CÔNG CỤ CSKH - BIỂU MẪU & ĐẶT LỊCH NHẮC (32%) -->
+    <aside class="w-1/3 bg-white border-l flex flex-col overflow-y-auto scrollbar-thin">
+      
+      <!-- PHẦN 1: CÁC BIỂU MẪU CÓ SẴN (QUICK TEMPLATES) -->
+      <div class="p-3.5 border-b">
+        <h3 class="font-bold text-sm text-slate-800 flex items-center mb-2.5">
+          <i class="fa-solid fa-file-signature text-blue-600 mr-2"></i>BIỂU MẪU CHĂM SÓC KHÁCH HÀNG
+        </h3>
+        <div class="grid grid-cols-2 gap-1.5">
+          <button onclick="insertTemplate('booking')" class="p-2 border rounded-lg text-xs font-semibold text-left hover:bg-blue-50 hover:border-blue-400 transition cursor-pointer">
+            <i class="fa-solid fa-circle-check text-green-600 mr-1"></i> 1. Xác nhận Đặt phòng
+          </button>
+          <button onclick="insertTemplate('checkin')" class="p-2 border rounded-lg text-xs font-semibold text-left hover:bg-blue-50 hover:border-blue-400 transition cursor-pointer">
+            <i class="fa-solid fa-key text-amber-500 mr-1"></i> 2. Chăm sóc Check-in
+          </button>
+          <button onclick="insertTemplate('tour_remind')" class="p-2 border rounded-lg text-xs font-semibold text-left hover:bg-blue-50 hover:border-blue-400 transition cursor-pointer">
+            <i class="fa-solid fa-ship text-blue-500 mr-1"></i> 3. Nhắc lịch Đi Tour
+          </button>
+          <button onclick="insertTemplate('checkout')" class="p-2 border rounded-lg text-xs font-semibold text-left hover:bg-blue-50 hover:border-blue-400 transition cursor-pointer">
+            <i class="fa-solid fa-heart text-rose-500 mr-1"></i> 4. Cảm ơn Check-out
+          </button>
+          <button onclick="insertTemplate('airport')" class="p-2 border rounded-lg text-xs font-semibold text-left hover:bg-blue-50 hover:border-blue-400 transition cursor-pointer">
+            <i class="fa-solid fa-plane-arrival text-sky-600 mr-1"></i> 5. Báo Xe Sân Bay
+          </button>
+          <button onclick="insertTemplate('bike')" class="p-2 border rounded-lg text-xs font-semibold text-left hover:bg-blue-50 hover:border-blue-400 transition cursor-pointer">
+            <i class="fa-solid fa-motorcycle text-orange-600 mr-1"></i> 6. Báo Giao Xe Máy
+          </button>
+        </div>
+      </div>
+
+      <!-- PHẦN 2: ĐẶT LỊCH NHẮC GIAO XE MÁY, ĐÓN SÂN BAY & LỊCH TOUR -->
+      <div class="p-3.5 border-b bg-slate-50/60">
+        <h3 class="font-bold text-sm text-slate-800 flex items-center mb-2.5">
+          <i class="fa-solid fa-bell text-amber-500 mr-2"></i>ĐẶT LỊCH NHẮC ĐIỀU HÀNH & CSKH
+        </h3>
+        <div class="space-y-2 text-xs">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="font-semibold text-gray-600">Loại nhắc nhở:</label>
+              <select id="remindType" class="w-full mt-1 p-1.5 border rounded bg-white font-medium">
+                <option value="Đón/Tiễn Sân bay">✈️ Đón/Tiễn Sân bay</option>
+                <option value="Giao/Nhận Xe máy">🛵 Giao/Nhận Xe máy</option>
+                <option value="Nhắc lịch Tour khách">🏝️ Nhắc lịch Tour dùm khách</option>
+                <option value="Nhắc Check-in/Check-out">🏨 Nhắc Check-in / Check-out</option>
+              </select>
+            </div>
+            <div>
+              <label class="font-semibold text-gray-600">Thời gian nhắc:</label>
+              <input id="remindTime" type="datetime-local" class="w-full mt-1 p-1.5 border rounded bg-white font-mono">
+            </div>
+          </div>
+          <div>
+            <label class="font-semibold text-gray-600">Ghi chú chi tiết (Mã chuyến bay, biển số, sảnh KS):</label>
+            <input id="remindNote" type="text" placeholder="VD: Đón chuyến VN1344 lúc 14h00 - Giao 1 xe AirBlade tại sảnh..." class="w-full mt-1 p-1.5 border rounded bg-white">
+          </div>
+          <button onclick="addReminder()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 rounded-lg transition shadow-sm cursor-pointer">
+            <i class="fa-solid fa-calendar-plus mr-1"></i> Lưu Lịch Nhắc & Đồng Bộ Điều Hành
+          </button>
+        </div>
+      </div>
+
+      <!-- PHẦN 3: DANH SÁCH LỊCH NHẮC ĐANG CHỜ (ACTIVE REMINDERS) -->
+      <div class="p-3.5 flex-1">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="font-bold text-xs text-gray-500 uppercase">Danh sách Nhắc việc Trong Ca</h3>
+          <span id="reminderCount" class="text-xs font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded-full">3 lịch hẹn</span>
+        </div>
+        <div id="reminderList" class="space-y-2 text-xs">
+          <!-- Lịch nhắc 1: Đón sân bay -->
+          <div class="p-2.5 border-l-4 border-blue-500 bg-blue-50/60 rounded shadow-sm">
+            <div class="flex justify-between font-bold text-blue-900">
+              <span>✈️ Đón/Tiễn Sân bay</span>
+              <span>13:00 Hôm nay</span>
+            </div>
+            <p class="text-gray-700 mt-1">Khách: <b>Anh Minh</b> • Đón sân bay Cam Ranh chuyến 14h00 về Vinpearl.</p>
+            <div class="mt-1.5 flex gap-2">
+              <button onclick="sendQuickRemind('Anh Minh ơi, xe đón sân bay của mình đã sẵn sàng (BKS 79A-123.45 - Tài xế Tuấn 0905.xxx.xxx) đón anh lúc 14h00 tại Cột số 4 nhé ạ!')" class="text-[11px] bg-blue-600 hover:bg-blue-700 text-white px-2 py-0.5 rounded cursor-pointer">Gửi thông tin xe cho khách</button>
+            </div>
+          </div>
+
+          <!-- Lịch nhắc 2: Giao xe máy -->
+          <div class="p-2.5 border-l-4 border-amber-500 bg-amber-50/60 rounded shadow-sm">
+            <div class="flex justify-between font-bold text-amber-900">
+              <span>🛵 Giao/Nhận Xe máy</span>
+              <span>15:30 Hôm nay</span>
+            </div>
+            <p class="text-gray-700 mt-1">Khách: <b>Anh Minh</b> • Giao 01 xe tay ga AirBlade tại sảnh khách sạn.</p>
+            <div class="mt-1.5 flex gap-2">
+              <button onclick="sendQuickRemind('Dạ anh Minh ơi, 15h30 bên em giao xe máy tới sảnh khách sạn, anh chuẩn bị giúp em CCCD và bằng lái xe để làm thủ tục nhận xe nhé ạ!')" class="text-[11px] bg-amber-600 hover:bg-amber-700 text-white px-2 py-0.5 rounded cursor-pointer">Nhắn khách nhận xe</button>
+            </div>
+          </div>
+
+          <!-- Lịch nhắc 3: Nhắc lịch tour -->
+          <div class="p-2.5 border-l-4 border-emerald-500 bg-emerald-50/60 rounded shadow-sm">
+            <div class="flex justify-between font-bold text-emerald-900">
+              <span>🏝️ Nhắc lịch Tour dùm khách</span>
+              <span>20:00 Tối nay</span>
+            </div>
+            <p class="text-gray-700 mt-1">Khách: <b>Đoàn Á Châu</b> • Nhắc lịch đi Tour 3 Đảo VIP sáng mai 08h00.</p>
+            <div class="mt-1.5 flex gap-2">
+              <button onclick="insertTemplate('tour_remind')" class="text-[11px] bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-0.5 rounded cursor-pointer">Nạp mẫu nhắc Tour</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- KỊCH BẢN XỬ LÝ NGHIỆP VỤ (JAVASCRIPT) -->
+  <script>
+    let activeCustomerData = {
+      name: 'Anh Minh - Đặt phòng Vinpearl',
+      type: 'Khách lẻ',
+      reminder: 'Cần đón sân bay',
+      phone: '0905123456',
+      bookingCode: 'BT-2026-889',
+      hotel: 'Vinpearl Resort Nha Trang',
+      checkin: '01/11/2026',
+      checkout: '03/11/2026'
+    };
+
+    // Kho biểu mẫu chuẩn CSKH
+    const templates = {
+      booking: `🎉 XÁC NHẬN ĐẶT PHÒNG THÀNH CÔNG 🎉
+Cảm ơn Quý khách đã tin tưởng đặt dịch vụ tại CÔNG TY TNHH BOOKING TRAVEL!
+- Tên khách hàng: [Tên_Khách]
+- Mã Booking: [Mã_Đơn]
+- Khách sạn/Resort: [Tên_Khách_Sạn]
+- Thời gian: Check-in 14:00 ngày [Check_In] | Check-out 12:00 ngày [Check_Out]
+- Tình trạng: Đã nhận cọc / Đã xuất mã Booking.
+Chúc Quý khách có một kỳ nghỉ thật tuyệt vời! Cần hỗ trợ xe đón sân bay, thuê xe máy hoặc đặt tour đảo, Quý khách nhắn trực tiếp tại đây nhé ạ!`,
+
+      checkin: `🌸 HƯỚNG DẪN THỦ TỤC CHECK-IN 🌸
+Chào [Tên_Khách], hôm nay là ngày nhận phòng của gia đình mình tại [Tên_Khách_Sạn] theo mã [Mã_Đơn]. Em xin gửi một số lưu ý nhỏ:
+1. Giờ nhận phòng tiêu chuẩn: Từ 14:00.
+2. Giấy tờ cần chuẩn bị: CCCD/Hộ chiếu của người lớn và Giấy khai sinh của các bé.
+3. Khi đến quầy Lễ tân, Anh/Chị đọc mã Booking để nhận phòng nhanh chóng.
+Khi nhận phòng xong, Anh/Chị nhắn em kiểm tra xem phòng ốc đã ưng ý chưa nhé ạ!`,
+
+      tour_remind: `🏝️ LỊCH TRÌNH NHẮC TOUR NGÀY MAI 🏝️
+Dạ em chào [Tên_Khách], em xin phép nhắc lịch đi Tour ngày mai của đoàn mình ạ:
+- Thời gian xe đón: 08:00 - 08:15 sáng tại sảnh [Tên_Khách_Sạn].
+- Chuẩn bị: Đồ bơi, kem chống nắng, mũ rộng vành, khăn tắm và điện thoại đầy pin để chụp ảnh.
+- Hướng dẫn viên sẽ gọi điện trước 15 phút khi xe di chuyển tới sảnh. Chúc gia đình mình buổi tối vui vẻ và hẹn gặp đoàn vào sáng mai ạ!`,
+
+      checkout: `💝 LỜI CẢM ƠN SAU CHUYẾN ĐI (CHECK-OUT) 💝
+Dạ vậy là kỳ nghỉ tại [Tên_Khách_Sạn] của gia đình mình đã khép lại. Thay mặt đội ngũ CÔNG TY TNHH BOOKING TRAVEL, em xin gửi lời cảm ơn chân thành nhất đến [Tên_Khách]!
+Trong quá trình lưu trú và trải nghiệm dịch vụ, nếu có điều gì hài lòng hoặc cần góp ý thêm, Anh/Chị chia sẻ giúp em để công ty phục vụ tốt hơn vào lần tới nhé. Hẹn sớm gặp lại Anh/Chị!`,
+
+      airport: `✈️ THÔNG BÁO XE ĐÓN/TIỄN SÂN BAY CAM RANH ✈️
+Dạ em chào [Tên_Khách], xe đón sân bay của đoàn mình (Mã đơn [Mã_Đơn]) đã sẵn sàng:
+• Lộ trình: Sân bay Cam Ranh ➔ [Tên_Khách_Sạn]
+• Tài xế sẽ gọi điện trực tiếp vào số [SĐT] khi máy bay hạ cánh.
+Chúc Quý khách có một chuyến bay êm đềm và kỳ nghỉ vui vẻ ạ!`,
+
+      bike: `🛵 THÔNG BÁO GIAO XE MÁY TẬN NƠI 🛵
+Dạ em chào [Tên_Khách], xe máy của mình đã được kiểm tra phanh và lốp sẵn sàng tại sảnh [Tên_Khách_Sạn].
+• Quý khách chuẩn bị sẵn CCCD và GPLX để làm biên bản bàn giao xe nhanh chóng.
+• Nhân viên giao xe sẽ liên hệ số [SĐT] trước khi tới sảnh ạ!`,
+
+      gui_qr: `🏦 THÔNG TIN THANH TOÁN CỌC - BOOKING TRAVEL 🏦
+Dạ em gửi thông tin tài khoản ngân hàng để cọc đơn [Mã_Đơn] tại [Tên_Khách_Sạn]:
+• Ngân hàng: TECHCOMBANK
+• Chủ TK: CONG TY TNHH BOOKING TRAVEL
+• Số TK: 554479
+• Nội dung CK: [Mã_Đơn] [Tên_Khách]
+Quý khách chuyển khoản xong chụp gửi lại biên lai giúp em nhé ạ!`
+    };
+
+    function insertTemplate(key) {
+      const input = document.getElementById('messageInput');
+      let tpl = templates[key] || '';
+      tpl = tpl.replace(/\[Tên_Khách\]/g, activeCustomerData.name)
+               .replace(/\[Mã_Đơn\]/g, activeCustomerData.bookingCode)
+               .replace(/\[Tên_Khách_Sạn\]/g, activeCustomerData.hotel)
+               .replace(/\[Check_In\]/g, activeCustomerData.checkin)
+               .replace(/\[Check_Out\]/g, activeCustomerData.checkout)
+               .replace(/\[SĐT\]/g, activeCustomerData.phone);
+      input.value = tpl;
+      input.focus();
+    }
+
+    function sendQuickRemind(text) {
+      const input = document.getElementById('messageInput');
+      input.value = text;
+      sendMessage();
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatBox = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'bg-blue-600 text-white p-3 rounded-lg shadow-sm max-w-md ml-auto';
+      msgDiv.innerHTML = `<p class="text-xs font-bold text-blue-100 mb-1">CSKH Booking Travel</p>
+                          <p class="text-sm whitespace-pre-line">${escapeHtml(text)}</p>
+                          <span class="text-[10px] text-blue-200 block text-right mt-1">Vừa xong</span>`;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      input.value = '';
+
+      // Tự động copy và mở Zalo nếu có SĐT
+      navigator.clipboard.writeText(text);
+      if (activeCustomerData.phone) {
+        const cleanPhone = activeCustomerData.phone.replace(/\D/g, '');
+        window.open(`https://zalo.me/${cleanPhone}`, 'ZaloDirect', 'width=520,height=760,right=20,top=60');
+      }
+    }
+
+    function copyCurrentMessage() {
+      const input = document.getElementById('messageInput');
+      const text = input.value.trim();
+      if (!text) {
+        alert('Chưa có nội dung tin nhắn để sao chép!');
+        return;
+      }
+      navigator.clipboard.writeText(text);
+      alert('Đã copy tin nhắn vào bộ nhớ tạm!');
+    }
+
+    function openCurrentChatZaloDirect() {
+      if (!activeCustomerData.phone) {
+        window.open('https://chat.zalo.me', '_blank');
+        return;
+      }
+      const cleanPhone = activeCustomerData.phone.replace(/\D/g, '');
+      window.open(`https://zalo.me/${cleanPhone}`, 'ZaloDirect', 'width=520,height=760,right=20,top=60');
+    }
+
+    function forwardToDepartment() {
+      const input = document.getElementById('messageInput');
+      const text = input.value.trim() || `Yêu cầu xử lý đơn ${activeCustomerData.bookingCode} - ${activeCustomerData.name}`;
+      navigator.clipboard.writeText(text);
+      alert(`Đã copy nội dung và chuyển tiếp yêu cầu của [${activeCustomerData.name}] sang Group [NỘI BỘ: Sales - Điều Hành Tour & Xe]! Bạn chỉ cần nhấn Ctrl+V vào Group Zalo.`);
+    }
+
+    function addReminder() {
+      const type = document.getElementById('remindType').value;
+      const time = document.getElementById('remindTime').value || 'Hôm nay';
+      const note = document.getElementById('remindNote').value.trim();
+      const customer = activeCustomerData.name;
+
+      if (!note) {
+        alert('Vui lòng nhập ghi chú chi tiết (giờ bay, biển số xe, hoặc thông tin xe máy)!');
+        return;
+      }
+
+      const list = document.getElementById('reminderList');
+      const item = document.createElement('div');
+      item.className = 'p-2.5 border-l-4 border-purple-500 bg-purple-50/70 rounded shadow-sm';
+      item.innerHTML = `<div class="flex justify-between font-bold text-purple-900">
+                          <span>${escapeHtml(type)}</span>
+                          <span class="font-mono">${escapeHtml(time.replace('T', ' '))}</span>
+                        </div>
+                        <p class="text-gray-700 mt-1">Khách: <b>${escapeHtml(customer)}</b> • ${escapeHtml(note)}</p>
+                        <div class="mt-1.5 flex gap-2">
+                          <button onclick="sendQuickRemind('Dạ em xin phép nhắc lịch [${escapeHtml(type)}]: ${escapeHtml(note)}')" class="text-[11px] bg-purple-600 hover:bg-purple-700 text-white px-2 py-0.5 rounded cursor-pointer">Gửi nhắc khách ngay</button>
+                        </div>`;
+      list.prepend(item);
+      document.getElementById('remindNote').value = '';
+
+      const countBadge = document.getElementById('reminderCount');
+      if (countBadge) {
+        const currentCount = list.children.length;
+        countBadge.innerText = `${currentCount} lịch hẹn`;
+      }
+    }
+
+    function selectChat(name, type, reminder, phone, bookingCode, hotel, checkin, checkout) {
+      activeCustomerData = {
+        name: name || 'Khách hàng',
+        type: type || 'Khách lẻ',
+        reminder: reminder || '',
+        phone: phone || '',
+        bookingCode: bookingCode || 'BT-2026',
+        hotel: hotel || 'Khách sạn Nha Trang',
+        checkin: checkin || 'Hôm nay',
+        checkout: checkout || 'Ngày mai'
+      };
+
+      document.getElementById('chatTitle').innerText = activeCustomerData.name;
+      document.getElementById('chatBadge').innerText = activeCustomerData.type;
+      document.getElementById('chatReminderBadge').innerText = activeCustomerData.reminder || 'Đã xuất Booking';
+      document.getElementById('chatPhoneDisplay').innerText = activeCustomerData.phone || 'Chưa có SĐT';
+      document.getElementById('chatCodeDisplay').innerText = activeCustomerData.bookingCode || '--';
+      
+      const senderEl = document.getElementById('msgSenderName');
+      if (senderEl) senderEl.innerText = activeCustomerData.name;
+    }
+
+    function changeCustomerTag(val) {
+      document.getElementById('chatBadge').innerText = val;
+      activeCustomerData.type = val;
+    }
+
+    function filterContacts(type) {
+      const items = document.querySelectorAll('#contactList > div');
+      items.forEach(item => {
+        if (type === 'all' || item.getAttribute('data-type') === type) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function searchContacts(keyword) {
+      const q = (keyword || '').toLowerCase();
+      const items = document.querySelectorAll('#contactList > div');
+      items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        const phone = (item.getAttribute('data-phone') || '').toLowerCase();
+        if (text.includes(q) || phone.includes(q)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function toggleLoginModal() {
+      const modal = document.getElementById('loginModal');
+      modal.classList.toggle('hidden');
+    }
+
+    function switchLoginTab(tab) {
+      const qrContent = document.getElementById('contentQR');
+      const passContent = document.getElementById('contentPass');
+      const tabQR = document.getElementById('tabQR');
+      const tabPass = document.getElementById('tabPass');
+
+      if (tab === 'qr') {
+        qrContent.classList.remove('hidden');
+        passContent.classList.add('hidden');
+        tabQR.className = 'w-1/2 py-3 font-semibold text-sm border-b-2 border-blue-600 text-blue-600 cursor-pointer';
+        tabPass.className = 'w-1/2 py-3 font-semibold text-sm text-gray-500 cursor-pointer';
+      } else {
+        qrContent.classList.add('hidden');
+        passContent.classList.remove('hidden');
+        tabPass.className = 'w-1/2 py-3 font-semibold text-sm border-b-2 border-blue-600 text-blue-600 cursor-pointer';
+        tabQR.className = 'w-1/2 py-3 font-semibold text-sm text-gray-500 cursor-pointer';
+      }
+    }
+
+    function saveLoginCredentials() {
+      const phone = document.getElementById('loginPhoneInput')?.value;
+      if (phone) {
+        localStorage.setItem('bt_zalo_saved_phone', phone);
+      }
+      alert('Đã lưu phiên đăng nhập Zalo CSKH ca trực thành công!');
+      toggleLoginModal();
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+  </script>
+</body>
+</html>
